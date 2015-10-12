@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<style>
+			.mui-input-group .mui-input-row:after{
+				background: #C8C7CC!important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<i class="iconfont">&#xe602;</i>
+			<h1 class="mui-title">老师注册</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group reg-mui-input-group">
+				<div class="mui-input-row reg-mui-input-row">
+					<label>姓名</label>
+					<input id='account' type="text" class="mui-input-clear mui-input reg-mui-input" placeholder="请输入姓名" data-bind="value:DisplayName">
+				</div>
+				<!--科目选择-->
+				<div class="mui-input-row reg-mui-input-row th-mui-input-row">
+					<label>科目</label>
+					<button id='showKPicker' class="mui-btn mui-btn-block th-mui-btn-block" type='button' data-bind="text:SubjectName,event:{click:getSubject}"></button>
+				</div>
+				<!--性别-->
+				<div class="mui-input-row reg-mui-input-row th-mui-input-row">
+					<label>性别</label>
+					<button id='showUserPicker' class="mui-btn mui-btn-block th-mui-btn-block" type='button' data-bind="text:UserGenderText,event:{click:setUserGender}"></button>
+				</div>
+				<!--教龄-->
+				<div class="mui-input-row reg-mui-input-row">
+					<label>教龄</label>
+					<input id='account' type="text" class="mui-input-clear mui-input reg-mui-input" placeholder="请输入教龄" data-bind="value:TeachAge">
+				</div>
+				<!--地址-->
+				<div class="mui-input-row reg-mui-input-row">
+					<label>地址</label>
+					<button id="address" type="button" class="mui-btn mui-btn-block th-mui-btn-block" data-bind="text:CityValue,event:{click:address}"></button>
+				</div>
+				<!--自我简介-->
+				<div class="th-textarea-div">
+					<label>自我简介</label>
+					<textarea placeholder="请输入自我简介" data-bind="value:Introduce"></textarea>
+				</div>
+
+			</form>
+
+			<div class="mui-content-padded th-btn-footer">
+				<button id='login' class="mui-btn mui-btn-block mui-btn-primary th-btn" data-bind="click:regTea">完成</button>
+			</div>
+
+		</div>
+		<script src="../../script/mui/mui.js"></script>
+		<script src="../../script/mui/mui.picker.min.js"></script>
+		<script src="../../script/common/city.data-3.js"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/account/registerSet.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			 //日期选择
+			mui.init({
+				swipeBack: true //启用右滑关闭功能
+			});
+		</script>
+	</body>
+
+</html>

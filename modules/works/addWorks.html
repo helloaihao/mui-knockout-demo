@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/Tf_global.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<style>
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			.mui-input-group .mui-input-row:after{
+				background: #C8C7CC!important;
+			}
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			.mui-input-group label {
+				width: 22%;
+			}
+			.mui-input-row label ~ input,
+			.mui-input-row label ~ select,
+			.mui-input-row label ~ textarea {
+				width: 78%;
+			}
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+			#addWorkList {
+				right: 0px;
+				width: 10rem;
+				height: 100%;
+				position: absolute;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav addWorks-mui-bar-nav">
+			<span class="mui-action-back" style="width:40px; height:40px; display: inline-block;">取消</span>
+			<h1 class="mui-title">添加作品</h1>
+			<span id="addWorksPlan" style="width:40px; height:40px; margin-right: -10px; display: inline-block;" data-bind="click: updateSubject">上传</span>
+		</header>
+		<div class="mui-content addWork-mui-content">
+			<form class="mui-input-group reg-mui-input-group">
+				<!--姓名-->
+				<div id="titleRow" class="mui-input-row reg-mui-input-row">
+					<label>标题</label>
+					<input id='account' type="text" class="mui-input-clear mui-input reg-mui-input" placeholder="请输入标题" data-bind="value: titleText">
+				</div>
+				<!--科目选择-->
+				<div id='subjectPicker' class="mui-input-row reg-mui-input-row th-mui-input-row">
+					<label>科目</label>
+					<button class="mui-btn mui-btn-block th-mui-btn-block" type='button' data-bind="text:subjectText,event:{click:setSubject}"></button>
+				</div>
+				<div id='typePicker' class="mui-input-row reg-mui-input-row th-mui-input-row">
+					<label>类型</label>
+					<button class="mui-btn mui-btn-block th-mui-btn-block" type='button' data-bind="text:subjectTypeText,event:{click:setSubjectType}"></button>
+				</div>
+				<!--描述-->
+				<div class="addWorks-textarea-div ">
+					<textarea placeholder="描述" data-bind="value: contentText"></textarea>
+				</div>
+			</form>
+			<div class="addWorks-add">
+				<em onclick="appendByGallery()">
+					<i class="iconfont">&#xe638;</i>
+				</em>
+				<span>添加作品</span>
+				<div id="addWorkList">
+					<p id="empty">无上传文件</p>
+					<ul id="addchild"></ul>
+				</div>
+			</div>
+
+		</div>
+
+		<script src="../../script/mui/mui.js"></script>
+		<script src="../../script/mui/mui.picker.min.js"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js"></script>
+		<script src="../../script/works/addWorks.js"></script>
+		<script>
+			mui.init();
+		</script>
+
+	</body>
+
+</html>

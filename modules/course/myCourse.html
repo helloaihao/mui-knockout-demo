@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<style>
+			.mui-popover {
+				min-height: 400px!important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<i class="iconfont">&#xe602;</i>
+			<h1 class="mui-title">课程表</h1>
+		</header>
+		<div class="mui-content">
+			<div class="availableTime-title">
+				<span data-bind='text: TheMonth'></span>
+				<div class="availableTime-title-time">
+					<div class="time-up">
+						<ul data-bind="foreach:{data: DayOfWeek}">
+							<li data-bind='text: $data'></li>
+						</ul>
+					</div>
+					<div class="time-dow">
+						<ul data-bind="foreach:{data: DateOfWeek, as: 'date'}">
+							<li data-bind='text: date.getDate(), css: {current: CurrentDay() == date.getDate()}'></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<table class="availableTime-table" border="2" cellspacing="0" cellpadding="0" width="100%" height="100%" data-bind="foreach:{data: Hours, as: 'hour'}">
+				<tr>
+					<td data-bind='text: $data + ":00"'></td>
+					<!--ko foreach:{data: DateOfWeek}-->
+					<td data-bind='cellValue: initCell($data, hour)'></td>
+					<!--/ko-->
+				</tr>
+				<!--第一行-->
+				<!--<tr>
+					<td>08:00</td>
+					<td class="freetime"></td>
+					<td class="freetime"></td>
+					<td class="freetime"></td>
+					<td class="conflicttime"></td>
+					<td class="busytime"></td>
+					<td class="busytime"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>09:00</td>
+					<td class="freetime"></td>
+					<td class="freetime"></td>
+					<td class="freetime"></td>
+					<td class="notime"></td>
+					<td class="busytime"></td>
+					<td class="busytime"></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>10:00</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>11:00</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>12:00</td>
+					<td class="busytime">小提琴</td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>13:00</td>
+					<td></td>
+					<td class="busytime">
+						<a href="#middlePopover" class="myCourse-t">笛子</a>
+					</td>
+					<td class="freetime"></td>
+					<td class="freetime"></td>
+					<td class="freetime"></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>14:00</td>
+					<td></td>
+					<td class="freetime"></td>
+					<td class="freetime"></td>
+					<td class="freetime"></td>
+					<td class="freetime"></td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td>15:00</td>
+					<td></td>
+					<td class="freetime"></td>
+					<td class="freetime"></td>
+					<td class="freetime"></td>
+					<td class="freetime"></td>
+					<td></td>
+					<td></td>
+				</tr>-->
+			</table>
+		</div>
+
+		<div id="middlePopover" class="mui-popover screenCenter">
+			<div class="myCourse-popover">所属课程</div>
+			<div class="myCourse-next">
+				<!--ko text: ViewLesson().CourseName-->
+				<!--/ko-->
+				<i class="iconfont">&#xe618;</i>
+			</div>
+			<div class="myCourse-next myCourse-way myCourse">
+				<button data-bind='text: ViewLesson().LocationName'></button>
+				<i data-bind='text: "￥" + ViewLesson().Amount'></i>
+			</div>
+			<div class="myCourse-popover">上课时间</div>
+			<div class="myCourse-next myCourse-way" data-bind='text: common.formatTime(ViewLesson().BeginTime, ViewLesson().EndTime)'></div>
+			<div class="myCourse-popover">授课老师</div>
+			<div class="myCourse-next myCourse-way" data-bind='click: gotoTeacherInfo'>
+				<!--ko text: ViewLesson().TeacherName-->
+				<!--/ko-->
+				<i class="iconfont">&#xe618;</i>
+			</div>
+
+			<div class="myCourse-popover" data-bind='visible: InfoVisible() || Adjusting()'>调整信息</div>
+			<div class="myCourse-next myCourse-m" data-bind='visible: InfoVisible() && !Adjusting()'>
+				<!--ko text: common.formatTime(ViewLesson().BeginTimeNew)-->
+				<!--/ko-->
+			</div>
+			<div class="myCourse-next myCourse-m" data-bind='visible: Adjusting, click: SelectNewTime'>
+				<!--ko text: common.formatTime(BeginTimeNew())-->
+				<!--/ko-->
+				<i class="iconfont">&#xe618;</i>
+			</div>
+			<div class="myCourse-next myCourse-m" data-bind='visible: InfoVisible() && !Adjusting()'>
+				<span data-bind='text: ViewLesson().Handled ? "[已拒绝]" : ViewLesson().HandlerID == UserID ? "[请确认调整时间后同意或拒绝]" : "[待对方确认]"'></span>
+				<!--ko text: ViewLesson().Answer-->
+				<!--/ko-->
+			</div>
+
+			<div class="myCourse-btn">
+				<button data-bind='click: Agree, visible: HandleButtonsVisible'>同意</button>
+				<button data-bind='click: Reject, visible: HandleButtonsVisible'>拒绝</button>
+				<button data-bind='visible: (RequestButtonVisible() && !Adjusting()), click: AdjustTimeStart'>
+					<i class="iconfont">&#xe63e;</i>时间调整
+				</button>
+				<button class="myCourse-btn-cancel myCourse-btn-colse" onclick="mui('#middlePopover').popover('toggle');" data-bind='visible: !Adjusting()'>关闭</button>				
+				<button class="myCourse-btn-sure" data-bind='visible: Adjusting, click: function(){ self.Adjusting(false); }'>取消</button>
+				<button class="myCourse-btn-cancel" data-bind='visible: Adjusting, click: AdjustTimeFinish'>确定</button>
+			</div>
+		</div>
+
+		<script src="../../script/mui/mui.js"></script>
+		<script src="../../script/mui/mui.picker.min.js"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/course/myCourse.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/dtPicker.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.init({
+				swipeBack: false //禁用右滑关闭功能
+			});
+			mui('.mui-scroll-wrapper').scroll();
+			window.addEventListener("swipeleft", function() {
+				self.WeekIndex(self.WeekIndex() + 1);
+				self.GetData();
+			});
+			window.addEventListener("swiperight", function() {
+				self.WeekIndex(self.WeekIndex() - 1);
+				self.GetData();
+			});
+			mui('body').on('shown', '.mui-popover', function(e) {
+				//console.log('shown', e.detail.id);//detail为当前popover元素
+			});
+			mui('body').on('hidden', '.mui-popover', function(e) {
+				//console.log('hidden', e.detail.id);//detail为当前popover元素
+			});
+		</script>
+	</body>
+
+</html>

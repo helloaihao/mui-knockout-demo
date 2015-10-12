@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<style>
+			.mui-card {
+				margin: 0 0 60px 0!important;
+				border: none!important;
+			}
+			.mui-collapse-content {
+				padding: 0!important;
+			}
+			.mui-navigate-right {
+				border-bottom: 1px solid #C8C7CC;
+			}
+			.mui-table-view-cell p {
+				background: none!important;
+			}
+			.mui-table-view-cell > a:not(.mui-btn) {
+				color: #036FB8;
+			}
+			.mui-table-view-cell.mui-collapse.mui-active > .mui-navigate-right:after,
+			.mui-table-view-cell.mui-collapse.mui-active > .mui-push-right:after {
+				color: #bbb!important;
+				font-size: 20px!important;
+			}
+			.mui-table-view-cell.mui-collapse > .mui-navigate-right:after,
+			.mui-table-view-cell.mui-collapse > .mui-push-right:after {
+				content: "\e61c"!important;
+				font-size: 20px!important;
+				top: 25px!important;
+				right: 22px;
+			}
+			.mui-bar-tab .ah-mui-tab-item {
+    display: table-cell;
+    overflow: hidden;
+    width: 1%;
+    height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #929292;
+}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<i class="iconfont mui-action-back">&#xe602;</i>
+			<h1 class="mui-title"> 我的作品</h1>
+			<em class="iconfont">&#xe60e;</em>
+		</header>
+		<div class="mui-content">
+			<div class="works-content-up">
+				<span data-bind="text:Title"></span>
+				<ul>
+					<li data-bind="text:AddTime"></li>
+					<li><i class="iconfont">&#xe61a;</i data-bind="text:ReadCount"></li>
+					<li data-bind="text:Remark"></li>
+					<li data-bind="text:SubjectName"></li>
+					<li>|</li>
+					<li data-bind='click: Like'><i class="iconfont">&#xe61e;</i>
+						<!--ko text:LikeCount-->
+						<!--/ko-->
+					</li>
+					<li data-bind='click: Fav'><i class="iconfont">&#xe61e;</i>
+						<!--ko text:FavCount-->
+						<!--/ko-->
+					</li>
+					<li data-bind="click:worksDelete"><i class="iconfont">&#xe61b;</i>删除</li>
+
+					<li data-bind="click:worksSet"><i class="iconfont">&#xe63e;</>修改</li>
+            </ul>
+            <div class="works-img-div">图片</div>
+            <p data-bind="text:ContentText"></p>
+        </div>
+        <div class="pin-blank"></div>
+        <div class="mui-card">
+        	<ul class="mui-table-view" data-bind="template:{name:'commentTemplate',foreach:teacherComment}">
+			</ul>
+			</div>
+			<!--老师点评模板-->
+			<script type="text/html" id="commentTemplate">
+						<li class="mui-table-view-cell mui-collapse">
+							<a class="mui-navigate-right" href="#">
+								<i class="iconfont">&#xe62d;</i>
+						<!--ko text:CommenterName-->
+						<!--/ko-->老师评语</a>
+						<div class="mui-collapse-content">
+							<div class="works-content-dow">
+								<div data-bind="template:{name:'commentToRulseTemplate',foreach:CommentToRules}"></div>
+								<span>总评语</span>
+								<p data-bind="text:TotalComment"></p>
+							</div>
+							<div class="works-consult-title">
+								<span><i class="iconfont">&#xe609;</i>咨询 </span>
+								<em class="iconfont" data-bind="click:addfeedbacks">&#xe621;</em>
+							</div>
+							<div class="works-answer" data-bind="template:{name:'feedBackTemplate',foreach:CommentFeedbacks}">
+							</div>
+							<!--<div class="works-answer" data-bind="text:CommentFeedbacks">
+							</div>-->
+						</div>
+					</li>
+					</script>
+					<!--老师评语模板-->
+					<script type="text/html" id="commentToRulseTemplate">
+						<span data-bind="text:RuleName"></span>
+						<p data-bind="text:Comment"></p>
+					</script>
+					<!--咨询模板-->
+					<script type="text/html" id="feedBackTemplate">
+						<p>
+							<i>Q.</i>
+							<!--ko text:Question-->
+							<!--/ko-->
+						</p>
+						<p>
+							<i>A.</i>
+							<span data-bind="text:Answer"></span>
+						</p>
+					</script>
+					<nav class="mui-bar mui-bar-tab">
+						<a class="mui-tab-item mui-active works-mui-tab-item" href="#tabbar-with-chat" data-bind="event:{tap:workRemorkSet}">
+							<span class="mui-tab-label works-label" >公开</span>
+							<span class="mui-tab-label works-label" data-bind="tap:workRemorkSet">公开</span>
+						</a>
+						<a class="mui-tab-item mui-active" data-bind="event:{tap:getTeacherComment}">
+							<span class="mui-tab-label works-label-btn">找老师点评</span>
+						</a>
+					</nav>
+
+			</div>
+	</body>
+	<script src="../../script/mui/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/works/worksDetails.js" type="text/javascript" charset="utf-8"></script>
+
+
+</html>

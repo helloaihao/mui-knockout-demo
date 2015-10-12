@@ -1,0 +1,21 @@
+var viewModel = function() {
+	var self = this;
+	self.UserName = ko.observable(getLocalItem('UserName'));
+	self.UserID = ko.observable(getLocalItem('UserID'));
+	self.UserType = ko.observable(getLocalItem('UserType'));
+	self.UnreadCount = ko.observable(0);
+	self.MyHref = ko.observable('modules/my/my-student.html');
+
+	if (self.UserType() == common.gDictUserType.teacher) {
+		self.MyHref('modules/my/my-teacher.html');
+	}
+	//跳转至消息页面
+	self.goMessageList=function(){
+		common.gotoMessage();
+	}
+	//获取未读消息数量
+	self.getUnreadCount=function(){
+		common.getUnreadCount(self.UnreadCount());
+	}
+};
+ko.applyBindings(viewModel);

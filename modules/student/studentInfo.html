@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<style>
+			body,
+			.mui-content {
+				background: #F1F1F1!important;
+			}
+			.mui-card .mui-control-content {
+				padding: 10px;
+			}
+			.mui-control-content{
+				height: 150px;
+			}
+			.mui-active {
+				border-bottom: 2px solid #036fb8!important;
+			}
+			.mui-control-content.mui-active {
+				border-bottom: none!important;
+				top: 0px!important;
+				background: #f1f1f1!important;
+			}
+			.title {
+				margin: 20px 15px 7px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="pullrefresh" class="mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<div class="p-header-div">
+					<a class="iconfont" href="javascript: window.history.back(-1);">&#xe602;</a>
+					<a class="iconfont">&#xe60e;</a>
+					<div class="photo">
+						<!--<img src="../../images/default.jpg" />-->
+						<img data-bind="attr: {"src": Photo}" />
+					</div>
+					<span data-bind="text:DisplayName"></span>
+					<span><!--ko text:Gender--><!--/ko-->  | <!--ko text:Years--><!--/ko-->岁 
+				
+			</span>
+					<span>
+				<i class="iconfont">&#xe63c;</i>
+				<!--广州市>天河区>体育中心-->
+				<!--ko text:Province--><!--/ko-->><!--ko text:City--><!--/ko-->><!--ko text:District--><!--/ko-->
+			</span>
+					<div class="p-footer-btn">
+						<ul>
+							<li>
+								<button>得分
+									<!--ko text:Score-->
+									<!--/ko-->
+								</button>
+							</li>
+							<li>
+								<button data-bind="click: Fav">关注
+									<!--ko text:FavCount-->
+									<!--/ko-->
+								</button>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+				<div data-bind="template:{name:'studentWorkTemplate',foreach:works}"></div>
+			</div>
+		</div>
+		<!--模板文件-->
+		<script type="text/html" id="studentWorkTemplate">
+			<div class="works-center">
+				<span data-bind="text:Title"></span>
+				<div class="works-list-img">
+					<img src="../../images/22.jpg" />
+					<!--<img data-bind="attr: {'src': Photo}"/>-->
+					<i data-bind="text:SubjectName"></i>
+				</div>
+				<p data-bind="text:ContentText"></p>
+				<ul>
+					<li data-bind="text:AddTime"></li>
+					<li data-bind="text:ReadCount"></li>
+					<li data-bind="text:LikeCount"></li>
+					<li data-bind="text:WorkStatus"></li>
+				</ul>
+			</div>
+		</script>
+
+	</body>
+	<script src="../../script/mui/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/student/studentInfo.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		mui.init({
+			pullRefresh: {
+				container: '#pullrefresh',
+				//							
+				up: {
+					contentrefresh: '正在加载...',
+					callback: pullupRefresh
+				}
+			}
+		});
+	</script>
+
+</html>

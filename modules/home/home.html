@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>首页</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<style>
+			.index-subject li:active{
+				background: #f1f1f1;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 id="title" class="mui-title">首页</h1>
+			<em class="iconfont" data-bind="click:goMessageList">&#xe628;<span class="mui-badge mui-badge-warning" data-bind="text: UnreadCount, visible: UnreadCount() > 0"></span></em>
+		</header>
+		<div class="mui-content">
+			<!--banner-->
+			<div class="index-banner">
+				<div id="slider" class="mui-slider" style="height: 100%;">
+					<div class="mui-slider-group mui-slider-loop">
+						<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="#">
+								<img src="../../images/4.jpg">
+							</a>
+						</div>
+						<!-- 第一张 -->
+						<div class="mui-slider-item">
+							<a href="#">
+								<img src="../../images/1.jpg">
+							</a>
+						</div>
+						<!-- 第二张 -->
+						<div class="mui-slider-item">
+							<a href="#">
+								<img src="../../images/2.jpg">
+							</a>
+						</div>
+						<!-- 第三张 -->
+						<div class="mui-slider-item">
+							<a href="#">
+								<img src="../../images/3.jpg">
+							</a>
+						</div>
+						<!-- 第四张 -->
+						<div class="mui-slider-item">
+							<a href="#">
+								<img src="../../images/4.jpg">
+							</a>
+						</div>
+						<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+						<div class="mui-slider-item mui-slider-item-duplicate">
+							<a href="#">
+								<img src="../../images/1.jpg">
+							</a>
+						</div>
+					</div>
+					<div class="mui-slider-indicator">
+						<div class="mui-indicator mui-active"></div>
+						<div class="mui-indicator"></div>
+						<div class="mui-indicator"></div>
+						<div class="mui-indicator"></div>
+					</div>
+				</div>
+			</div>
+			<!--上传查找-->
+			<div class="index-up-secher-bg">
+				<ul>
+					<li id="addWorks">
+						<em class="iconfont">&#xe62c;</em>
+						<span>上传作品</span>
+					</li>
+					<li id="findTeacher">
+						<em class="iconfont">&#xe629;</em>
+						<span>查找老师</span>
+					</li>
+				</ul>
+			</div>
+
+			<!--科目-->
+			<div class="index-subject">
+				<ul>
+					<a id="addCourse"><li>
+						<img src="../../images/index1.png"/>
+						<span>小提琴</span>
+					</li></a>
+					<li>
+						<img src="../../images/index2.png" />
+						<span>钢琴</span>
+					</li>
+					<li>
+						<img src="../../images/index1.png" />
+						<span>钢琴</span>
+					</li>
+					<li>
+						<img src="../../images/index2.png" />
+						<span>钢琴</span>
+					</li>
+					<li>
+						<img src="../../images/index1.png" />
+						<span>钢琴</span>
+					</li>
+					<li>
+						<img src="../../images/index2.png" />
+						<span>钢琴</span>
+					</li>
+					<li>
+						<img src="../../images/index1.png" />
+						<span>钢琴</span>
+					</li>
+					<li>
+						<img src="../../images/index2.png" />
+						<span>钢琴</span>
+					</li>
+				</ul>
+
+			</div>
+
+			<div class="index-th-div">
+				<img src="../../images/index-1.png" /> 名师介绍
+			</div>
+
+			<div class="index-content-bg">
+				<div data-bind="template: {name:'teacherTemplate', foreach: Teachers }">
+
+				</div>
+				<!--teacher模板页-->
+				<script type="text/html" id="teacherTemplate">
+						<div class="index-content-ctn" data-bind="event:{tap:gotoTeacher}">
+							<em>图片</em>
+							<span data-bind="text: DisplayName"></span>
+							<i>(教龄<!--ko text:TeachAge--><!--/ko-->年)</i>
+							<b><!--ko text:SubjectName--><!--/ko-->  ￥<!--ko text:Cost--><!--/ko--></b>
+							<p data-bind="text: Introduce"></p>
+						</div>
+				</script>
+
+				<div class="index-tel">
+					官方热线：400-800-4552
+				</div>
+			</div>
+		</div>
+
+		<script src="../../script/mui/mui.min.js"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/home/home.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init();
+			mui('#slider').slider({
+				interval: 3000
+			});
+			var addCourse = document.getElementById('addCourse');
+			addCourse.addEventListener('tap', function(){
+				common.transfer('../course/openedCoursesList.html', false);
+			});
+			
+			var addWorks = document.getElementById('addWorks');
+			addWorks.addEventListener('tap', function() {
+				common.transfer('../works/addWorks.html', true);
+				/*mui.openWindow({
+					url: '../works/addWorks.html',
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: "100ms"
+					},
+					waiting: {
+						autoShow: false
+					}
+				});*/
+			});
+			var addWorks = document.getElementById('findTeacher');
+			addWorks.addEventListener('tap', function() {
+				mui.openWindow({
+					url: '../teacher/findTeacher.html',
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: "100ms"
+					},
+					waiting: {
+						autoShow: false
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

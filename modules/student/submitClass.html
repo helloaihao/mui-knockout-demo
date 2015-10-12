@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<style>
+			body,.mui-content{
+				background: #F1F1F1!important;
+			}
+			.mui-popover {
+				min-height: 320px;
+			}
+			/*.mui-active{
+				width: 100%!important;
+				left: 0;
+			}
+			.mui-popover.mui-active{
+				bottom: 0!important;
+				left: 0!important;
+				border-radius: 0!important;
+			}*/
+		
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<i class="iconfont mui-action-back">&#xe602;</i>
+			<h1 class="mui-title">提交点评</h1>			
+		</header>
+		
+		<div class="mui-content">
+			<div class="submitClass-card">
+				<div class="submitClass-card-title">被点评作品</div>
+				<div class="submitClass-card-img">
+					<img src="../../images/worksList.jpg" />
+				</div>
+				<span data-bind="text: WorkTitle">希望之星希望之星希望之星</span>
+				<em data-bind="text: AuthorName">钢琴</em>						
+			</div>
+			
+			<div class="submitClass-card">
+				<div class="submitClass-card-title">点评老师</div>
+				<div class="submitClass-teacher">
+					<div class="submitClass-teacher-left">
+						<img src="../../images/my-photo.png" />
+					</div>
+					<div class="submitClass-teacher-right">
+						<div class="up">
+							<span data-bind="text: teacherName">袁怡航</span>
+							<span data-bind="text: teacherSubject">钢琴</span>
+						</div>
+						<div class="dow">
+							<em>
+								<i class="iconfont">&#xe62f;</i>
+								<i class="iconfont">&#xe62f;</i>
+								<i class="iconfont">&#xe62f;</i>
+								<i class="iconfont">&#xe62f;</i>
+							</em>
+						</div>
+					</div>		
+				</div>		
+			</div>
+		
+		<nav class="mui-bar mui-bar-tab">
+            <a class="mui-tab-item works-list-mui-tab-btn" href="#middlePopover">
+                <span class="mui-tab-label works-list-mui-btn">付款</span>
+            </a>
+        </nav>	
+		
+		
+		<!--弹出分享-->
+		<div id="middlePopover" class="mui-popover">	
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll submitClass-mui-scroll" >
+					<div class="mui-scroll-title">
+						<i class="iconfont" data-bind="click:closePopover">&#xe63f;</i>
+						<span>付款详情</span>
+					</div>
+					<ul>
+						<li>
+							<img src="../../images/submitClass-wx.png" />
+							<span> 微信支付</span>
+							<i class="iconfont">&#xe618;</i>
+						</li>
+						<li>
+							<img src="../../images/submitClass-zf.png" />
+							<span>支付宝</span>
+							<i class="iconfont">&#xe618;</i>
+						</li>
+						<li>
+							总额：￥30.00
+						</li>
+					</ul>
+					
+					<button>去付款</button>
+					
+				</div>
+			</div>
+		</div>	
+	
+		</div>	
+		<script src="../../script/mui/mui.min.js"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/student/submitClass.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+</html>

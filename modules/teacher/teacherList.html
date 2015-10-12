@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/Tf_global.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<style>
+			.mui-input-group,
+			.mui-content {
+				background: #f1f1f1!important;
+			}
+			.ah-select-list ul li{
+				padding: 0 20px;
+			}
+			.ah-select-list a{
+				height: 100%;
+				display: block;
+			}
+			.ah-select-list span{
+				
+			}
+			.ah-mui-navigate-right:after {
+				right: 10px;
+			}
+			.mui-bar-tab .ah-mui-tab-item {
+    display: table-cell;
+    overflow: hidden;
+    width: 1%;
+    height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #929292;
+}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<i class="iconfont mui-action-back ah-back">&#xe602;</i>
+			<h1 class="mui-title"> 老师列表</h1>
+		</header>
+		<div class="mui-content">
+			<div class="works-list-select ah-select-list">
+				<ul>
+					<li class="mui-collapse" data-bind="click: setSubject">
+						<a id="subject" data-bind="text: dbSubject">科目</a>
+						<span class="mui-navigate-right ah-mui-navigate-right"> </span>
+					</li>
+					<li class="mui-collapse" data-bind="click: setStar">
+						<a id="star" data-bind="text: dbStar">星级</a>
+						<span class="mui-navigate-right ah-mui-navigate-right"> </span>
+					</li>
+					<li class="mui-collapse" data-bind="click: setSort">
+						<a id="sort" data-bind="text: dbSort">排序</a>
+						<span class="mui-navigate-right ah-mui-navigate-right"> </span>
+					</li>
+				</ul>
+			</div>
+
+			<!--<div id="middlePopover" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a href="#">科目</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item10</a>
+							</li>
+							
+						</ul>
+					</div>
+				</div>
+
+			</div>
+			<div id="middlePopover2" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a href="#">排序</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item10</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item9</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item9</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item9</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+			<div id="middlePopover3" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a href="#">篩選</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item10</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item9</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item9</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item9</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>-->
+
+
+
+				<div id="pullrefresh" class="mui-scroll-wrapper" style="top: 80px">
+					<div class="mui-scroll">
+						<!--教师显示页-->
+						<ul class="mui-input-group">
+							<div data-bind="template:{name:'TeacherListTemplate', foreach:teacherList}">
+							</div>
+						</ul>
+						<!--教师模板页-->
+						<script type="text/html" id="TeacherListTemplate">
+							<div class="works-center teacherList-content">
+								<span data-bind="text: DisplayName"></span>
+								<i class="mui-input-row mui-checkbox mui-left">
+				                    <div class="mui-input-row mui-radio mui-left" data-bind="visible: displayCheck">
+				                        <input name="radio" type="radio">
+				                    </div>
+                				</i>
+								<div class="works-list-img" data-bind="event:{tap: gotoTeacherInfo}">
+									<img src="../../images/22.jpg" />
+									<i data-bind="text: SubjectName"></i>
+								</div>
+								<p data-bind="text: Introduce"></p>
+								<ol>
+									<li><sapn data-bind="text: TeachAge"></sapn>年教龄</li>
+									<li data-bind="text: Score"></li>
+									<li>
+										<em class="iconfont" data-bind="text: Star > 0 ? common.gJsonTeacherLever[Star].text : ''"></em>
+									</li>
+								</ol>
+							</div>
+						</script>
+					</div>
+				</div>
+
+
+			<nav class="mui-bar mui-bar-tab" data-bind = "visible: displayCheck">
+				<a class="ah-mui-tab-item mui-active works-list-mui-tab-label" href="#tabbar">
+					<span class="mui-tab-label ">取消</span>
+				</a>
+
+				<a class="ah-mui-tab-item works-list-mui-tab-btn" data-bind="click: gotoSubmitClass">
+					<span class="mui-tab-label works-list-mui-btn">确定</span>
+				</a>
+			</nav>
+		</div>
+
+		<script src="../../script/mui/mui.js"></script>
+		<script src="../../script/mui/mui.picker.min.js"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/teacher/teacherList.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.init({
+				swipeBack: true, //启用右滑关闭功能
+				pullRefresh: {
+					container: '#pullrefresh',
+					//							
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<style>
+			.mui-input-group .mui-input-row:after{
+				background: #C8C7CC!important;
+			}
+			.mui-input-row .mui-btn{
+				line-height: 42px!important;
+			}
+			.reg-mui-input-row label ~ input, .th-mui-btn-block{
+				line-height: 22px!important;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<i class="iconfont mui-action-back">&#xe602;</i>
+			<h1 class="mui-title">注册</h1>
+		</header>
+		<div class="mui-content">
+			<form class="mui-input-group reg-mui-input-group">
+				<!--选择用户-->
+				<div class="mui-input-row reg-mui-input-row th-mui-input-row">
+					<label>用户类型</label>
+					<button id='selectUserPicker' class="mui-btn mui-btn-block th-mui-btn-block" type='button' data-bind="text:UserTypeText,event:{click:setUserType}"></button>
+				</div>
+				<div class="mui-input-row reg-mui-input-row">
+					<label>手机号</label>
+					<input id='account' type="text" class="mui-input-clear mui-input reg-mui-input" placeholder="请输入手机号" data-bind="value:UserName">
+				</div>
+				<div class="mui-input-row reg-mui-input-row">
+					<label>验证码</label>
+					<input id='account' type="text" class="mui-input reg-mui-input" placeholder="请输入验证码" data-bind="value:CheckNum">
+					<em data-bind="click:getVerifyCode">获取验证码<span data-bind="text:RemainTime, visible: RemainTime() > 0"></span></em>
+
+				</div>
+				<div class="mui-input-row reg-mui-input-row">
+					<label>密 码</label>
+					<input id='password' type="password" class="mui-input-clear mui-input reg-mui-input" placeholder="请输入密码" data-bind="value:Password">
+				</div>
+				<div class="mui-input-row reg-mui-input-row">
+					<label>确认密码</label>
+					<input id='password_confirm' type="password" class="mui-input-clear mui-input reg-mui-input" placeholder="请确认密码" data-bind="value:ConPassword">
+				</div>
+				<div class="reg-protocol">
+					<img src="../../images/register-pic.png" /> 我已阅读并同意
+					<span>“乐评+用户服务协议”</span>
+				</div>
+			</form>
+			<div class="mui-content-padded">
+				<button id='reg' class="mui-btn mui-btn-block mui-btn-primary btn-login reg-btn-login" data-bind="click:registerUser">注册</button>
+			</div>
+
+		</div>
+
+		<script src="../../script/mui/mui.min.js"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/mui/mui.picker.min.js"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/account/register.js" type="text/javascript" charset="utf-8"></script>
+
+	</body>
+
+</html>

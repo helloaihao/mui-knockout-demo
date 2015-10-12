@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../content/cropperjs/cropper.css" />
+		<style type="text/css">
+			.uploadbar {
+				height: auto;
+				width: auto;
+			}
+			.authID-btn:nth-of-type(1){
+				
+				margin-top: 8px;
+				margin-left: 20px;
+			}
+			.authID-btn:nth-of-type(2){
+				margin-top: 8px;
+				margin-left: 210px;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-action-back mui-bar mui-bar-nav">
+			<i class="iconfont">&#xe602;</i>
+			<h1 class="mui-title">身份认证</h1>
+		</header>
+		<div class="mui-content identityAuthentication">
+			<div class="identityAuthentication-up">
+				<span>只有通过身份认证，学生才能搜到你哦~</span>
+				<div class="content">
+					<div class="content-left">
+						<img src="../../images/Identity.jpg" />
+						<em>参考案例</em>
+					</div>
+					<div class="content-right">
+						<p>1 免冠，建议使用素颜照，保证五官清晰可见</p>
+						<p>2 照片放大后，证件上的文字信息与证件号清晰可见</p>
+						<p>3 手持证件拍照，不要遮挡证件上的任何信息</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="identityAuthentication-div" data-bind="click:selectPic">
+				<!--<div class="uploadbar"><i class="iconfont">&#xe633;</i></div>-->
+				<div class="uploadbar"><a  href="#middlePopover"><img id="imgUpload" data-bind="attr: {'src': Image}" /></a></div>
+				<em data-bind="visible: Editable">点击上传图片</em>
+			</div>
+
+			<form>
+				<div class="identityAuthentication-input">
+					<input type="text" placeholder="请输入证件号码" data-bind="value:IDNumber, enable: Editable" />
+				</div>
+			</form>
+			<u data-bind="text: AuthStatus"></u>
+
+			<div class="mui-content-padded" data-bind="visible: Editable">
+				<button id='login' class="mui-btn mui-btn-block mui-btn-primary feedBack-mui-btn-block" data-bind="click:authIDSub">提交</button>
+			</div>
+			<div style="position: fixed;top:0;left:0;right:0;bottom:50px;z-index: 20; background-color: lightgray;" class="authID-btn">
+				<div style="position: absolute; left: 0; top: 0;" class="cropper-container">
+					<img src="http://p2.qhimg.com/t011fc13354f12d1a46.jpg"/>
+				</div>
+			</div>
+				<div style="position: fixed; bottom: 0px; height: 50px; background: #fff; width: 100%;">
+					<button class='mui-btn mui-btn-warning authID-btn'>取消</button>
+					<button class="mui-btn mui-btn-primary authID-btn">确定</button>
+					
+				</div>
+	</body>
+	<script src="../../script/mui/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/mui/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/libs/cropperjs/cropper.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/common/picture.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/teacher/authID.js" type="text/javascript" charset="utf-8"></script>
+
+</html>

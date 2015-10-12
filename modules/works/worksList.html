@@ -1,0 +1,226 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<style type="text/css">
+			/*跨webview需要手动指定位置*/
+			/*header.mui-bar {
+				display: none!important;
+			}*/
+			
+			.mui-bar-nav~.mui-content {
+				padding-top: 0px;
+			}
+			.mui-bar-tab .ah-mui-tab-item {
+				display: table-cell;
+				overflow: hidden;
+				width: 1%;
+				height: 50px;
+				text-align: center;
+				vertical-align: middle;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+			.mui-segmented-control{
+				border-radius:50px!important;
+			}
+			.mui-control-item1{
+				border-radius:52px 0 0 60px;
+				line-height: 34px!important;
+			}
+			.mui-control-item2{
+				border-radius:0 52px 60px 0;
+				line-height: 34px!important;
+			}
+		</style>
+	</head>
+
+	<body style="background:#f1f1f1;">
+		<header class="mui-bar mui-bar-nav works-list-mui-bar-nav">
+			<!--<i class="iconfont mui-action-back">&#xe602;</i>-->
+			<i class="iconfont">&#xe633;</i>
+			<em class="iconfont" data-bind="click:goMessageList">&#xe628;<span class="mui-badge mui-badge-warning" data-bind="text: UnreadCount, visible: UnreadCount() > 0"></span></em>
+			
+			<div id="segmentedControl" class="mui-segmented-control works-list-mui">
+				<a class="mui-control-item mui-control-item1 mui-active" href="#item1">
+                我的作品
+            </a>
+				<a class="mui-control-item mui-control-item2" href="#item2">
+                所有作品
+            </a>
+			</div>
+			
+			
+
+		</header>
+		<div class="mui-content">
+
+			<div class="works-list-select">
+				<ul>
+					<li class="mui-collapse">
+						<a class="mui-navigate-right" href="#middlePopover">科目</a>
+					</li>
+					<li class="mui-collapse">
+						<a class="mui-navigate-right" href="#middlePopover2">排序</a>
+					</li>
+					<li class="mui-collapse">
+						<a class="mui-navigate-right" href="#middlePopover3">筛选</a>
+					</li>
+				</ul>
+			</div>
+			<div id="middlePopover" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a href="#">科目</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item10</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item9</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item9</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item9</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+			<div id="middlePopover2" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a href="#">排序</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item10</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item9</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item9</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item9</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+			<div id="middlePopover3" class="mui-popover">
+				<div class="mui-popover-arrow"></div>
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a href="#">篩選</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item10</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item9</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item9</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">Item9</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+
+			</div>
+
+			<!--<div id="item1" class="mui-active works-list-content-mui-active">-->
+			<!--下拉刷新容器-->
+			<div id="pullrefresh" class="mui-scroll-wrapper" style="top:77px">
+				<div class="mui-scroll">
+					<!--作品显示页-->
+					<ul class="mui-input-group">
+						<div data-bind="template:{name:'worksTemplate', foreach:works}">
+						</div>
+					</ul>
+					<!--作品模板页-->
+					<script type="text/html" id="worksTemplate">
+						<div id="gowork" class="mui-input-group works-list-mui-input-group">
+							<div class="works-center">
+								<span data-bind="text:Title"></span>
+								<i class="mui-input-row mui-checkbox mui-left">
+                    					<div class="mui-input-row mui-radio mui-left">
+                        					<input name="radio" type="radio" data-bind="visible:displayCheck">
+                    					</div>
+                					</i>
+								<div class="works-list-img" data-bind="event:{tap: goWorksDetails}">
+									<img src="../../images/worksList.jpg"/>
+									<i data-bind="text:SubjectName"></i>
+								</div>
+								<p data-bind="text:ContentText"></p>
+								<ul>
+									<li data-bind="text:AddTime.split(' ')[0]"></li>
+									<li data-bind="text:ReadCount"></li>
+									<li data-bind="text:LikeCount"></li>
+									<li data-bind="text:WorkStatus"></li>
+								</ul>
+							</div>
+						</div>
+					</script>
+				</div>
+			</div>
+			<!--</div>-->
+
+			<nav class="mui-bar mui-bar-tab" data-bind="visible: displayCheck">
+				<a class="ah-mui-tab-item mui-active works-list-mui-tab-label" href="#tabbar">
+					<span class="mui-tab-label ">取消</span>
+				</a>
+
+				<a class="ah-mui-tab-item works-list-mui-tab-btn" data-bind="click: gotoSubmitClass">
+					<span class="mui-tab-label works-list-mui-btn">确定</span>
+				</a>
+			</nav>
+			<!--<div id="item2" class="mui-control-content works-list-content-mui-active">11</div>-->
+		</div>
+		<script src="../../script/mui/mui.min.js"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/works/workList.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.init({
+				pullRefresh: {
+					container: '#pullrefresh',
+					up: {
+						contentrefresh: '正在加载...',
+						callback: pullupRefresh
+					}
+				}
+			});
+			 //mui('.mui-scroll-wrapper').scroll();
+			mui('body').on('shown', '.mui-popover', function(e) {});
+			mui('body').on('hidden', '.mui-popover', function(e) {});
+			
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,42 @@
+﻿.pull-left-pic {
+    color:#fff!important;
+    font-size:0.96rem;
+}
+
+.card-footer:before {
+    background-color:#fff!important;
+}
+.card-content-inner {
+    padding:1.5rem!important;
+
+}
+.card-font {
+    font-size:0.96rem;
+    color:#036fb8;
+}
+    .card-font i {
+        font-size:1rem;
+        color:#a5a5a5;
+    }
+.card-btn {
+    height:2rem;
+    width:9rem;
+}
+.card-btn em {
+    height:2rem;
+    width:4rem;
+    display:inline-block;  
+    line-height:2rem;
+    text-align:center;
+    border-radius:5px;
+
+}
+    .card-footer em:nth-of-type(1) {
+        background:#ef8100;
+        color:#fff;
+         margin-right:0.5rem;
+    }
+        .card-footer em:nth-of-type(2) {
+        background:#dcdcdc;
+        color:#999;
+    }

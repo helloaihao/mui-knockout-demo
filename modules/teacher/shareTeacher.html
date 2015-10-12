@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<style>
+			.mui-card .mui-control-content {
+				padding: 10px;
+			}
+			.mui-control-content.mui-active {
+				border-bottom: none!important;
+				top: 0px!important;
+				background: #f1f1f1!important;
+			}
+			.title {
+				margin: 20px 15px 7px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			.mui-popover.mui-active {
+				top: 50%!important;
+				margin-top: -6.4rem!important;
+				left: 50%!important;
+				margin-left: -10.33rem!important;
+				min-height: 12.8rem!important;
+				width: 16.2rem;
+			}
+			.shareTeacher-pic {
+				height: 8.8rem;
+				width: 100%;
+				border-bottom: 1px solid #C8C7CC;
+				overflow: hidden;
+				padding: 20px 0;
+				box-sizing: border-box;
+			}
+			.shareTeacher-pic ul li {
+				width: 33.33333333%;
+				height: 100%;
+				float: left;
+				text-align: center;
+				position: relative;
+			}
+			.shareTeacher-pic ul li img {
+				height: 4.5rem;
+				width: 4.5rem;
+			}
+			.shareTeacher-pic ul li span {
+				height: 2rem;
+				width: 100%;
+				display: inline-block;
+				position: absolute;
+				left: 0;
+				bottom: -28px;
+				color: #666;
+				line-height: 2rem;
+				text-align: center;
+				font-size: 1.02rem;
+			}
+			.shareTeacher-qx {
+				height: 4rem;
+				width: 100%;
+				text-align: center;
+				line-height: 3.5rem;
+				color: #666;
+				font-size: 1.2rem;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="p-header-div">
+			<a class="iconfont" href="javascript: window.history.back(-1);">&#xe602;</a>
+			<a href="#middlePopover" class="iconfont">&#xe60e;</a>
+			<div class="photo">
+				<img src="../../images/default.jpg" />
+			</div>
+			<span data-bind="text:DisplayName"></span>
+			<!--科目|教龄-->
+			<span><!--ko text:SubjectName--><!--/ko--> | <!--ko text:TeachAge--><!--/ko-->年教龄 |
+				<i class="iconfont">&#xe62f;</i>
+				<i class="iconfont">&#xe62f;</i>
+				<i class="iconfont">&#xe62f;</i>
+				<i class="iconfont">&#xe62f;</i>
+			</span>
+			<span>
+				<i class="iconfont">&#xe63c;</i>
+				<!--省市区-->
+				<!--ko text:Province--><!--/ko-->><!--ko text:City--><!--/ko-->><!--ko text:District--><!--/ko-->
+			</span>
+			<div class="p-footer-btn">
+				<ul>
+					<li>
+						<button>得分
+							<!--ko text:Score-->
+							<!--/ko-->
+						</button>
+					</li>
+					<li>
+						<button>关注
+							<!--ko text:FavCount-->
+							<!--/ko-->
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div id="middlePopover" class="mui-popover">
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<div class="shareTeacher-pic">
+						<ul id="recommendArray">
+							<li id="weichatFriend">
+								<img src="../../images/share-wx.png" />
+								<span>微信好友</span>
+							</li>
+							<li id="weichatMoments">
+								<img src="../../images/share-py.png" />
+								<span>朋友圈</span>
+							</li>
+							<li id="qqFriend">
+								<img src="../../images/share-qq.png" />
+								<span>QQ好友</span>
+							</li>
+						</ul>
+					</div>
+					<div class="shareTeacher-qx" data-bind="click:closeShare">取消</div>
+				</div>
+			</div>
+		</div>
+		<div class="mui-content">
+			<!--模板文件-->
+			<script type="text/html " id="worksTemplate">
+				<li>
+					<i><img data-bind="attr:{src:Infoimgurl} "/></i>
+					<img data-bind="attr:{src:photoimgurl} " />
+					<p data-bind="text:Title"></p>
+				</li>
+			</script>
+			<div class="teacherList-resolve-title">分解教程</div>
+			<div class="teacherList-resolve-content">
+				<ul data-bind="template:{name:'worksTemplate',foreach:workResolve}"></ul>
+			</div>
+			<div class="teacherList-more" data-bind="click:openWork">查看更多></div>
+			<!--<div class="teacherList-more" data-bind="click:openWork">查看更多></div>-->
+			<div class="teacherList-blank-bgColor"></div>
+
+			<!--完整教程-->
+			<div class="teacherList-resolve-title">完整教程</div>
+			<div class="teacherList-resolve-content">
+				<ul data-bind="template:{name:'worksTemplate', foreach:workFull}"></ul>
+			</div>
+			<div class="teacherList-more" data-bind="click:openWork">查看更多></div>
+			<div class="teacherList-blank-bgColor"></div>
+
+			<!--演出作品-->
+			<div class="teacherList-resolve-title ">演出作品</div>
+			<div class="teacherList-resolve-content">
+				<ul data-bind="template:{name:'worksTemplate',foreach:workShow}">
+				</ul>
+			</div>
+			<div class="teacherList-more" data-bind="click:openWork">查看更多></div>
+			<div class="teacherList-blank-bgColor "></div>
+			<div class="teacherList-resolve-title ">课程</div>
+			<div data-bind="template:{name:'classTemplate',foreach:lesson}">
+			</div>
+			<!--以下为模板文件-->
+			<script type="text/html" id="classTemplate">
+				<div class="teacherList-class-content ">
+					<span data-bind="text:CourseName"></span>
+					<p data-bind="text:Introduce"></p>
+					<em>￥<!--ko text:Price--><!--/ko--></em>
+				</div>
+			</script>
+
+			<div class="teacherList-more " data-bind="click:openWork ">查看更多></div>
+			<div class="teacherList-blank-bgColor "></div>
+			<div class="teacherList-abstract ">
+				<!--简介-->
+				<!--ko text:Introduce-->
+				<!--/ko-->
+				<i class="iconfont ">&#xe61c;</i>
+			</div>
+			<div class="teacherList-blank-bgColor bgColor-footer "></div>
+			<nav class="mui-bar mui-bar-tab ">
+				<a class="mui-tab-item mui-active teacherList-mui-bar-tab teacherList-mui" href="#tabbar" data-bind="event:{tap: gotoComment}">
+					<i class="iconfont">&#xe62d;</i>
+					<span class="mui-tab-label ">帮我点评</span>
+				</a>
+
+				<a class="mui-tab-item mui-active teacherList-mui-bar-tab" href="#tabbar-with-map" data-bind="event:{tap: appiontLesson}">
+					<i class="iconfont">&#xe63b;</i>
+					<span class="mui-tab-label">预约上课</span>
+				</a>
+			</nav>
+		</div>
+
+		<script src="../../script/mui/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/teacher/shareTeacher.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+</html>

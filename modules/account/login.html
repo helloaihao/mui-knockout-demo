@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />		
+		<style>
+			.reg-mui-input-row:nth-of-type(1){
+				border-top: 1px solid #C8C7CC;
+				
+			}
+			.mui-input-group .mui-input-row:nth-of-type(1):after{
+				background: #C8C7CC!important;
+			}
+			.reg-mui-input-row:nth-of-type(2){
+				border-bottom: 1px solid #C8C7CC;
+				
+			}
+			.mui-input-row .mui-btn{
+				line-height: 42px!important;
+			}
+			.reg-mui-input-row label ~ input, .th-mui-btn-block{
+				line-height: 22px!important;
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav mui-action-back">
+			<i class="iconfont">&#xe602;</i>
+			<h1 class="mui-title">登录</h1>
+		</header>
+		<div class="login-logo"></div>
+		<div class="mui-content login-center">
+			<form class="mui-input-group reg-mui-input-group">
+				<div class="mui-input-row reg-mui-input-row">
+					<i class="iconfont">&#xe62a;</i>
+					<input id='account' type="text" class="mui-input-clear mui-input reg-mui-input login-placeholder" placeholder="手机号" data-bind="value:UserName">
+				</div>
+				<div class="mui-input-row reg-mui-input-row">
+					<i class="iconfont">&#xe632;</i>
+					<input id='account' type="password" class="mui-input-clear mui-input reg-mui-input login-placeholder" placeholder="密码" data-bind="value:Password">
+				</div>
+				<div class="mui-content-padded">
+				<div class="link-area login-link-area">
+					<a id='forgetPassword' data-bind="click:forgetpw">忘记密码</a>
+				</div>
+				<button id='login' class="mui-btn mui-btn-block mui-btn-primary login-btn" data-bind="click:checkLogin">登录</button>
+				<button id='login' class="mui-btn mui-btn-block mui-btn-primary btn-reg-bgColor" data-bind="click:registerUser">注册</button>
+			</div>
+			</form>
+		</div>
+		<script src="../../script/mui/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/account/login.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<style>
+			body,.mui-content{ background:#f1f1f1!important;}
+			.reg-mui-input-row label ~ input, .th-mui-btn-block{
+				width: 60%!important;
+				margin-right: 5%;
+				
+			}
+			.mui-input-row label{
+				line-height: 1.35;
+			}
+			.ah-btn-margin {
+				margin-top: 2rem;
+			}
+			.ah-input-row label ~ input {
+				float: left;
+				width: 15%!important;
+				margin-right: 1%;
+			}
+			#ageLimits {
+				position: absolute;
+			}
+          .addCourse-line{
+          	line-height: 38px!important;
+          }
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<i class="iconfont mui-action-back">&#xe602;</i>
+			<h1 class="mui-title">添加课程</h1>
+		</header>
+		<div class="mui-content">
+			<div id="page1">
+				<form class="mui-input-group reg-mui-input-group">
+					<div class="mui-input-row reg-mui-input-row addCourse-mui-input">
+						<label>课程名称</label>
+						<input id='account' type="text" class="mui-input-clear mui-input reg-mui-input " placeholder="个性的标题更吸引学生" data-bind="value: dbTitle">
+					</div>
+					<div class="mui-input-row reg-mui-input-row th-mui-input-row addCourse-mui-input">
+						<label>所属科目</label>
+						<button class="mui-btn mui-btn-block th-mui-btn-block addCourse-line" type='button' data-bind="click: setSubject, text:dbSubject"></button>
+					</div>
+				</form>
+				<div class="addCourse-class">
+					课程介绍
+				</div>
+				<form class="addCourse">
+					<textarea placeholder="用一段话介绍您的教学水平或教学成绩，好的介绍将会及的大提高信誉度" data-bind="value: dbIntro"></textarea>
+				</form>
+
+				<form class="mui-input-group reg-mui-input-group addCourse-mui-input-group">
+					<div class="mui-input-row reg-mui-input-row th-mui-input-row addCourse-mui ah-input-row">
+						<label>年龄要求</label>
+						<input type="text" class="mui-input-clear mui-input reg-mui-input " placeholder="最低"  data-bind="value: dbLowAge">
+						<input type="text" class="mui-input-clear mui-input reg-mui-input " placeholder="最高"  data-bind="value: dbHighAge">
+						<label id="ageLimits" data-bind="text: dbAgeLimits"></label>
+						
+					</div>
+					<div class="mui-input-row reg-mui-input-row addCourse-mui-input addCourse-mui">
+						<label>人数限制</label>
+						<input id='account' type="text" class="mui-input-clear mui-input reg-mui-input " placeholder="请输入最多人数" data-bind="value: dbMaxStudent">
+					</div>
+				</form>
+				
+				<div class="addCourse-class">
+					授课方式及课时费
+				</div>
+				<form class="mui-input-group reg-mui-input-group">
+					<div class="mui-input-row reg-mui-input-row addCourse-mui-input">
+						<label>老师上门 </label>
+						<input id='taccount' type="text" class="mui-input-clear mui-input reg-mui-input " placeholder="请输入价钱"  data-bind="value: dbTPrice">
+						<span>元</span>
+					</div>
+					<div class="mui-input-row reg-mui-input-row addCourse-mui-input">
+						<label>学生上门 </label>
+						<input id='saccount' type="text" class="mui-input-clear mui-input reg-mui-input " placeholder="请输入价钱"  data-bind="value: dbSPrice">
+						<span>元</span>
+					</div>
+
+				</form>
+				
+				<div class="mui-content-padded ah-btn-margin">
+					<button id='next' class="mui-btn mui-btn-block mui-btn-primary btn-findTeacher " data-bind="click: addCourse">完成</button>
+				</div>
+			</div>
+
+			<!--
+        	第二个页面
+        -->
+			<div id="page2" style="display: none;">
+				<div class="addCourse-class">
+					授课方式及课时费
+				</div>
+				<form class="mui-input-group reg-mui-input-group">
+					<div class="mui-input-row reg-mui-input-row addCourse-mui-input">
+						<label>老师上门 </label>
+						<input id='account' type="text" class="mui-input-clear mui-input reg-mui-input " placeholder="请输入价钱" data-bind="text:dbTPrice">
+						<span>元</span>
+					</div>
+					<div class="mui-input-row reg-mui-input-row addCourse-mui-input">
+						<label>学生上门 </label>
+						<input id='account' type="text" class="mui-input-clear mui-input reg-mui-input " placeholder="请输入价钱" data-bind="text:dbSPrice">
+						<span>元</span>
+					</div>
+
+				</form>
+				<div class="mui-content-padded findTeacher-mui-content-padded">
+					<button id='login' class="mui-btn mui-btn-block mui-btn-primary btn-findTeacher ">完成</button>
+				</div>
+			</div>
+
+		</div>
+		<script src="../../script/mui/mui.js"></script>
+		<script src="../../script/mui/mui.picker.min.js"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/course/addCourse.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+		mui.init();
+//			var next = document.getElementById('next');
+//			var page1 = document.getElementById('page1');
+//			var page2 = document.getElementById('page2');
+//			next.addEventListener('tap', function() {
+//				page1.style.display = "none";
+//				page2.style.display = "block";
+//			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<i class="iconfont mui-action-back">&#xe602;</i>
+			<h1 class="mui-title">可授课时间</h1>
+		</header>
+		<div class="mui-content">
+			<div class="availableTime-title">
+				<!--<span data-bind='text: TheMonth'></span>-->
+				<div class="availableTime-title-time">
+					<div class="time-up">
+						<ul data-bind="foreach:{data: DayOfWeek}">
+							<li data-bind='text: $data'></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<table class="availableTime-table" border="2" cellspacing="0" cellpadding="0" width="100%" height="100%" data-bind="foreach:{data: Hours, as: 'hour'}">
+				<tr>
+					<td data-bind='text: $data + ":00"'></td>
+					<!--ko foreach:{data: DayOfWeekValue}-->
+					<td data-bind='cellValue: initCell($data, hour)'></td>
+					<!--/ko-->
+				</tr>
+			</table>
+			<div class="availableTime-input">
+				<form>
+					<label>描述</label>
+					<input type="text" placeholder="输入可授课时间的详细说明" data-bind='value: FreetimeRemark' />
+				</form>
+			</div>
+
+			<nav class="mui-bar mui-bar-tab">
+				<a class="mui-tab-item mui-active works-list-mui-tab-label" href="#tabbar">
+					<span class="mui-tab-label ">点击蓝色区块选择</span>
+				</a>
+
+				<a class="mui-tab-item works-list-mui-tab-btn" href="#">
+					<span class="mui-tab-label works-list-mui-btn" data-bind='event:{tap: SetFreetime}'>确定</span>
+				</a>
+			</nav>
+
+		</div>
+
+		<script src="../../script/mui/mui.min.js"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/course/availableTime.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>
