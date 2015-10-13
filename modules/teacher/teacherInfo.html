@@ -14,10 +14,11 @@
 			.mui-card .mui-control-content {
 				padding: 10px;
 			}
-			.mui-control-content.mui-active {
+			.mui-control-content{
 				border-bottom: none!important;
 				top: 0px!important;
 				background: #f1f1f1!important;
+				color: #036FB8!important;
 			}
 			.title {
 				margin: 20px 15px 7px;
@@ -72,16 +73,19 @@
 				font-size: 1.2rem;
 			}
 			.mui-bar-tab .ah-mui-tab-item {
-    display: table-cell;
-    overflow: hidden;
-    width: 1%;
-    height: 50px;
-    text-align: center;
-    vertical-align: middle;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: #929292;
+			    display: table-cell;
+			    overflow: hidden;
+			    width: 1%;
+			    height: 50px;
+			    text-align: center;
+			    vertical-align: middle;
+			    white-space: nowrap;
+			    text-overflow: ellipsis;
+			    color: #929292;
 }
+			.mui-tab-item,.ah-mui-tab-item{
+				color: #036FB8!important;
+			}
 		</style>
 	</head>
 
@@ -200,11 +204,11 @@
 			</div>
 			<div class="teacherList-blank-bgColor bgColor-footer "></div>
 			<nav class="mui-bar mui-bar-tab ">
-				<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab teacherList-mui" href="#tabbar" data-bind="event:{tap: gotoComment}">
+				<a class="ah-mui-tab-item teacherList-mui-bar-tab teacherList-mui" href="#tabbar" data-bind="event:{tap: gotoComment}">
 					<i class="iconfont">&#xe62d;</i>
 					<span class="mui-tab-label ">帮我点评</span>
 				</a>
-				<a class="mui-tab-item mui-active teacherList-mui-bar-tab" href="#tabbar-with-map" data-bind="event:{tap: appiontLesson}">
+				<a class="mui-tab-item teacherList-mui-bar-tab" href="#tabbar-with-map" data-bind="event:{tap: appiontLesson}">
 					<i class="iconfont">&#xe63b;</i>
 					<span class="mui-tab-label">预约上课</span>
 				</a>

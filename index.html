@@ -48,7 +48,7 @@
 		<script type="text/javascript" charset="utf-8">
 			 //mui初始化
 			mui.init();
-			//var subpages = [self.MyHref()];
+			 //var subpages = [self.MyHref()];
 			var subpages = ['modules/home/home.html', 'modules/course/myCourse.html', 'modules/comment/commentList.html', 'modules/works/worksList.html', self.MyHref()];
 			var subpage_style = {
 				top: '0px',
@@ -58,7 +58,7 @@
 			 //创建子页面，首个选项卡页面显示，其它均隐藏；
 			mui.plusReady(function() {
 				setLocalItem('UUID', plus.device.uuid);
-				this.getUnreadCount();				
+				this.getUnreadCount();
 				var self = plus.webview.currentWebview();
 				for (var i = 0; i < subpages.length; i++) {
 					var temp = {};
@@ -74,7 +74,7 @@
 			});
 			 //当前激活选项
 			var activeTab = subpages[0];
-			//var title = document.getElementById("title");
+			 //var title = document.getElementById("title");
 			 //选项卡点击事件
 			mui('.mui-bar-tab').on('tap', 'a', function(e) {
 				var targetTab = this.getAttribute('href');

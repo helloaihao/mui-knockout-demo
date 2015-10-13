@@ -92,6 +92,7 @@ var myCourse = function() {
 		var self = this;
 		var ajaxUrl = common.gServerUrl + 'API/Lesson/GetLessons?userid=' + getLocalItem('UserID')
 			+ '&weekindex=' + self.WeekIndex();
+			
 		mui.ajax(ajaxUrl, {
 			type: 'GET',
 			success: function(responseText) {
@@ -110,6 +111,7 @@ var myCourse = function() {
 			mui.ajax(ajaxUrl, {
 				type: 'GET',
 				success: function(responseText) {
+					
 					var lessons = JSON.parse(responseText);
 					self.Lessons(lessons);
 					if (lessonID > 0) { //有参数传递，跳转至该课时所在周，并打开其详细信息弹窗

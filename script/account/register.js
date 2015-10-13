@@ -104,7 +104,7 @@ var register = function() {
 				VerifyCode: self.CheckNum()
 			},
 			success: function(responseText) {
-				alert(responseText);
+				//alert(responseText);
 				var result = eval("(" + responseText + ")");
 				setLocalItem("UserID", result.UserID);
 				setLocalItem("UserName", result.UserName);
@@ -114,10 +114,10 @@ var register = function() {
 				/*alert("登录成功，请跳转"); */ //此处应跳转至主页面
 				if (self.UserType() == 32) {
 					//老师注册页
-					window.location = "teacher-register.html";
+					window.location = "registerTeacher.html";
 				} else {
 					//学生注册页
-					window.location = "student-register.html";
+					window.location = "registerStudent.html";
 				}
 			}
 		});

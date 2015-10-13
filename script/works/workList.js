@@ -29,7 +29,6 @@ var workList = function() {
 	self.pullupRefresh = function() {
 		setTimeout(function() {
 			mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
-			//var table = document.body.querySelector('.mui-table-view');
 			pageNum++;
 			mui.ajax(common.gServerUrl + "API/Work?page=" + pageNum, {
 				type: 'GET',
@@ -41,8 +40,6 @@ var workList = function() {
 					//self.messages(self.messages().concat(responseText));
 				}
 			});
-
-
 		}, 1500);
 		mui.ready(function() {
 			mui('#pullrefresh').pullRefresh().pullupLoading();

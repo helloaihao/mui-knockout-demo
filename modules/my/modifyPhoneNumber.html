@@ -14,16 +14,20 @@
 			body,.mui-content{
 				background: #F1F1F1!important;
 			}
-			.mui-content-padded{
-				background: #F1F1F1!important;
-				margin-top: 130px!important;
-			}
-			.mui-btn-blue, .mui-btn-primary, input[type=submit]{
+				.mui-btn-blue, .mui-btn-primary, input[type=submit]{
 				border: 1px solid #f08000;
 				background: #f08000;
+				margin-top: 50px;
+			}
+			.mui-input-row label{
+				line-height: 1.6!important;
 			}
 			.mui-input-group .mui-input-row:after{
 				background: #C8C7CC!important;
+			}
+			.reg-mui-input-row input[type=text],input[type=password]{
+				line-height:18px!important;
+				height: 44px!important;
 			}
 		</style>
 	</head>
@@ -37,7 +41,7 @@
 			<form class="mui-input-group reg-mui-input-group">
 				<div class="mui-input-row reg-mui-input-row">
 					<label>密码</label>
-					<input id='password' type="password" class="mui-input-clear mui-input reg-mui-input" placeholder="请输入新密码" data-bind="value:Password">
+					<input id='password' type="password" class="mui-input-clear mui-input reg-mui-input" placeholder="请输入密码" data-bind="value:Password">
 				</div>
 
 				<div class="mui-input-row reg-mui-input-row">
@@ -60,5 +64,5 @@
 	<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../../script/my/my-info.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/my/myInfo.js" type="text/javascript" charset="utf-8"></script>
 </html>

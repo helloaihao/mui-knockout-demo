@@ -4,10 +4,10 @@ var viewModel = function() {
 	self.UserID = ko.observable(getLocalItem('UserID'));
 	self.UserType = ko.observable(getLocalItem('UserType'));
 	self.UnreadCount = ko.observable(0);
-	self.MyHref = ko.observable('modules/my/my-student.html');
+	self.MyHref = ko.observable('modules/my/myInfoStudent.html');
 
 	if (self.UserType() == common.gDictUserType.teacher) {
-		self.MyHref('modules/my/my-teacher.html');
+		self.MyHref('modules/my/myInfoTeacher.html');
 	}
 	//跳转至消息页面
 	self.goMessageList=function(){
@@ -15,6 +15,7 @@ var viewModel = function() {
 	}
 	//获取未读消息数量
 	self.getUnreadCount=function(){
+		var self = this;
 		common.getUnreadCount(self.UnreadCount());
 	}
 };

@@ -22,9 +22,9 @@ var availableTime = function() {
 			success: function(responseText) {
 				var teacher = JSON.parse(responseText);
 				self.Freetimes(JSON.parse(teacher.FreetimeJson));
-				self.FreetimeRemark(teacher.FreetimeRemark)
+				self.FreetimeRemark(teacher.FreetimeRemark);
 			}
-		})
+		});
 	}
 
 	mui.ready(function() {

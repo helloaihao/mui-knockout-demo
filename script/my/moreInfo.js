@@ -16,7 +16,7 @@ var moreInfo = function() {
 		//跳转到修改密码页面
 		common.transfer('changePassword.html', true)
 	}
-	self.goMoreInfo = function() {
+	self.goFeedback = function() {
 		//跳转到意见反馈页面
 		common.transfer('feedBack.html')
 	}

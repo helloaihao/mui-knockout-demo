@@ -92,7 +92,9 @@
 /*-----register注册页面开始------*/
 .mui-input-row{
 	height: 44px!important;
+	line-height: 44px!important;
 }
+
 .mui-input-row label{
 	line-height: 1.5;
 }
@@ -535,6 +537,10 @@
 .my-mui-table-view li:nth-of-type(2) em {
     border:1px solid #ff1af2;
     color:#ff1af2;
+}
+.my-mui-table-view li:nth-of-type(3) em {
+    border:1px solid #d29400;
+    color:#d29400;
 }
 .mui-navigate-right:after, .mui-push-right:after {
     content:"";
@@ -1091,7 +1097,8 @@ margin: 10px!important;
 }
 .works-list-mui-btn {
     height:2.2rem;
-    width:4.6rem;
+    width:auto!important;
+    padding: 0 15px;
     background:#036fb8;
     border-radius:5px;
     display:inline-block;
@@ -3143,13 +3150,30 @@ position:absolute;
 }
 
 
+/*----我的（老师版）---*/
 
+.myTeacher-yz{
+	color: #0fbce2!important;
+	border: 1px solid #0fbce2!important;
+}
+.myTeacher-zh{
+	color: #e03f00!important;
+	border: 1px solid #e03f00!important;
+}
 
+.myTeacher-tz{
+	color: #18c17c!important;
+	border: 1px solid #18c17c!important;
+}
+.myTeacher-gz{
+	color: #ff06f0!important;
+	border: 1px solid #ff06f0!important;
+}
 
-
-
-
-
+.myTeacher-xc{
+	color: #d59b11!important;
+	border: 1px solid #d59b11!important;
+}
 
 
 

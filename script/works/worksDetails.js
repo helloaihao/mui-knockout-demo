@@ -17,6 +17,7 @@ var worksDetails = function() {
 	self.FavCount = ko.observable("0"); //点赞
 	self.ContentText = ko.observable("作品内容作品内容");
 	self.imgUrl = ko.observable('');
+	self.findTeacherComment=ko.observable("找老师点评");
 	//评论的相关元素绑定
 	self.teacherComment = ko.observableArray([]); //各个老师评论数组
 	/*//在ready获取上级页面的数据

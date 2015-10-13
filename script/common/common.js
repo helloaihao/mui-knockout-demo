@@ -134,25 +134,26 @@
 			}
 		});
 	},
+	
+	//Web API地址
+	gServerUrl: "http://192.168.1.99:8090/", //"http://192.168.1.102:8090/", //"http://localhost:53651/"	//"http://192.168.1.99:8090/"
+
 	//获取未读消息
 	getUnreadCount: function(UnreadCount) {
 		if (common.StrIsNull(getLocalItem('UUID')) == '')
 			return;
-		mui.ajax(common.gServerUrl + "Message/GetUnreadCount", {
-			dataType: 'json',
-			type: "GET",
-			data: {
-				receiver: getLocalItem('UserID'),
-				lastTime: getLocalItem('msgLastTime')
-			},
-			success: function(responseText) {
-				UnreadCount=responseText;
-			}
-		});
+		mui.ajax(common.gServerUrl + "API/Message/GetUnreadCount", {
+				dataType: 'json',
+				type: "GET",
+				data: {
+					receiver: getLocalItem('UserID'),
+					lastTime: getLocalItem('msgLastTime')
+				},
+				success: function(responseText) {
+					UnreadCount = responseText;
+				}
+			});
 	},
-
-	//Web API地址
-		gServerUrl: "http://192.168.1.99:8090/", //"http://192.168.1.102:8090/", //"http://localhost:53651/"	//"http://192.168.1.99:8090/"
 	//用户类型枚举
 	gDictUserType: {
 		teacher: 32,
@@ -196,10 +197,23 @@
 		News: 2, //新闻
 		User: 3 //用户
 	},
+	//课时调整状态
 	gDictLessonFeedbackStatus: {
 		Normal: 1, //正常
 		Handling: 2, //处理中
 		Rejected: 3 //已拒绝
+	},
+	//订单状态
+	gDictOrderStatus: {
+		NotPay: 1, //未支付
+		Payed: 2, //已支付
+		Refunded: 3 //已退款
+	},
+	//订单货品类型
+	gDictOrderTargetType: {
+		NotPay: 1, //未支付
+		Payed: 2, //已支付
+		Refunded: 3 //已退款
 	},
 	//性别类型JSON
 	gJsonGenderType: [{
