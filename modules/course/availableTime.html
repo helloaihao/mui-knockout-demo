@@ -10,6 +10,14 @@
 		<link href="../../content/common/global.css" rel="stylesheet" />
 		<link href="../../content/common/style.css" rel="stylesheet" />
 		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<style>
+			.availableTime-input{
+				line-height: 42px!important;
+			}
+			.availableTime-input label ~ input, .th-mui-btn-block{
+				line-height: 22px!important;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -18,10 +26,10 @@
 			<h1 class="mui-title">可授课时间</h1>
 		</header>
 		<div class="mui-content">
-			<div class="availableTime-title">
+			<div class="availableTime-title availableTime-add">
 				<!--<span data-bind='text: TheMonth'></span>-->
-				<div class="availableTime-title-time">
-					<div class="time-up">
+				<div class="availableTime-title-time availableTime-time-add">
+					<div class="time-up time-up-add">
 						<ul data-bind="foreach:{data: DayOfWeek}">
 							<li data-bind='text: $data'></li>
 						</ul>
@@ -43,14 +51,9 @@
 				</form>
 			</div>
 
-			<nav class="mui-bar mui-bar-tab">
-				<a class="mui-tab-item mui-active works-list-mui-tab-label" href="#tabbar">
-					<span class="mui-tab-label ">点击蓝色区块选择</span>
-				</a>
-
-				<a class="mui-tab-item works-list-mui-tab-btn" href="#">
-					<span class="mui-tab-label works-list-mui-btn" data-bind='event:{tap: SetFreetime}'>确定</span>
-				</a>
+			<nav class="mui-bar mui-bar-tab availableTime-footer">
+						<span>点击蓝色区块选择</span>
+					<em data-bind='event:{tap: SetFreetime}'>确定</em>	
 			</nav>
 
 		</div>

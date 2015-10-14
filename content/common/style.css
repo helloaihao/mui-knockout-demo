@@ -13,7 +13,7 @@
 .reg-mui-input-row i{
 	position: absolute;
 	left: 20px;
-	top: 10px;
+	top: 0px;
 	color: #999;
 	font-size: 1.2rem;
 }
@@ -241,7 +241,7 @@
     }
     .th-textarea-div textarea {
         width:94%;
-        min-height:8rem;
+        min-height:6rem;
         padding:0.8rem 0.8rem;
         box-sizing:border-box;
         border:1px solid #ccc;
@@ -251,7 +251,7 @@
     }
 
 .th-btn-footer {
-    margin-top:10rem;
+    margin-top:8rem;
 }
 
 .th-btn {
@@ -666,7 +666,7 @@
     font-size:17px;
     position:absolute;
     right:20px;
-    top:12px;
+    top:2px;
 }
 .pin-mui-btn-block {
     font-size:17px!important;
@@ -866,7 +866,7 @@ margin: 10px!important;
         font-size:22px;
     }
 .works-list-mui {
-    top:6px!important;
+    top:8px!important;
     border:1px solid #fff!important;
     width:200px!important;
     border-radius:50px!important;
@@ -905,15 +905,19 @@ margin: 10px!important;
     height:100%;
 }
     .works-list-select ul li {
-        width:33.3333%;
+        width:50%;
         box-sizing:border-box;
         float:left;
         height:100%;
         border-right:1px solid #c8c7cc;
         line-height:34px;
-        padding:0 30px;
         position:relative;
         font-size:14px;
+    }
+    .works-list-select ul li a {
+    	width: 40px;
+    	display: block;
+    	margin: 0 auto;
     }
         .works-list-select ul li:nth-of-type(3) {
              border-right:none!important;
@@ -922,7 +926,7 @@ margin: 10px!important;
     content:"\e61c";
       font-family:"iconfont" !important;
       position:absolute;
-      right:30px;
+      right:36%;
       top:18px;
       font-size:16px;
 }
@@ -1011,7 +1015,7 @@ margin: 10px!important;
       font-size:22px;
 }
 .works-list-img {
-    height:18.88rem;
+    height:12.88rem;
     width:100%;
     position:relative;
     margin:30px 0 12px 0;
@@ -1019,7 +1023,7 @@ margin: 10px!important;
  
 }
 .works-list-img img{
-    height:18.88rem;
+    height:12.88rem;
     width:100%;
     position:absolute;
     left:0;
@@ -1032,7 +1036,7 @@ margin: 10px!important;
         opacity: 0.502;
         position: absolute;
         left: 15px;
-        top:17rem;
+        top:11rem;
         padding:0 10px;
         display:inline-block;
         text-align:center;
@@ -1058,7 +1062,7 @@ margin: 10px!important;
       width:25%;
       float:left;
       color:#999;
-      font-size:14px;
+      font-size:12px;
       text-align:center;
     }
         .works-center ul li:last-of-type {
@@ -1070,14 +1074,14 @@ margin: 10px!important;
             content:"\e61a";
             font-family:"iconfont" !important;
         }
-           .works-center ul li:nth-of-type(3):before {
+        .works-center ul li:nth-of-type(3):before {
             color:#999;
             font-size:18px;
             content:"\e61e";
             font-family:"iconfont" !important;
         }
 .works-center:last-of-type {
-    margin-bottom:60px!important;
+    margin-bottom:30px!important;
 }
 
 .works-list-center:last-of-type {
@@ -1087,7 +1091,6 @@ margin: 10px!important;
     text-align:left!important;
     padding-left:20px;
     box-sizing:border-box;
-
 }
 .works-list-mui-tab-btn {
       text-align:right!important;
@@ -1503,50 +1506,33 @@ position:absolute;
 .p-footer-btn{
 	width: 100%;
 	height: 2.4rem;
-	padding: 0 49.5%;
-	box-sizing: border-box;
 	position: absolute;
 	left: 0;
 	bottom: 13px;
 }
 .p-footer-btn ul{
 	width: 100%;
-	height: 2.4rem;
+	height: 2rem;
+	text-align: center;
 }
 .p-footer-btn ul li{
-	height: 2.4rem;
+	height: 2rem;
 	border-radius: 5px;
-	float: left;
 	position: relative;
-
+	display: inline-block;
+	background: #e1dcd8;
+ 	border-radius: 5px;
+ 	line-height: 2rem;
+ 	min-width: 5rem;
 }
- .p-footer-btn ul li:nth-of-type(1) button{
- 	padding: 0 15px;
- 	height: 2.4rem;
- 	min-width: 5rem;
- 	display: inline-block;
- 	background: #e1dcd8;
- 	border-radius: 5px;
- 	position: absolute;
- 	left: 0;
- 	top: 0;
- 	color: #fff;
- 	margin-left: 10px;
- 	border: 1px solid #fff;
- }
- .p-footer-btn ul li:nth-of-type(2) button{
- 	padding: 0 15px;
- 	height: 2.4rem;
- 	min-width: 5rem;
- 	display: inline-block;
- 	background: #e1dcd8;
- 	border-radius: 5px;
- 	position: absolute;
- 	border: 1px solid #fff;
- 	right: 0;
- 	top: 0;
- 	color: #fff; 	
- }
+.p-footer-btn ul li button{
+	background: none;
+	line-height: 2rem;
+	text-align: center;
+	font-size: 1.02rem!important;
+	color:#fff ;
+}
+ 
 .teacherList-mui-control-item{
 	color: #333!important;
 	border: none!important;
@@ -2617,7 +2603,7 @@ position:absolute;
 .aboutClass-class ul li:nth-of-type(2){
 	height: auto!important;
 	overflow: hidden;
-	padding: 10px 15px;
+	
 
 }
 
@@ -2646,16 +2632,22 @@ position:absolute;
 	display: inline-block;
 	margin-right: 6px;
 }
-.aboutClass-class em:nth-of-type(2),
-.aboutClass-class em:nth-of-type(3){
+
+.aboutClass-class em:nth-of-type(2){
 	color: #666;
 	border: 1px solid #C8C7CC;
 }
-.aboutClass-class em:nth-of-type(4){
+.aboutClass-class em:nth-of-type(3){
 	border: none;
 	color: #E03F00;
 	width: 2.4rem;
 	text-align: right!important;
+}
+.aboutClass-time{
+	margin-bottom: 65px!important;
+}
+.aboutClass-time {
+	margin-bottom: 50px;	
 }
 
 .aboutClass-time ul li span{
@@ -2906,12 +2898,12 @@ position:absolute;
 }
 
 .time-dow ul li.current{
-	height: 2rem;
+	/*height: 2rem;
 	width:2rem;
 	border-radius: 50%;
-	background: #ca0000;
-	color: #fff!important;	
-	margin-left: 0.5rem;
+	background: #ca0000;*/
+	color: #ca0000!important;	
+	
 }
 .availableTime-table{
 	margin-top: 8px;
@@ -2992,8 +2984,43 @@ position:absolute;
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
-
-
+.availableTime-footer span{
+	line-height: 50px;
+	margin-left: 10px;
+	font-size: 0.96rem;
+}
+.availableTime-footer em{
+	height: 2rem;
+	width:auto;
+	padding:0 15px;
+	display: inline-block;
+	float: right;
+	margin-right: 15px;
+	text-align: center;
+	line-height: 2rem;
+	margin-top: 12px;
+	background: #036FB8;
+	border-radius: 5px;
+	color: #fff;
+	font-size: 1.02rem;
+}
+.availableTime-add{
+	height: 2.2rem!important; 
+	width: 100%!important; 
+	padding-left: 14.8%;
+	box-sizing: border-box;
+	
+}
+.time-up-add{
+	height: 2.2rem!important; 
+	line-height: 2.2rem!important; 
+}
+.time-up-add ul li{
+	line-height: 2.2rem!important; 
+}
+.availableTime-time-add{
+	width: 100%!important; 
+}
 /*-----我的课程-----*/
 
 .myCourse-footer{
@@ -3175,8 +3202,7 @@ position:absolute;
 	border: 1px solid #d59b11!important;
 }
 
-
-
+/*-----个人相册-----*/
 
 
 

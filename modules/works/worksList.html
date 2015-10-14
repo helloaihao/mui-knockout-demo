@@ -31,22 +31,27 @@
 			}
 			.mui-segmented-control {
 				border-radius: 50px!important;
+				display: block;
+				height: 30px;
 			}
 			.mui-control-item1 {
+				vertical-align:top;
 				border-radius: 52px 0 0 60px;
-				line-height: 34px!important;
+				line-height: 28px!important;
 			}
 			.mui-control-item2 {
+				vertical-align:top;
 				border-radius: 0 52px 60px 0;
-				line-height: 34px!important;
+				line-height: 28px!important;
 			}
 		</style>
 	</head>
 
 	<body style="background:#f1f1f1;">
 		<header class="mui-bar mui-bar-nav works-list-mui-bar-nav">
-			<i class="iconfont">&#xe633;</i>
-			<em class="iconfont" data-bind="click:goMessageList">&#xe628;<span class="mui-badge mui-badge-warning" data-bind="text: UnreadCount, visible: UnreadCount() > 0"></span></em>
+			<i class="iconfont mui-action-back">&#xe602;</i>
+			<!--<em class="iconfont" data-bind="click:goMessageList">&#xe628;<span class="mui-badge mui-badge-warning" data-bind="text: UnreadCount, visible: UnreadCount() > 0"></span></em>-->
+			<em class="iconfont" data-bind="event:{tap: gotoAddWorks}">&#xe633;</em>
 
 			<div id="segmentedControl" class="mui-segmented-control works-list-mui">
 				<a class="mui-control-item mui-control-item1 mui-active" href="#item1">
@@ -60,95 +65,17 @@
 		<div class="mui-content">
 			<div class="works-list-select">
 				<ul>
-					<li class="mui-collapse">
-						<a class="mui-navigate-right" href="#middlePopover">科目</a>
+					<li class="mui-collapse" data-bind="click: setSubject">
+						<a class="mui-navigate-right" data-bind="text: dbSubject">科目</a>
 					</li>
-					<li class="mui-collapse">
-						<a class="mui-navigate-right" href="#middlePopover2">排序</a>
-					</li>
-					<li class="mui-collapse">
-						<a class="mui-navigate-right" href="#middlePopover3">筛选</a>
+					<li class="mui-collapse" data-bind="click:setSort">
+						<a class="mui-navigate-right" data-bind="text: dbSort">排序</a>
 					</li>
 				</ul>
 			</div>
-			<div id="middlePopover" class="mui-popover">
-				<div class="mui-popover-arrow"></div>
-				<div class="mui-scroll-wrapper">
-					<div class="mui-scroll">
-						<ul class="mui-table-view">
-							<li class="mui-table-view-cell">
-								<a href="#">科目</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item10</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item9</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item9</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item9</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-
-			</div>
-			<div id="middlePopover2" class="mui-popover">
-				<div class="mui-popover-arrow"></div>
-				<div class="mui-scroll-wrapper">
-					<div class="mui-scroll">
-						<ul class="mui-table-view">
-							<li class="mui-table-view-cell">
-								<a href="#">排序</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item10</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item9</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item9</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item9</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-
-			</div>
-			<div id="middlePopover3" class="mui-popover">
-				<div class="mui-popover-arrow"></div>
-				<div class="mui-scroll-wrapper">
-					<div class="mui-scroll">
-						<ul class="mui-table-view">
-							<li class="mui-table-view-cell">
-								<a href="#">篩選</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item10</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item9</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item9</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item9</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-
-			</div>
 
 			<div id="item1" class=" mui-control-content mui-active">
-				<div class="mui-scroll-wrapper" id="scroll" style="position:static">
+				<div class="mui-scroll-wrapper" id="pullrefresh" style="position:static">
 					<div class="mui-scroll">
 						<!--作品显示页-->
 						<ul class="mui-input-group">
@@ -190,9 +117,19 @@
 				</div>
 
 			</div>
+			<nav class="mui-bar mui-bar-tab" data-bind="visible: displayCheck">
+				<a class="ah-mui-tab-item works-list-mui-tab-label" href="#tabbar">
+					<span class="mui-tab-label ">取消</span>
+				</a>
 
+				<a class="ah-mui-tab-item works-list-mui-tab-btn" data-bind="click: gotoSubmitClass">
+					<span class="mui-tab-label works-list-mui-btn">确定</span>
+				</a>
+			</nav>
+			<!--<div id="item2" class="mui-control-content works-list-content-mui-active">11</div>-->
 		</div>
 		<script src="../../script/mui/mui.min.js"></script>
+		<script src="../../script/mui/mui.picker.min.js"></script>
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
@@ -200,7 +137,7 @@
 		<script>
 			mui.init({
 				pullRefresh: {
-					container: '#scroll',
+					container: '#pullrefresh',
 					up: {
 						contentrefresh: '正在加载...',
 						callback: pullupRefresh

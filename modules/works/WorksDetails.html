@@ -38,16 +38,19 @@
 				right: 22px;
 			}
 			.mui-bar-tab .ah-mui-tab-item {
-    display: table-cell;
-    overflow: hidden;
-    width: 1%;
-    height: 50px;
-    text-align: center;
-    vertical-align: middle;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: #929292;
-}
+		    display: table-cell;
+		    overflow: hidden;
+		    width: 1%;
+		    height: 50px;
+		    text-align: center;
+		    vertical-align: middle;
+		    white-space: nowrap;
+		    text-overflow: ellipsis;
+		    color: #929292;
+			}
+			.works-inconfont{
+				font-size: 1.2rem!important;
+			}
 		</style>
 	</head>
 
@@ -127,15 +130,16 @@
 							<span data-bind="text:Answer"></span>
 						</p>
 					</script>
-					<nav class="mui-bar mui-bar-tab">
-						<a class="mui-tab-item  works-mui-tab-item" href="#tabbar-with-chat" data-bind="event:{tap:workRemorkSet}">
-							<span class="mui-tab-label works-label" data-bind="tap:workRemorkSet">公开</span>
+					<nav class="mui-bar mui-bar-tab ">
+						<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab teacherList-mui " href="#tabbar-with-chat" data-bind="event:{tap:workRemorkSet}">
+							<i class="iconfont works-iconfont">&#xe644;</i>
+							<span class="mui-tab-label " data-bind="tap:workRemorkSet">公开</span>
 						</a>
-						<a class="mui-tab-item" data-bind="event:{tap:getTeacherComment}">
-							<span class="mui-tab-label works-label-btn" data-bind="text:findTeacherComment"></span>
-							
+						<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab " data-bind="event:{tap:getTeacherComment}">
+							<i class="iconfont works-iconfont">&#xe643;</i>
+							<span class="mui-tab-label " data-bind="text:findTeacherComment">找老师点评</span>
 						</a>
-					</nav>
+			</nav>
 			</div>
 	</body>
 	<script src="../../script/mui/mui.min.js" type="text/javascript" charset="utf-8"></script>

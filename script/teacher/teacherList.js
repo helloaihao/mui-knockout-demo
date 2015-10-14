@@ -124,7 +124,7 @@ var viewModel = function() {
 			}
 		}
 		mui.openWindow({
-			url:'../student/submitClass.html',
+			url:'../student/submitComment.html',
 			show: {
 				autoShow: true,
 				aniShow: "slide-in-right",

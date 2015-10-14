@@ -26,7 +26,7 @@
 		return jsonDest;
 	},
 
-	transfer: function(targetUrl, checkLogin) {
+	transfer: function(targetUrl, checkLogin, extras) {
 		var tmpUrl = targetUrl;
 		if (checkLogin && getLocalItem('UserID') <= 0) {
 			tmpUrl = '../account/login.html';
@@ -34,6 +34,7 @@
 
 		mui.openWindow({
 			url: tmpUrl,
+			extras: extras,
 			show: {
 				autoShow: true,
 				aniShow: "slide-in-right",
@@ -284,6 +285,17 @@
 	}, {
 		value: 4,
 		text: "教龄排序"
+	}],
+	//作品排序
+	gJsonWorkSort: [{
+		value: 1,
+		text: "日期降序"
+	}, {
+		value: 2,
+		text: "浏览降序"
+	}, {
+		value: 3,
+		text: "点赞降序"
 	}],
 	//作品权限类型JSON
 	gJsonWorkRemarkType: [{

@@ -3,17 +3,32 @@ var workList = function() {
 	var pageNum = 1;
 	var receiverId = 1;
 	var teacherID;
+	var thisUrl = common.gServerUrl + "API/Work"; //接口url
+	var pageUrl = "?page=";
+	var subjectUrl = "&subject=";
+	var sortUrl = "&sortType=";
+	var subjectID, sortID;
+	var ppSubject, ppSort;
 	self.works = ko.observableArray([]);
-	self.displayCheck = ko.observable(false);
+	self.displayCheck = ko.observable(false); //控制单选框和确认按钮是否显示
 	self.UnreadCount = ko.observable("0");
+	self.dbSubject = ko.observable("科目");
+	self.dbSort = ko.observable("排序");
 	//var receiverId = getLocalItem("UserID");
 	//加载作品
 	self.getWorks = function() {
-		self.getUnreadCount;
-		mui.ajax(common.gServerUrl + "API/Work?page=" + pageNum, {
+		pageID = 1;
+		var curl = pageUrl + pageID;
+		if (typeof(subjectID) === "number" && subjectID > 0) {
+			curl += subjectUrl + subjectID;
+		}
+		if (typeof(sortID) === "number" && sortID > 0) {
+			curl += sortUrl + sortID;
+		}
+		mui.ajax(thisUrl+curl, {
 			type: 'GET',
 			success: function(responseText) {
-				//alert(responseText);
+				//console.log(responseText);
 				var result = eval("(" + responseText + ")");
 				self.works(result);
 			},
@@ -22,29 +37,33 @@ var workList = function() {
 			}
 
 		});
+		mui('#pullrefresh').pullRefresh().refresh(true);
+		//mui('.mui-scroll-wrapper').scroll().scrollTo(0, 0, 100); //滚动到最顶部
 		
-	}();
+	};
 	//刷新
 	var count = 0;
 	self.pullupRefresh = function() {
 		setTimeout(function() {
 			mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
 			pageNum++;
-			mui.ajax(common.gServerUrl + "API/Work?page=" + pageNum, {
+			var curl = pageUrl + pageID;
+		if (typeof(subjectID) === "number" && subjectID > 0) {
+			curl += subjectUrl + subjectID;
+		}
+		if (typeof(sortID) === "number" && sortID > 0) {
+			curl += sortUrl + sortID;
+		}
+			mui.ajax(thisUrl+curl, {
 				type: 'GET',
 				success: function(responseText) {
-					/*tmp = ko.observableArray([]);
-					tmp(responseText);*/
 					var result = eval("(" + responseText + ")");
 					self.works(self.works().concat(result));
-					//self.messages(self.messages().concat(responseText));
 				}
 			});
 		}, 1500);
-		mui.ready(function() {
 			mui('#pullrefresh').pullRefresh().pullupLoading();
-		})
-	}
+	};
 	
 	//跳转到作品详情页面
 	self.goWorksDetails=function(){
@@ -75,7 +94,7 @@ var workList = function() {
 			}
 		}
 		mui.openWindow({
-			url:'../student/submitClass.html',
+			url:'../student/submitComment.html',
 			show: {
 				autoShow: true,
 				aniShow: "slide-in-right",
@@ -102,12 +121,44 @@ var workList = function() {
 		common.getUnreadCount(self.UnreadCount());
 	}
 	
+	self.setSubject = function() {
+		ppSubject.show(function(items) {
+			self.dbSubject(items[0].text);
+			subjectID = items[0].value;
+			self.getWorks();
+		});
+	};
+
+	self.setSort = function() {
+		ppSort.show(function(items) {
+			self.dbSort(items[0].text);
+			sortID = items[0].value;
+			self.getWorks();
+		});
+	};
+	
+	self.gotoAddWorks = function() {
+		common.transfer('../../modules/works/addWorks.html', true);
+	};
+	
 	mui.plusReady(function(){
 		var web = plus.webview.currentWebview();
 		if( typeof(web.teacherID) !== "undefined" ) {
 			teacherID = web.teacherID;
 			self.displayCheck(web.displayCheck);
 		}
+		ppSubject = new mui.PopPicker();
+		mui.ajax(common.gServerUrl + "Common/Subject/Get", {
+			dataType: 'json',
+			type: "GET",
+			success: function(responseText) {
+				var arr = common.JsonConvert(responseText, 'ID', 'SubjectName');
+				ppSubject.setData(arr);
+			}
+		});
+		ppSort = new mui.PopPicker();
+		ppSort.setData(common.gJsonWorkSort);
+		self.getWorks();
 	})
 }
 ko.applyBindings(workList);

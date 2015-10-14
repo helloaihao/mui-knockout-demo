@@ -129,7 +129,7 @@
 	}
 	//预约上课
 	self.appiontLesson=function(){
-		alert("点击了“预约上课”，此功能尚未完善");
+		common.transfer('../student/aboutLesson.html', true);
 	}
 	//关注
 	self.Fav = function(){

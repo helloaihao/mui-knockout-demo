@@ -33,7 +33,7 @@
 		</header>
 		<div class="mui-content">
 
-			<div data-bind="template:{name:'courseTemplate', foreach:course}">
+			<div data-bind="template:{name:'courseTemplate', foreach:courses}">
 			</div>
 
 			<!--作品模板页-->
@@ -41,17 +41,17 @@
 				<div class="messageNotification-content openedCoursesList">
 					<div class="messageNotification-title openedCoursesList-first">
 						<span data-bind="text: CourseName">钢琴少儿班</span>
-						<i class="iconfont">&#xe61b;</i>
+						<i class="iconfont" data-bind='click: removeCourse'>&#xe61b;</i>
 					</div>
 					<span class="openedCoursesList-span" data-bind="text: SubjectName">钢琴</span>
 					<p data-bind="text: Introduce">2015年8月26日上午10:00广州市少年宫的钢琴课调到2015年8月26日下午14:00。</p>
 					<b>￥<span data-bind="text: Price">130</span>起</b>
 					<u>限<span data-bind="text: MaxStudent">1</span>人</u>
 					<div class="openedCoursesList-btn">
-						<i class="iconfont">&#xe63e;修改</i>
-						<em id="btn-enabled" class="" data-bind=" text: IsEnabled ? '启用':'停用', css: {'m-active': IsEnabled}, click: changeEnabled ">启用</em>
+						<i class="iconfont" data-bind="click: gotoEditCourse">&#xe63e;修改</i>
+						<em id="btn-enabled" data-bind="css: {'m-active': !IsEnabled}, click: setEnabled ">启用</em>
+						<em id="btn-enabled" data-bind="css: {'m-active': IsEnabled}, click: setDisabled ">停用</em>
 					</div>
-
 				</div>
 			</script>
 
