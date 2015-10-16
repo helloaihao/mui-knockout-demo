@@ -26,26 +26,25 @@
 		return jsonDest;
 	},
 
-	transfer: function(targetUrl, checkLogin, extras) {
+	transfer: function(targetUrl, checkLogin, extras, createNew,autoShowValue) {
 		var tmpUrl = targetUrl;
 		if (checkLogin && getLocalItem('UserID') <= 0) {
 			tmpUrl = '../account/login.html';
 		}
-
 		mui.openWindow({
 			url: tmpUrl,
 			extras: extras,
+			createNew: createNew,
 			show: {
 				autoShow: true,
 				aniShow: "slide-in-right",
 				duration: "100ms"
 			},
 			waiting: {
-				autoShow: false
+				autoShow: true
 			}
 		});
 	},
-
 	//根据认证状态及图片路径获取其中文描述
 	getAuthStatusStr: function(authStatus, picPath) {
 		switch (authStatus) {
@@ -107,14 +106,24 @@
 
 	//根据起始时间和结束时间返回类似“9月20日 15:00~16:00”
 	formatTime: function(btime, etime) {
-		var bdate = new Date(btime);
+		if(!btime) return;
+		
+		var bdate;
+		if (btime instanceof Date)
+			bdate = btime;
+		else {
+			bdate = new Date(btime.replace(/-/gi,'/'));
+		}
 		if (isNaN(bdate)) { //非日期格式，原文返回
 			return btime;
 		}
-
 		var ehour = 0;
-		if (etime)
-			ehour = (new Date(etime)).getHours();
+		if (etime){
+			if (etime instanceof Date)
+				ehour = etime.getHours();
+			else
+				ehour = (new Date(etime.replace(/-/gi,'/'))).getHours();
+		}
 		else
 			ehour = bdate.getHours() + 1;
 		var ret = (bdate.getMonth() + 1) + '月' + bdate.getDate() + '日' + ' ' + bdate.getHours() + ':00~' + ehour + ':00';
@@ -135,25 +144,24 @@
 			}
 		});
 	},
-	
+
 	//Web API地址
 	gServerUrl: "http://192.168.1.99:8090/", //"http://192.168.1.102:8090/", //"http://localhost:53651/"	//"http://192.168.1.99:8090/"
-
 	//获取未读消息
 	getUnreadCount: function(UnreadCount) {
 		if (common.StrIsNull(getLocalItem('UUID')) == '')
 			return;
 		mui.ajax(common.gServerUrl + "API/Message/GetUnreadCount", {
-				dataType: 'json',
-				type: "GET",
-				data: {
-					receiver: getLocalItem('UserID'),
-					lastTime: getLocalItem('msgLastTime')
-				},
-				success: function(responseText) {
-					UnreadCount = responseText;
-				}
-			});
+			dataType: 'json',
+			type: "GET",
+			data: {
+				receiver: getLocalItem('UserID'),
+				lastTime: getLocalItem('msgLastTime')
+			},
+			success: function(responseText) {
+				UnreadCount = responseText;
+			}
+		});
 	},
 	//用户类型枚举
 	gDictUserType: {
@@ -224,20 +232,6 @@
 		value: 1,
 		text: '女'
 	}],
-	/*以下为调试图片上传使用*/
-	/*upload: function(file, dir, obj) {
-		var url = 'http://app.fengqiaoju.com/?m=upload&a=upload';
-		mui.ajax(url, {
-			type: "POST",
-			data: {
-				uid: 11,
-				//utoken: user.utoken(),
-				dir: dir,
-				file: file
-			},
-			success: obj
-		})
-	}*/
 	gJsonWorkType: [{
 		value: 1,
 		text: "分解教程"
@@ -315,4 +309,5 @@
 		value: 3,
 		text: '讲师/演奏家'
 	}],
+
 }

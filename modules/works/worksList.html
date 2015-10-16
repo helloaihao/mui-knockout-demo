@@ -15,9 +15,15 @@
 			/*header.mui-bar {
 				display: none!important;
 			}*/
-			
+			body,.mui-content{
+				background: #f1f1f1!important;
+			}
 			.mui-bar-nav~.mui-content {
 				padding-top: 0px;
+				
+			}
+			.mui-input-group:after, .mui-input-group:before,.mui-input-group{
+				background: #f1f1f1!important;
 			}
 			.mui-bar-tab .ah-mui-tab-item {
 				display: table-cell;
@@ -29,18 +35,22 @@
 				white-space: nowrap;
 				text-overflow: ellipsis;
 			}
+			.mui-segmented-control .mui-control-item{
+				border-left: none!important;
+			}
 			.mui-segmented-control {
 				border-radius: 50px!important;
 				display: block;
 				height: 30px;
+				
 			}
 			.mui-control-item1 {
-				vertical-align:top;
+				vertical-align: top;
 				border-radius: 52px 0 0 60px;
 				line-height: 28px!important;
 			}
 			.mui-control-item2 {
-				vertical-align:top;
+				vertical-align: top;
 				border-radius: 0 52px 60px 0;
 				line-height: 28px!important;
 			}
@@ -73,9 +83,8 @@
 					</li>
 				</ul>
 			</div>
-
-			<div id="item1" class=" mui-control-content mui-active">
-				<div class="mui-scroll-wrapper" id="pullrefresh" style="position:static">
+			<div id="item1" class=" mui-control-content mui-active" style="position:static">
+				<div class="mui-scroll-wrapper" id="pullrefresh" >
 					<div class="mui-scroll">
 						<!--作品显示页-->
 						<ul class="mui-input-group">
@@ -109,10 +118,14 @@
 					</div>
 				</div>
 			</div>
-			<div id="item2" class=" mui-control-content">
-				<div class="mui-scroll-wrapper">
+			<div id="item2" class=" mui-control-content" style="position:static">
+				<div class="mui-scroll-wrapper" style="position:static" id="pullrefresh">
 					<div class="mui-scroll">
-						2
+						<!--作品显示页-->
+						<ul class="mui-input-group">
+							<div data-bind="template:{name:'worksTemplate', foreach:works}">
+							</div>
+						</ul>
 					</div>
 				</div>
 
@@ -121,12 +134,10 @@
 				<a class="ah-mui-tab-item works-list-mui-tab-label" href="#tabbar">
 					<span class="mui-tab-label ">取消</span>
 				</a>
-
 				<a class="ah-mui-tab-item works-list-mui-tab-btn" data-bind="click: gotoSubmitClass">
 					<span class="mui-tab-label works-list-mui-btn">确定</span>
 				</a>
 			</nav>
-			<!--<div id="item2" class="mui-control-content works-list-content-mui-active">11</div>-->
 		</div>
 		<script src="../../script/mui/mui.min.js"></script>
 		<script src="../../script/mui/mui.picker.min.js"></script>
@@ -143,10 +154,6 @@
 						callback: pullupRefresh
 					}
 				}
-			});
-			mui('.mui-scroll-wrapper').scroll({
-				bounce: false,
-				indicators: true, //是否显示滚动条
 			});
 			mui('body').on('shown', '.mui-popover', function(e) {});
 			mui('body').on('hidden', '.mui-popover', function(e) {});

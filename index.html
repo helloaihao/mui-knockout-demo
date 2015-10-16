@@ -30,7 +30,7 @@
 				<span class="mui-icon iconfont">&#xe641;</span>
 				<span class="mui-tab-label">课程</span>
 			</a>
-			<a class="mui-tab-item" href="modules/works/worksList.html">
+			<a class="mui-tab-item" data-bind="attr: {'href': self.worksList}">
 				<span class="mui-icon iconfont">&#xe646;</span>
 				<span class="mui-tab-label">作品</span>
 			</a>
@@ -49,7 +49,7 @@
 			 //mui初始化
 			mui.init();
 			 //var subpages = [self.MyHref()];
-			var subpages = ['modules/home/home.html', 'modules/course/myCourse.html', 'modules/comment/commentList.html', 'modules/works/worksList.html', self.MyHref()];
+			var subpages = ['modules/home/home.html', 'modules/course/myCourse.html', 'modules/comment/commentList.html', self.worksList(), self.MyHref()];
 			var subpage_style = {
 				top: '0px',
 				bottom: '50px'

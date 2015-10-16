@@ -53,11 +53,11 @@ dtPicker.PopupDtPicker = function(optionsJson, initValue, callback){
 	}
 	options.customData.h = hArray;
 
-	if(!isNaN(new Date(initValue))){
+	if(!isNaN(newDate(initValue))){
 		options.value = initValue;
 	}
 	else{
-		var secondDay = new Date();
+		var secondDay = newDate();
 		secondDay.setDate(secondDay.getDate() + 1);
 		var hour = secondDay.getHours();
 		if(hour < 8 || hour > 21){

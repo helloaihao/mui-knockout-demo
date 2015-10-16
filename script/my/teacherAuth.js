@@ -42,13 +42,19 @@ var teacherAuth = function() {
 	}();
 
 	self.goauthID = function() {
-		common.transfer('authID.html?data=' + JSON.stringify(self.IDAuth()));
+		common.transfer('authID.html', true, {
+			data: self.IDAuth()
+		});
 	}
 	self.goauthEdu = function() {
-		common.transfer('authEdu.html?data=' + JSON.stringify(self.EduAuth()));
+		common.transfer('authEdu.html', true, {
+			data: self.EduAuth()
+		});
 	}
 	self.goauthPro = function() {
-		common.transfer('authProTitle.html?data=' + JSON.stringify(self.ProTitleAuth()));
+		common.transfer('authProTitle.html', true, {
+			data: self.ProTitleAuth()
+		});
 	}
 }
 ko.applyBindings(teacherAuth);

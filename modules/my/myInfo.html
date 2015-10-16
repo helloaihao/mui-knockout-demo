@@ -49,9 +49,9 @@
 					<label>姓名</label>
 					<input type="text" data-bind="value:DisplayName" />
 				</div>
-				<div class="mui-input-row pic-mui-input-row">
+				<div class="mui-input-row pic-mui-input-row" data-bind='visible: UserType != common.gDictUserType.student'>
 					<label>生日</label>
-					<button id='pickDateBtn' type="button" class="mui-btn mui-btn-block th-mui-btn-block" data-bind="text:Birthday,event:{click:getBirthday}"></button>
+					<button id='pickDateBtn' type="button" class="mui-btn mui-btn-block th-mui-btn-block" data-bind="text:Birthday, click:getBirthday"></button>
 				</div>
 
 				<div class="mui-input-row pic-mui-input-row">

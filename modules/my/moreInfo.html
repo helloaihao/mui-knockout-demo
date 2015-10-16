@@ -11,8 +11,7 @@
 		<link href="../../content/common/style.css" rel="stylesheet" />
 		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
 		<style>
-			body,
-			.mui-content {
+			body,.mui-content {
 				background: #F1F1F1!important;
 			}
 			.mui-content-padded {
@@ -24,6 +23,9 @@
 			input[type=submit] {
 				border: 1px solid #f08000;
 				background: #f08000;
+			}
+			.mui-table-view-cell{
+				font-size: 1.02rem!important;
 			}
 		</style>
 	</head>
@@ -49,8 +51,8 @@
 						<span class="mui-badge my-mui-badge iconfont">&#xe618;</span> 意见反馈
 					</a>
 				</li>
-				<li class="mui-table-view-cell">
-					<a class="my-mui-navigate-right" data-bind="click:goRecommendFriends">
+				<li class="mui-table-view-cell" data-bind="click:goRecommendFriends">
+					<a class="my-mui-navigate-right">
 						<span class="mui-badge my-mui-badge iconfont">&#xe618;</span> 推荐好友
 					</a>
 				</li>

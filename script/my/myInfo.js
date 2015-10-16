@@ -3,7 +3,7 @@ var my_info = function() {
 	//self.ID = ko.observable(" ");.//用户id
 	self.UserName = ko.observable(''); //手机
 	self.DisplayName = ko.observable(''); //姓名
-	self.Photo = ko.observable('../../images/my-default.jpg'); //头像
+	self.Photo = ko.observable('../../images/my-photo.png'); //头像
 	self.Birthday = ko.observable(''); //生日
 	self.Gender = ko.observable(); //性别
 	self.Place = ko.observable(""); //住址
@@ -17,62 +17,65 @@ var my_info = function() {
 	self.VerifyCode = ko.observable(""); //验证码
 	self.RemainTime = ko.observable(0); //验证码剩余等待时间
 	self.WaitTime = 15; //验证码默认等待时间
-	self.Image = picture.LastPic; //最后选择的图片或显示的图片
-	self.Base64 = picture.LastPicBase64; //最后选择图片的base64字符串
-	
+	self.Image = ko.observable(''); //图片路径
+	self.Base64 = ko.observable(''); //图片的base64字符串
+
 	self.selectPic = function() {
 		mui.ready(function() {
-			picture.SelectPicture(true); //需要裁剪
+			picture.SelectPicture(true, false, function(retValue){
+				self.Base64(retValue.Base64);
+			}); //需要裁剪
 		});
 	}
 
 	//性别获取
 	self.setUserGender = function() {
-			mui.ready(function() {
-				self.genders.show(function(items) {
-					self.UserGenderText(items[0].text);
-					self.Gender(items[0].value);
-				});
+		mui.ready(function() {
+			self.genders.show(function(items) {
+				self.UserGenderText(items[0].text);
+				self.Gender(items[0].value);
 			});
-		}
-		//生日获取
+		});
+	}
+
+	//生日获取
 	self.getBirthday = function() {
+		console.log(self.Birthday());
 		var now = new Date();
-		var year = 2000 + now.getYear() % 100;
-		if(self.Birthday() == '')
-		{
+		var year = 1900 + now.getYear();
+		if (self.Birthday() == '') {
 			self.Birthday('2005-01-01');
 		}
 
 		dtPicker.PopupDtPicker({
-				'type': 'hour',
-				'beginYear': 1990,
+				'type': 'date',
+				'beginYear': 1980,
 				'endYear': year
 			},
 			self.Birthday(), function(value) {
 				self.Birthday(value);
 			});
-			
-			/*//self.Birthday("2014-12-09");
-			var dDate = new Date();
-			dDate.setFullYear(2014, 7, 16);
-			var minDate = new Date();
-			minDate.setFullYear(1990, 0, 1);
-			var maxDate = new Date();
-			maxDate.setFullYear(2016, 11, 31);
-			plus.nativeUI.pickDate(function(e) {
-				var d = e.date;
-				self.Birthday(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate());
-			}, function(e) {
-				mui.toast("您没有选择日期");
-			}, {
-				title: "请选择日期",
-				date: dDate,
-				minDate: minDate,
-				maxDate: maxDate
-			});*/
-		}
-		//地址获取
+
+		/*//self.Birthday("2014-12-09");
+		var dDate = new Date();
+		dDate.setFullYear(2014, 7, 16);
+		var minDate = new Date();
+		minDate.setFullYear(1990, 0, 1);
+		var maxDate = new Date();
+		maxDate.setFullYear(2016, 11, 31);
+		plus.nativeUI.pickDate(function(e) {
+			var d = e.date;
+			self.Birthday(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate());
+		}, function(e) {
+			mui.toast("您没有选择日期");
+		}, {
+			title: "请选择日期",
+			date: dDate,
+			minDate: minDate,
+			maxDate: maxDate
+		});*/
+	}
+	//地址获取
 	self.address = function() {
 		mui.ready(function() {
 			self.places.show(function(items) {
@@ -85,54 +88,53 @@ var my_info = function() {
 		})
 	}
 
-	//if (common.StrIsNull(getLocalItem('UUID')) != '') {
-		self.getStudent = function() {
-			mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID + "&usertype=" + self.UserType, {
-				type: 'GET',
-				success: function(responseText) {
-					var result = eval("(" + responseText + ")");				
-					self.UserID=responseText.ID;
-					self.UserName(result.UserName);
-					self.DisplayName(result.DisplayName);
-					self.Photo(result.Photo);
+	mui.ready(function() {
+		mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID + "&usertype=" + self.UserType, {
+			type: 'GET',
+			success: function(responseText) {
+				var result = eval("(" + responseText + ")");
+				self.UserID = responseText.ID;
+				self.UserName(result.UserName);
+				self.DisplayName(result.DisplayName);
+				self.Photo(result.Photo);
+				if (result.Birthday)
 					self.Birthday(result.Birthday.split(" ")[0]);
-					self.Gender(common.gJsonGenderType[result.Gender].text);
-					self.Place(result.Place);
-					
-				}
-			})
-		}();
-	//}
+				self.Gender(common.gJsonGenderType[result.Gender].text);
+				self.Place(result.Place);
+			}
+		})
+	})
+
 	self.changeUserName = function() {
-		common.transfer('modifyPhoneNumber.html');
+		common.transfer('modifyPhoneNumber.html', true);
 	}
+	
 	//提交修改
-	self.setInfo=function(){
+	self.setInfo = function() {
 		var infoUrl;
 		mui.alert('您确定修改吗', '乐评+', function() {});
-		if(self.UserType()=32){
-			infoUrl=common.gServerUrl+"API/Teacher?userID=";
-		}else{
-			infoUrl=common.gServerUrl+"API/Student?userID=";
+		if (self.UserType() = 32) {
+			infoUrl = common.gServerUrl + "API/Teacher?userID=";
+		} else {
+			infoUrl = common.gServerUrl + "API/Student?userID=";
 		}
-		mui.ajax(infoUrl+self.UserID,{
-			type:"PUT",
-			data:{
-				ID:self.UserID,
-				DisplayName:self.DisplayName(),
-				Photo:self.Photo(),
-				Birthday:self.Birthday(),
-				Place:self.Place(),
-				Gender:self.Gender()
+		mui.ajax(infoUrl + self.UserID, {
+			type: "PUT",
+			data: {
+				ID: self.UserID,
+				DisplayName: self.DisplayName(),
+				Photo: self.Photo(),
+				Birthday: self.Birthday(),
+				Place: self.Place(),
+				Gender: self.Gender()
 			},
-			success:function(responseText){
+			success: function(responseText) {
 				mui.toast("信息修改成功");
 			}
-			
+
 		})
 	}
-	/*修改手机号页面 （modifyPhoneNumber.html） js
-	 */
+	
 	self.getVerifyCode = function() {
 		if (self.RemainTime() > 0) {
 			mui.toast("不可频繁操作");
@@ -195,18 +197,16 @@ var my_info = function() {
 		mui.ajax(common.gServerUrl + "API/Account/SetAccount", {
 			type: 'POST',
 			data: {
-				ID:self.UserID,
+				ID: self.UserID,
 				UserName: self.NewUserName(),
-				Password:self.Password(),
+				Password: self.Password(),
 				VerifyCode: self.VerifyCode()
 			},
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
-				setLocalItem("UserName", result.UserName);	
+				setLocalItem("UserName", result.UserName);
 			}
 		});
 	}
-
-
 }
 ko.applyBindings(my_info);

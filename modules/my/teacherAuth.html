@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
@@ -10,7 +9,6 @@
 		<link href="../../content/common/global.css" rel="stylesheet" />
 		<link href="../../content/common/style.css" rel="stylesheet" />
 		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
-
 		<style>
 			body {
 				background: #f1f1f1;
@@ -30,11 +28,13 @@
 				font-size: 0.98rem;
 			}
 			.mui-table-view-cell>a:not(.mui-btn) {
-				font-size: 1.02rem;
+				font-size: 1.02rem;				
 			}
 			.mui-badge {
 				padding: 3px 10px!important;
 			}
+			
+			
 		</style>
 	</head>
 
@@ -45,19 +45,19 @@
 		</header>
 		<div class="mui-content">
 			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">
+				<li class="mui-table-view-cell" data-bind="event:{click:goauthID}">
 					<a class="mui-navigate-right">
-						<span class="mui-badge" data-bind="text:IDAuthStatus,event:{click:goauthID}"></span> 身份认证
+						<span class="mui-badge"  data-bind="text:IDAuthStatus"></span> 身份认证
 					</a>
 				</li>
-				<li class="mui-table-view-cell">
+				<li class="mui-table-view-cell" data-bind="event:{click:goauthEdu}">
 					<a class="mui-navigate-right">
-						<span class="mui-badge" data-bind="text:EduAuthStatus,event:{click:goauthEdu}"></span> 学历认证
+						<span class="mui-badge" data-bind="text:EduAuthStatus"></span> 学历认证
 					</a>
 				</li>
-				<li class="mui-table-view-cell">
+				<li class="mui-table-view-cell" data-bind="event:{click:goauthPro}">
 					<a class="mui-navigate-right">
-						<span class="mui-badge" data-bind="text:ProTitleAuthStatus,event:{click:goauthPro}"></span> 职称认证
+						<span class="mui-badge" data-bind="text:ProTitleAuthStatus"></span> 职称认证
 					</a>
 				</li>
 			</ul>

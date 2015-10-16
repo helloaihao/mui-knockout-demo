@@ -52,6 +52,3 @@ var message_notification = function() {
 	}
 }
 ko.applyBindings(message_notification);
-
-/*var msgList = new message_notification();
-ko.applyBindings(msgList);*/

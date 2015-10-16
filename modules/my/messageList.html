@@ -12,42 +12,65 @@
 		<link href="../../content/common/me.css" rel="stylesheet" />
 		<link href="../../content/common/Tf_global.css" rel="stylesheet" />
 		<link href="../../content/my/messageList.css" rel="stylesheet" />
+		<style>
+			.mui-bar{
+				background: #036FB8;
+			}
+			.mui-bar h1{
+				color: #fff!important;
+			}
+			.mui-bar i{
+				color: #fff!important;
+				line-height: 44px!important;
+			}
+			.mui-content{
+				background: #F1F1F1;
+			}
+			.card-content-inner{
+				padding: 1rem!important;
+			}
+			.card{
+				width: 96%;
+				margin: 0.5rem auto;
+			}
+		</style>
 	</head>
 
 	<body>
-		<header class="mui-bar mui-bar-nav mui-action-back">
-			<a class=" mui-icon mui-icon-left-nav mui-pull-left" style="width:40px; height:40px; display: inline-block;"></a>
+		<header class="mui-action-back mui-bar mui-bar-nav">
+			<i class="iconfont">&#xe602;</i>
 			<h1 class="mui-title">消息通知</h1>
 		</header>
 		<!--页面内容区域-->
 		<!--下拉刷新容器-->
-		<div id="pullrefresh" class=" mui-scroll-wrapper" style="top: 44px;">
-			<div class="mui-content mui-scroll">
-				<!--数据列表-->
-				<div class="mui-table-view mui-table-view-chevron" data-bind="template: {name:'messageTemplate', foreach: messages }">
-				</div>
-				<!--message模板页-->
-				<script type="text/html" id="messageTemplate">
-					<div class="card">
-						<div class="card-header card-font">
-							<!--ko text:Title-->
-							<!--/ko-->
-							<i class="icon icon-remove" data-bind="click:removeMessages"></i>
-						</div>
-						<div class="card-content">
-							<div class="card-content-inner">
-								<span data-bind="text:ContentText"></span>
+		<div class="mui-content">
+			<div id="pullrefresh" class=" mui-scroll-wrapper" style="top: 44px;">
+				<div class="mui-content mui-scroll">
+					<!--数据列表-->
+					<div data-bind="template: {name:'messageTemplate', foreach: messages }">
+					</div>
+					<!--message模板页-->
+					<script type="text/html" id="messageTemplate">
+						<div class="card">
+							<div class="card-header card-font">
+								<!--ko text:Title-->
+								<!--/ko-->
+								<i class="icon icon-remove" data-bind="click:removeMessages"></i>
+							</div>
+							<div class="card-content">
+								<div class="card-content-inner">
+									<span data-bind="text:ContentText"></span>
+								</div>
+							</div>
+							<div class="card-footer">
+								<span data-bind="text:SendTime"></span>
+
 							</div>
 						</div>
-						<div class="card-footer">
-							<span data-bind="text:SendTime"></span>
-
-						</div>
-					</div>
-				</script>
+					</script>
+				</div>
 			</div>
 		</div>
-
 		<script src="../../script/mui/mui.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
@@ -58,7 +81,7 @@
 			mui.init({
 				swipeBack: true, //启用右滑关闭功能
 				pullRefresh: {
-					container: '#pullrefresh',							
+					container: '#pullrefresh',
 					up: {
 						contentrefresh: '正在加载...',
 						callback: pullupRefresh

@@ -1,4 +1,48 @@
-﻿/*-----login登录页面开始-----*/
+﻿/*------共有头部样式------*/
+.mui-table-view-cell>a:not(.mui-btn).mui-active {
+	background: #f1f1f1!important;				
+	}
+.mui-bar-nav{
+	padding-left: 0;
+	padding-right: 0;
+	
+}	
+	.works-list-mui-bar-nav i{
+		text-align: left!important;
+		float: left!important;
+	}
+.mui-bar-nav .iconfont{
+		width: 25%;
+		height: 100%;
+		padding-left: 10px;
+		display: inline-block;
+		font-size: 1.2rem!important;
+			}
+	.mui-bar-nav span,.mui-bar-nav em{
+		width: 25%;
+		height: 100%;
+		padding-right: 10px;
+		display: inline-block;
+		text-align: right;
+		margin-right: 0!important;
+			}
+	.mui-bar-nav em{
+		right:5px!important ;
+	}
+	.mui-bar-nav .mui-title{
+		left: 27%;
+		right: 27%;
+		
+		}
+    .qx{
+				float: left!important;
+				width: 25%;
+				height: 100%;
+				padding-left: 10px;
+				display: inline-block;
+				text-align: left!important;
+		}
+/*-----login登录页面开始-----*/
 	.mui-table-view-cell>.mui-badge,
 			.mui-table-view-cell>.mui-btn,
 			.mui-table-view-cell>.mui-switch, 
@@ -135,7 +179,6 @@
     width:96%;
     border-bottom:1px solid #e2e1e3;
     margin-left:4%;
-
 }
 
 .reg-mui-radio {
@@ -145,7 +188,6 @@
     float:right;
 
 }
-   
     .reg-mui-radio label {
         width:80%!important;
     }
@@ -160,7 +202,7 @@
 .reg-mui-input-row label ~ input,
 .th-mui-btn-block {
     width:65%!important;
-    padding:0px!important;
+    padding:0px!important;  accelerator:  false;
     box-sizing:border-box;
 }
 .reg-mui-input {
@@ -192,8 +234,8 @@
     box-sizing:border-box;
     margin:20px auto;
     color:#999;
-    line-height:40px;
-    font-size:1.02rem;
+    line-height:33px;
+    font-size:0.96rem;
     position:relative;
 }
     .reg-protocol img {
@@ -205,6 +247,10 @@
     }
     .reg-protocol span {
         color:#036fb8;
+    }
+    .reg-protocol a{
+    	color: #036FB8!important;
+    
     }
 .reg-btn-login {
     background:#ea6300;
@@ -608,10 +654,9 @@
     border:1px solid #c8c7cc;
     position:relative;
 }
- 
     .pi-tx-bg span {
         color:#666;
-        font-size:17px;
+        font-size:1.02rem!important;
         position:absolute;
         left:15px;
         top:40%;
@@ -621,10 +666,17 @@
         width:5.44rem;
         border-radius:50%;
         display:inline-block;
-        background:#f40;
+        
         position:absolute;
         left:38%;
         top:10%;
+        text-align: center;
+    }
+    .pi-tx-bg i img{
+    	border-radius: 50%;
+    	height: 100%;
+    	width: 100%;
+    	vertical-align: middle;
     }
 .pin-blank {
     background:#f4f4f4;
@@ -1080,9 +1132,7 @@ margin: 10px!important;
             content:"\e61e";
             font-family:"iconfont" !important;
         }
-.works-center:last-of-type {
-    margin-bottom:30px!important;
-}
+
 
 .works-list-center:last-of-type {
     margin-bottom:10px!important;
@@ -1402,23 +1452,26 @@ position:absolute;
 	padding: 15px 0 0!important;
 }
 .commentList-ctn ol {
-    height:3rem;
-    width:100%;
+    height:2.8rem;
+    width:94%;
     border-top: 1px solid #c8c7cc;
     margin-top:20px;
+    margin-left: 3%;
 
 }
 .commentList-ctn ol li{
 	float: left;
-	line-height: 3rem;
-	padding:0 12px;
+	line-height: 2.8rem;
+	padding:0 12px 0 0;
 	font-size: 0.96rem;
 }
+
 .commentList-ctn ol li:nth-of-type(1){
-	width: 70%!important;
+	width: 75%!important;
+	margin-top: 4px;
 }
 .commentList-ctn ol li:nth-of-type(2){
-	width: 30%!important;
+	width: 25%!important;
 }
 .commentList-ctn ol li em{
 	height:2rem;
@@ -2217,6 +2270,44 @@ position:absolute;
 	display: inline-block;
 }
 
+/*----未开可样式----*/
+.openedCourses-ys{
+	height: auto;
+	width: 100%;
+	
+}
+.openedCourses-ys i{	
+	text-align: center;
+	color: #999;
+	font-size: 80px;
+	margin-top: 25%;
+	margin-bottom: 20px;
+	height: 80px;
+	line-height: 80px;
+	width: 100%;
+	display: inline-block;	
+}
+
+.openedCourses-ys span{
+	width: 100%;
+	height: 40px;
+	display: inline-block;
+	text-align: center;
+	font-size: 1.12rem;
+	color: #666;
+	line-height: 40px;
+}
+
+.openedCourses-button{
+	margin: 10px auto!important;
+	width: 80%;
+}
+
+
+
+
+
+
 
 /*----更多----*/
 
@@ -2334,18 +2425,18 @@ position:absolute;
 	border-bottom: 1px solid #C8C7CC;
 	}
 
-.addCourse-mui-input:nth-of-type(1){ 
+.addCourse-mui-input:nth-of-type(1),
+.addCourse-mui-input:nth-of-type(2),
+.addCourse-mui-input:nth-of-type(3){ 
 	margin-left:15px;
 	}
-	.addCourse-mui-input:nth-of-type(2){ 
-	margin-left:15px;
-	}
+	
 
 .addCourse-class{
 	height: 40px;
 	width: 100%;
 	border-bottom: 1px solid #c8c7cc;
-	padding-left: 30px;
+	padding-left: 15px;
 	box-sizing: border-box;
 	line-height: 40px;
 	font-size: 1.02rem;
@@ -2359,7 +2450,7 @@ position:absolute;
 	box-sizing: border-box;
 	color: #999;
 	font-size: 0.96rem;
-	line-height: 24px;
+	display: block!important;
 }
 
 
@@ -2381,7 +2472,7 @@ position:absolute;
 .addCourse-mui-input span{
 	position: absolute;
 	right: 15px;
-	top: 10px;
+	top: 0px;
 	font-size: 1.02rem;
 }
 
@@ -2493,6 +2584,10 @@ position:absolute;
 	display: inline-block;
 }
 
+.submitClass-th{
+	margin-bottom: 60px;
+}
+
 /*---提交点评的弹出样式---*/
 .mui-scroll-title{
 	height: 3.52rem;
@@ -2595,6 +2690,10 @@ position:absolute;
 	padding: 0 15px;
 	color: #666;
 	font-size: 0.88rem;
+}
+
+.about-lesson li:active{
+  background-color: #CCCCCC;
 }
 
 .aboutClass-class ul li:nth-of-type(1) span{
@@ -2914,7 +3013,7 @@ position:absolute;
 	text-align: center;
 	width: 12.3%;
 	border: 1px solid #efefef;
-	height:1.7rem;	
+	height:1.6rem;
 	box-sizing: border-box;
 	white-space: nowrap;
 	word-wrap: break-word; 
@@ -2979,10 +3078,12 @@ position:absolute;
 }
 
 .screenCenter{
-	/*position: absolute;*/
+	
 	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	width: 94%!important;
+	margin-left: 3%;
+	margin-top: -200px;
+
 }
 .availableTime-footer span{
 	line-height: 50px;
@@ -3008,8 +3109,7 @@ position:absolute;
 	height: 2.2rem!important; 
 	width: 100%!important; 
 	padding-left: 14.8%;
-	box-sizing: border-box;
-	
+	box-sizing: border-box;	
 }
 .time-up-add{
 	height: 2.2rem!important; 
@@ -3020,6 +3120,12 @@ position:absolute;
 }
 .availableTime-time-add{
 	width: 100%!important; 
+}
+.availableTime-sure{
+	float: right;	
+}
+.availableTime-mui-btn{
+	right: 15px;
 }
 /*-----我的课程-----*/
 
@@ -3036,7 +3142,6 @@ position:absolute;
 	font-size: 0.8rem;
 	line-height: 2rem;
 }
-
 .myCourse-next{
 	height: 2.4rem;
 	width: 88%;
@@ -3203,6 +3308,196 @@ position:absolute;
 }
 
 /*-----个人相册-----*/
+.myAlbum-content{
+	width: 100%;
+	height: auto;
+	overflow: hidden;
+	background: #f1f1f1!important;
+}
+.myAlbum-content ul{
+	width: 100vw;
+	height: auto;
+	overflow: hidden;
+}
+.myAlbum-content ul li{
+	height: 20%;
+	width: 20%;
+	margin: 4% 0 0 4%;
+	box-sizing: border-box;
+	float: left;
+	border-radius:3px;
+	text-align: center;
+	position: relative;
+}
+.myAlbum-content ul li img{
+	width: 100%;	
+	border-radius: 3px;
+	vertical-align: middle;
+}
+/*.myAlbum-content-addPic{
+	height: 20vw;
+	width: 20vw;
+	background: #fff;
+}
+.myAlbum-content ul li em{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	height: 30px;
+	width: 100%;
+	text-align: center;
+	line-height: 30px;
+	display: inline-block;
+	font-size: 12px;
+	color: #999;
+}*/
+
+
+.figure-list{
+  margin: 0;
+  padding: 0;
+}
+.figure-list:after{
+  content: "";
+  display: block;
+  clear: both;
+  height: 0;
+  overflow: hidden;
+  visibility: hidden;
+}
+.figure-list li{
+  list-style: none;
+  float: left;
+  width: 23.5%;
+  margin: 0 2% 2% 0;
+  border-radius: 3px;
+}
+.figure-list figure{
+  position: relative;
+  width: 100%;
+  height: 0;
+  overflow: hidden;
+  margin: 0;
+  padding-bottom: 100%; /* 关键就在这里 */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 3px;
+}
+.figure-add{
+	background: #fff;	
+}
+.figure-add span{
+	position: absolute;
+	left: 0;
+	height: 30px;
+	bottom: 0;
+	line-height: 30px;
+	color: #999;
+	font-size: 12px;
+	width: 100%;
+	display: inline-block;
+	text-align: center;
+}
+.figure-add i{
+	height: 36px;
+	width: 100%;
+	display: inline-block;
+	line-height: 36px;
+	position: absolute;
+	left: 0;
+	top: 12px;
+	text-align: center;
+	font-size: 22px;
+	color: #999;	
+}
+
+
+.figure-list .checkIcon{
+	position: absolute;
+	width: 100%;
+	height: 0;
+	left: 0;
+	top: 0;
+	overflow: hidden;
+	margin: 0;
+    background: rgba(0,0,0,0.3);
+    padding-bottom: 100%;
+	border-radius: 3px;
+}
+.checkIcon u{
+	height: 20px;
+    width: 20px;
+    background: #fff;
+    position: absolute;
+    right: 6px;
+    bottom: 7px;
+    z-index: 100;
+    border-radius: 50%;
+	
+}
+.checkIcon i{
+	color: #fd7700;
+	font-size: 26px;
+	position: absolute;
+	right: 4px;
+	bottom: 5px;
+	z-index:111;	
+}
+/*----弹出分享-----*/
+.shareTeacher-pic {
+				height: 8.8rem;
+				width: 100%;
+				border-bottom: 1px solid #C8C7CC;
+				overflow: hidden;
+				padding: 20px 0;
+				box-sizing: border-box;
+			}
+			.shareTeacher-pic ul li {
+				width: 33.33333333%;
+				height: 100%;
+				float: left;
+				text-align: center;
+				position: relative;
+			}
+			.shareTeacher-pic ul li img {
+				height: 4.5rem;
+				width: 4.5rem;
+			}
+			.shareTeacher-pic ul li span {
+				height: 2rem;
+				width: 100%;
+				display: inline-block;
+				position: absolute;
+				left: 0;
+				bottom: -28px;
+				color: #666;
+				line-height: 2rem;
+				text-align: center;
+				font-size: 1.02rem;
+			}
+			.shareTeacher-qx {
+				height: 4rem;
+				width: 100%;
+				text-align: center;
+				line-height: 3.5rem;
+				color: #666;
+				font-size: 1.2rem;
+			}
+			.shareTeacher-tb{
+				color: #fff!important;
+			    text-decoration: none;
+			    float: right;
+			    margin-right: 15px;
+			    margin-top: 12px;
+			    font-size: 1.2rem;
+			}
+
+
+
+
+
+
 
 
 

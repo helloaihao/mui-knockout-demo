@@ -9,6 +9,21 @@
 		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
 		<link href="../../content/common/global.css" rel="stylesheet" />
 		<link href="../../content/common/style.css" rel="stylesheet" />
+		<style>
+			.mui-content-padded{
+				margin: 0!important;
+			}
+			.mui-btn-block{
+				width: 30%!important;
+				float: right;
+				margin-right: 15px;
+				font-size: 14px!important;
+			}
+			.mui-bar .mui-btn{
+				top: 10px;
+				padding: 6px 18px;
+			}
+		</style>
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
@@ -42,17 +57,16 @@
           	<textarea placeholder="请输入评语"></textarea>
             <span>总评语</span>
             <textarea placeholder="请输入评语"></textarea>
-
-        </div>
-		
-	
-		 <nav class="mui-bar mui-bar-tab">       
-            
-            <a class="mui-tab-item mui-active " href="#tabbar-with-sms">
-                <span class="mui-tab-label works-label-btn">确定发表</span>
-            </a>    
-        </nav>
-
+        </div>		
+			<nav class="mui-bar mui-bar-tab">				
+				<div class="mui-content-padded availableTime-sure">
+				<a href="#tabbar-with-sms">
+					<button type="button" class="mui-btn mui-btn-primary availableTime-mui-btn">
+						确定发表
+					</button>
+				</a>
+				</div>
+			</nav>
 	</div>
 	
 	<script src="../../script/mui/mui.min.js"></script>

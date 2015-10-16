@@ -14,11 +14,15 @@
 			.mui-popover {
 				min-height: 400px!important;
 			}
+			.disabled{
+				background-color: #aaa!important;
+			}
 		</style>
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
+			<i class="iconfont mui-action-back">&#xe602;</i>
 			<h1 class="mui-title">选择课时</h1>
 		</header>
 		<div class="mui-content">
@@ -45,54 +49,11 @@
 					<!--/ko-->
 				</tr>
 			</table>
-		</div>
 
-		<div id="middlePopover" class="mui-popover screenCenter">
-			<div class="myCourse-popover">所属课程</div>
-			<div class="myCourse-next">
-				<!--ko text: ViewLesson().CourseName-->
-				<!--/ko-->
-				<i class="iconfont">&#xe618;</i>
-			</div>
-			<div class="myCourse-next myCourse-way myCourse">
-				<button data-bind='text: ViewLesson().LocationName'></button>
-				<i data-bind='text: "￥" + ViewLesson().Amount'></i>
-			</div>
-			<div class="myCourse-popover">上课时间</div>
-			<div class="myCourse-next myCourse-way" data-bind='text: common.formatTime(ViewLesson().BeginTime, ViewLesson().EndTime)'></div>
-			<div class="myCourse-popover">授课老师</div>
-			<div class="myCourse-next myCourse-way" data-bind='click: gotoTeacherInfo'>
-				<!--ko text: ViewLesson().TeacherName-->
-				<!--/ko-->
-				<i class="iconfont">&#xe618;</i>
-			</div>
-
-			<div class="myCourse-popover" data-bind='visible: InfoVisible() || Adjusting()'>调整信息</div>
-			<div class="myCourse-next myCourse-m" data-bind='visible: InfoVisible() && !Adjusting()'>
-				<!--ko text: common.formatTime(ViewLesson().BeginTimeNew)-->
-				<!--/ko-->
-			</div>
-			<div class="myCourse-next myCourse-m" data-bind='visible: Adjusting, click: SelectNewTime'>
-				<!--ko text: common.formatTime(BeginTimeNew())-->
-				<!--/ko-->
-				<i class="iconfont">&#xe618;</i>
-			</div>
-			<div class="myCourse-next myCourse-m" data-bind='visible: InfoVisible() && !Adjusting()'>
-				<span data-bind='text: ViewLesson().Handled ? "[已拒绝]" : ViewLesson().HandlerID == UserID ? "[请确认调整时间后同意或拒绝]" : "[待对方确认]"'></span>
-				<!--ko text: ViewLesson().Answer-->
-				<!--/ko-->
-			</div>
-
-			<div class="myCourse-btn">
-				<button data-bind='click: Agree, visible: HandleButtonsVisible'>同意</button>
-				<button data-bind='click: Reject, visible: HandleButtonsVisible'>拒绝</button>
-				<button data-bind='visible: (RequestButtonVisible() && !Adjusting()), click: AdjustTimeStart'>
-					<i class="iconfont">&#xe63e;</i>时间调整
-				</button>
-				<button class="myCourse-btn-cancel myCourse-btn-colse" onclick="mui('#middlePopover').popover('toggle');" data-bind='visible: !Adjusting()'>关闭</button>				
-				<button class="myCourse-btn-sure" data-bind='visible: Adjusting, click: function(){ self.Adjusting(false); }'>取消</button>
-				<button class="myCourse-btn-cancel" data-bind='visible: Adjusting, click: AdjustTimeFinish'>确定</button>
-			</div>
+			<nav class="mui-bar mui-bar-tab availableTime-footer">
+				<span>点击蓝色区块选择</span>
+				<em class='disabled' data-bind='event:{tap: back}, css:{disabled: ChosenTimes().length <= 0}, text: "确定("+ChosenTimes().length+")"'>确定(0)</em>	
+			</nav>
 		</div>
 
 		<script src="../../script/mui/mui.js"></script>
@@ -107,11 +68,11 @@
 			mui('.mui-scroll-wrapper').scroll();
 			window.addEventListener("swipeleft", function() {
 				self.WeekIndex(self.WeekIndex() + 1);
-				self.GetData();
+				//self.GetData();
 			});
 			window.addEventListener("swiperight", function() {
 				self.WeekIndex(self.WeekIndex() - 1);
-				self.GetData();
+				//self.GetData();
 			});
 			mui('body').on('shown', '.mui-popover', function(e) {
 				//console.log('shown', e.detail.id);//detail为当前popover元素

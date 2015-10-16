@@ -7,30 +7,31 @@ var myCourse = function() {
 
 	self.WeekIndex = ko.observable(0); //0：当前周；-1：上一周；1：下一周……
 	self.Hours = ko.observableArray([]); //小时数组
-	for (var i = beginHour; i <= endHour; i++) {
+	for (var i = beginHour; i < endHour; i++) {
 		self.Hours.push(i);
 	}
-	self.CurrentDay = ko.observable((new Date()).getDate()); //当前天
+	self.CurrentDay = ko.observable(newDate().getDate()); //当前天
+	self.CurrentMonth = ko.observable(newDate().getMonth()); //当前月
 	self.DayOfWeek = ko.observableArray(['日', '一', '二', '三', '四', '五', '六']); //星期数组
 	self.TheMonth = ko.computed(function() { //显示的月份
 		var self = this;
-		var date = new Date();
+		var date = newDate();
 		date.setDate(date.getDate() - date.getDay() + self.WeekIndex() * 7 + 6);
 		return date.getMonth() + 1 + '月';
 	}, self)
 	self.BeginDate = ko.computed(function() { //开始日期
 		var self = this;
-		var beginDate = new Date();
+		var beginDate = newDate();
 		beginDate.setDate(beginDate.getDate() - beginDate.getDay() + self.WeekIndex() * 7);
 		return beginDate;
 	})
 	self.DateOfWeek = ko.computed(function() { //星期对应的日期
 		var self = this;
-		var beginDate = new Date();
+		var beginDate = newDate();
 		var arr = new Array();
 		beginDate.setDate(beginDate.getDate() - beginDate.getDay() + self.WeekIndex() * 7);
 		for (var i = 0; i < 7; i++) {
-			var tmpDate = new Date(beginDate);
+			var tmpDate = newDate(beginDate);
 			tmpDate.setDate(tmpDate.getDate() + i);
 			arr.push(tmpDate);
 		}
@@ -92,7 +93,7 @@ var myCourse = function() {
 		var self = this;
 		var ajaxUrl = common.gServerUrl + 'API/Lesson/GetLessons?userid=' + getLocalItem('UserID')
 			+ '&weekindex=' + self.WeekIndex();
-			
+		
 		mui.ajax(ajaxUrl, {
 			type: 'GET',
 			success: function(responseText) {
@@ -118,7 +119,7 @@ var myCourse = function() {
 						self.Lessons().forEach(function(lesson) {
 							if (lesson.ID == lessonID) {
 								self.ViewLesson(lesson);
-								var tmp = new Date(lesson.BeginTime);
+								var tmp = newDate(lesson.BeginTime);
 								var iDays = parseInt((tmp - self.BeginDate()) / 1000 / 60 / 60 / 24);
 								self.WeekIndex(Math.floor(iDays / 7));
 								mui('#middlePopover').popover('toggle');
@@ -144,7 +145,7 @@ var myCourse = function() {
 					self.Lessons().forEach(function(lesson) {
 						if (lesson.ID == lessonID) {
 							self.ViewLesson(lesson);
-							var tmp = new Date(lesson.BeginTime);
+							var tmp = newDate(lesson.BeginTime);
 							var iDays = parseInt((tmp - self.BeginDate()) / 1000 / 60 / 60 / 24);
 							self.WeekIndex(Math.floor(iDays / 7));
 							mui('#middlePopover').popover('toggle');
@@ -177,7 +178,7 @@ var myCourse = function() {
 
 	//选择新时间
 	self.SelectNewTime = function() {
-		var now = new Date();
+		var now = newDate();
 		var year = 2000 + now.getYear() % 100;
 
 		dtPicker.PopupDtPicker({
@@ -244,17 +245,21 @@ var myCourse = function() {
 			})
 			//});
 	}
-
+	
+	//点击课程列表
+	self.gotoCoursesList = function() {
+		common.transfer('openedCoursesList.html', true);
+	};
+	
 	//初始化课时单元格
 	self.initCell = function(date, hour) {
 		var self = this;
 		var ret = null;
 		self.Lessons().forEach(function(lesson) {
 			//console.log(lesson);
-			var btime = new Date(lesson.BeginTime);
+			var btime = newDate(lesson.BeginTime);
 			if (date.getYear() == btime.getYear() && date.getMonth() == btime.getMonth() &&
 				date.getDate() == btime.getDate() && hour == btime.getHours()) {
-				//console.log('true');
 				ret = lesson;
 				return;
 			}
@@ -282,5 +287,6 @@ var myCourse = function() {
 			}
 		}
 	};
+	
 }
 ko.applyBindings(myCourse);

@@ -16,21 +16,23 @@
 			}
 			.mui-bar-nav i:first-of-type{
 				color: #fff;
-				font-size: 1.2rem!important;
+				font-size: 1.6rem!important;
 				float: left;
-				margin-left: 15px;
+				padding-left: 10px;
 			}
 			.mui-bar-nav i:last-of-type{
 				color: #fff;
 				font-size: 1.02rem;
 				float: right;
-				margin-right: 15px;
-			}
+				margin-right: 0!important;
+				text-align: right;
+				padding-right: 10px;
+			}			
 		</style>
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<i class="iconfont">&#xe641;</i>
+			<i class="iconfont" data-bind="event:{tap: gotoCoursesList}">&#xe641;</i>
 			<h1 class="mui-title">课程表</h1>
 			<i class="iconfont">&#xe648;</i>
 		</header>
@@ -45,7 +47,7 @@
 					</div>
 					<div class="time-dow">
 						<ul data-bind="foreach:{data: DateOfWeek, as: 'date'}">
-							<li data-bind='text: date.getDate(), css: {current: CurrentDay() == date.getDate()}'></li>
+							<li data-bind='text: date.getDate(), css: {current: CurrentDay() == date.getDate() && CurrentMonth() == date.getMonth()}'></li>
 						</ul>
 					</div>
 				</div>

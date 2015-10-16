@@ -5,6 +5,7 @@ var viewModel = function() {
 	self.UserType = ko.observable(getLocalItem('UserType'));
 	self.UnreadCount = ko.observable(0);
 	self.MyHref = ko.observable('modules/my/myInfoStudent.html');
+	self.worksList = ko.observable('modules/works/worksList.html');
 
 	if (self.UserType() == common.gDictUserType.teacher) {
 		self.MyHref('modules/my/myInfoTeacher.html');

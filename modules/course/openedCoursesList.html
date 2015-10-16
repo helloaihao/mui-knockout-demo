@@ -23,6 +23,17 @@
 			    white-space: nowrap;
 			    text-overflow: ellipsis;
 			}
+			.mui-btn-block{
+				margin: 0 auto!important;
+				padding: 10px 0!important;
+			}
+			.mui-content-padded{
+				margin: 10px auto;
+			}
+			.mui-btn, button{				
+				width: 86%!important;			
+				font-size: 18px;
+				}		
 		</style>
 	</head>
 
@@ -33,11 +44,11 @@
 		</header>
 		<div class="mui-content">
 
-			<div data-bind="template:{name:'courseTemplate', foreach:courses}">
-			</div>
+			<!--<div data-bind="template:{name:'courseTemplate', foreach:courses}">
+			</div>-->
 
 			<!--作品模板页-->
-			<script type="text/html" id="courseTemplate">
+			<!--<script type="text/html" id="courseTemplate">
 				<div class="messageNotification-content openedCoursesList">
 					<div class="messageNotification-title openedCoursesList-first">
 						<span data-bind="text: CourseName">钢琴少儿班</span>
@@ -53,9 +64,9 @@
 						<em id="btn-enabled" data-bind="css: {'m-active': IsEnabled}, click: setDisabled ">停用</em>
 					</div>
 				</div>
-			</script>
+			</script>-->
 
-			<nav class="mui-bar mui-bar-tab ">
+			<!--<nav class="mui-bar mui-bar-tab ">
 				<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab teacherList-mui " href="#">
 					<i class="iconfont ">&#xe621;</i>
 					<span class="mui-tab-label " data-bind="click: gotoAddCourse">添加课程</span>
@@ -64,14 +75,23 @@
 					<i class="iconfont ">&#xe622;</i>
 					<span class="mui-tab-label " data-bind="click: gotoTime">授课时间</span>
 				</a>
-			</nav>
-
+			</nav>-->
+			
+		
+		<div class="openedCourses-ys">
+			<i class="iconfont">&#xe61f;</i>
+			<span>还没开课，赶紧去开课吧！</span>
+			   <div class="mui-content-padded">
+			   	 <button type="button" class="mui-btn mui-btn-primary mui-btn-block">开课</button>
+			   	</div>
+		</div>
+	
 		</div>
 		<script src="../../script/mui/mui.min.js"></script>
-		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<!--<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../script/course/openedCoursesList.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/course/openedCoursesList.js" type="text/javascript" charset="utf-8"></script>-->
 	</body>
 
 </html>

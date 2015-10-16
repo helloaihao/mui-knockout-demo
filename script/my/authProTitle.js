@@ -1,55 +1,84 @@
-var authProTitle=function(){
-	var self=this;
+var authProTitle = function() {
+	var self = this;
+	self.Auth=ko.observable({});
 	self.Editable = ko.observable(true); //是否可编辑并提交认证
-	self.ProfessionalText=ko.observable("请选择职称");
-	self.Professional=ko.observable(0);
-	self.Image = picture.LastPic; //最后选择的图片或显示的图片
-	self.Base64 = picture.LastPicBase64; //最后选择图片的base64字符串
-	
-	
-	var  ProfessionalType;
+	self.AuthStatus = ko.observable("确认信息正确后，请提交审核"); //身份认证状态（显示）
+	self.ProTitleTypeText = ko.observable('请选择职称');	//职称类型名称
+	self.ProTitleType = ko.observable(0);	//职称类型
+	self.Base64 = ko.observable(''); //所选图片的base64字符串
+	self.Path = ko.observable(''); //图片路径
+
+	var ppProTitle;
 	mui.ready(function() {
-			ProfessionalType = new mui.PopPicker();
-			ProfessionalType.setData(common.gProfessionalType);
+		ppProTitle = new mui.PopPicker();
+		ppProTitle.setData(common.gProfessionalType);
+	});
+	
+	//职称选择
+	self.chooseAuthPro = function() {
+		ppProTitle.show(function(items) {
+			self.ProTitleTypeText(items[0].text);
+			self.ProTitleType(items[0].value);
 		});
-		//职称选择
-	self.chooseAuthPro=function(){
-		ProfessionalType.show(function(items) {
-				self.ProfessionalText(items[0].text);
-				self.Professional(items[0].value);
-			});
 	}
-	mui.ready(function() {
-		var self = this;
-		var data = common.getQueryStringByName('data');
-		var auth = JSON.parse(decodeURI(data));
-		if (auth && auth.AuthType) {
-			self.Auth(auth);
-			self.Image(common.gServerUrl + 'Common/GetImage/?url=' + auth.PicPath);
-			self.AuthStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
-			if (auth.Approved == common.gDictAuthStatusType.Rejected) {
-				self.AuthStatus(self.AuthStatus() + '：' + auth.RejectReason);
+	
+	self.initProTitleText = function(value){
+		var list = common.gProfessionalType;
+		var retText = '请选择职称';
+		list.forEach(function(item){
+			if(item.value == value){
+				retText = item.text;
+				return;
 			}
-			self.Editable(auth.Approved == common.gDictAuthStatusType.NotAuth && common.StrIsNull(auth.PicPath) == '');
+		})
+		
+		return retText;
+	}
+
+	mui.plusReady(function() {
+		var self = this;
+		var web = plus.webview.currentWebview();
+		if (typeof(web.data) !== "undefined") {
+			var auth = web.data;
+
+			if (auth && auth.AuthType) {
+				self.Auth(auth);
+				self.Path(common.gServerUrl + 'Common/GetImage/?url=' + auth.PicPath);
+				self.ProTitleType(auth.ProTitleType);
+				self.ProTitleTypeText(self.initProTitleText(auth.ProTitleType));
+				self.AuthStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
+				if (auth.Approved == common.gDictAuthStatusType.Rejected) {
+					self.AuthStatus(self.AuthStatus() + '：' + auth.RejectReason);
+				}
+				self.Editable(auth.Approved == common.gDictAuthStatusType.NotAuth && common.StrIsNull(auth.PicPath) == '');
+			}
 		}
 	})
-	
+
 	self.selectPic = function() {
 		if (!self.Editable()) return;
 
 		mui.ready(function() {
-			picture.SelectPicture(false); //不需要裁剪
-		});
+			picture.SelectPicture(false, false, function(retValue) {
+				self.Path(retValue[0].Base64);
+				self.Base64(retValue[0].Base64);
+			}); //不需要裁剪，单选
+		})
 	}
-	self.authProTitleSub=function(){
-		if(self.Professional()==0){
+	self.authProTitleSub = function() {
+		if (self.ProTitleType() == 0) {
 			mui.toast("请选择职称");
 			return;
 		}
-		var ajaxurl=common.gServerUrl+"API/TeacherAuth/SetProTitleAuth?userId="+
-			getLocalItem('UserID') + '&proTitleType=' + self.Professional();
-		mui.ajax(ajaxurl,{
-			type:"POST",
+		if (self.Base64() == '') {
+			mui.toast('请选择证件照片');
+			return;
+		}
+
+		var ajaxurl = common.gServerUrl + "API/TeacherAuth/SetProTitleAuth?userId=" +
+			getLocalItem('UserID') + '&proTitleType=' + self.ProTitleType();
+		mui.ajax(ajaxurl, {
+			type: "POST",
 			contentType: 'application/json', //如此contentType/data的写法，才能上传图片的base64
 			data: JSON.stringify(self.Base64()),
 			success: function(responseText) {
@@ -57,8 +86,7 @@ var authProTitle=function(){
 				if (auth && auth.AuthType) {
 					console.log(auth.PicPath);
 					self.Auth(auth);
-					self.Image(common.gServerUrl + 'Common/GetImage/?url=' + auth.PicPath);
-					self.IDNumber(auth.IDNumber);
+					self.Path(common.gServerUrl + 'Common/GetImage/?url=' + auth.PicPath);
 					self.AuthStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
 					self.Editable(auth.Approved == common.gDictAuthStatusType.NotAuth && common.StrIsNull(auth.PicPath) == '');
 				}
@@ -67,7 +95,5 @@ var authProTitle=function(){
 			}
 		})
 	}
-	
-	
 }
 ko.applyBindings(authProTitle);

@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
@@ -38,19 +39,31 @@
 				right: 22px;
 			}
 			.mui-bar-tab .ah-mui-tab-item {
-		    display: table-cell;
-		    overflow: hidden;
-		    width: 1%;
-		    height: 50px;
-		    text-align: center;
-		    vertical-align: middle;
-		    white-space: nowrap;
-		    text-overflow: ellipsis;
-		    color: #929292;
+				display: table-cell;
+				overflow: hidden;
+				width: 1%;
+				height: 50px;
+				text-align: center;
+				vertical-align: middle;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				color: #929292;
 			}
-			.works-inconfont{
+			.works-inconfont {
 				font-size: 1.2rem!important;
 			}
+			.mui-popover.mui-active {
+				top: 50%!important;
+				margin-top: -6.4rem!important;
+				left: 50%!important;
+				margin-left: -10.33rem!important;
+				min-height: 12.8rem!important;
+				width: 16.2rem;
+			}
+			.mui-bar-nav .shareTeacher-tb{
+				float: right;
+				text-align: right;
+			}		
 		</style>
 	</head>
 
@@ -58,7 +71,7 @@
 		<header class="mui-bar mui-bar-nav">
 			<i class="iconfont mui-action-back">&#xe602;</i>
 			<h1 class="mui-title"> 我的作品</h1>
-			<em class="iconfont">&#xe60e;</em>
+			<a class="iconfont shareTeacher-tb" href="#middlePopover">&#xe60e;</a>
 		</header>
 		<div class="mui-content">
 			<div class="works-content-up">
@@ -84,6 +97,30 @@
             <div class="works-img-div">图片</div>
             <p data-bind="text:ContentText"></p>
         </div>
+        <!--分享弹出框-->
+        <div id="middlePopover" class="mui-popover">
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<div class="shareTeacher-pic">
+						<ul id="recommendArray">
+							<li id="weichatFriend">
+								<img src="../../images/share-wx.png" />
+								<span>微信好友</span>
+							</li>
+							<li id="weichatMoments">
+								<img src="../../images/share-py.png" />
+								<span>朋友圈</span>
+							</li>
+							<li id="qqFriend">
+								<img src="../../images/share-qq.png" />
+								<span>QQ好友</span>
+							</li>
+						</ul>
+					</div>
+					<div class="shareTeacher-qx" data-bind="click:closeShare">取消</div>
+				</div>
+			</div>
+		</div>
         <div class="pin-blank"></div>
         <div class="mui-card">
         	<ul class="mui-table-view" data-bind="template:{name:'commentTemplate',foreach:teacherComment}">
@@ -139,7 +176,7 @@
 							<i class="iconfont works-iconfont">&#xe643;</i>
 							<span class="mui-tab-label " data-bind="text:findTeacherComment">找老师点评</span>
 						</a>
-			</nav>
+					</nav>
 			</div>
 	</body>
 	<script src="../../script/mui/mui.min.js" type="text/javascript" charset="utf-8"></script>
@@ -147,6 +184,5 @@
 	<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../script/works/worksDetails.js" type="text/javascript" charset="utf-8"></script>
-
 
 </html>

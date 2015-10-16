@@ -117,7 +117,7 @@ var availableTime = function() {
 	self.SetFreetime = function() {
 		var self = this;
 
-		var ajaxUrl = common.gServerUrl + 'API/Teacher?userID=' + getLocalItem('UserID');
+		var ajaxUrl = common.gServerUrl + 'Common/Teacher?userID=' + getLocalItem('UserID');
 		mui.ajax(ajaxUrl, {
 			type: 'PUT',
 			data: {

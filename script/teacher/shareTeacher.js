@@ -17,17 +17,15 @@ var shareTeacher = function() {
 	self.Infoimgurl = ko.observable("../../images/teacherInfo.png"); //视频上的播放logo
 	self.photoimgurl = ko.observable("../../images/my-photo.png"); //视频显示的图片
 	self.title = ko.observable("成人钢琴教程 视频 钢琴 左手 分解 和炫"); //视频标题
-
-	self.UserID = getLocalItem('UserID');
-	self.UserType = getLocalItem('UserType');
+	
+	var TUserType = 32;
 	self.lesson = ko.observableArray([]); //课程数组
 	self.CourseName = ko.observable("") //课程标题
 	self.Introduce = ko.observable("") //课程标题
 	self.Price = ko.observable("") //课程标题
-	var tUserId = 99; //测试使用，此数据应当由上级页面传此参数
+	var TUserId; //老师UserId，由上级页面传此参数
 	var pageSize = 3; //视频显示数量3
 	
-	var shareContent="";
 	var shares = null,bhref = false;
 	var shareID="";
 	var shardEX="";
@@ -53,12 +51,15 @@ var shareTeacher = function() {
 				shardEX = "WXSceneTimeline";
 			} else if (this.id == "weichatMoments") {
 				shareID = "qq";
-
 			}
 			self.shareAction(shareID, shardEX);
 		}
 
 	}
+	/**
+	 * 分享操作
+	 * @param {String} id
+	 */
 	self.shareAction = function(id, ex) {
 		var s = null;
 		if (!id || !(s = shares[id])) {
@@ -77,6 +78,10 @@ var shareTeacher = function() {
 			});
 		}
 	}
+	/**
+	 * 发送分享消息
+	 * @param {plus.share.ShareService} s
+	 */
 	self.shareMessage = function(s, ex) {
 		var msg = {
 			content: shareContent,
@@ -88,20 +93,48 @@ var shareTeacher = function() {
 			msg.href = shareUrl;
 			msg.title = shareTitle;
 			msg.content = shareContent;
-			msg.thumbs = ["../../images/ewm.png"];
-			msg.pictures = ["../../images/ewm.png"];
+			msg.thumbs = ["_www/images/my-photo.jpg"];
+			msg.pictures = ["_www/images/my-photo.jpg"];
 		}
-		outLine(JSON.stringify(msg));
+		
 		s.send(msg, function() {
 			mui.toast("分享到\"" + s.description + "\"成功！ ");
 		}, function(e) {
 			mui.toast("分享到\"" + s.description + "\"失败: " + e.code + " - " + e.message);
 		});
 	}
+	// H5 plus事件处理
 
-
+	function plusReady() {
+		updateSerivces();
+		if (plus.os.name == "Android") {
+			Intent = plus.android.importClass("android.content.Intent");
+			File = plus.android.importClass("java.io.File");
+			Uri = plus.android.importClass("android.net.Uri");
+			main = plus.android.runtimeMainActivity();
+		}
+	}
+	if (window.plus) {
+		plusReady();
+	} else {
+		document.addEventListener("plusready", plusReady, false);
+	}
+	/**
+	 * 更新分享服务
+	 */
+	function updateSerivces() {
+		plus.share.getServices(function(s) {
+			shares = {};
+			for (var i in s) {
+				var t = s[i];
+				shares[t.id] = t;
+			}
+		}, function(e) {
+			outSet("获取分享服务列表失败：" + e.message);
+		});
+	}
 	self.getTeacherInfo = function() {
-		mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID + "&usertype=" + self.UserType, {
+		mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + TUserId + "&usertype=" + TUserType, {
 			//dataType:'json',
 			type: 'GET',
 			success: function(responseText) {
@@ -119,7 +152,7 @@ var shareTeacher = function() {
 				mui.toast("获取信息失败");
 			}
 		});
-	}()
+	}
 	
 	//关闭分享窗口
 	self.closeShare=function(){
@@ -146,39 +179,38 @@ var shareTeacher = function() {
 		}
 		//获取分解视频
 	self.getworkResolve = function() {
-			mui.ajax(common.gServerUrl + "API/Work?userID=" + tUserId + "&workType=" + common.gJsonWorkType[0] + "&pageSize=" + pageSize, {
+			mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserId + "&workType=" + common.gJsonWorkType[0] + "&pageSize=" + pageSize, {
 				type: "GET",
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
 					self.workResolve(result);
 				}
 			})
-		}()
+		}
 		//获取完整教程
 	self.getworkFull = function() {
-			mui.ajax(common.gServerUrl + "API/Work?userID=" + tUserId + "&workType=" + common.gJsonWorkType[1] + "&pageSize=" + pageSize, {
+			mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserId + "&workType=" + common.gJsonWorkType[1] + "&pageSize=" + pageSize, {
 				type: "GET",
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
 					self.workFull(result);
 				}
 			})
-		}()
+		}
 		//获取演出作品
-	self.getworkFull = function() {
-		mui.ajax(common.gServerUrl + "API/Work?userID=" + tUserId + "&workType=" + common.gJsonWorkType[2] + "&pageSize=" + pageSize, {
+	self.getwork = function() {
+		mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserId + "&workType=" + common.gJsonWorkType[2] + "&pageSize=" + pageSize, {
 			type: "GET",
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
-
 				self.workShow(result);
 			}
 		})
-	}()
+	}
 
 	//老师课程
 	self.getlesson = function() {
-			mui.ajax(common.gServerUrl + "API/Course/GetCourseByUserID?userId=" + tUserId, {
+			mui.ajax(common.gServerUrl + "API/Course/GetCourseByUserID?userId=" + TUserId, {
 				type: 'GET',
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
@@ -213,6 +245,17 @@ var shareTeacher = function() {
 	self.appiontLesson = function() {
 		mui.toast("点击了“预约上课”，此功能尚未完善");
 	}
+	mui.ready(function() {
+		mui.plusReady(function() {
+			var teacher = plus.webview.currentWebview();
+			TUserId=teacher.teacherID; //由上级页面传此参数到此页面
+			//self.getComment();
+			self.getTeacherInfo();
+			self.getworkResolve();
+			self.getworkFull();
+			self.getwork();
+		});
+	});
 
 }
 ko.applyBindings(shareTeacher);

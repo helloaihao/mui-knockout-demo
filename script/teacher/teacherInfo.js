@@ -16,7 +16,7 @@
 	self.photoimgurl = ko.observable("../../images/my-photo.png"); //视频显示的图片
 	self.title = ko.observable("成人钢琴教程 视频 钢琴 左手 分解 和炫"); //视频标题
 
-	self.UserID = getLocalItem('UserID');
+	var TUserID; //老师UserId，由上级页面传此参数
 	self.UserType = 32;//getLocalItem('UserType');
 	self.lesson = ko.observableArray([]); //课程数组
 	self.CourseName = ko.observable("") //课程标题
@@ -26,7 +26,7 @@
 	var pageSize = 3; 	//视频显示数量3
 
 	self.getTeacherInfo = function() {
-		mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID + "&usertype=" + common.gDictUserType.teacher, {
+		mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + TUserID + "&usertype=" + common.gDictUserType.teacher, {
 			type: 'GET',
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
@@ -63,7 +63,7 @@
 		}
 		//获取分解视频
 	self.getworkResolve = function() {
-			mui.ajax(common.gServerUrl + "API/Work?userID=" + self.UserID + "&workType=" + common.gJsonWorkType[0] + "&pageSize=" + pageSize, {
+			mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkType[0] + "&pageSize=" + pageSize, {
 				type: "GET",
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
@@ -71,20 +71,20 @@
 					self.workResolve(result);
 				}
 			})
-		}()
+		}
 		//获取完整教程
 	self.getworkFull = function() {
-			mui.ajax(common.gServerUrl + "API/Work?userID=" + self.UserID + "&workType=" + common.gJsonWorkType[1] + "&pageSize=" + pageSize, {
+			mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkType[1] + "&pageSize=" + pageSize, {
 				type: "GET",
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
 					self.workFull(result);
 				}
 			})
-		}()
+	};
 		//获取演出作品
-	self.getworkFull = function() {
-		mui.ajax(common.gServerUrl + "API/Work?userID=" + self.UserID + "&workType=" + common.gJsonWorkType[2] + "&pageSize=" + pageSize, {
+	self.getwork = function() {
+		mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkType[2] + "&pageSize=" + pageSize, {
 			type: "GET",
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
@@ -92,11 +92,11 @@
 				self.workShow(result);
 			}
 		})
-	}()
+	}
 
 	//老师课程
 	self.getlesson = function() {
-		mui.ajax(common.gServerUrl + "API/Course/GetCourseByUserID?userId=" + self.UserID, {
+		mui.ajax(common.gServerUrl + "API/Course/GetCourseByUserID?userId=" + TUserID, {
 			type: 'GET',
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
@@ -107,7 +107,7 @@
 			}
 
 		})
-	}()
+	}
 	//帮我点评
 	self.gotoComment=function(){
 		//alert("点击了帮我点评");
@@ -122,18 +122,20 @@
 				autoShow: false
 			},
 			extras:{
-				teacherID: self.UserID,
+				teacherID: TUserID,
 				displayCheck: true
 			}
 		});
 	}
 	//预约上课
 	self.appiontLesson=function(){
-		common.transfer('../student/aboutLesson.html', true);
+		common.transfer('../student/aboutLesson.html', true, {
+			teacherName: self.DisplayName()
+		});
 	}
 	//关注
 	self.Fav = function(){
-		var ret = common.postAction(common.gDictActionType.Favorite, common.gDictActionTargetType.User, self.UserID);
+		var ret = common.postAction(common.gDictActionType.Favorite, common.gDictActionTargetType.User, TUserID);
 		if(ret){
 			self.FavCount(self.FavCount() + 1);
 			
@@ -148,10 +150,13 @@
 	mui.plusReady(function() {
 		var web = plus.webview.currentWebview();
 		if( typeof(web.teacherID) !== "undefined" ) {
-			self.UserID = web.teacherID;
-			mui.toast(self.UserID);
+			TUserID = web.teacherID;
 		}
 		getTeacherInfo();
+		self.getworkResolve();
+		self.getworkFull();
+		self.getwork();
+		self.getlesson();
 	});
 }
 ko.applyBindings(teacherInfo);

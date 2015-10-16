@@ -138,3 +138,43 @@ var handleResult = function(result) {
 		_ajax(url, _opt);
 	};
 })(mui);
+
+//日期格式化函数
+Date.prototype.format = function(format) {
+	var o = {
+		"M+": this.getMonth() + 1, //month
+		"d+": this.getDate(), //day
+		"h+": this.getHours(), //hour
+		"m+": this.getMinutes(), //minute
+		"s+": this.getSeconds(), //second
+		"q+": Math.floor((this.getMonth() + 3) / 3), //quarter
+		"S": this.getMilliseconds() //millisecond
+	}
+
+	if (/(y+)/.test(format)) {
+		format = format.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+	}
+
+	for (var k in o) {
+		if (new RegExp("(" + k + ")").test(format)) {
+			format = format.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+		}
+	}
+	return format;
+}
+
+/**
+ * 根据字符串生成日期对象
+ * @param {String} date 日期格式的字符串
+ * @return {Date} 日期对象
+ */
+var newDate = function(date){
+	if(date instanceof Date)
+		return (new Date(date.format('yyyy/MM/dd hh:mm:ss')));
+	
+	//console.log(date);
+	if(!date)
+		return (new Date());
+	else
+		return (new Date(date.replace(/-/gi,'/')));
+}

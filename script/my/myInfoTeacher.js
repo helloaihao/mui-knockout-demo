@@ -25,6 +25,9 @@ var my_teacher = function() {
 	self.goMyAttention = function(){
 		common.transfer('myAttention.html', true);
 	}
+	self.goMyAlbum = function(){
+		common.transfer('myAlbum.html', true);
+	}
 
 	if (self.UserID() > 0) {
 		self.getStudent = function() {

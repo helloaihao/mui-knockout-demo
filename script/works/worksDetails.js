@@ -1,7 +1,6 @@
 var worksDetails = function() {
 	var self = this;
-	self.WorkID = ko.observable('');
-	self.AuthorID = ko.observable('');
+	var WorkID,AuthorID;
 	self.AuthorName = ko.observable('');
 	self.SubjectID = ko.observable('');
 	self.Subject = {value:0, text:''};
@@ -20,28 +19,134 @@ var worksDetails = function() {
 	self.findTeacherComment=ko.observable("找老师点评");
 	//评论的相关元素绑定
 	self.teacherComment = ko.observableArray([]); //各个老师评论数组
-	/*//在ready获取上级页面的数据
+	//分享的参数
+	var shares = null,bhref = false;
+	var shareID="";
+	var shardEX="";
+	var shareUrl="";//分享附上的链接，链接到作品
+	//var shareTitle=""//分享内容的标题
+	//var shareContent="";//分享的内容
+	
+	//分享功能
+	var ul = document.getElementById("recommendArray");
+	var lis = ul.getElementsByTagName("li");
+	for (var i = 0; i < lis.length; i++) {
+		lis[i].onclick = function() {
+			mui.toast(this.id);
+			if (this.id == "weichatFriend") {
+				//微信好友
+				shareID = "weixin";
+				shardEX = "WXSceneSession";
+			} else if (this.id == "weichatMoments") {
+				//微信朋友圈
+				shareID = "weixin";
+				shardEX = "WXSceneTimeline";
+			} else if (this.id == "weichatMoments") {
+				shareID = "qq";
+			}
+			self.shareAction(shareID, shardEX);
+		}
+
+	}
+	/**
+	 * 分享操作
+	 * @param {String} id
+	 */
+	self.shareAction = function(id, ex) {
+		var s = null;
+		if (!id || !(s = shares[id])) {
+			mui.toast("无效的分享服务！");
+			return;
+		}
+		if (s.authenticated) {
+			mui.toast("---已授权---");
+			self.shareMessage(s, ex);
+		} else {
+			mui.toast("---未授权---");
+			s.authorize(function() {
+				self.shareMessage(s, ex);
+			}, function(e) {
+				mui.toast("认证授权失败：" + e.code + " - " + e.message);
+			});
+		}
+	}
+	/**
+	 * 发送分享消息
+	 * @param {plus.share.ShareService} s
+	 */
+	self.shareMessage = function(s, ex) {
+		var msg = {
+			content: self.ContentText(),
+			extra: {
+				scene: ex
+			}
+		};
+		if (bhref) {
+			msg.href = shareUrl;
+			msg.title = self.Title();
+			msg.content = self.ContentText();
+			msg.thumbs = ["_www/images/my-photo.jpg"];
+			msg.pictures = ["_www/images/my-photo.jpg"];
+		}
+		
+		s.send(msg, function() {
+			mui.toast("分享到\"" + s.description + "\"成功！ ");
+		}, function(e) {
+			mui.toast("分享到\"" + s.description + "\"失败: " + e.code + " - " + e.message);
+		});
+	}
+	// H5 plus事件处理
+
+	function plusReady() {
+		updateSerivces();
+		if (plus.os.name == "Android") {
+			Intent = plus.android.importClass("android.content.Intent");
+			File = plus.android.importClass("java.io.File");
+			Uri = plus.android.importClass("android.net.Uri");
+			main = plus.android.runtimeMainActivity();
+		}
+	}
+	if (window.plus) {
+		plusReady();
+	} else {
+		document.addEventListener("plusready", plusReady, false);
+	}
+	/**
+	 * 更新分享服务
+	 */
+	function updateSerivces() {
+		plus.share.getServices(function(s) {
+			shares = {};
+			for (var i in s) {
+				var t = s[i];
+				shares[t.id] = t;
+			}
+		}, function(e) {
+			outSet("获取分享服务列表失败：" + e.message);
+		});
+	}
+	//在ready获取上级页面的数据
 	mui.ready(function() {
 		mui.plusReady(function() {
 			var workVaule = plus.webview.currentWebview();
-			self.WorkID(workVaule.WorkID); //由上级页面传此参数到此页面
-			self.AuthorID(workVaule.AuthorID); //由上一级页面传此参数到此页面
+			WorkID=workVaule.WorkID; //由上级页面传此参数到此页面
+			AuthorID=workVaule.AuthorID; //由上一级页面传此参数到此页面
+			mui.toast(WorkID);
 			self.getComment();
 		});
-	});*/
+	});
 	//获取作品和评论
 	self.getComment = function() {
-		mui.ajax(common.gServerUrl + "API/Work/" + self.WorkID(), {
+		mui.ajax(common.gServerUrl + "API/Work/" + WorkID, {
 			type: 'GET',
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
 				//alert(responseText);
 				self.Title(result.Title);
 				self.AddTime(result.AddTime.split(" ")[0]);
-				//alert(result.AddTime);
 				self.ReadCount(result.ReadCount);
 				self.RemarkValue = result.Remark;
-				//self.Remark(common.gJsonWorkRemarkType[result.Remark].text);
+				self.Remark(common.gJsonWorkRemarkType[result.Remark].text);
 				self.SubjectName(result.SubjectName);
 				self.SubjectID(result.SubjectID);
 				self.LikeCount(result.LikeCount);
@@ -50,7 +155,7 @@ var worksDetails = function() {
 				self.AuthorName(result.AuthorName);
 			}
 		});
-		mui.ajax(common.gServerUrl + "Common/Comment/GetCommentsByWork?WorkID=" + self.WorkID(), {
+		mui.ajax(common.gServerUrl + "Common/Comment/GetCommentsByWork?WorkID=" + WorkID, {
 			type: 'Get',
 			success: function(responseText) {
 				//var result = JSON.parse(responseText);
@@ -65,14 +170,14 @@ var worksDetails = function() {
 			}
 		});
 
-	}()
+	}
 
 	//删除作品
 	self.worksDelete = function() {
 			var btnArray = ['是', '否'];
 			mui.confirm('确认删除吗', '您点击了删除', btnArray, function(e) {
 				if (e.index == 0) {
-					mui.ajax(common.gServerUrl + "API/Work/" + self.WorkID(), {
+					mui.ajax(common.gServerUrl + "API/Work/" + WorkID, {
 						type: 'DELETE',
 						success: function(responseText) {
 							mui.toast("删除成功");
@@ -165,8 +270,8 @@ var worksDetails = function() {
 					autoShow: false
 				},
 				extras: {
-					WorkID: self.WorkID(),
-					AuthorID: self.AuthorID(),
+					WorkID: WorkID,
+					AuthorID: AuthorID,
 					Title: self.Title(),
 					AuthorName: self.AuthorName(),
 					Subject: Subject,
@@ -182,11 +287,11 @@ var worksDetails = function() {
 		} else if (self.RemarkValue == 0) {
 			self.RemarkValue = 1;
 		}
-		mui.ajax(common.gServerUrl + "API/Work/" + self.WorkID(), {
+		mui.ajax(common.gServerUrl + "API/Work/" + WorkID, {
 			type: "PUT",
 			data: {
-				ID: self.WorkID(),
-				AuthorID: self.AuthorID(),
+				ID: WorkID,
+				AuthorID: AuthorID,
 				Remark: self.RemarkValue
 			},
 			success: function(responseText) {
@@ -198,7 +303,7 @@ var worksDetails = function() {
 
 	//赞
 	self.Like = function() {
-		var ret = common.postAction(common.gDictActionType.Like, common.gDictActionTargetType.Works, self.WorkID());
+		var ret = common.postAction(common.gDictActionType.Like, common.gDictActionTargetType.Works, WorkID);
 		if (ret) {
 			self.LikeCount(self.LikeCount() + 1);
 			mui.toast('感谢您的赞许');
@@ -207,11 +312,16 @@ var worksDetails = function() {
 
 	//收藏
 	self.Fav = function() {
-		var ret = common.postAction(common.gDictActionType.Favorite, common.gDictActionTargetType.Works, self.WorkID());
+		var ret = common.postAction(common.gDictActionType.Favorite, common.gDictActionTargetType.Works, WorkID);
 		if (ret) {
 			self.FavCount(self.FavCount() + 1);
 			mui.toast('收藏成功');
 		}
 	}
+	//关闭分享窗口
+	self.closeShare=function(){
+		mui('#middlePopover').popover('toggle');
+	}
+	
 }
 ko.applyBindings(worksDetails);

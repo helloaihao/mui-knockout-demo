@@ -17,6 +17,24 @@
 			.availableTime-input label ~ input, .th-mui-btn-block{
 				line-height: 22px!important;
 			}
+			.mui-content-padded{
+				margin: 0!important;
+			}
+			.mui-btn-block{
+				width: 30%!important;
+				float: right;
+				top: -9px!important;
+				margin-right: 15px;
+			}
+			.mui-bar span{
+				line-height: 50px;
+				margin-left: 15px;
+				font-size: 14px!important;
+			}
+			.mui-bar .mui-btn{
+				top: 9px;
+				padding: 6px 18px;
+			}
 		</style>
 	</head>
 
@@ -51,13 +69,15 @@
 				</form>
 			</div>
 
-			<nav class="mui-bar mui-bar-tab availableTime-footer">
-						<span>点击蓝色区块选择</span>
-					<em data-bind='event:{tap: SetFreetime}'>确定</em>	
+			<nav class="mui-bar mui-bar-tab">
+				<span>点击蓝色块选择</span>
+				<div class="mui-content-padded availableTime-sure">
+				<button type="button" class="mui-btn mui-btn-primary availableTime-mui-btn"  data-bind='event:{tap: SetFreetime}'>
+					确定
+				</button>
+				</div>
 			</nav>
-
 		</div>
-
 		<script src="../../script/mui/mui.min.js"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>

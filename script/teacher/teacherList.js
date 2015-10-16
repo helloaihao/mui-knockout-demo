@@ -11,15 +11,11 @@ var viewModel = function() {
 	self.teacherList = ko.observableArray([]); //选项文字
 	self.dbStar = ko.observable("星级");
 	self.dbSort = ko.observable("排序");
-	
 	//接收属性
 	var subjectID, starID, sortID; 
 	var Title, AuthorName, AuthorID;
 	self.displayCheck = ko.observable(false); //是否显示选择
 	self.dbSubject = ko.observable("科目");
-	
-	
-	
 	//获取老师列表
 	self.getTeacherList = function() {
 		pageID = 1;
@@ -124,7 +120,7 @@ var viewModel = function() {
 			}
 		}
 		mui.openWindow({
-			url:'../student/submitComment.html',
+			url:'../student/submitClass.html',
 			show: {
 				autoShow: true,
 				aniShow: "slide-in-right",
@@ -141,7 +137,6 @@ var viewModel = function() {
 			}
 		});
 	};
-
 	mui.plusReady(function() {
 		var web = plus.webview.currentWebview(); //页面间传值
 
