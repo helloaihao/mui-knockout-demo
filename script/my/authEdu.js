@@ -14,7 +14,7 @@ var authEdu = function() {
 		
 			if (auth && auth.AuthType) {
 				self.Auth(auth);
-				self.Path(common.gServerUrl + 'Common/GetImage/?url=' + auth.PicPath);
+				self.Path(common.getPhotoUrl(auth.PicPath));
 				self.AuthStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
 				if (auth.Approved == common.gDictAuthStatusType.Rejected) {
 					self.AuthStatus(self.AuthStatus() + '：' + auth.RejectReason);
@@ -51,7 +51,7 @@ var authEdu = function() {
 				var auth = JSON.parse(responseText);
 				if (auth && auth.AuthType) {
 					self.Auth(auth);
-					self.Path(common.gServerUrl + 'Common/GetImage/?url=' + auth.PicPath);
+					self.Path(common.getPhotoUrl(auth.PicPath));
 					self.AuthStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
 					self.Editable(auth.Approved == common.gDictAuthStatusType.NotAuth && common.StrIsNull(auth.PicPath) == '');
 				}

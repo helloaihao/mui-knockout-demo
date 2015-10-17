@@ -36,7 +36,7 @@ var my_student = function() {
 					self.ID(responseText.ID);
 					self.DisplayName(responseText.DisplayName);
 					if (responseText.Photo)
-						self.Photo(responseText.Photo);
+						self.Photo(common.getPhotoUrl(responseText.Photo));
 					self.FavCount(responseText.FavCount);
 					//self.UserID(responseText.UserID);
 				}

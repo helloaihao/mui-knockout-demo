@@ -34,6 +34,17 @@
 				color: #6d6d72;
 				font-size: 15px;
 			}
+			.top-btn {
+				height: 40px;
+				width: 60px;
+				display: inline-block;
+				margin: -15px 0 0 -15px;
+				padding: 0 10px 0 10px;
+				line-height: 40px;
+			}
+			.top-btn-right {
+				text-align: right;
+			}
 		</style>
 	</head>
 
@@ -41,8 +52,8 @@
 		<div id="pullrefresh" class="mui-scroll-wrapper">
 			<div class="mui-scroll">
 				<div class="p-header-div">
-					<a class="iconfont" href="javascript: window.history.back(-1);">&#xe602;</a>
-					<a class="iconfont">&#xe60e;</a>
+					<a class="iconfont mui-action-back top-btn">&#xe602;</a>
+					<a class="iconfont top-btn top-btn-right">&#xe60e;</a>
 					<div class="photo">
 						<!--<img src="../../images/default.jpg" />-->
 						<img data-bind="attr: {"src": Photo}" />

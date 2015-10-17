@@ -23,6 +23,12 @@
 				margin-top: 8px;
 				margin-left: 210px;
 			}
+			.mui-content-padded{
+				margin: 0;
+			}
+			input[type=text]{
+				margin-bottom: 4px;
+			}
 		</style>
 	</head>
 
@@ -33,13 +39,14 @@
 		</header>
 		<div class="mui-content identityAuthentication">
 			<div class="identityAuthentication-up">
-				<span>通过身份认证后才能被搜索哦~</span>
+				<!--<span></span>-->
 				<div class="content">
 					<div class="content-left">
 						<img src="../../images/Identity.jpg" />
 						<em>参考案例</em>
 					</div>
 					<div class="content-right">
+						<p class="p-title">通过身份认证后才能被搜索哦~</p>
 						<p>1 免冠照，保证五官清晰可见</p>
 						<p>2 证件上的文字与号码清晰可见</p>
 						<p>3 手持证件拍照</p>
@@ -57,7 +64,7 @@
 
 			<form>
 				<div class="identityAuthentication-input">
-					证件号码：<input type="text" placeholder="请输入证件号码" data-bind="value:IDNumber, enable: Editable" />
+					<span>证件号码：</span><input type="text" placeholder="请输入证件号码" data-bind="value:IDNumber, enable: Editable" />
 				</div>
 			</form>
 			<u data-bind="text: AuthStatus"></u>

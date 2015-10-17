@@ -23,7 +23,7 @@ var myAlbum = function() {
 				var result = JSON.parse(responseText);
 				if (result) {
 					result.forEach(function(item) {
-						var url = common.gServerUrl + 'Common/GetImage?url=' + item.Path;
+						var url = common.getPhotoUrl(item.Path);
 						var newobj = {
 							ID: item.ID,
 							Uploading: ko.observable(false),

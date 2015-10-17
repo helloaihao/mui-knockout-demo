@@ -22,41 +22,68 @@
 				content: "\e618"!important;
 				top: 22px!important;
 				font-size: 1.2rem!important;
-				right: 18px;
+				right: 15px;
 			}
 			.mui-badge {
 				background: none!important;
 				color: #999;
 				font-size: 0.98rem;
+				padding: 3px 87px!important;
+				text-align: center;
+			}
+			.mui-table-view-cell {
+    			position: relative;
+    			overflow: hidden;
+    			padding: 11px 0px;
+    			-webkit-touch-callout: none;
 			}
 			.mui-table-view-cell>a:not(.mui-btn) {
 				font-size: 1.02rem;
 				background: none!important;
-				margin: -11px 150px -11px -15px!important;
-				padding-right: 300px;
+				margin: -11px 0px!important;
+				padding-left: 15px;
+				padding-right: 15px;
 			}
-			.mui-badge {
-				padding: 3px 75px!important;
-			}			
+			.mui-navigate-right{
+				width: 100%;
+				margin-left: 15px;
+			}	
+			.mui-navigate-right span{
+				width: 30%;
+				height: 100%;
+				display: inline-block;
+				padding-left: 15px;
+				box-sizing: border-box;
+				float: left;
+			}
+			.mui-navigate-right u{
+				text-decoration: none;
+				width: 60%;
+				float: left;
+				color: #999;
+				font-size: 0.96rem;
+				text-align: center;
+				display: inline-block;				
+				box-sizing: border-box;
+				margin-top: -3px;
+				margin-left: -30px;				
+			}	
 		</style>
 	</head>
 
-	<body>
+	<body> 
 		<header class="mui-action-back mui-bar mui-bar-nav ">
 			<i class="iconfont">&#xe602;</i>
 			<h1 class="mui-title">职称认证</h1>
 		</header>
 		<div class="mui-content titleCertification-mui-content">
 			<ul class="mui-table-view">
-				<li class="mui-table-view-cell">
-					<a class="mui-navigate-right">
-						<span class="mui-badge" data-bind="text:ProTitleTypeText, event:{click:chooseAuthPro}, enable: Editable">请选择职称</span> 职称
-					</a>
-				</li>
+				<li class="mui-table-view-cell"><a class="mui-navigate-right">
+						<span>职称</span>
+						<u  data-bind="text:ProTitleTypeText, event:{click:chooseAuthPro}, enable: Editable">选择职称</u>
+					</a></li>
 			</ul>
-
 			<p>请提交在有效期内的职称证件照片，需保证头像及文字清晰可见</p>
-
 			<div class="titleCertification-pic-div" data-bind="click:selectPic">
 				<div class="uploadbar"><img id="imgUpload" data-bind="attr: {'src': Path}" /></div>
 				<i class="iconfont">&#xe633;</i>

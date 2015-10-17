@@ -33,7 +33,6 @@ var my_teacher = function() {
 		self.getStudent = function() {
 			var ajaxUrl = common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID() + "&usertype=" + self.UserType();
 			
-			//console.log(ajaxUrl);
 			mui.ajax(ajaxUrl, {
 				dataType: 'json',
 				type: 'GET',
@@ -42,7 +41,7 @@ var my_teacher = function() {
 					self.ID(responseText.ID);
 					self.DisplayName(responseText.DisplayName);
 					if (responseText.Photo)
-						self.Photo(responseText.Photo);
+						self.Photo(common.getPhotoUrl(responseText.Photo));
 					self.FavCount(responseText.FavCount);
 					//self.UserID(responseText.UserID);
 				}

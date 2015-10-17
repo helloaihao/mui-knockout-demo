@@ -26,7 +26,28 @@
 		return jsonDest;
 	},
 
-	transfer: function(targetUrl, checkLogin, extras, createNew,autoShowValue) {
+	/**
+	 * 根据值获取对应的显示文本
+	 * @param {Object} jsonSrc json字符串或数组（必须为value和text键值对的）
+	 * @param {String} value 数值
+	 * @return {String} 对应的文本
+	 */
+	getTextByValue: function(jsonSrc, value) {
+		if (typeof(jsonSrc) == "string") {
+			jsonSrc = JSON.parse(jsonSrc);
+		}
+		if (jsonSrc) {
+			for (var i = 0; i < jsonSrc.length; i++) {
+				if (jsonSrc[i].value == value) {
+					return jsonSrc[i].text;
+				}
+			}
+		}
+
+		return '';
+	},
+
+	transfer: function(targetUrl, checkLogin, extras, createNew, autoShowValue) {
 		var tmpUrl = targetUrl;
 		if (checkLogin && getLocalItem('UserID') <= 0) {
 			tmpUrl = '../account/login.html';
@@ -106,25 +127,24 @@
 
 	//根据起始时间和结束时间返回类似“9月20日 15:00~16:00”
 	formatTime: function(btime, etime) {
-		if(!btime) return;
-		
+		if (!btime) return;
+
 		var bdate;
 		if (btime instanceof Date)
 			bdate = btime;
 		else {
-			bdate = new Date(btime.replace(/-/gi,'/'));
+			bdate = new Date(btime.replace(/-/gi, '/'));
 		}
 		if (isNaN(bdate)) { //非日期格式，原文返回
 			return btime;
 		}
 		var ehour = 0;
-		if (etime){
+		if (etime) {
 			if (etime instanceof Date)
 				ehour = etime.getHours();
 			else
-				ehour = (new Date(etime.replace(/-/gi,'/'))).getHours();
-		}
-		else
+				ehour = (new Date(etime.replace(/-/gi, '/'))).getHours();
+		} else
 			ehour = bdate.getHours() + 1;
 		var ret = (bdate.getMonth() + 1) + '月' + bdate.getDate() + '日' + ' ' + bdate.getHours() + ':00~' + ehour + ':00';
 
@@ -145,8 +165,6 @@
 		});
 	},
 
-	//Web API地址
-	gServerUrl: "http://192.168.1.99:8090/", //"http://192.168.1.102:8090/", //"http://localhost:53651/"	//"http://192.168.1.99:8090/"
 	//获取未读消息
 	getUnreadCount: function(UnreadCount) {
 		if (common.StrIsNull(getLocalItem('UUID')) == '')
@@ -163,6 +181,17 @@
 			}
 		});
 	},
+
+	/**
+	 * 根据图片名获取其图片
+	 * @param {String} photo 图片名
+	 */
+	getPhotoUrl: function(photo) {
+		return common.gServerUrl + 'Common/GetImage?url=' + photo;
+	},
+
+	//Web API地址
+	gServerUrl: "http://192.168.1.99:8090/", //"http://192.168.1.102:8090/", //"http://localhost:53651/"	//"http://192.168.1.99:8090/"
 	//用户类型枚举
 	gDictUserType: {
 		teacher: 32,

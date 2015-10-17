@@ -43,7 +43,7 @@ var authProTitle = function() {
 
 			if (auth && auth.AuthType) {
 				self.Auth(auth);
-				self.Path(common.gServerUrl + 'Common/GetImage/?url=' + auth.PicPath);
+				self.Path(common.getPhotoUrl(auth.PicPath));
 				self.ProTitleType(auth.ProTitleType);
 				self.ProTitleTypeText(self.initProTitleText(auth.ProTitleType));
 				self.AuthStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
@@ -86,7 +86,7 @@ var authProTitle = function() {
 				if (auth && auth.AuthType) {
 					console.log(auth.PicPath);
 					self.Auth(auth);
-					self.Path(common.gServerUrl + 'Common/GetImage/?url=' + auth.PicPath);
+					self.Path(common.getPhotoUrl(auth.PicPath));
 					self.AuthStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
 					self.Editable(auth.Approved == common.gDictAuthStatusType.NotAuth && common.StrIsNull(auth.PicPath) == '');
 				}

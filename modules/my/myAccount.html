@@ -45,14 +45,25 @@
 			.mui-slider .mui-slider-group .mui-slider-item .mui-table-view:after {
 				height: 1px!important;
 			}
+			.top-btn {
+				height: 40px;
+				width: 60px;
+				display: inline-block;
+				margin: -15px 0 0 -15px;
+				padding: 0 10px 0 10px;
+				line-height: 40px;
+			}
+			.top-btn-right {
+				text-align: right;
+			}
 		</style>
 	</head>
 
 	<body>
 		<div class="myAccount-header">
 			<img src="../../images/myAccount.png" />
-			<i class="iconfont">&#xe602;</i>
-			<span data-bind="click:Withdraw">提现</span>
+			<i class="iconfont mui-action-back top-btn">&#xe602;</i>
+			<span class="iconfont top-btn top-btn-right" data-bind="click:Withdraw">提现</span>
 			<em>
 				<img src="../../images/4.jpg" />
 			</em>

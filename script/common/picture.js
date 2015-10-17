@@ -134,7 +134,7 @@ picture.CropConfirm = function(localPath) {
 	if(_returnPics.length >= 2 || _returnPics.length <= 0) return;		//多选时不允许裁剪
 	
 	var self = this;
-
+	console.log(localPath);
 	//转换cropper选中区域的对象，以符合plus.zip中压缩图片option要求
 	var chosen = self.cropper.getData();
 	var clip = {
@@ -144,12 +144,12 @@ picture.CropConfirm = function(localPath) {
 		height: chosen.height
 	}
 	self.ZoomImageToBase64(clip);
-	document.body.removeChild(event.srcElement.parentElement);
+	document.body.removeChild(event.srcElement.parentElement.parentElement);
 }
 
 //取消裁剪
 picture.CropCancel = function() {
-	document.body.removeChild(event.srcElement.parentElement);
+	document.body.removeChild(event.srcElement.parentElement.parentElement);
 }
 
 /**
@@ -162,19 +162,17 @@ picture.CropImage = function() {
 	var localPath = plus.io.convertLocalFileSystemURL(_returnPics[0].srcPath);
 	var self = this;
 	var div = document.createElement("div"); //此处需要美化裁剪界面以及按钮样式
-	div.className = "cropper-container11";
-	div.style.position = "fixed";
-	div.style.left = 0;
-	div.style.top = 0;
-	div.style.right = 0;
-	div.style.bottom = 0;
-	div.style.zIndex = 20;
-	div.style.backgroundColor = "lightgray";
-	div.style.padding = 0;
-	div.innerHTML = "<img style='margin:0;padding:0;border:0;' src='" + localPath + "' /><button class='mui-btn mui-btn-primary' onclick='picture.CropConfirm(\"" + localPath + "\")'>确定</button><button class='mui-btn mui-btn-warning' onclick='picture.CropCancel()'>取消</button>"
+	div.id = 'divCropPopup';
+	div.innerHTML = '<div style="position: fixed;top:0;left:0;right:0;bottom:50px;z-index: 20; background-color: lightgray; text-align: center;" class="cropper-container">\
+						<img style="height: 96%; width: auto; display: initial" src="' + localPath + '" />\
+					</div>\
+					<div id="divButtons" style="position: fixed; bottom: 0px; height: 50px; background: #fff; width: 100%;">\
+						<button id="cancel" class="mui-btn mui-btn-warning" style="margin-top: 8px; margin-left: 20px;" onclick="picture.CropCancel()">取消</button>\
+						<button id="ok" class="mui-btn mui-btn-primary" style="margin-top: 8px; margin-right: 20px; float: right;" onclick="picture.CropConfirm(\'' + localPath + '\')">确定</button>\
+					</div>';
 	document.body.appendChild(div);
 
-	var image = document.querySelector('.cropper-container11 > img');
+	var image = document.querySelector('.cropper-container > img');
 	self.cropper = new Cropper(image, {
 		aspectRatio: 1 / 1,
 		autoCrop: true,

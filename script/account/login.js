@@ -21,26 +21,24 @@ var login = function() {
 					Password: self.Password()
 				},
 				success: function(responseText) {
-					closewebview(); //关闭首页webview
+					//mui.toast(index.getURL() + "第1");
+					closeWebview(index); //关闭首页webview
+					//mui.toast(index.getURL() + "第2");
 					var result = responseText; //eval("(" + responseText + ")");
 					setLocalItem("UserID", result.UserID);
 					setLocalItem("UserName", result.UserName);
 					setLocalItem("Token", result.Token);
 					setLocalItem("UserType", result.UserType);
 					mui.toast("登录成功，正在返回首页...");
+					common.transfer('../../index.html');
+					//plus.webview.create('../../index.html',plus.runtime.appid).show();
+					//closewebview(login);//登录成功后关闭登录窗口
+					//mui.toast(index.getURL() + "第3");
 					//mui.toast(index.getURL());
 					//plus.webview.show(index.getURL());
 					//window.location.href="../../index.html";
-					common.transfer('../../index.html');
-
-
-					//var nwaiting=plus.nativeUI.showWaiting();//原生等待框
-					//webviewShow = plus.webview.create("../../index.html");//创建界面
-					//webviewShow.addEventListener("loaded", function() { //注册新webview的载入完成事件
-					//nwaiting.close(); //新webview的载入完毕后关闭等待框
-					// webviewShow.show("slide-in-right",150); //把新webview窗体显示出来，显示动画效果为速度150毫秒的右侧移入动画
-					// }, false);
-
+					//common.transfer('../../index.html');
+					 
 				}
 			});
 		}
@@ -73,19 +71,24 @@ var login = function() {
 			})
 		}
 		// H5 plus事件处理
-
 	function plusReady() {
 		//获取当前应用首页窗口对象
-		index = plus.webview.getLaunchWebview();
+		index = plus.webview.getWebviewById(plus.runtime.appid);
+		login=plus.webview.currentWebview();
 	}
 	if (window.plus) {
 		plusReady();
 	} else {
 		document.addEventListener('plusready', plusReady, false);
 	}
-
-	function closewebview() {
-		plus.webview.close(index);
+	//关闭页面的函数
+	function closeWebview(webviewObj) {
+		plus.webview.close(webviewObj);
+		mui.toast("关闭页面")
+	}
+	//创建窗口页面的函数
+	function createWebview(webviewUrl,webviewId){
+		plus.webview.create(webviewUrl,webviewId);
 	}
 
 
