@@ -102,20 +102,18 @@
 
 	<body>
 		<div class="p-header-div">
-			<a class="iconfont mui-action-back top-btn">&#xe602;</a>
-			<a href="#middlePopover" class="iconfont top-btn top-btn-right">&#xe60e;</a>
+			<a class="iconfont mui-action-back top-btn first">&#xe602;</a>
+			<a href="#middlePopover" class="iconfont top-btn top-btn-right second">&#xe60e;</a>
 			<div class="photo">
-				<img src="../../images/default.jpg" />
+				<!--<img src="../../images/default.jpg" />-->
+				<img data-bind="attr: {src: Photo}" />
 			</div>
-			<span data-bind="text:DisplayName"></span>
+			<span class="userName" data-bind="text:DisplayName"></span>
 			<!--科目|教龄-->
-			<span><!--ko text:SubjectName--><!--/ko--> | <!--ko text:TeachAge--><!--/ko-->年教龄 |
-				<i class="iconfont">&#xe62f;</i>
-				<i class="iconfont">&#xe62f;</i>
-				<i class="iconfont">&#xe62f;</i>
-				<i class="iconfont">&#xe62f;</i>
+			<span class="message"><!--ko text:SubjectName--><!--/ko--> | <!--ko text:TeachAge--><!--/ko-->年教龄 |
+				<i data-bind="css: 'star'+Star()"></i>				
 			</span>
-			<span>
+			<span class="address">
 				<i class="iconfont">&#xe63c;</i>
 				<!--省市区-->
 				<!--ko text:Province--><!--/ko-->><!--ko text:City--><!--/ko-->><!--ko text:District--><!--/ko-->
@@ -194,7 +192,7 @@
 			<div class="teacherList-more" data-bind="click:openWork">查看更多></div>
 			<div class="teacherList-blank-bgColor "></div>
 			<div class="teacherList-resolve-title ">课程</div>
-			<div data-bind="template:{name:'classTemplate',foreach:lesson}">
+			<div data-bind="template:{name:'classTemplate',foreach:Courses}">
 			</div>
 			<!--以下为模板文件-->
 			<script type="text/html" id="classTemplate">

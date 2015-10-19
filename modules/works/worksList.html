@@ -15,14 +15,17 @@
 			/*header.mui-bar {
 				display: none!important;
 			}*/
-			body,.mui-content{
+			
+			body,
+			.mui-content {
 				background: #f1f1f1!important;
 			}
 			.mui-bar-nav~.mui-content {
 				padding-top: 0px;
-				
 			}
-			.mui-input-group:after, .mui-input-group:before,.mui-input-group{
+			.mui-input-group:after,
+			.mui-input-group:before,
+			.mui-input-group {
 				background: #f1f1f1!important;
 			}
 			.mui-bar-tab .ah-mui-tab-item {
@@ -35,24 +38,29 @@
 				white-space: nowrap;
 				text-overflow: ellipsis;
 			}
-			.mui-segmented-control .mui-control-item{
+			.mui-segmented-control .mui-control-item {
 				border-left: none!important;
 			}
 			.mui-segmented-control {
 				border-radius: 50px!important;
 				display: block;
 				height: 30px;
-				
 			}
 			.mui-control-item1 {
 				vertical-align: top;
-				border-radius: 52px 0 0 60px;
+				border-radius: 60px 0 0 60px;
 				line-height: 28px!important;
 			}
 			.mui-control-item2 {
 				vertical-align: top;
-				border-radius: 0 52px 60px 0;
+				border-radius: 0 60px 60px 0;
 				line-height: 28px!important;
+			}
+			.mui-radio.mui-left input[type='radio'] {
+				left: 10px;
+			}
+			.mui-navigate-right:after {
+				right: 30%;
 			}
 		</style>
 	</head>
@@ -84,7 +92,7 @@
 				</ul>
 			</div>
 			<div id="item1" class=" mui-control-content mui-active" style="position:static">
-				<div class="mui-scroll-wrapper" id="pullrefresh" >
+				<div class="mui-scroll-wrapper" id="pullrefresh" style="top:80px">
 					<div class="mui-scroll">
 						<!--作品显示页-->
 						<ul class="mui-input-group">

@@ -66,12 +66,12 @@ var workList = function() {
 		})
 	};
 	//预加载详情页面
-	var worksDetails=mui.preload({
-		url:'WorksDetails.html',
+	var worksDetails = mui.preload({
+		url: 'WorksDetails.html',
 		extras: {
-				WorkID: works.ID,
-				AuthorID: works.AuthorID
-			}
+			WorkID: works.ID,
+			AuthorID: works.AuthorID
+		}
 	});
 	//跳转到作品详情页面
 	self.goWorksDetails = function() {
@@ -148,25 +148,17 @@ var workList = function() {
 	self.gotoAddWorks = function() {
 		common.transfer('../../modules/works/addWorks.html', true);
 	};
-
-	//	mui.plusReady(function(){
-	//		var web = plus.webview.currentWebview();
-	//		if( typeof(web.teacherID) !== "undefined" ) {
-	//			teacherID = web.teacherID;
-	//			self.displayCheck(web.displayCheck);
-	//		}
 	ppSubject = new mui.PopPicker();
 	mui.ajax(common.gServerUrl + "Common/Subject/Get", {
-		dataType: 'json',
-		type: "GET",
-		success: function(responseText) {
-			var arr = common.JsonConvert(responseText, 'ID', 'SubjectName');
-			ppSubject.setData(arr);
-		}
-	});
+			dataType: 'json',
+			type: "GET",
+			success: function(responseText) {
+				var arr = common.JsonConvert(responseText, 'ID', 'SubjectName');
+				ppSubject.setData(arr);
+			}
+		});
 	ppSort = new mui.PopPicker();
 	ppSort.setData(common.gJsonWorkSort);
 	self.getWorks();
-	//})
 }
 ko.applyBindings(workList);

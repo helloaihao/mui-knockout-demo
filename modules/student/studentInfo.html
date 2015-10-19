@@ -52,17 +52,17 @@
 		<div id="pullrefresh" class="mui-scroll-wrapper">
 			<div class="mui-scroll">
 				<div class="p-header-div">
-					<a class="iconfont mui-action-back top-btn">&#xe602;</a>
-					<a class="iconfont top-btn top-btn-right">&#xe60e;</a>
+					<a class="iconfont mui-action-back top-btn first">&#xe602;</a>
+					<a class="iconfont top-btn top-btn-right second">&#xe60e;</a>
 					<div class="photo">
 						<!--<img src="../../images/default.jpg" />-->
-						<img data-bind="attr: {"src": Photo}" />
+						<img data-bind="attr: {src: Photo}" />
 					</div>
-					<span data-bind="text:DisplayName"></span>
-					<span><!--ko text:Gender--><!--/ko-->  | <!--ko text:Years--><!--/ko-->岁 
+					<span class="userName" data-bind="text:DisplayName"></span>
+					<span class="message"><!--ko text:Gender--><!--/ko-->  | <!--ko text:Years--><!--/ko-->岁 
 				
 			</span>
-					<span>
+					<span class="address">
 				<i class="iconfont">&#xe63c;</i>
 				<!--广州市>天河区>体育中心-->
 				<!--ko text:Province--><!--/ko-->><!--ko text:City--><!--/ko-->><!--ko text:District--><!--/ko-->

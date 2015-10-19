@@ -48,7 +48,8 @@ var myAlbum = function() {
 			contentType: 'application/json', //如此contentType/data的写法，才能上传图片的base64
 			data: JSON.stringify(obj.Base64),
 			success: function(responseText) {
-				obj.ID = responseText.ID; //更新ID值
+				var result = JSON.parse(responseText);
+				obj.ID = result.ID; //更新ID值
 				obj.Uploading(false); //说明上传完成
 
 				mui.toast('上传成功');

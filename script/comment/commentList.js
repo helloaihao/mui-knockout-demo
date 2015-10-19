@@ -44,5 +44,16 @@ var commentList = function() {
 	self.getUnreadCount = function(){
 		common.getUnreadCount(self.UnreadCount());
 	}
+	
+	function plusReady() {
+		if (plus.networkinfo.getCurrentType() == 1) {
+			mui.toast("网络还没连接哦");
+		}
+	}
+	if (window.plus) {
+		plusReady();
+	} else {
+		document.addEventListener('plusready', plusReady, false);
+	}
 }
 ko.applyBindings(commentList);

@@ -189,9 +189,8 @@
 	getPhotoUrl: function(photo) {
 		return common.gServerUrl + 'Common/GetImage?url=' + photo;
 	},
-
 	//Web API地址
-	gServerUrl: "http://192.168.1.99:8090/", //"http://192.168.1.102:8090/", //"http://localhost:53651/"	//"http://192.168.1.99:8090/"
+	gServerUrl: "http://192.168.1.4:8090/", //"http://192.168.1.102:8090/", //"http://localhost:53651/"	//"http://192.168.1.99:8090/"
 	//用户类型枚举
 	gDictUserType: {
 		teacher: 32,
@@ -337,6 +336,19 @@
 	}, {
 		value: 3,
 		text: '讲师/演奏家'
-	}],
+	}]
+
+	/*获取网络状态值
+	 * CONNECTION_UNKNOW: 网络连接状态未知  固定值0
+	 * CONNECTION_NONE: 未连接网络  固定值1
+	 * CONNECTION_ETHERNET: 有线网络  固定值2
+	 * CONNECTION_WIFI: 无线WIFI网络  固定值3
+	 * CONNECTION_CELL2G: 蜂窝移动2G网络  固定值4
+	 * CONNECTION_CELL3G: 蜂窝移动3G网络  固定值5
+	 * CONNECTION_CELL4G: 蜂窝移动4G网络  固定值6
+	 * @description 获取网络状态的函数
+	 */
+	//gNetworkState: plus.networkinfo.getCurrentType(),
+
 
 }

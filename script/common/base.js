@@ -93,7 +93,7 @@ var handleResult = function(result) {
 	//备份mui的ajax方法  
 	var _ajax = $.ajax;
 
-	//重写jquery的ajax方法  
+	//重写mui的ajax方法  
 	$.ajax = function(url, opt) {
 		//备份opt中error和success方法  
 		var fn = {
@@ -106,13 +106,15 @@ var handleResult = function(result) {
 		if (opt.success) {
 			fn.success = opt.success;
 		}
-
 		//扩展增强处理  
 		var _opt = $.extend(opt, {
 			beforeSend: function(req) {
 				req.setRequestHeader('Authorization', self.getAuth());
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
+				if (plus.networkinfo.getCurrentType() == 1) {
+					mui.toast('还没连接网络哦');
+				} 
 				switch (XMLHttpRequest.statusCode) {
 					case 401:
 						window.location = "Login.html";
@@ -125,13 +127,11 @@ var handleResult = function(result) {
 						mui.toast(handleResult(XMLHttpRequest.responseText));
 						break;
 				}
-
 				//错误方法增强处理
 				fn.error(XMLHttpRequest, textStatus, errorThrown);
 			},
 			success: function(data, textStatus) {
 				//成功回调方法增强处理  
-
 				fn.success(data, textStatus);
 			}
 		});
@@ -168,13 +168,13 @@ Date.prototype.format = function(format) {
  * @param {String} date 日期格式的字符串
  * @return {Date} 日期对象
  */
-var newDate = function(date){
-	if(date instanceof Date)
+var newDate = function(date) {
+	if (date instanceof Date)
 		return (new Date(date.format('yyyy/MM/dd hh:mm:ss')));
-	
+
 	//console.log(date);
-	if(!date)
+	if (!date)
 		return (new Date());
 	else
-		return (new Date(date.replace(/-/gi,'/')));
+		return (new Date(date.replace(/-/gi, '/')));
 }

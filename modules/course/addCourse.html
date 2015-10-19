@@ -64,9 +64,9 @@
 					</div>
 					<div class="mui-input-row reg-mui-input-row th-mui-input-row addCourse-mui-input ah-input-row">
 						<label>年龄要求</label>
-						<input type="text" class="mui-input-clear mui-input reg-mui-input " placeholder="最小年龄" data-bind="value: course().AgeMin">
+						<input type="text" class="mui-input-clear mui-input reg-mui-input" onfocus="this.type='number'" onblur="this.type='text'" placeholder="最小年龄" data-bind="value: course().AgeMin">
 						<!--<span class="label-to">~</span>-->
-						<input type="text" class="mui-input-clear mui-input reg-mui-input " placeholder="最大年龄" data-bind="value: course().AgeMax">
+						<input type="text" class="mui-input-clear mui-input reg-mui-input" onfocus="this.type='number'" onblur="this.type='text'" placeholder="最大年龄" data-bind="value: course().AgeMax">
 						<!--<label id="ageLimits" data-bind="text: dbAgeLimits"></label>-->
 					</div>
 				</form>
@@ -90,7 +90,7 @@
 				<form class="mui-input-group reg-mui-input-group" data-bind='foreach:{data: Locations}'>
 					<div class="mui-input-row reg-mui-input-row addCourse-mui-input">
 						<label data-bind='text: getLocationName(LocationType())'>老师上门 </label>
-						<input id='taccount' type="number" class="mui-input-clear mui-input reg-mui-input " placeholder="请输入费用" data-bind="value: Cost">
+						<input id='taccount' type="text" onfocus="this.type='number'" onblur="this.type='text'" class="mui-input reg-mui-input " placeholder="请输入费用" data-bind="value: Cost">
 						<span>元</span>
 					</div>
 				</form>

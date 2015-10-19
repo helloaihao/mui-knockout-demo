@@ -34,7 +34,22 @@ var moreInfo = function() {
 				removeLocalItem('Token');
 				removeLocalItem('UserType');
 				mui.toast("注销成功");
-				mui.openWindow("../../index.html");
+				
+				var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');	//获取首页Webview对象
+				plus.webview.close(index);	//关闭首页
+				mui.openWindow({
+					id: 'indexID',
+					url: "../../index.html",
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: "100ms"
+					},
+					waiting: {
+						autoShow: false
+					},
+					createNew: true
+				})
 			}
 		}
 		/*修改密码 js
@@ -125,7 +140,18 @@ var moreInfo = function() {
 				})
 			}
 		}
-		
+		// H5 plus事件处理
+
+//	function plusReady() {
+//		
+//		console.log(index);
+//	}
+//	if (window.plus) {
+//		plusReady();
+//	} else {
+//		document.addEventListener('plusready', plusReady, false);
+//	}
+
 
 }
 ko.applyBindings(moreInfo);

@@ -8,10 +8,10 @@ var my_student = function() {
 	self.UserType = ko.observable(getLocalItem('UserType'));
 
 	self.goMyinfo = function() {
-		common.transfer('myInfo.html', true);
+		common.transfer('myInfo.html',true,{},true);
 	}
 	self.goMoreInfo=function(){
-		common.transfer('moreInfo.html');
+		common.transfer('moreInfo.html',true,{},true);
 	}
 	self.goMyOrders = function(){
 		common.transfer('myOrders.html', true);

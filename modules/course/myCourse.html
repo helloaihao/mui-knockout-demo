@@ -53,9 +53,9 @@
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<i class="iconfont" data-bind="event:{tap: gotoCoursesList}">&#xe641;</i>
+			<i class="iconfont" data-bind="event:{tap: gotoCoursesList}, visible: IsTeacher">&#xe641;</i>
 			<h1 class="mui-title">课程表</h1>
-			<i class="iconfont">&#xe648;</i>
+			<i class="iconfont" data-bind="event:{tap: filterCourses}, visible: IsTeacher, style: {color: FilteredCourseID() > 0 ? 'orange' : ''}">&#xe648;</i>
 		</header>
 		<div class="mui-content">
 			<div class="availableTime-title">

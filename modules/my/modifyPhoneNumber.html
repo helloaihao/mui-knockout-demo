@@ -46,7 +46,7 @@
 
 				<div class="mui-input-row reg-mui-input-row">
 					<label>新号码</label>
-					<input id='account' type="text" class="mui-input reg-mui-input" placeholder="请输入新手机号码" data-bind="value:NewUserName">
+					<input id='account' type="text" onfocus="this.type='number'" onblur="this.type='text'" class="mui-input reg-mui-input" placeholder="请输入新手机号码" data-bind="value:NewUserName">
 				</div>
 				<div class="mui-input-row reg-mui-input-row">
 					<label>验证码</label>

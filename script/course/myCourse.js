@@ -3,7 +3,9 @@ var myCourse = function() {
 	var beginHour = 8; //开始时间
 	var endHour = 21; //结束时间
 	self.UserID = getLocalItem('UserID');
+	self.IsTeacher = getLocalItem('UserType') == common.gDictUserType.teacher.toString();
 	self.Adjusting = ko.observable(false); //是否正在调整时间
+	self.FilteredCourseID = ko.observable(0);	//选择过滤的课程ID
 
 	self.WeekIndex = ko.observable(0); //0：当前周；-1：上一周；1：下一周……
 	self.Hours = ko.observableArray([]); //小时数组
@@ -91,28 +93,35 @@ var myCourse = function() {
 	//获取一周的课程
 	self.GetData = function(){
 		var self = this;
+		var paraCourseid = 0;
+		if(self.FilteredCourseID() > 0)
+			paraCourseid = self.FilteredCourseID();
 		var ajaxUrl = common.gServerUrl + 'API/Lesson/GetLessons?userid=' + getLocalItem('UserID')
-			+ '&weekindex=' + self.WeekIndex();
-		
+			+ '&weekindex=' + self.WeekIndex() + '&courseid='+paraCourseid;
+		plus.nativeUI.showWaiting();
 		mui.ajax(ajaxUrl, {
 			type: 'GET',
 			success: function(responseText) {
 				var lessons = JSON.parse(responseText);
 				self.Lessons(lessons);
+				plus.nativeUI.closeWaiting();
 			}
 		})
 	}
 
-	mui.ready(function() {
+	mui.plusReady(function() {
+	//mui.ready(function() {
 		var self = this;
-		var lessonID = common.getQueryStringByName('lessonID'); //直接跳转到该页面的参数：课程ID
-		if(lessonID){
+		
+		var web = plus.webview.currentWebview();
+		if (typeof(web.lessonID) !== "undefined") {
+			var lessonID = web.lessonID;
+		
 			var ajaxUrl = common.gServerUrl + 'API/Lesson/GetLessonsByLessonID?userid=' + getLocalItem('UserID')
 				+ '&lessonid=' + lessonID;
 			mui.ajax(ajaxUrl, {
 				type: 'GET',
 				success: function(responseText) {
-					
 					var lessons = JSON.parse(responseText);
 					self.Lessons(lessons);
 					if (lessonID > 0) { //有参数传递，跳转至该课时所在周，并打开其详细信息弹窗
@@ -132,28 +141,6 @@ var myCourse = function() {
 		else{
 			self.GetData();
 		}
-		
-		/*var lessonID = common.getQueryStringByName('lessonID'); //直接跳转到该页面的参数：课程ID
-		var ajaxUrl = common.gServerUrl + 'API/Lesson/GetLessons?userid=' + getLocalItem('UserID')
-			+ '&weekindex=' + self.WeekIndex();
-		mui.ajax(ajaxUrl, {
-			type: 'GET',
-			success: function(responseText) {
-				var lessons = JSON.parse(responseText);
-				self.Lessons(lessons);
-				if (lessonID > 0) { //有参数传递，跳转至该课时所在周，并打开其详细信息弹窗
-					self.Lessons().forEach(function(lesson) {
-						if (lesson.ID == lessonID) {
-							self.ViewLesson(lesson);
-							var tmp = newDate(lesson.BeginTime);
-							var iDays = parseInt((tmp - self.BeginDate()) / 1000 / 60 / 60 / 24);
-							self.WeekIndex(Math.floor(iDays / 7));
-							mui('#middlePopover').popover('toggle');
-						}
-					})
-				}
-			}
-		})*/
 	})
 
 	self.gotoTeacherInfo = function() {
@@ -251,6 +238,15 @@ var myCourse = function() {
 		common.transfer('openedCoursesList.html', true);
 	};
 	
+	//点击课程列表
+	self.filterCourses = function() {
+		if(self.FilteredCourseID() > 0)
+			self.FilteredCourseID(0);
+		else
+			self.FilteredCourseID(13);
+		self.GetData();
+	};
+	
 	//初始化课时单元格
 	self.initCell = function(date, hour) {
 		var self = this;
@@ -284,6 +280,7 @@ var myCourse = function() {
 				}
 			} else {
 				element.className = 'freetime';
+				element.innerText = '';
 			}
 		}
 	};

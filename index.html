@@ -48,6 +48,7 @@
 		<script type="text/javascript" charset="utf-8">
 			 //mui初始化
 			mui.init();
+			var networkState;//定义网路状态值
 			 //var subpages = [self.MyHref()];
 			var subpages = ['modules/home/home.html', 'modules/course/myCourse.html', 'modules/comment/commentList.html', self.worksList(), self.MyHref()];
 			var subpage_style = {
@@ -63,11 +64,12 @@
 				for (var i = 0; i < subpages.length; i++) {
 					var temp = {};
 					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
-					if (i > 0) {
-						sub.hide();
-					} else {
+					if (i == 0) {
 						temp[subpages[i]] = "true";
 						mui.extend(aniShow, temp);
+						
+					} else {
+						sub.hide();
 					}
 					self.append(sub);
 				}

@@ -12,9 +12,6 @@
 			body,.mui-content{
 				background: #F1F1F1!important;
 			}
-			.mui-popover {
-				min-height: 320px;
-			}
 			.mui-bar .mui-btn{
 				top: 9px;
 				padding: 6px 18px;
@@ -22,13 +19,21 @@
 			.mui-content-padded{
 				margin: 0!important;
 			}
+			.submitComment-top.mui-active{
+				left: 0!important;
+			}
 			.mui-btn-block{
 				width: 30%!important;
 				float: right;
 				top: -9px!important;
 				margin-right: 15px;
 			}
-		
+		   .mui-radio input[type=radio]:before{
+				content: "";
+			}
+			.mui-input-group .mui-input-row:after{
+				background: #f1f1f1!important;
+			}
 		</style>
 	</head>
 	<body>
@@ -82,29 +87,38 @@
 		
 		
 		<!--弹出分享-->
-		<div id="middlePopover" class="mui-popover">	
+		<div id="middlePopover" class="mui-popover submitComment-top">	
 			<div class="mui-scroll-wrapper">
-				<div class="mui-scroll submitClass-mui-scroll" >
+				<div class="mui-scroll submitClass-mui-scroll Lesson-mui" >
 					<div class="mui-scroll-title">
 						<i class="iconfont" data-bind="click:closePopover">&#xe63f;</i>
 						<span>付款详情</span>
 					</div>
 					<ul>
-						<li>
-							<img src="../../images/submitClass-wx.png" />
-							<span> 微信支付</span>
-							<i class="iconfont">&#xe618;</i>
-						</li>
-						<li>
-							<img src="../../images/submitClass-zf.png" />
-							<span>支付宝</span>
-							<i class="iconfont">&#xe618;</i>
-						</li>
-						<li>
+						<form class="mui-input-group">
+							<div class="mui-input-row mui-radio mui-left Lesson-radio current-radio">
+								<label>
+							<li class="wx-pay">
+								<img src="../../images/submitClass-wx.png" />
+								<span> 微信支付</span>							
+						        <input name="radio1" type="radio" checked="checked">
+							</li>
+							</label>
+							</div>
+							<div class="mui-input-row mui-radio mui-left Lesson-radio">
+								<label>
+							<li class="wx-pay">
+								<img src="../../images/submitClass-zf.png" />
+								<span> 支付宝</span>							
+						        <input name="radio1" type="radio">
+							</li>
+							</label>
+							</div>
+						<li class="lineHeight">
 							总额：￥30.00
 						</li>
-					</ul>
-					
+						</form>
+					</ul>			
 					<button>去付款</button>
 					
 				</div>

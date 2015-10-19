@@ -16,31 +16,31 @@
 			.mui-content {
 				background: #f1f1f1!important;
 			}
-			.ah-select-list ul li{
+			.ah-select-list ul li {
 				width: 33.3333%;
 				padding: 0 20px;
 			}
-			.ah-select-list a{
+			.ah-select-list a {
 				height: 100%;
 				display: block;
 			}
-			.ah-select-list span{
-				
-			}
-			.ah-mui-navigate-right:after {
-				right: 25%;
+			.ah-select-list span {} .ah-mui-navigate-right:after {
+				right: 9%;
 			}
 			.mui-bar-tab .ah-mui-tab-item {
-    display: table-cell;
-    overflow: hidden;
-    width: 1%;
-    height: 50px;
-    text-align: center;
-    vertical-align: middle;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    color: #929292;
-}
+				display: table-cell;
+				overflow: hidden;
+				width: 1%;
+				height: 50px;
+				text-align: center;
+				vertical-align: middle;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				color: #929292;
+			}
+			.mui-radio.mui-left input[type='radio'] {
+				left: 10px;
+			}
 		</style>
 	</head>
 
@@ -67,110 +67,41 @@
 				</ul>
 			</div>
 
-			<!--<div id="middlePopover" class="mui-popover">
-				<div class="mui-popover-arrow"></div>
-				<div class="mui-scroll-wrapper">
-					<div class="mui-scroll">
-						<ul class="mui-table-view">
-							<li class="mui-table-view-cell">
-								<a href="#">科目</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item10</a>
-							</li>
-							
-						</ul>
-					</div>
-				</div>
-
-			</div>
-			<div id="middlePopover2" class="mui-popover">
-				<div class="mui-popover-arrow"></div>
-				<div class="mui-scroll-wrapper">
-					<div class="mui-scroll">
-						<ul class="mui-table-view">
-							<li class="mui-table-view-cell">
-								<a href="#">排序</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item10</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item9</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item9</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item9</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-
-			</div>
-			<div id="middlePopover3" class="mui-popover">
-				<div class="mui-popover-arrow"></div>
-				<div class="mui-scroll-wrapper">
-					<div class="mui-scroll">
-						<ul class="mui-table-view">
-							<li class="mui-table-view-cell">
-								<a href="#">篩選</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item10</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item9</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item9</a>
-							</li>
-							<li class="mui-table-view-cell">
-								<a href="#">Item9</a>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>-->
-
-
-
-				<div id="pullrefresh" class="mui-scroll-wrapper" style="top: 80px">
-					<div class="mui-scroll">
-						<!--教师显示页-->
-						<ul class="mui-input-group">
-							<div data-bind="template:{name:'TeacherListTemplate', foreach:teacherList}">
-							</div>
-						</ul>
-						<!--教师模板页-->
-						<script type="text/html" id="TeacherListTemplate">
-							<div class="works-center teacherList-content">
-								<span data-bind="text: DisplayName"></span>
-								<i class="mui-input-row mui-checkbox mui-left">
+			<div id="pullrefresh" class="mui-scroll-wrapper" style="top: 80px">
+				<div class="mui-scroll">
+					<!--教师显示页-->
+					<ul class="mui-input-group">
+						<div data-bind="template:{name:'TeacherListTemplate', foreach:teacherList}">
+						</div>
+					</ul>
+					<!--教师模板页-->
+					<script type="text/html" id="TeacherListTemplate">
+						<div class="works-center teacherList-content">
+							<span data-bind="text: DisplayName"></span>
+							<i class="mui-input-row mui-checkbox mui-left">
 				                    <div class="mui-input-row mui-radio mui-left" data-bind="visible: displayCheck">
 				                        <input name="radio" type="radio">
 				                    </div>
                 				</i>
-								<div class="works-list-img" data-bind="event:{tap: gotoTeacherInfo}">
-									<img src="../../images/22.jpg" />
-									<i data-bind="text: SubjectName"></i>
-								</div>
-								<p data-bind="text: Introduce"></p>
-								<ol>
-									<li><sapn data-bind="text: TeachAge"></sapn>年教龄</li>
-									<li data-bind="text: Score"></li>
-									<li>
-										<em class="iconfont" data-bind="text: Star > 0 ? common.gJsonTeacherLever[Star].text : ''"></em>
-									</li>
-								</ol>
+							<div class="works-list-img" data-bind="event:{tap: gotoTeacherInfo}">
+								<img src="../../images/22.jpg" />
+								<i data-bind="text: SubjectName"></i>
 							</div>
-						</script>
-					</div>
+							<p data-bind="text: Introduce"></p>
+							<ol>
+								<li>
+									<sapn data-bind="text: TeachAge"></sapn>年教龄</li>
+								<li data-bind="text: Score"></li>
+								<li>
+									<em class="iconfont" data-bind="text: Star > 0 ? common.gJsonTeacherLever[Star].text : ''"></em>
+								</li>
+							</ol>
+						</div>
+					</script>
 				</div>
+			</div>
 
-
-			<nav class="mui-bar mui-bar-tab" data-bind = "visible: displayCheck">
+			<nav class="mui-bar mui-bar-tab" data-bind="visible: displayCheck">
 				<a class="ah-mui-tab-item mui-active works-list-mui-tab-label" href="#tabbar">
 					<span class="mui-tab-label ">取消</span>
 				</a>

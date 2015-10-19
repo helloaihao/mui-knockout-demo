@@ -5,6 +5,8 @@ var myInfo = function() {
 	self.UserType = ko.observable('');
 	self.UserType(getLocalItem('UserType'));
 
+	self.IsRegister = ko.observable(false);
+
 	//self.ID = ko.observable(" ");.//用户id
 	self.UserName = ko.observable(getLocalItem('UserName')); //手机
 	self.DisplayName = ko.observable(''); //姓名
@@ -15,10 +17,10 @@ var myInfo = function() {
 	self.Province = ko.observable(""); //默认广东省
 	self.City = ko.observable(""); //默认广州市
 	self.District = ko.observable(""); //默认天河区
-	self.Place = ko.computed(function(){ //位置
+	self.Place = ko.computed(function() { //位置
 		return self.Province() + ' ' + self.City() + ' ' + self.District();
 	})
-	
+
 	self.SubjectName = ko.observable(''); //所属科目名称
 	self.SubjectID = ko.observable(0); //所属科目
 	self.TeachAge = ko.observable(0); //教龄
@@ -28,7 +30,7 @@ var myInfo = function() {
 	self.VerifyCode = ko.observable(""); //验证码
 	self.RemainTime = ko.observable(0); //验证码剩余等待时间
 	self.WaitTime = 15; //验证码默认等待时间
-	self.Path = ko.observable('../../images/my-photo.png'); //图片路径
+	self.Path = ko.observable('../../images/my-default.jpg'); //图片路径
 	self.Base64 = ko.observable(''); //图片的base64字符串
 
 	self.selectPic = function() {
@@ -65,27 +67,9 @@ var myInfo = function() {
 					'endYear': year
 				},
 				self.Birthday(), function(value) {
-					self.Birthday(value);
+					//self.Birthday(value.format('yyyy-MM-dd'));
+					self.Birthday(value.split(' ')[0]);
 				});
-
-			/*//self.Birthday("2014-12-09");
-			var dDate = new Date();
-			dDate.setFullYear(2014, 7, 16);
-			var minDate = new Date();
-			minDate.setFullYear(1990, 0, 1);
-			var maxDate = new Date();
-			maxDate.setFullYear(2016, 11, 31);
-			plus.nativeUI.pickDate(function(e) {
-				var d = e.date;
-				self.Birthday(d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate());
-			}, function(e) {
-				mui.toast("您没有选择日期");
-			}, {
-				title: "请选择日期",
-				date: dDate,
-				minDate: minDate,
-				maxDate: maxDate
-			});*/
 		}
 		//地址获取
 	self.address = function() {
@@ -108,7 +92,8 @@ var myInfo = function() {
 		});
 	}
 	var genders, places, subjects;
-	mui.ready(function() {
+	mui.plusReady(function() {
+		//mui.ready(function() {
 		self.genders = new mui.PopPicker();
 		self.genders.setData(common.gJsonGenderType);
 
@@ -116,6 +101,11 @@ var myInfo = function() {
 			layer: 3
 		});
 		self.places.setData(cityData3);
+
+		var web = plus.webview.currentWebview();
+		if (typeof(web.isRegister) !== "undefined") {
+			self.IsRegister(true); //注册的第二步
+		}
 
 		mui.ajax(common.gServerUrl + 'Common/Subject/Get', {
 			type: 'GET',
@@ -125,7 +115,7 @@ var myInfo = function() {
 				self.subjects.setData(arr);
 			}
 		})
-		
+
 		mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID() + "&usertype=" + self.UserType(), {
 			type: 'GET',
 			success: function(responseText) {
@@ -135,28 +125,29 @@ var myInfo = function() {
 			}
 		})
 	})
-	
-	self.initData = function(teacher){
-		//self.UserName(teacher.UserName);
-		self.DisplayName(teacher.DisplayName);
-		self.Photo(teacher.Photo);
-		if (teacher.Photo != '')
-			self.Path(common.getPhotoUrl(teacher.Photo));
-		if (teacher.Birthday)
-			self.Birthday(teacher.Birthday.split(" ")[0]);
-		self.Gender(teacher.Gender);
-		self.GenderText(common.getTextByValue(common.gJsonGenderType, teacher.Gender));
-		if (teacher.SubjectID) {
-			self.SubjectID(teacher.SubjectID);
-			self.SubjectName(teacher.SubjectName);
-		}
-		if (teacher.TeachAge)
-			self.TeachAge(teacher.TeachAge);
+
+	self.initData = function(result) {
+		//self.UserName(result.UserName);
+		self.DisplayName(result.DisplayName);
+		self.Photo(result.Photo);
+		if (common.StrIsNull(result.Photo) != '')
+			self.Path(common.getPhotoUrl(result.Photo));
 		
-		self.Province(common.StrIsNull(teacher.Province));
-		self.City(common.StrIsNull(teacher.City));
-		self.District(common.StrIsNull(teacher.District));
-		self.Introduce(common.StrIsNull(teacher.Introduce));
+		if (result.Birthday)
+			self.Birthday(result.Birthday.split(" ")[0]);
+		self.Gender(result.Gender);
+		self.GenderText(common.getTextByValue(common.gJsonGenderType, result.Gender));
+		if (result.SubjectID) {
+			self.SubjectID(result.SubjectID);
+			self.SubjectName(result.SubjectName);
+		}
+		if (result.TeachAge)
+			self.TeachAge(result.TeachAge);
+
+		self.Province(common.StrIsNull(result.Province));
+		self.City(common.StrIsNull(result.City));
+		self.District(common.StrIsNull(result.District));
+		self.Introduce(common.StrIsNull(result.Introduce));
 	}
 
 	self.changeUserName = function() {
@@ -165,6 +156,31 @@ var myInfo = function() {
 
 	//提交修改
 	self.setInfo = function() {
+		if (common.StrIsNull(self.DisplayName()) == "") {
+			mui.toast('姓名不能为空');
+			return;
+		}
+		if (self.UserType() == common.gDictUserType.teacher) {
+			if (self.SubjectID() <= 0) {
+				mui.toast('请选择科目');
+				return;
+			}
+		}
+		if (common.StrIsNull(self.GenderText()) == "") {
+			mui.toast('请选择性别');
+			return;
+		}
+		if (common.StrIsNull(self.Province()) == "") {
+			mui.toast('请选择位置');
+			return;
+		}
+		if (self.UserType() == common.gDictUserType.teacher) {
+			if (common.StrIsNull(self.Introduce()) == "") {
+				mui.toast('自我简介不能为空');
+				return;
+			}
+		}
+
 		var infoUrl;
 		var data = {
 			DisplayName: self.DisplayName(),
@@ -185,13 +201,38 @@ var myInfo = function() {
 			data.TeachAge = self.TeachAge();
 			data.Introduce = self.Introduce();
 		}
-		
+
 		mui.ajax(infoUrl + self.UserID(), {
 			type: "PUT",
 			//contentType: 'application/json',
 			data: data,
 			success: function(responseText) {
-				mui.toast("修改成功");
+				if (self.IsRegister() == true) {
+					plus.webview.close(index); //关闭首页webview
+					mui.toast("注册成功，正在返回...");
+//					common.transfer('../../index.html');
+				} else {
+					mui.toast("修改成功");
+//					if (self.UserType() == common.gDictUserType.student)
+//						common.transfer('myInfoStudent.html');
+//					else
+//						common.transfer('myInfoTeacher.html');
+				}
+				var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');	//获取首页Webview对象
+				plus.webview.close(index);	//关闭首页
+				mui.openWindow({
+					id: 'indexID',
+					url: "../../index.html",
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: "100ms"
+					},
+					waiting: {
+						autoShow: false
+					},
+					createNew: true
+				})
 			}
 		})
 	}
@@ -269,5 +310,8 @@ var myInfo = function() {
 			}
 		});
 	}
+
+
 }
+
 ko.applyBindings(myInfo);

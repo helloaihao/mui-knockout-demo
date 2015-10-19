@@ -24,13 +24,25 @@
 				line-height:18px!important;
 				height: 44px!important;
 			}
+		
+			.reg-mui-input-row label,.mui-input-row label,.th-mui-btn-block,
+			.pic-mui-input-row label ~ input,
+            .mui-input-row label ~ select, 
+			.mui-input-row label ~ textarea{
+				font-size: 1.02rem;
+			}
+			.reg-mui-input-row label ~ input, .th-mui-btn-block{
+				color: #999;
+			}
+			
+		
 		</style>
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav mui-action-back">
 			<i class="iconfont">&#xe602;</i>
-			<h1 class="mui-title">修改个人信息</h1>
+			<h1 class="mui-title" data-bind="text: (IsRegister() == true ? '填写' : '修改') + '个人信息'"></h1>
 		</header>
 		<div class="mui-content pin-mui-content">
 			<div class="pi-tx-bg">
@@ -40,7 +52,7 @@
 			<div class="pin-blank"></div>
 
 			<form class="mui-input-group">
-				<div class="mui-input-row pic-mui-input-row">
+				<div class="mui-input-row pic-mui-input-row" data-bind="visible: IsRegister() == false">
 					<label>手机</label>
 					<span data-bind="text:UserName,event:{click:changeUserName}"></span>
 					<i class="iconfont">&#xe618;</i>
@@ -51,25 +63,25 @@
 				</div>
 				<div class="mui-input-row reg-mui-input-row th-mui-input-row" data-bind='visible: UserType() == common.gDictUserType.teacher'>
 					<label>科目</label>
-					<button class="mui-btn mui-btn-block th-mui-btn-block" type='button' data-bind="text:SubjectName,event:{click:getSubject}"></button>
+					<button class="mui-btn mui-btn-block th-mui-btn-block th-font" type='button' data-bind="text:SubjectName,event:{click:getSubject}"></button>
 				</div>
 				<div class="mui-input-row pic-mui-input-row" data-bind='visible: UserType() == common.gDictUserType.student'>
 					<label>生日</label>
-					<button id='pickDateBtn' type="button" class="mui-btn mui-btn-block th-mui-btn-block" data-bind="text:Birthday, click:getBirthday"></button>
+					<button id='pickDateBtn' type="button" class="mui-btn mui-btn-block th-mui-btn-block th-font" data-bind="text:Birthday, click:getBirthday"></button>
 				</div>
 				<div class="mui-input-row pic-mui-input-row">
 					<label>性别</label>
-					<button id='showUserPicker' class="mui-btn mui-btn-block th-mui-btn-block" type='button' data-bind="text:GenderText,event:{click:setUserGender}"></button>
+					<button id='showUserPicker' class="mui-btn mui-btn-block th-mui-btn-block th-font" type='button' data-bind="text:GenderText,event:{click:setUserGender}"></button>
 				</div>
 				<div class="mui-input-row reg-mui-input-row" data-bind='visible: UserType() == common.gDictUserType.teacher'>
 					<label>教龄</label>
-					<input id='account' type="text" class="mui-input-clear mui-input reg-mui-input" placeholder="请输入教龄" data-bind="value:TeachAge">
+					<input id='account' type="text" onfocus="this.type='number'" onblur="this.type='text'" class="mui-input-clear mui-input reg-mui-input th-font" placeholder="请输入教龄" data-bind="value:TeachAge">
 				</div>
 				<div class="mui-input-row reg-mui-input-row">
 					<label>位置</label>
 					<button id="address" type="button" class="mui-btn mui-btn-block th-mui-btn-block" data-bind="text:Place,click:address"></button>
 				</div>
-				<div class="th-textarea-div" data-bind='visible: UserType() == common.gDictUserType.teacher'>
+				<div class="th-textarea-div th-textarea" data-bind='visible: UserType() == common.gDictUserType.teacher'>
 					<label>自我简介</label>
 					<textarea placeholder="请输入自我简介" data-bind="value:Introduce"></textarea>
 				</div>
@@ -77,7 +89,7 @@
 			<div class="pin-blank"></div>
 
 			<div class="mui-content-padded pin-btn-footer">
-				<button class="mui-btn mui-btn-block mui-btn-primary th-btn" data-bind="click:setInfo">完成</button>
+				<button class="mui-btn mui-btn-block mui-btn-primary th-btn th-mui-f" data-bind="click:setInfo">完成</button>
 			</div>
 		</div>
 
