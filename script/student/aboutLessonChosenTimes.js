@@ -53,9 +53,6 @@ var LessonChosenTimes = function() {
 			success: function(responseText) {
 				var freetimes = JSON.parse(responseText);
 				self.Freetimes(freetimes);
-			},
-			error: function() {
-				mui.toast('error');
 			}
 		})
 	}

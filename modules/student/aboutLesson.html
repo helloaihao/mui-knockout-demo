@@ -32,7 +32,6 @@
 				top: -9px!important;
 				margin-right: 15px;
 			}
-			
 			@media screen and (max-height: 530px) {
 				.auto-height {
 					line-height: 22px;
@@ -53,16 +52,18 @@
 					line-height: 38px;
 				}
 			}
-			.mui-popover{
+			.mui-popover {
 				height: 364px!important;
 				border-radius: 5px;
+			}
+			.mui-popover .mui-active {
 				top: 50%!important;
 				margin-top: -182px;
-			}			
-			.mui-radio input[type=radio]:before{
+			}
+			.mui-radio input[type=radio]:before {
 				content: "";
 			}
-			.mui-input-group .mui-input-row:after{
+			.mui-input-group .mui-input-row:after {
 				background: #f1f1f1!important;
 			}
 		</style>
@@ -114,7 +115,7 @@
 					</ul>
 					<ul class="about-lesson" data-bind="foreach: {data: ChosenTimes, as: 'chosenTime'}">
 						<a href="#popChooseTime">
-							<li>
+							<li class="fontcolor">
 								<!--ko text: common.formatTime(chosenTime)-->
 								<!--/ko-->
 								<i class="iconfont">&#xe618;</i>
@@ -122,37 +123,33 @@
 						</a>
 					</ul>
 				</div>
-				
+
 				<!--弹出课时选择 -->
 				<div id="popChooseTime" class="mui-popover aboutLesson-tc">
-					
-				<header class="aboutLesson-header">
-					<i class="iconfont">&#xe602;</i>
-						选择课时
+					<header class="aboutLesson-header">
+						<i class="iconfont" data-bind="click: closePopChooseTime">&#xe602;</i> 选择课时
 					</header>
-					<div class="availableTime-title">
-						<span data-bind='text: TheMonth'></span>
-						<div class="availableTime-title-time">
-							<div class="time-up">
-								<ul data-bind="foreach:{data: DayOfWeek}">
-									<li data-bind='text: $data'></li>
-								</ul>
-							</div>
-							<div class="time-dow">
-								<ul data-bind="foreach:{data: DateOfWeek, as: 'date'}">
-									<li data-bind='text: date.getDate(), css: {current: CurrentDay() == date.getDate()}'></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-					<table class="availableTime-table auto-height" border="2" cellspacing="0" cellpadding="0" width="100%"  data-bind="foreach:{data: Hours, as: 'hour'}">
-				<tr>
-					<td data-bind='text: $data + ":00"'></td>
-					<!--ko foreach:{data: DateOfWeek}-->
-					<td data-bind='cellValue: initCell($data, hour)'></td>
-					<!--/ko-->
-				</tr>
-			</table>
+					<table class="vailableTime-title availableTime-add availableTime-date" border="0" width="100%" height="100%">
+						<tr>
+							<td rowspan="2" class="month" data-bind='text: TheMonth'>
+								
+							</td>
+							<!--ko foreach:{data: DayOfWeek}-->
+								<td data-bind='text: $data'></td>
+							<!--/ko-->
+						</tr>
+						<tr data-bind="foreach:{data: DateOfWeek, as: 'date'}">					
+							<td data-bind='text: date.getDate(), css: {"date-current": CurrentDay() == date.getDate()}'></td>
+						</tr>
+					</table>
+					<table class="availableTime-table auto-height" border="2" cellspacing="0" cellpadding="0" width="100%" data-bind="foreach:{data: Hours, as: 'hour'}">
+						<tr>
+							<td data-bind='text: $data + ":00"'></td>
+							<!--ko foreach:{data: DateOfWeek}-->
+							<td data-bind='cellValue: initCell($data, hour)'></td>
+							<!--/ko-->
+						</tr>
+					</table>
 
 					<nav class="mui-bar mui-bar-tab availableTime-footer">
 						<span>点击蓝色区块选择</span>
@@ -176,34 +173,34 @@
 				<div class="mui-scroll-wrapper">
 					<div class="mui-scroll submitClass-mui-scroll Lesson-mui">
 						<div class="mui-scroll-title">
-							<i class="iconfont" data-bind="click:closePopover">&#xe63f;</i>
+							<i class="iconfont" data-bind="click: closePopPay">&#xe63f;</i>
 							<span>付款详情</span>
 						</div>
 						<ul>
 							<form class="mui-input-group">
-							<div class="mui-input-row mui-radio mui-left Lesson-radio">
-								<label>
-							<li class="wx-pay">
-								<img src="../../images/submitClass-wx.png" />
-								<span> 微信支付</span>							
-						        <input name="radio1" type="radio" checked="checked">
-							</li>
-							</label>
-							</div>
-							<div class="mui-input-row mui-radio mui-left Lesson-radio">
-								<label>
-							<li class="wx-pay">
-								<img src="../../images/submitClass-zf.png" />
-								<span>支付宝</span>							
-						        <input name="radio1" type="radio">
-							</li>
-							</label>
-							</div>
-							<li class="lineHeight">
-								总额：￥
-								<!--ko text: selectedLocation() ? selectedLocation().Cost : '0'-->
-								<!--/ko-->
-							</li>
+								<div class="mui-input-row mui-radio mui-left Lesson-radio">
+									<label>
+										<li class="wx-pay">
+											<img src="../../images/submitClass-wx.png" />
+											<span>微信支付</span>
+											<input name="payType" value="wxpay" type="radio" data-bind="event:{change: checkPayType}" checked="checked">
+										</li>
+									</label>
+								</div>
+								<div class="mui-input-row mui-radio mui-left Lesson-radio">
+									<label>
+										<li class="wx-pay">
+											<img src="../../images/submitClass-zf.png" />
+											<span>支付宝</span>
+											<input name="payType" value="alipay" type="radio" data-bind="event:{change: checkPayType}">
+										</li>
+									</label>
+								</div>
+								<li class="lineHeight">
+									总额：￥
+									<!--ko text: selectedLocation() ? selectedLocation().Cost : '0'-->
+									<!--/ko-->
+								</li>
 							</form>
 						</ul>
 						<button data-bind="click: gotoPay">去付款</button>
@@ -211,7 +208,7 @@
 				</div>
 			</div>
 		</div>
-	<script src="../../script/mui/mui.js"></script>
+		<script src="../../script/mui/mui.js"></script>
 		<script src="../../script/mui/mui.picker.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
@@ -219,6 +216,7 @@
 		<script src="../../script/student/aboutLessonBaseInfo.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/student/aboutLessonChosenTimes.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/student/aboutLessonMain.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/pay.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			mui.init({
 				swipeBack: false //禁用右滑关闭功能

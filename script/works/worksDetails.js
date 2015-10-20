@@ -256,7 +256,6 @@ var worksDetails = function() {
 		}
 		//找老师点评
 	self.getTeacherComment = function() {
-		alert("找老师点评");
 		self.Subject.value = self.SubjectID();
 		self.Subject.text = self.SubjectName();
 			mui.openWindow({
@@ -281,7 +280,7 @@ var worksDetails = function() {
 		}
 		//作品权限 更改
 	self.workRemorkSet = function() {
-		alert("公开");
+		mui.toast("公开");
 		if (self.RemarkValue == 1) {
 			self.RemarkValue = 0;
 		} else if (self.RemarkValue == 0) {

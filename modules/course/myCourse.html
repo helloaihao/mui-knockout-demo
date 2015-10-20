@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
@@ -12,7 +11,9 @@
 		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
 		<style>
 			.mui-popover {
-				min-height: 400px!important;
+				/*min-height: 400px!important;*/
+				height: auto!important;
+				padding: 15px 0;
 			}
 			.mui-bar-nav i:first-of-type{
 				color: #fff;
@@ -53,12 +54,40 @@
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<i class="iconfont" data-bind="event:{tap: gotoCoursesList}, visible: IsTeacher">&#xe641;</i>
+			<a class="iconfont a-left" data-bind="event:{tap: gotoCoursesList}, visible: IsTeacher">&#xe641;</a>
 			<h1 class="mui-title">课程表</h1>
-			<i class="iconfont" data-bind="event:{tap: filterCourses}, visible: IsTeacher, style: {color: FilteredCourseID() > 0 ? 'orange' : ''}">&#xe648;</i>
+			<a class="iconfont a-right" href="#bottomPopover" data-bind="event:{tap: filterCourses}, visible: IsTeacher, style: {color: FilteredCourseID() > 0 ? 'orange' : ''}">&#xe648;
+			</a>
 		</header>
+		<!--右上角弹出开始-->
+			<div id="bottomPopover" class="mui-popover mui-popover-bottom">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell"><a href="#">Item1</a>
+						</li>
+						<li class="mui-table-view-cell"><a href="#">Item2</a>
+						</li>
+						<li class="mui-table-view-cell"><a href="#">Item3</a>
+						</li>
+						<li class="mui-table-view-cell"><a href="#">Item4</a>
+						</li>
+						<li class="mui-table-view-cell"><a href="#">Item5</a>
+						</li>
+						<li class="mui-table-view-cell"><a href="#">Item6</a>
+						</li>
+						<li class="mui-table-view-cell"><a href="#">Item7</a>
+						</li>						
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		
+		<!--右上角弹出结束-->
 		<div class="mui-content">
-			<div class="availableTime-title">
+			<!--<div class="availableTime-title">
 				<span data-bind='text: TheMonth'></span>
 				<div class="availableTime-title-time">
 					<div class="time-up">
@@ -72,7 +101,20 @@
 						</ul>
 					</div>
 				</div>
-			</div>
+			</div>-->
+			<table class="vailableTime-title availableTime-add availableTime-date" border="0" width="100%" height="100%">
+				<tr>
+					<td rowspan="2" class="month" data-bind='text: TheMonth'>
+						
+					</td>
+					<!--ko foreach:{data: DayOfWeek}-->
+						<td data-bind='text: $data'></td>
+					<!--/ko-->
+				</tr>
+				<tr data-bind="foreach:{data: DateOfWeek, as: 'date'}">					
+					<td data-bind='text: date.getDate(), css: {"date-current": CurrentDay() == date.getDate()}'></td>
+				</tr>
+			</table>
 			<table class="availableTime-table auto-height" border="2" cellspacing="0" cellpadding="0" width="100%" height="100%" data-bind="foreach:{data: Hours, as: 'hour'}">
 				<tr>
 					<td data-bind='text: $data + ":00"'></td>

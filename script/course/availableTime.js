@@ -21,8 +21,11 @@ var availableTime = function() {
 			type: 'GET',
 			success: function(responseText) {
 				var teacher = JSON.parse(responseText);
-				self.Freetimes(JSON.parse(teacher.FreetimeJson));
-				self.FreetimeRemark(teacher.FreetimeRemark);
+				var times = JSON.parse(teacher.FreetimeJson);
+				if(times)
+					self.Freetimes(times);
+				
+				self.FreetimeRemark(common.StrIsNull(teacher.FreetimeRemark));
 			}
 		});
 	}
@@ -41,6 +44,7 @@ var availableTime = function() {
 			hour: hour,
 			free: false
 		};
+		
 		self.Freetimes().forEach(function(freetime) {
 			if (dayofweek == freetime.DayOfWeek && freetime.Time.indexOf(hour) >= 0) {
 				//console.log('true');
@@ -61,7 +65,7 @@ var availableTime = function() {
 
 		},
 		update: function(element, valueAccessor, allBindings) {
-			var self = this;
+			//var self = this;
 			var value = ko.unwrap(valueAccessor());
 			element.value = value;
 			element.onclick = function() {
@@ -71,6 +75,7 @@ var availableTime = function() {
 
 				//获取数组中对应的位置
 				var index = -1;
+				//console.log(self.Freetimes());
 				for (var i = 0; i < self.Freetimes().length; i++) {
 					if (self.Freetimes()[i].DayOfWeek == this.value.dayofweek) {
 						index = i;

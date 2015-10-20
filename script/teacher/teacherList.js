@@ -14,7 +14,7 @@ var viewModel = function() {
 	//接收属性
 	var subjectID, starID, sortID; 
 	var Title, AuthorName, AuthorID;
-	self.displayCheck = ko.observable(true); //是否显示选择
+	self.displayCheck = ko.observable(false); //是否显示选择
 	self.dbSubject = ko.observable("科目");
 	//获取老师列表
 	self.getTeacherList = function() {
@@ -120,7 +120,7 @@ var viewModel = function() {
 			}
 		}
 		mui.openWindow({
-			url:'../student/submitClass.html',
+			url:'../student/submitCommnet.html',
 			show: {
 				autoShow: true,
 				aniShow: "slide-in-right",

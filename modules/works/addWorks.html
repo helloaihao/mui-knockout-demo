@@ -50,13 +50,13 @@
 
 	<body>
 		<header class="mui-bar mui-bar-nav addWorks-mui-bar-nav">
-			<i class="iconfont mui-action-back">取消</i>
+			<i class="iconfont mui-action-back">&#xe602;</i>
 			<h1 class="mui-title">添加作品</h1>
-			<i class="iconfont" id="addWorksPlan" data-bind="click: updateSubject">上传</i>
+			<i class="iconfont" id="addWorksPlan" data-bind="click: upload">上传</i>
 		</header>
 		<div class="mui-content addWork-mui-content">
 			<form class="mui-input-group reg-mui-input-group">
-				<!--姓名-->
+				<!--标题-->
 				<div id="titleRow" class="mui-input-row reg-mui-input-row">
 					<label>标题</label>
 					<input id='account' type="text" class="mui-input-clear mui-input reg-mui-input" placeholder="请输入标题" data-bind="value: titleText">
@@ -68,7 +68,7 @@
 				</div>
 				<div id='typePicker' class="mui-input-row reg-mui-input-row th-mui-input-row">
 					<label>类型</label>
-					<button class="mui-btn mui-btn-block th-mui-btn-block" type='button' data-bind="text:subjectTypeText,event:{click:setSubjectType}"></button>
+					<button class="mui-btn mui-btn-block th-mui-btn-block" type='button' data-bind="text:workTypeText,event:{click:setWorkType}"></button>
 				</div>
 				<!--描述-->
 				<div class="addWorks-textarea-div ">
@@ -76,16 +76,15 @@
 				</div>
 			</form>
 			<div class="addWorks-add">
-				<em onclick="appendByGallery()">
+				<em onclick="addFile()">
 					<i class="iconfont">&#xe638;</i>
 				</em>
 				<span>添加作品</span>
-				<div id="addWorkList">
+				<!--<div id="addWorkList">
 					<p id="empty">无上传文件</p>
 					<ul id="addchild"></ul>
-				</div>
+				</div>-->
 			</div>
-
 		</div>
 
 		<script src="../../script/mui/mui.js"></script>
@@ -93,6 +92,7 @@
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.min.js"></script>
+		<script src="../../script/common/video.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/works/addWorks.js"></script>
 		<script>
 			mui.init();

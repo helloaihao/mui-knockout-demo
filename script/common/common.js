@@ -190,7 +190,7 @@
 		return common.gServerUrl + 'Common/GetImage?url=' + photo;
 	},
 	//Web API地址
-	gServerUrl: "http://192.168.1.4:8090/", //"http://192.168.1.102:8090/", //"http://localhost:53651/"	//"http://192.168.1.99:8090/"
+	gServerUrl: "http://192.168.1.99:8090/", //"http://192.168.1.102:8090/", //"http://localhost:53651/"	//"http://192.168.1.99:8090/"
 	//用户类型枚举
 	gDictUserType: {
 		teacher: 32,

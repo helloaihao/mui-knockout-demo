@@ -64,16 +64,17 @@
 			<h1 class="mui-title">可授课时间</h1>
 		</header>
 		<div class="mui-content">
-			<div class="availableTime-title availableTime-add">
-				<!--<span data-bind='text: TheMonth'></span>-->
-				<div class="availableTime-title-time availableTime-time-add">
-					<div class="time-up time-up-add">
-						<ul data-bind="foreach:{data: DayOfWeek}">
-							<li data-bind='text: $data'></li>
-						</ul>
-					</div>
-				</div>
-			</div>
+			<table class="vailableTime-title availableTime-add availableTime-date" border="0" width="100%" height="100%">
+				<tr>
+					<td class="month">
+						
+					</td>
+					<!--ko foreach:{data: DayOfWeek}-->
+						<td data-bind='text: $data'></td>
+					<!--/ko-->
+				</tr>
+			</table>
+			
 			<table class="availableTime-table availableTime-bottom auto-height" border="2" cellspacing="0" cellpadding="0" width="100%" height="100%" data-bind="foreach:{data: Hours, as: 'hour'}">
 				<tr>
 					<td data-bind='text: $data + ":00"'></td>

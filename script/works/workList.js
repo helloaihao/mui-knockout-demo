@@ -102,7 +102,7 @@ var workList = function() {
 				}
 			}
 			mui.openWindow({
-				url: '../student/submitClass.html',
+				url: '../student/submitComment.html',
 				show: {
 					autoShow: true,
 					aniShow: "slide-in-right",
@@ -148,8 +148,14 @@ var workList = function() {
 	self.gotoAddWorks = function() {
 		common.transfer('../../modules/works/addWorks.html', true);
 	};
-	ppSubject = new mui.PopPicker();
-	mui.ajax(common.gServerUrl + "Common/Subject/Get", {
+	mui.plusReady(function() {
+		var web = plus.webview.currentWebview();
+		if (typeof(web.teacherID) !== "undefined") {
+			teacherID = web.teacherID;
+			self.displayCheck(web.displayCheck);
+		}
+		ppSubject = new mui.PopPicker();
+		mui.ajax(common.gServerUrl + "Common/Subject/Get", {
 			dataType: 'json',
 			type: "GET",
 			success: function(responseText) {
@@ -157,8 +163,9 @@ var workList = function() {
 				ppSubject.setData(arr);
 			}
 		});
-	ppSort = new mui.PopPicker();
-	ppSort.setData(common.gJsonWorkSort);
-	self.getWorks();
+		ppSort = new mui.PopPicker();
+		ppSort.setData(common.gJsonWorkSort);
+		self.getWorks();
+	});
 }
 ko.applyBindings(workList);

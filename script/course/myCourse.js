@@ -98,13 +98,13 @@ var myCourse = function() {
 			paraCourseid = self.FilteredCourseID();
 		var ajaxUrl = common.gServerUrl + 'API/Lesson/GetLessons?userid=' + getLocalItem('UserID')
 			+ '&weekindex=' + self.WeekIndex() + '&courseid='+paraCourseid;
-		plus.nativeUI.showWaiting();
+		//plus.nativeUI.showWaiting();
 		mui.ajax(ajaxUrl, {
 			type: 'GET',
 			success: function(responseText) {
 				var lessons = JSON.parse(responseText);
 				self.Lessons(lessons);
-				plus.nativeUI.closeWaiting();
+				//plus.nativeUI.closeWaiting();
 			}
 		})
 	}
@@ -280,7 +280,7 @@ var myCourse = function() {
 				}
 			} else {
 				element.className = 'freetime';
-				element.innerText = '';
+				element.innerHTML = '&nbsp;';
 			}
 		}
 	};

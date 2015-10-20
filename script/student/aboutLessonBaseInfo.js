@@ -3,7 +3,7 @@ var LessonBaseInfo = function() {
 	//self.times = ko.observableArray(['请选择课时']);
 	//self.showTimes = ko.observableArray(['请选择课时']);
 	self.teacherName = ko.observable('袁怡航');
-	self.tUserID = ko.observable(0);
+	self.teacherID = ko.observable(0);
 	self.teacherPhoto = ko.observable('../../images/default.jpg');
 	self.courses = ko.observableArray([]); //老师课程列表
 	self.selectedCourse = ko.observable();	//当前选中的课程
@@ -59,14 +59,6 @@ var LessonBaseInfo = function() {
 		return ret();
 	})
 	
-	/*//选择课时
-	self.gotoChooseTime = function() {
-		self.times([]);
-		common.transfer('chooseTime.html', true, {
-			chosenTimes: self.times()
-		});
-	};*/
-	
 	//选择课程
 	self.chooseCourse = function() {
 		mui.ready(function() {
@@ -121,7 +113,7 @@ var LessonBaseInfo = function() {
 			self.times(web.chosenTimes.sort());
 		}*/
 		if(typeof(web.userID) !== "undefined") {
-			self.tUserID(web.userID);
+			self.teacherID(web.userID);
 		}
 		if(typeof(web.teacherPhoto) !== "undefined") {
 			self.teacherPhoto(web.teacherPhoto);
