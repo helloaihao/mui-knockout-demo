@@ -189,6 +189,7 @@
 	getPhotoUrl: function(photo) {
 		return common.gServerUrl + 'Common/GetImage?url=' + photo;
 	},
+	
 	//Web API地址
 	gServerUrl: "http://192.168.1.99:8090/", //"http://192.168.1.102:8090/", //"http://localhost:53651/"	//"http://192.168.1.99:8090/"
 	//用户类型枚举
@@ -252,6 +253,14 @@
 		Payed: 2, //已支付
 		Refunded: 3 //已退款
 	},
+	//是否类型JSON
+	gJsonYesorNoType: [{
+		value: 1,
+		text: '是'
+	}, {
+		value: 0,
+		text: '否'
+	}],
 	//性别类型JSON
 	gJsonGenderType: [{
 		value: 0,

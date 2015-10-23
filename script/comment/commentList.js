@@ -57,3 +57,4 @@ var commentList = function() {
 	}
 }
 ko.applyBindings(commentList);
+

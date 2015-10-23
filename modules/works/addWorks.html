@@ -70,6 +70,10 @@
 					<label>类型</label>
 					<button class="mui-btn mui-btn-block th-mui-btn-block" type='button' data-bind="text:workTypeText,event:{click:setWorkType}"></button>
 				</div>
+				<div id='publicPicker' class="mui-input-row reg-mui-input-row th-mui-input-row">
+					<label>公开</label>
+					<button class="mui-btn mui-btn-block th-mui-btn-block" type='button' data-bind="text:publicText,event:{click:setPublicType}"></button>
+				</div>
 				<!--描述-->
 				<div class="addWorks-textarea-div ">
 					<textarea placeholder="描述" data-bind="value: contentText"></textarea>
@@ -80,10 +84,10 @@
 					<i class="iconfont">&#xe638;</i>
 				</em>
 				<span>添加作品</span>
-				<!--<div id="addWorkList">
-					<p id="empty">无上传文件</p>
-					<ul id="addchild"></ul>
-				</div>-->
+				<div data-bind="text: filePath, visible: filePath != ''"></div>
+				<!--<video id="video2" controls="controls">
+					当前浏览器不支持 video直接播放
+				</video>-->
 			</div>
 		</div>
 

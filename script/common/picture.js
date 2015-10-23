@@ -41,8 +41,14 @@ isArray = function(obj) {
  * @return {String} 返回文件路径
  */
 generateTempFilePath = function(index) {
+	var rdm = Math.floor(Math.random() * 10000);
+	var len = rdm.toString().length;
+	while(len < 5) {
+        rdm = "0" + rdm;
+        len++;
+    }
 	var strIndex = index ? index : '0';
-	return tempPath + (new Date()).getTime().toString() + index + '.jpg';
+	return tempPath + (new Date()).getTime().toString() + strIndex + rdm + '.jpg';
 }
 
 /**

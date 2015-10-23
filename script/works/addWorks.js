@@ -1,110 +1,3 @@
-var server = ""; //"http://demo.dcloud.net.cn/helloh5/uploader/upload.php";
-var files = [];
-
-// 上传文件
-function upload() {
-	if (files.length <= 0) {
-		plus.nativeUI.alert("没有添加上传文件！");
-		return false;
-	}
-	mui.openWindow({
-		url: './addWorksPlan.html',
-		show: {
-			duration: "100ms"
-		},
-		waiting: {
-			autoShow: false
-		}
-	});
-
-	//console.log('clear');
-	plus.uploader.clear();
-	var fe = document.getElementById("addchild");
-	var child = fe.childNodes;
-	while (child.length > 0) {
-		fe.removeChild(child[0]);
-	}
-
-
-	empty.style.display = "block";
-
-	mui.ajax(common.gServerUrl + "API/Work" + self.UserID, {
-		type: "PUT",
-		data: {
-			DisplayName: self.DisplayName(),
-			SubjectID: self.SubjectID(),
-			TeachAge: self.TeachAge(),
-			Introduce: self.Introduce()
-		},
-		success: function(responseText) {
-			mui.toast("注册成功")
-			window.location = "login.html";
-		},
-		error: function(responseText) {
-			mui.toast("Error");
-		}
-	});
-
-	//outSet("开始上传：");
-	//var wt = plus.nativeUI.showWaiting();
-	//		var task = plus.uploader.createUpload(server, {
-	//				method: "POST"
-	//			},
-	//			function(t, status) { //上传完成
-	//				if (status == 200) {
-	//					mui.toast("上传成功：" + t.responseText);
-	//					//					plus.storage.setItem("uploader", t.responseText);
-	//					//					var w = plus.webview.create("uploader_ret.html", "uploader_ret.html", {
-	//					//						scrollIndicator: 'none',
-	//					//						scalable: false
-	//					//					});
-	//					//					w.addEventListener("loaded", function() {
-	//					//						wt.close();
-	//					//						w.show("slide-in-right", 300);
-	//					//					}, false);
-	//				} else {
-	//					mui.toast("上传失败：" + status);
-	//					//					wt.close();
-	//				}
-	//			}
-	//		);
-	//		task.addData("client", "HelloH5+");
-	//		task.addData("uid", getUid());
-	//		for (var i = 0; i < files.length; i++) {
-	//			var f = files[i];
-	//			task.addFile(f.path, {
-	//				key: f.name
-	//			});
-	//		}
-	//		task.start();
-}
-
-// 添加文件
-var index = 1;
-
-function appendFile(p) {
-	var fe = document.getElementById("addchild");
-
-	var li = document.createElement("li");
-	var n = p.substr(p.lastIndexOf('/') + 1);
-
-	li.innerText = n;
-	fe.appendChild(li);
-
-
-	files.push({
-		name: "uploadkey" + index,
-		path: p
-	});
-	index++;
-	empty.style.display = "none";
-}
-
-// 产生一个随机数
-function getUid() {
-	return Math.floor(Math.random() * 100000000 + 10000000).toString();
-}
-
 var viewModel = function() {
 	var self = this;
 
@@ -113,9 +6,11 @@ var viewModel = function() {
 	self.titleText = ko.observable('');
 	self.contentText = ko.observable('');
 	self.filePath = ko.observable('');	//视频文件路径
-	var empty = document.getElementById('empty');
-	var subjectName, WorkTypeName;
-	var workTypeID, subjectID;
+	self.fileName = ko.observable('');	//视频文件名称
+	self.publicText = ko.observable('是');
+
+	var subjectName, workTypeName, publicName;
+	var workTypeID, subjectID, publicID = 1;
 
 	mui.ready(function() {
 		subjectName = new mui.PopPicker();
@@ -127,8 +22,10 @@ var viewModel = function() {
 				subjectName.setData(arr);
 			}
 		});
-		WorkTypeName = new mui.PopPicker();
-		WorkTypeName.setData(common.gJsonWorkType);
+		workTypeName = new mui.PopPicker();
+		workTypeName.setData(common.gJsonWorkType);
+		publicName = new mui.PopPicker();
+		publicName.setData(common.gJsonYesorNoType);
 	});
 	
 	//科目选择
@@ -141,9 +38,17 @@ var viewModel = function() {
 	
 	//类型选择
 	self.setWorkType = function() {
-		WorkTypeName.show(function(items) {
+		workTypeName.show(function(items) {
 			self.workTypeText(items[0].text);
 			workTypeID = items[0].value;
+		});
+	};
+
+	//是与否选择
+	self.setPublicType = function() {
+		publicName.show(function(items) {
+			self.publicText(items[0].text);
+			publicID = items[0].value;
 		});
 	};
 
@@ -151,51 +56,34 @@ var viewModel = function() {
 	self.addFile = function() {
 		video.SelectVideo(false, function(value) {
 			if(value){
-				self.filePath(value.srcPath);
+				self.filePath(value[0].srcPath);
+				self.fileName(value[0].fileName);
 			}
 		});
 	}
 
 	//上传
 	self.upload = function() {
-		if (self.titleText == "") {
+		if (self.titleText() == "") {
 			mui.toast('请填写标题');
 			return;
 		}
-		if (self.subjectID <= 0) {
+		if (!subjectID || subjectID <= 0) {
 			mui.toast('请选择科目');
 			return;
 		}
-		if (self.workTypeID <= 0) {
+		if (!workTypeID || workTypeID <= 0) {
 			mui.toast('请选择类型');
 			return;
 		}
-		if (self.contentText == "") {
+		if (self.contentText() == "") {
 			mui.toast('请完善描述');
 			return;
 		}
-		if (self.filePath == "") {
+		if (self.filePath() == "") {
 			mui.toast('请添加作品');
 			return;
 		}
-
-		mui.openWindow({
-			url: './addWorksPlan.html',
-			show: {
-				duration: "100ms"
-			},
-			waiting: {
-				autoShow: false
-			}
-		});
-
-		var fe = document.getElementById("addchild");
-		var child = fe.childNodes;
-		while (child.length > 0) {
-			fe.removeChild(child[0]);
-		}
-
-		empty.style.display = "block";
 
 		mui.ajax(common.gServerUrl + "API/Work", {
 			type: "POST",
@@ -204,18 +92,35 @@ var viewModel = function() {
 				Title: self.titleText(),
 				SubjectID: subjectID,
 				ContentText: self.contentText(),
-				SubjectName: self.subjectText(),
-				WorkType: workTypeID
+				WorkType: workTypeID,
+				IsPublic: publicID == 1 ? true : false
 			},
 			success: function(responseText) {
-				mui.toast("添加成功，等待上传完成")
+				if(responseText){
+					mui.toast("已保存，等待上传完成");
+					var obj = JSON.parse(responseText);
+					var videopath = self.filePath();
+					var videoname = self.fileName();
+					var workstitle = self.titleText();
+					common.transfer('worksUploading.html', true, {
+						workId: obj.ID,
+						videoPath: videopath,
+						videoName: videoname,
+						worksTitle: workstitle
+					});
+					
+					/*self.subjectText("请选择科目");
+					self.workTypeText("请选择类别");
+					self.titleText("");
+					self.contentText("");
+					subjectID = 0;
+					workTypeID = 0;
+					publicID = 1;
+					self.filePath('');
+					self.fileName('');*/
+				}
 			}
 		});
-
-		self.subjectText("请选择科目");
-		self.subjectTypeText("请选择类别");
-		self.titleText("");
-		self.contentText("");
 	};
 }
 ko.applyBindings(viewModel);

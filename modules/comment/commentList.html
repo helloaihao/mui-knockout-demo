@@ -17,6 +17,60 @@
 			.mui-content-padded{
 				margin: 10px 0 0 0!important;
 			}
+			.mui-table-view-cell.mui-collapse>.mui-navigate-right:after, 
+			.mui-table-view-cell.mui-collapse>.mui-push-right:after{
+				content: "\e61c"!important;
+				right: 22px;
+				top: 22px;
+				font-size:16px!important;
+				color: #999;
+			}
+			.mui-table-view-cell.mui-collapse.mui-active>.mui-navigate-right:after{
+				content: "\e635"!important;
+				top: 22px;
+				color: #036FB8;
+				font-size: 14px!important;
+			}
+			.mui-table-view-cell.mui-collapse.mui-active>.mui-navigate-right{
+				color: #036FB8!important;
+			} 
+			.xl-table tr td{
+				text-align:center;
+				padding: 5px 0;
+				box-sizing: border-box;
+				font-size: 0.88rem;
+				color: #999;
+			}
+			.mui-table-view-cell > a:not(.mui-btn){
+				background: none!important;
+			}
+			.mui-table-view-cell.mui-active{
+				background: #f1f1f1!important;
+			}
+			.table-current{
+				border: 1px solid #036FB8;
+				border-radius: 5px;
+				font-size: 0.88rem;
+				color: #036FB8;
+				width:60%;
+				padding: 0 5px;
+				height: 28px;
+				line-height: 28px;
+				margin: 0 auto;
+				
+			}
+			.mui-popover{
+				min-height: 300px;
+			}
+			table{
+				border-collapse:separate;
+			}
+			.mui-collapse a{
+				width: 100%;
+				background: #f40;
+				display: inline-block;
+				height: 100%;
+			}
 		</style>
 	</head>
 
@@ -29,41 +83,216 @@
 		<div class="mui-content commentList-center">
 			<div class="commentList-select">
 				<ul>
-					<li class="mui-collapse">
-						<a id="select1" class="mui-navigate-right commentList-mui-navigate-right" href="#middlePopover1" style="display:block">科目</a>
+					<li class="mui-collapse" id="select1">
+						<a  class="mui-navigate-right navigate-font " href="#middlePopover1" style="display:block">科目</a>
 					</li>
 					<li class="mui-collapse">
-						<a id="select2" class="mui-navigate-right commentList-mui-navigate-right" href="#middlePopover2" style="display:block">排序</a>
+						<a id="select2" class="mui-navigate-right navigate-font " href="#middlePopover2" style="display:block">排序</a>
 					</li>
 				</ul>
 			</div>
 			<div id="middlePopover1" class="mui-popover">
-
-				<ul id="list1" class="mui-table-view">
-					<li class="mui-table-view-cell">
-						<a href="#">全部</a>
+      
+			<div class="mui-scroll-wrapper wrapper-margin">
+				<ul class="mui-table-view">
+				<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right navigate-font " href="#">民族乐</a>
+						<div class="mui-collapse-content">
+							<table class="xl-table"  cellSpacing="0" cellPadding="0" height="100%" width="100%" border="0">
+								<tr>
+									<td >全部</td>
+									<td>
+										<div class="table-current">笛子笛子</div></td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+							</table>
+						</div>
 					</li>
-					<li class="mui-table-view-cell">
-						<a href="#">钢琴</a>
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right navigate-font" href="#">西洋乐</a>
+						<div class="mui-collapse-content">
+							<table class="xl-table" height="100%" width="100%" border="0">
+								<tr>
+									<td>全部</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+							</table>
+						</div>
 					</li>
-					<li class="mui-table-view-cell">
-						<a href="#">古筝</a>
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right navigate-font" href="#">西洋乐</a>
+						<div class="mui-collapse-content">
+							<table class="xl-table" height="100%" width="100%" border="0">
+								<tr>
+									<td>全部</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+							</table>
+						</div>
 					</li>
-					<li class="mui-table-view-cell">
-						<a href="#">吉他</a>
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right navigate-font" href="#">西洋乐</a>
+						<div class="mui-collapse-content">
+							<table class="xl-table" height="100%" width="100%" border="0">
+								<tr>
+									<td>全部</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+							</table>
+						</div>
 					</li>
-				</ul>
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right navigate-font" href="#">西洋乐</a>
+						<div class="mui-collapse-content">
+							<table class="xl-table" height="100%" width="100%" border="0">
+								<tr>
+									<td>全部</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+							</table>
+						</div>
+					</li>
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right navigate-font" href="#">西洋乐</a>
+						<div class="mui-collapse-content">
+							<table class="xl-table" height="100%" width="100%" border="0">
+								<tr>
+									<td>全部</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+								<tr>
+									<td>二胡</td>
+									<td>笛子</td>
+									<td>二胡</td>
+								</tr>
+							</table>
+						</div>
+					</li>
+		
+		</ul>
+			</div>
+			</div>
 
 			</div>
-			<div id="middlePopover2" class="mui-popover">
+			<div id="middlePopover2" class="mui-popover popover-height">
 				<ul id="list2" class="mui-table-view">
-					<li class="mui-table-view-cell">
+					<li class="mui-table-view-cell navigate-font">
 						<a href="#">默认</a>
 					</li>
-					<li class="mui-table-view-cell">
+					<li class="mui-table-view-cell navigate-font">
 						<a href="#">日期</a>
 					</li>
-					<li class="mui-table-view-cell">
+					<li class="mui-table-view-cell navigate-font">
 						<a href="#">名称</a>
 					</li>
 				</ul>
@@ -137,6 +366,7 @@
 				var subjectVal = ca.innerHTML;
 				document.getElementById('select2').innerHTML = subjectVal;
 			});
+			mui('.mui-scroll-wrapper').scroll();
 		</script>
 </body>
 </html>

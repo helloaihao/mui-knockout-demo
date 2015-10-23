@@ -1,5 +1,7 @@
 ﻿/*-----输入框-----*/
-
+.popover-height{
+	min-height: 20px!important;
+}
 .mui-input-row label {
 	line-height: 1.6!important;
 }
@@ -365,6 +367,9 @@ input[type=number],textarea {
 	margin-left: 9px;
 	position: relative;
 }
+.index-up-secher-bg ul li:active{
+	background-color: #F1F1F1;
+}
 .index-up-secher-bg ul li em {
 	font-size: 3rem;
 	position: absolute;
@@ -386,7 +391,7 @@ input[type=number],textarea {
 }
 .index-subject {
 	height: auto;
-	padding: 20px 15px;
+	padding: 0px 15px;
 	width: 100%;
 	box-sizing: border-box;
 	overflow: hidden;
@@ -397,8 +402,10 @@ input[type=number],textarea {
 .index-subject ul li {
 	width: 25%;
 	float: left;
+	height: 90px;
+	padding: 10px 10px;
 	position: relative;
-	margin-bottom: 40px;
+	margin-bottom: 10px;
 	text-align: center;
 }
 .index-subject ul li img {
@@ -411,9 +418,6 @@ input[type=number],textarea {
 	color: #333;
 	font-size: 0.96rem;
 	display: inline-block;
-	position: absolute;
-	left: 0;
-	bottom: -25px;
 }
 .index-th-div {
 	height: 3.52rem;
@@ -1005,7 +1009,25 @@ input[type=number],textarea {
 }
 .mui-popover {
 	min-height: 300px;
-	width: 20.65rem!important;
+	width: 100%;
+}
+.mui-popover.mui-active{
+	left: 0!important;
+	top: 78px!important;
+}
+.wrapper-margin{
+	margin: 0!important;
+}
+.mui-backdrop{
+	top:88px!important;
+}
+.navigate-font{
+	font-size: 0.88rem;
+	color: #999!important;
+	width: 100%;
+}
+.mui-popover{
+	border-radius: 0!important;
 }
 .mui-popover-arrow:after {
 	height: 0!important;
@@ -1168,8 +1190,9 @@ input[type=number],textarea {
 .addWorks-mui-bar-nav i:nth-of-type(2) {
 	right: 15px;
 	position: absolute;
-	top: 0px;
+	top: 3px;
 	text-align: right;
+	font-size: 17px!important;
 }
 .addWorks-textarea-div {
 	border-bottom: 1px solid #c8c7cc;
@@ -1201,6 +1224,7 @@ input[type=number],textarea {
 	display: inline-block;
 	line-height: 3.92rem;
 	text-align: center;
+	
 }
 .addWorks-add em i {
 	font-size: 2.6rem;

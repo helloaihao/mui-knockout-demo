@@ -82,30 +82,13 @@
 					</ul>
 				</div>
 			</div>
-
 		</div>
 		
-		<!--右上角弹出结束-->
+		
 		<div class="mui-content">
-			<!--<div class="availableTime-title">
-				<span data-bind='text: TheMonth'></span>
-				<div class="availableTime-title-time">
-					<div class="time-up">
-						<ul data-bind="foreach:{data: DayOfWeek}">
-							<li data-bind='text: $data'></li>
-						</ul>
-					</div>
-					<div class="time-dow">
-						<ul data-bind="foreach:{data: DateOfWeek, as: 'date'}">
-							<li data-bind='text: date.getDate(), css: {current: CurrentDay() == date.getDate() && CurrentMonth() == date.getMonth()}'></li>
-						</ul>
-					</div>
-				</div>
-			</div>-->
 			<table class="vailableTime-title availableTime-add availableTime-date" border="0" width="100%" height="100%">
 				<tr>
-					<td rowspan="2" class="month" data-bind='text: TheMonth'>
-						
+					<td rowspan="2" class="month" data-bind='text: TheMonth'>						
 					</td>
 					<!--ko foreach:{data: DayOfWeek}-->
 						<td data-bind='text: $data'></td>

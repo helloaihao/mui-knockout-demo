@@ -114,7 +114,9 @@ var handleResult = function(result) {
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				if (plus.networkinfo.getCurrentType() == 1) {
 					mui.toast('还没连接网络哦');
-				} 
+				}else if (plus.networkinfo.getCurrentType() == 0){
+				mui.toast("未知网络错误")
+				}
 				switch (XMLHttpRequest.statusCode) {
 					case 401:
 						window.location = "Login.html";

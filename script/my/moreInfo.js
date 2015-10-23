@@ -9,7 +9,6 @@ var moreInfo = function() {
 	self.RemainTime = ko.observable(0); //验证码剩余等待时间
 	self.WaitTime = 15; //验证码默认等待时间
 	self.feedBackText = ko.observable(""); //意见反馈文本
-
 	/*更多页面 js
 	 */
 	self.goChangePassword = function() {
@@ -29,14 +28,15 @@ var moreInfo = function() {
 			if (getLocalItem('UserID') < 0 || getLocalItem('UserID') == "") {
 				mui.toast("没有登录哦");
 			} else {
+				var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');
+				plus.webview.close(index);
+				console.log(index);
 				removeLocalItem('UserID');
 				removeLocalItem('UserName');
 				removeLocalItem('Token');
 				removeLocalItem('UserType');
+
 				mui.toast("注销成功");
-				
-				var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');	//获取首页Webview对象
-				plus.webview.close(index);	//关闭首页
 				mui.openWindow({
 					id: 'indexID',
 					url: "../../index.html",
@@ -121,37 +121,25 @@ var moreInfo = function() {
 		/*意见反馈js
 		 */
 	self.feedBackSub = function() {
-			//意见提交
-			if (self.feedBackText() == "") {
-				mui.toast("请您先写下对我们的宝贵建议~~");
-			} else {
-				mui.ajax(common.gServerUrl + "API/Feedback", {
-					type: 'POST',
-					data: {
-						UserID: self.UserID,
-						ContentText: self.feedBackText()
-					},
-					success: function(responseText) {
-						mui.toast("提交成功，感谢你的宝贵建议，祝您天天开心");
-					},
-					error: function(responseText) {
-						mui.toast("提交失败");
-					}
-				})
-			}
+		//意见提交
+		if (self.feedBackText() == "") {
+			mui.toast("请您先写下对我们的宝贵建议~~");
+		} else {
+			mui.ajax(common.gServerUrl + "API/Feedback", {
+				type: 'POST',
+				data: {
+					UserID: self.UserID,
+					ContentText: self.feedBackText()
+				},
+				success: function(responseText) {
+					mui.toast("提交成功，感谢你的宝贵建议，祝您天天开心");
+				},
+				error: function(responseText) {
+					mui.toast("提交失败");
+				}
+			})
 		}
-		// H5 plus事件处理
-
-//	function plusReady() {
-//		
-//		console.log(index);
-//	}
-//	if (window.plus) {
-//		plusReady();
-//	} else {
-//		document.addEventListener('plusready', plusReady, false);
-//	}
-
-
+	}
+	
 }
 ko.applyBindings(moreInfo);

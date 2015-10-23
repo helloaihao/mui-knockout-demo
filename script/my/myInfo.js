@@ -12,16 +12,16 @@ var myInfo = function() {
 	self.DisplayName = ko.observable(''); //姓名
 	self.Photo = ko.observable(''); //头像
 	self.Birthday = ko.observable(''); //生日
-	self.Gender = ko.observable(); //性别
-	self.GenderText = ko.observable(''); //性别文本
-	self.Province = ko.observable(""); //默认广东省
-	self.City = ko.observable(""); //默认广州市
-	self.District = ko.observable(""); //默认天河区
+	self.Gender = ko.observable(0); //性别
+	self.GenderText = ko.observable('选择性别'); //性别文本
+	self.Province = ko.observable("广东省"); //默认广东省
+	self.City = ko.observable("广州市"); //默认广州市
+	self.District = ko.observable("天河区"); //默认天河区
 	self.Place = ko.computed(function() { //位置
 		return self.Province() + ' ' + self.City() + ' ' + self.District();
 	})
 
-	self.SubjectName = ko.observable(''); //所属科目名称
+	self.SubjectName = ko.observable('请选择科目'); //所属科目名称
 	self.SubjectID = ko.observable(0); //所属科目
 	self.TeachAge = ko.observable(0); //教龄
 	self.Introduce = ko.observable(''); //简介
@@ -34,12 +34,12 @@ var myInfo = function() {
 	self.Base64 = ko.observable(''); //图片的base64字符串
 
 	self.selectPic = function() {
-		mui.ready(function() {
+//		mui.ready(function() {
 			picture.SelectPicture(true, false, function(retValue) {
 				self.Base64(retValue[0].Base64);
 				self.Path(self.Base64());
 			}); //需要裁剪
-		});
+//		});
 	}
 
 	//性别获取
@@ -93,7 +93,7 @@ var myInfo = function() {
 	}
 	var genders, places, subjects;
 	mui.plusReady(function() {
-		//mui.ready(function() {
+//		mui.ready(function() {
 		self.genders = new mui.PopPicker();
 		self.genders.setData(common.gJsonGenderType);
 
@@ -105,6 +105,7 @@ var myInfo = function() {
 		var web = plus.webview.currentWebview();
 		if (typeof(web.isRegister) !== "undefined") {
 			self.IsRegister(true); //注册的第二步
+			
 		}
 
 		mui.ajax(common.gServerUrl + 'Common/Subject/Get', {
@@ -115,15 +116,19 @@ var myInfo = function() {
 				self.subjects.setData(arr);
 			}
 		})
-
+		
 		mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID() + "&usertype=" + self.UserType(), {
 			type: 'GET',
 			success: function(responseText) {
-				var result = eval("(" + responseText + ")");
+				console.log(responseText);
+				if( responseText != "" ) {
+					var result = eval("(" + responseText + ")");
 				//self.UserID = responseText.ID;
-				self.initData(result);
+					self.initData(result);
+				}
 			}
 		})
+		
 	})
 
 	self.initData = function(result) {
@@ -143,10 +148,11 @@ var myInfo = function() {
 		}
 		if (result.TeachAge)
 			self.TeachAge(result.TeachAge);
-
+		
 		self.Province(common.StrIsNull(result.Province));
 		self.City(common.StrIsNull(result.City));
 		self.District(common.StrIsNull(result.District));
+		
 		self.Introduce(common.StrIsNull(result.Introduce));
 	}
 
@@ -313,5 +319,4 @@ var myInfo = function() {
 
 
 }
-
 ko.applyBindings(myInfo);
