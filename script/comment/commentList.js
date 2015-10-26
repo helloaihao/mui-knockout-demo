@@ -1,11 +1,45 @@
+//			mui('#list1').on('tap', '.mui-table-view-cell', function() {
+//				var p = this.parentNode;
+//				var pp = p.parentNode;
+//				mui(pp).popover('hide');
+//				var ca = this.childNodes[1];
+//				console.log(ca);
+//				var subjectVal = ca.innerHTML;
+//				document.getElementById('select1').innerHTML = subjectVal;
+//			});
+//			mui('#list2').on('tap', '.mui-table-view-cell', function() {
+//				var p = this.parentNode;
+//				var pp = p.parentNode;
+//				mui(pp).popover('hide');
+//				var ca = this.childNodes[1];
+//				console.log(ca);
+//				var subjectVal = ca.innerHTML;
+//				document.getElementById('select2').innerHTML = subjectVal;
+//			});
+
+
 var commentList = function() {
+	
+	mui.init({
+		pullRefresh: {
+			container: '#pullrefresh',
+			down: {
+				callback: pulldownRefresh
+			},
+			up: {
+				contentrefresh: '正在加载...',
+				callback: pullupRefresh
+			}
+		}
+	});
+//mui('.mui-scroll-wrapper').scroll();
 	var self = this;
 	self.works = ko.observableArray([]);
 	var pageNum = 1;
 	self.UnreadCount = ko.observable("0");
 	//加载作品
 	self.getWorks = function() {
-		 self.getUnreadCount;
+		self.getUnreadCount;
 		mui.ajax(common.gServerUrl + "API/Work?page=" + pageNum, {
 			type: 'GET',
 			success: function(responseText) {
@@ -18,33 +52,57 @@ var commentList = function() {
 		})
 	}();
 	//刷新
-	var count = 0;
-	self.pullupRefresh = function() {
-		setTimeout(function() {
-			mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
+
+	function pulldownRefresh() {
 			pageNum++;
 			mui.ajax(common.gServerUrl + "API/Work?page=" + pageNum, {
 				type: 'GET',
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
 					self.works(self.works().concat(result));
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh();
+					mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
 				}
 			});
-		}, 1500)
-		
+
+
+	}
+
+	var count = 0;
+
+	function pullupRefresh() {
+			pageNum++;
+			mui.ajax(common.gServerUrl + "API/Work?page=" + pageNum, {
+				type: 'GET',
+				success: function(responseText) {
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
+					var result = eval("(" + responseText + ")");
+					self.works(self.works().concat(result));
+				}
+			});
+	}
+
+	if (mui.os.plus) {
+		mui.plusReady(function() {
+			setTimeout(function() {
+				mui('#pullrefresh').pullRefresh().pullupLoading();
+			}, 1000);
+
+		});
+	} else {
 		mui.ready(function() {
 			mui('#pullrefresh').pullRefresh().pullupLoading();
-		})
+		});
 	}
 	//跳转至消息页面
-	self.goMessageList = function(){
-		common.gotoMessage();
-	}
-	//获取未读消息数量
-	self.getUnreadCount = function(){
+	self.goMessageList = function() {
+			common.gotoMessage();
+		}
+		//获取未读消息数量
+	self.getUnreadCount = function() {
 		common.getUnreadCount(self.UnreadCount());
 	}
-	
+
 	function plusReady() {
 		if (plus.networkinfo.getCurrentType() == 1) {
 			mui.toast("网络还没连接哦");
@@ -57,4 +115,3 @@ var commentList = function() {
 	}
 }
 ko.applyBindings(commentList);
-

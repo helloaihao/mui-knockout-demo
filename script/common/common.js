@@ -191,7 +191,7 @@
 	},
 	
 	//Web API地址
-	gServerUrl: "http://192.168.1.99:8090/", //"http://192.168.1.102:8090/", //"http://localhost:53651/"	//"http://192.168.1.99:8090/"
+	gServerUrl: "http://192.168.1.88:8090/", //"http://192.168.1.102:8090/", //"http://localhost:53651/"	//"http://192.168.1.99:8090/"
 	//用户类型枚举
 	gDictUserType: {
 		teacher: 32,
@@ -249,9 +249,9 @@
 	},
 	//订单货品类型
 	gDictOrderTargetType: {
-		NotPay: 1, //未支付
-		Payed: 2, //已支付
-		Refunded: 3 //已退款
+		Comment: 1, //点评
+		CourseToUser: 2, //约课
+		Download: 3 //下载
 	},
 	//是否类型JSON
 	gJsonYesorNoType: [{

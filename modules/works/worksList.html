@@ -92,7 +92,7 @@
 				</ul>
 			</div>
 			<div id="item1" class=" mui-control-content mui-active" style="position:static">
-				<div class="mui-scroll-wrapper" id="pullrefresh" style="top:80px">
+				<div id="pullrefresh" class="mui-scroll-wrapper" style="top:80px">
 					<div class="mui-scroll">
 						<!--作品显示页-->
 						<ul class="mui-input-group">
@@ -127,7 +127,7 @@
 				</div>
 			</div>
 			<div id="item2" class=" mui-control-content" style="position:static">
-				<div class="mui-scroll-wrapper" style="position:static" id="pullrefresh">
+				<div id="pullrefresh" class="mui-scroll-wrapper" style="top:80px">
 					<div class="mui-scroll">
 						<!--作品显示页-->
 						<ul class="mui-input-group">
@@ -153,19 +153,7 @@
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/works/workList.js" type="text/javascript" charset="utf-8"></script>
-		<script>
-			mui.init({
-				pullRefresh: {
-					container: '#pullrefresh',
-					up: {
-						contentrefresh: '正在加载...',
-						callback: pullupRefresh
-					}
-				}
-			});
-			mui('body').on('shown', '.mui-popover', function(e) {});
-			mui('body').on('hidden', '.mui-popover', function(e) {});
-		</script>
+
 
 	</body>
 

@@ -76,7 +76,7 @@ video.SelectVideo = function(multiple, callback) {
 	//获取可用的分辨率及弹窗json数据
 	var cmr = plus.camera.getCamera();
 	var myRes = [];
-	//if(plus.os.vendor == 'Apple')	//只有在iOS才可以在录像前设置分辨率
+	if(plus.os.vendor == 'Apple')	//只有在iOS才可以在录像前设置分辨率
 		myRes = getResolution(cmr.supportedVideoResolutions);
 		
 	var counter = 0;

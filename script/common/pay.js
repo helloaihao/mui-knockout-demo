@@ -1,16 +1,5 @@
-﻿var Pay = {
-	var pays = {};
-	mui.plusReady(function() {
-		plus.payment.getChannels(function(channels) {
-			for (var i in channels) {
-				var channel = channels[i];
-				pays[channel.id] = channel;
-				checkServices(channel);
-			}
-		}, function(e) {
-			mui.toast("获取支付通道失败");
-		})
-	})
+﻿var Pay = Pay || {};
+var pays = {};
 
 	//检测是否安装支付服务
 	var checkServices = function(pc) {
@@ -34,12 +23,26 @@
 		}
 	}
 
+	mui.plusReady(function() {
+		plus.payment.getChannels(function(channels) {
+			for (var i in channels) {
+				var channel = channels[i];
+				pays[channel.id] = channel;
+				checkServices(channel);
+			}
+		}, function(e) {
+			mui.toast("获取支付通道失败");
+		})
+	})
+
 	//order：支付订单信息，由支付通道定义的数据格式，通常是由业务服务器生成或向支付服务器获取，是经过加密的字符串信息。
-	var pay = function(payid, order) {
+	Pay.pay = function(payid, order) {
+		//order = '{"appid":"wx142ee69041c3765a","noncestr":"5d318d9f064b4415b6db41340a17c1af","package":"Sign=WXPay","partnerid":"1278334601","prepayid":"wx20151024103140e1b59c3a3e0111701027","timestamp":"1445653811","sign":"6AC524C881A3C2CEBF148F4C7BAD6BDA"}';
+		//console.log(order);
 		plus.payment.request(pays[payid], order, function(result) {
 			mui.toast("支付成功");
 		}, function(e) {
 			mui.toast("支付失败");	// + e.code);
+			console.log("["+e.code+"]："+e.message);
 		});
 	}
-}

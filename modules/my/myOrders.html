@@ -82,7 +82,7 @@
 							</div>
 							<!--明细模板页-->
 							<script type="text/html" id="orderTemplate">
-								<ul class="mui-table-view">
+								<ul class="mui-table-view" data-bind="click: goDetail($data)">
 									<li class="mui-table-view-cell myAccount-cell">
 										<span data-bind='text: TargetTypeName'></span>
 										<span data-bind='text: TargetName'></span>

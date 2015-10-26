@@ -66,6 +66,13 @@
 			.mui-input-group .mui-input-row:after {
 				background: #f1f1f1!important;
 			}
+			.mui-backdrop {
+    			top: 0px!important;
+			}
+			#popPay {
+    			left: 0!important;
+    			top: 30%!important;
+			}
 		</style>
 	</head>
 
@@ -85,12 +92,12 @@
 				<div class="aboutClass-class submitClass-mui-scroll">
 					<div class="aboutClass-class-title">选择课程</div>
 					<ul>
-						<li class="one" data-bind="event:{tap: chooseCourse}">
+						<li class="one" data-bind="event:{tap: chooseCourse}, disable: ViewOrder">
 							<!--<span>钢琴——中级班</span>-->
 							<a data-bind="text: selectedCourse() ? selectedCourse().CourseName : '请选择课程'"></a>
 							<i class="iconfont">&#xe618;</i>
 						</li>
-						<li class="two" data-bind="visible: selectedCourse() ? true : false">
+						<li class="two" data-bind="visible: selectedCourse() ? true : false, disable: ViewOrder">
 							<p data-bind="text: selectedCourse() ? selectedCourse().Introduce : ''"></p>
 							<span data-bind="text: ageRange"></span>
 							<!--ko foreach: {data: locations}-->
@@ -114,7 +121,7 @@
 						</a>
 					</ul>
 					<ul class="about-lesson" data-bind="foreach: {data: ChosenTimes, as: 'chosenTime'}">
-						<a href="#popChooseTime">
+						<a data-bind="attr: {href: ViewOrder ? 'javascript: void(0)' : '#popChooseTime'}">
 							<li class="fontcolor">
 								<!--ko text: common.formatTime(chosenTime)-->
 								<!--/ko-->
@@ -138,8 +145,8 @@
 								<td data-bind='text: $data'></td>
 							<!--/ko-->
 						</tr>
-						<tr data-bind="foreach:{data: DateOfWeek, as: 'date'}">					
-							<td data-bind='text: date.getDate(), css: {"date-current": CurrentDay() == date.getDate()}'></td>
+						<tr data-bind="foreach:{data: DateOfWeek, as: 'date'}">
+							<td data-bind='text: date.getDate(), css: {"date-current": CurrentDay() == date.getDate() && CurrentMonth() == date.getMonth()}'></td>
 						</tr>
 					</table>
 					<table class="availableTime-table auto-height" border="2" cellspacing="0" cellpadding="0" width="100%" data-bind="foreach:{data: Hours, as: 'hour'}">
@@ -158,7 +165,7 @@
 				</div>
 			</div>
 
-			<nav class="mui-bar mui-bar-tab">
+			<nav class="mui-bar mui-bar-tab" data-bind="visible: !(ViewOrder && Order().IsFinish && Order().OrderStatus == common.gDictOrderStatus.Payed)">
 				<div class="mui-content-padded availableTime-sure">
 					<a href="#popPay">
 						<button type="button" class="mui-btn mui-btn-primary availableTime-mui-btn">
@@ -215,8 +222,8 @@
 		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/student/aboutLessonBaseInfo.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/student/aboutLessonChosenTimes.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../script/student/aboutLessonMain.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/pay.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/student/aboutLessonMain.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			mui.init({
 				swipeBack: false //禁用右滑关闭功能

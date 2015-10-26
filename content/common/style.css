@@ -1,4 +1,10 @@
 ﻿/*-----输入框-----*/
+li{
+	list-style: none;
+}
+.info-kc:active{
+				color: #666!important;
+			}
 .popover-height{
 	min-height: 20px!important;
 }
@@ -1018,9 +1024,7 @@ input[type=number],textarea {
 .wrapper-margin{
 	margin: 0!important;
 }
-.mui-backdrop{
-	top:88px!important;
-}
+
 .navigate-font{
 	font-size: 0.88rem;
 	color: #999!important;
@@ -1422,7 +1426,6 @@ input[type=number],textarea {
 	height: 100%;
 	border-right: 1px solid #c8c7cc;
 	line-height: 34px;
-	padding: 0 52px;
 	position: relative;
 	font-size: 14px;
 }
@@ -1702,13 +1705,12 @@ input[type=number],textarea {
 	border: none;
 }
 .teacherList-resolve-title {
-	height: 3.52rem;
+	height: 44px;
 	width: 90%;
 	margin: 0 5%;
 	box-sizing: border-box;
-	line-height: 3.52rem;
+	line-height: 44px;
 	font-size: 1.12rem;
-	color: #036fb8;
 	border-bottom: 1px solid #c8c7cc;
 }
 .teacherList-resolve-content {
@@ -1716,8 +1718,7 @@ input[type=number],textarea {
 	overflow: hidden;
 	width: 100%;
 	box-sizing: border-box;
-	padding: 13px 2px 63px 10px;
-	border-bottom: 1px solid #c8c7cc;
+	padding: 13px 2px 13px 10px;
 }
 .teacherList-resolve-content ul {
 	height: auto;

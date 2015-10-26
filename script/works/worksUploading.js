@@ -5,7 +5,7 @@
 var getStateStr = function(state) {
 	switch (state) {
 		case 0:
-			return "已停止";
+			return "准备中";
 		case 1:
 			return "请求连接...";
 		case 2:
@@ -35,22 +35,21 @@ var uploadVideo = function(path, name, userid, workid, workstitle) {
 	var uploadTmp = plus.uploader.createUpload(url, {
 		method: "POST",
 		blocksize: 102400
-	}, function(ul, status) {
+	}, function(ul, status) {	//上传完成后的回调
+		//console.log(ul.getFileName())
 		console.log(status);
 	});
 
 	uploadTmp.setRequestHeader('Authorization', getAuth()); //加上请求的认证信息
-	//uploadTmp.setRequestHeader('WorksTitle', workstitle); //记录作品标题
+	//uploadTmp.setRequestHeader('Customer', workstitle); //记录作品标题
 	uploadTmp.addEventListener("statechanged", function(ul, responseStatus) {
-		
-		console.log("title:" + ul.getResponseHeader('WorksTitle') + "upload:" + JSON.stringify(ul) + "State: " + ul.state + " , Status: " + responseStatus);
+		refreshTask(ul);
+		//console.log("upload:" + JSON.stringify(ul) + "State: " + ul.state + " , Status: " + responseStatus);
 	}, false);
 
 	var addResult = uploadTmp.addFile(path, {
 		key: name
 	});
-	/*addResult = addResult && uploadTmp.addData('userId', userid);
-	addResult = addResult && uploadTmp.addData('workId', workid);*/
 
 	if (addResult) {
 		uploadTmp.start();
@@ -75,27 +74,80 @@ var getAllUploads = function() {
  */
 var uploadItem = function(uploadObj, title) {
 	var self = this;
-	
-	//self.uploadTask = ko.observable(uploadObj);
+
+	self.url = uploadObj.url; //用作标识
 	self.WorkTitle = title;
-	//self.State = ko.computed(function(){getStateStr(self.uploadTask().state)});
+	self.State = ko.observable(uploadObj.state);
+	self.StateText = ko.computed(function() {
+		return getStateStr(self.State())
+	});
 	self.UploadedSize = ko.observable(uploadObj.uploadedSize);
-	//self.TotalSize = ko.computed(function(){self.uploadTask().totalSize});
+	self.TotalSize = ko.observable(uploadObj.totalSize);
 	self.Ratio = ko.computed(function() {
-		if (self.TotalSize() > 1024 * 1024) {
+		/*if (self.TotalSize() > 1024 * 1024) {*/
 			var de = (Math.round(self.TotalSize() * 100 / 1024 / 1024) / 100).toString() + 'M';
 			var nu = (Math.round(self.UploadedSize() * 100 / 1024 / 1024) / 100).toString() + 'M';
 			return nu + '/' + de;
-		} else {
+		/*} else {
 			var de = (Math.round(self.TotalSize() * 100 / 1024) / 100).toString() + 'K';
 			var nu = (Math.round(self.UploadedSize() * 100 / 1024) / 100).toString() + 'K';
 			return nu + '/' + de;
-		}
+		}*/
 	});
 	self.Percentage = ko.computed(function() {
+		//console.log('UploadedSize:' + self.UploadedSize());
 		return self.TotalSize() == 0 ? '100%' : Math.round(self.UploadedSize() / self.TotalSize() * 100).toString() + '%';
 		//return '100%';
 	});
+	self.LastTime = ko.observable(new Date().getTime());	//时间戳，单位为毫秒
+	self.Counter = ko.observable(0);	//计数器，避免太频繁的刷新
+	self.LastUploadedSize = ko.observable(0);	//上一次记录时所上传的文件大小
+	self.Speed = ko.observable('0 K/s');	//上传速率
+}
+
+/**
+ * 刷新进度（目前似乎有卡顿的情况出现，待解决）
+ * @param {Object} task plus的Upload对象
+ */
+var refreshTask = function(task) {
+	self.tasks().forEach(function(item) {
+		if (item.url == task.url) {
+			item.Counter(item.Counter() + 1);
+			var now = new Date().getTime();
+			if(task.state != 3){
+				item.LastTime(now);
+			}
+			if(task.state == 3 && (item.Counter() >= 600 || (now - item.LastTime() > 300))){	//开始传输，定时刷新
+				item.Counter(0);
+				var size = item.UploadedSize() - item.LastUploadedSize();
+				var time = now - item.LastTime();
+				var speed = '0 K/s';
+				if(time > 0){
+					speed = Math.round(size * 1000 * 100 / 1024 / time) / 100;		//2位小数点，单位为K/s
+					if (speed > 1024) {
+						speed = (Math.round(speed * 100 / 1024) / 100).toString() + ' M/s';	//2位小数点，单位为M/s
+					}
+					else{
+						speed = speed.toString() + ' K/s';
+					}
+				}
+				item.Speed(speed);
+				//console.log(size + ' ' + time + ' ' + item.Speed());
+				
+				item.LastUploadedSize(item.UploadedSize());
+				item.LastTime(now);
+				//console.log('LastUploadedSize:' + item.LastUploadedSize());
+			}
+			
+			item.State(task.state);
+			if(item.TotalSize() <= 0){
+				item.TotalSize(task.totalSize);
+			}
+			item.UploadedSize(task.uploadedSize);
+			
+			return;
+		}
+	})
 }
 
 var viewModel = function() {
@@ -132,6 +184,14 @@ var viewModel = function() {
 		}
 
 		//getAllUploads();
+		/*plus.uploader.enumerate(function(uploads){
+			console.log('arr'+uploads.length);
+			//self.tasks(uploads);
+		});*/
 	});
+	
+	self.gotoAddWorks = function() {
+		common.transfer('../../modules/works/addWorks.html', true);
+	};
 }
 ko.applyBindings(viewModel);

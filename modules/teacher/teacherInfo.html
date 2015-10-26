@@ -31,7 +31,6 @@
 				left: 50%!important;
 				margin-left: -10.33rem!important;
 				min-height: 12.8rem!important;
-				width: 16.2rem;
 			}
 			.shareTeacher-pic {
 				height: 8.8rem;
@@ -97,6 +96,35 @@
 			.top-btn-right {
 				text-align: right;
 			}
+			.font-p{
+				padding: 15px 15px;
+				text-indent: 2em;
+			}
+			.info-pic{
+				height: 44px!important;
+				line-height:22px!important;
+			}
+			.info-li:after{
+				height: 0!important;
+			}
+			.mui-table-view-cell.mui-collapse.mui-active >.info-pic{
+				color: #666;
+				line-height:24px!important;
+			}
+			.mui-table-view-cell.mui-collapse.mui-active >.info-pic:after{
+				color: #333!important;
+				font-size: 20px!important;
+				right: 35px!important;
+				content: "\e61c"!important;
+				top: 24px;	
+			}
+			.mui-table-view-cell.mui-collapse >.info-pic:after{
+				color: #333!important;
+				font-size: 14px!important;
+				right: 37px!important;
+				content: "\e635"!important;
+				top: 22px;				
+			}			
 		</style>
 	</head>
 
@@ -167,31 +195,46 @@
 					<p data-bind="text:Title"></p>
 				</li>
 			</script>
-			<div class="teacherList-resolve-title">分解教程</div>
+			<li class="mui-table-view-cell" data-bind="click:openWork">
+				<a class="my-mui-navigate-right">
+					<span class="mui-badge my-mui-badge iconfont">&#xe618;</span> 分解教程
+				</a>
+			</li>
 			<div class="teacherList-resolve-content">
-				<ul data-bind="template:{name:'worksTemplate',foreach:workResolve}"></ul>
+				<ul data-bind="template:{name:'worksTemplate',foreach:workResolve}, visible:workResolve().length>0"></ul>
+				<p data-bind="visible:workResolve().length<=0">暂无</p>
 			</div>
-			<div class="teacherList-more" data-bind="click:openWork">查看更多></div>
-			<!--<div class="teacherList-more" data-bind="click:openWork">查看更多></div>-->
 			<div class="teacherList-blank-bgColor"></div>
 
 			<!--完整教程-->
-			<div class="teacherList-resolve-title">完整教程</div>
+			<li class="mui-table-view-cell" data-bind="click:openWork">
+				<a class="my-mui-navigate-right">
+					<span class="mui-badge my-mui-badge iconfont">&#xe618;</span> 完整教程
+				</a>
+			</li>
 			<div class="teacherList-resolve-content">
-				<ul data-bind="template:{name:'worksTemplate', foreach:workFull}"></ul>
+				<ul data-bind="template:{name:'worksTemplate', foreach:workFull}, visible:workFull().length>0"></ul>
+				<p data-bind="visible:workFull().length<=0">暂无</p>
 			</div>
-			<div class="teacherList-more" data-bind="click:openWork">查看更多></div>
 			<div class="teacherList-blank-bgColor"></div>
 
 			<!--演出作品-->
-			<div class="teacherList-resolve-title ">演出作品</div>
+			<li class="mui-table-view-cell" data-bind="click:openWork">
+				<a class="my-mui-navigate-right">
+					<span class="mui-badge my-mui-badge iconfont">&#xe618;</span> 演出作品
+				</a>
+			</li>
 			<div class="teacherList-resolve-content">
-				<ul data-bind="template:{name:'worksTemplate',foreach:workShow}">
+				<ul data-bind="template:{name:'worksTemplate',foreach:workShow}, visible:workShow().length>0">
 				</ul>
+				<p data-bind="visible:workShow().length<=0">暂无</p>
 			</div>
-			<div class="teacherList-more" data-bind="click:openWork">查看更多></div>
 			<div class="teacherList-blank-bgColor "></div>
-			<div class="teacherList-resolve-title ">课程</div>
+			
+			<!--<div class="teacherList-resolve-title">课程</div>-->
+			<li class="mui-table-view-cell info-kc">			
+					 课程
+			</li>
 			<div data-bind="template:{name:'classTemplate',foreach:Courses}">
 			</div>
 			<!--以下为模板文件-->
@@ -202,15 +245,24 @@
 					<em>￥<!--ko text:Price--><!--/ko--></em>
 				</div>
 			</script>
-
-			<div class="teacherList-more " data-bind="click:openWork ">查看更多></div>
 			<div class="teacherList-blank-bgColor "></div>
-			<div class="teacherList-abstract ">
-				简介
-				<!--ko text:Introduce-->
-				<!--/ko-->
-				<i class="iconfont ">&#xe61c;</i>
-			</div>
+			
+			<li class="mui-table-view-cell mui-collapse info-li">
+				<a class="mui-navigate-right info-pic" href="#">
+					简介
+				</a>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<p class="font-p" data-bind="text: Introduce">介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍</p>
+				</ul>
+			</li>
+			
+			<!--<li class="mui-table-view-cell" data-bind="click:openWork">
+				<a class="my-mui-navigate-right">
+					<span class="mui-badge my-mui-badge iconfont">&#xe61c;</span> 简介
+				</a>
+			</li>
+			<p class="font-p" data-bind="text: Introduce">介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍</p>
+			-->
 			<div class="teacherList-blank-bgColor bgColor-footer "></div>
 			<nav class="mui-bar mui-bar-tab ">
 				<a class="ah-mui-tab-item teacherList-mui-bar-tab teacherList-mui" href="#tabbar" data-bind="event:{tap: gotoComment}">

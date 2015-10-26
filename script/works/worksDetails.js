@@ -131,7 +131,7 @@ var worksDetails = function() {
 			var workVaule = plus.webview.currentWebview();
 			WorkID=workVaule.WorkID; //由上级页面传此参数到此页面
 			AuthorID=workVaule.AuthorID; //由上一级页面传此参数到此页面
-			mui.toast(WorkID);
+			//mui.toast(WorkID);
 			self.getComment();
 		});
 	});

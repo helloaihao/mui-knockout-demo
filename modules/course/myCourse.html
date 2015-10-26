@@ -95,7 +95,7 @@
 					<!--/ko-->
 				</tr>
 				<tr data-bind="foreach:{data: DateOfWeek, as: 'date'}">					
-					<td data-bind='text: date.getDate(), css: {"date-current": CurrentDay() == date.getDate()}'></td>
+					<td data-bind='text: date.getDate(), css: {"date-current": CurrentDay() == date.getDate() && CurrentMonth() == date.getMonth()}'></td>
 				</tr>
 			</table>
 			<table class="availableTime-table auto-height" border="2" cellspacing="0" cellpadding="0" width="100%" height="100%" data-bind="foreach:{data: Hours, as: 'hour'}">

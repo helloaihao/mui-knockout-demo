@@ -12,7 +12,7 @@ var viewModel = function() {
 	self.dbStar = ko.observable("星级");
 	self.dbSort = ko.observable("排序");
 	//接收属性
-	var subjectID, starID, sortID; 
+	var subjectID, starID, sortID;
 	var Title, AuthorName, AuthorID;
 	self.displayCheck = ko.observable(false); //是否显示选择
 	self.dbSubject = ko.observable("科目");
@@ -41,15 +41,26 @@ var viewModel = function() {
 				mui.toast("ERROR");
 			}
 		});
-		mui('#pullrefresh').pullRefresh().refresh(true);
-		mui('.mui-scroll-wrapper').scroll().scrollTo(0, 0, 100); //滚动到最顶部
-		
+		//mui('.mui-scroll-wrapper').scroll().scrollTo(0, 0, 100); //滚动到最顶部
+
 	};
 
+	mui.init({
+		pullRefresh: {
+			container: '#pullrefresh',
+			down: {
+				callback: pulldownRefresh
+			},
+			up: {
+				contentrefresh: '正在加载...',
+				callback: pullupRefresh
+			}
+		}
+	});
 	//下拉刷新
-	self.pullupRefresh = function() {
+	function pulldownRefresh() {
 		setTimeout(function() {
-			mui('#pullrefresh').pullRefresh().endPullupToRefresh(refreshFlag);
+			
 			pageID++;
 			var curl = pageUrl + pageID;
 			if (typeof(subjectID) === "number") {
@@ -69,11 +80,50 @@ var viewModel = function() {
 					}
 					var result = eval("(" + responseText + ")");
 					self.teacherList(self.teacherList().concat(result));
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh();
+					mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
 				}
 			});
 		}, 1500);
-		mui('#pullrefresh').pullRefresh().pullupLoading();
+	}
+
+	var count = 0;
+	function pullupRefresh() {
+		setTimeout(function() {
+			mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
+			pageID++;
+			var curl = pageUrl + pageID;
+			if (typeof(subjectID) === "number") {
+				curl += subjectUrl + subjectID;
+			}
+			if (typeof(starID) === "number") {
+				curl += starUrl + starID;
+			}
+			if (typeof(sortID) === "number") {
+				curl += sortUrl + sortID;
+			}
+			mui.ajax(thisUrl + curl, {
+				type: 'GET',
+				success: function(responseText) {
+					var result = eval("(" + responseText + ")");
+					self.teacherList(self.teacherList().concat(result));
+				}
+			});
+		}, 1500);
 	};
+
+	if (mui.os.plus) {
+		mui.plusReady(function() {
+			setTimeout(function() {
+				mui('#pullrefresh').pullRefresh().pullupLoading();
+			}, 1000);
+
+		});
+	} else {
+		mui.ready(function() {
+			mui('#pullrefresh').pullRefresh().pullupLoading();
+		});
+	}
 
 	self.setSubject = function() {
 		ppSubject.show(function(items) {
@@ -97,7 +147,7 @@ var viewModel = function() {
 			self.getTeacherList();
 		});
 	}
-	
+
 	self.gotoTeacherInfo = function() {
 		var tmpID = this.UserID;
 		mui.openWindow({
@@ -110,17 +160,17 @@ var viewModel = function() {
 			}
 		});
 	};
-	
+
 	self.gotoSubmitClass = function() {
 		var radios = document.getElementsByName('radio');
 		var pos = -1;
-		for(var i = 0; i < radios.length; i ++) {
-			if( radios[i].checked ) {
+		for (var i = 0; i < radios.length; i++) {
+			if (radios[i].checked) {
 				pos = i;
 			}
 		}
 		mui.openWindow({
-			url:'../student/submitCommnet.html',
+			url: '../student/submitCommnet.html',
 			show: {
 				autoShow: true,
 				aniShow: "slide-in-right",
@@ -129,7 +179,7 @@ var viewModel = function() {
 			waiting: {
 				autoShow: false
 			},
-			extras:{
+			extras: {
 				AuthorID: self.AuthorID,
 				WorkTitle: self.Title,
 				AuthorName: self.AuthorName,

@@ -66,6 +66,26 @@ var myOrders = function() {
 		})
 	}
 	
+	self.goDetail = function(order){
+		var url = '';
+		switch (order.TargetType){
+			case common.gDictOrderTargetType.Comment:
+				url = '../../modules/student/submitComment.html';
+				break;
+			case common.gDictOrderTargetType.CourseToUser:
+				url = '../../modules/student/aboutLesson.html';
+				break;
+			case common.gDictOrderTargetType.Download:
+				url = '../../modules/works/worksDownload.html';
+				break;
+			default:
+				return;
+		}
+		common.transfer(url, true, {
+			order: order
+		});
+	}
+	
 	//提现
 	self.Withdraw =function(){
 		mui.toast("你点击了提现按钮");

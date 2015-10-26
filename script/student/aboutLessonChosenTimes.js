@@ -10,6 +10,7 @@ var LessonChosenTimes = function() {
 		self.Hours.push(i);
 	}
 	self.CurrentDay = ko.observable((new Date()).getDate()); //当前天
+	self.CurrentMonth = ko.observable(newDate().getMonth()); //当前月
 	self.DayOfWeek = ko.observableArray(['日', '一', '二', '三', '四', '五', '六']); //星期数组
 	self.TheMonth = ko.computed(function() { //显示的月份
 		//var self = this;
@@ -47,11 +48,12 @@ var LessonChosenTimes = function() {
 			
 		var self = this;
 		var ajaxUrl = common.gServerUrl + 'API/Teacher/GetFreetimeRemain?userid=' + teacherUesrID;
-
+		
 		mui.ajax(ajaxUrl, {
 			type: 'GET',
 			success: function(responseText) {
 				var freetimes = JSON.parse(responseText);
+				//console.log(responseText);
 				self.Freetimes(freetimes);
 			}
 		})

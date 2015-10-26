@@ -22,7 +22,7 @@
 	self.UserType = 32;//getLocalItem('UserType');
 	self.Courses = ko.observableArray([]); //课程数组
 	self.CourseName = ko.observable("") //课程标题
-	self.Introduce = ko.observable("") //课程标题
+	self.Introduce = ko.observable("") //个人简介
 	self.Price = ko.observable("") //课程标题
 	//var tUserId = 0; 	//此数据应当由上级页面传此参数
 	var pageSize = 3; 	//视频显示数量3
@@ -32,7 +32,8 @@
 			type: 'GET',
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
-				self.Photo(common.getPhotoUrl(result.Photo));
+				if(common.StrIsNull(result.Photo) != '')
+					self.Photo(common.getPhotoUrl(result.Photo));
 				self.DisplayName(result.DisplayName);
 				self.SubjectName(result.SubjectName);
 				self.TeachAge(result.TeachAge);
@@ -42,6 +43,7 @@
 				self.Score(result.Score);
 				self.FavCount(result.FavCount);
 				self.Star(result.Star);
+				self.Introduce(result.Introduce);
 			},
 			error: function(responseText) {
 				mui.toast("获取信息失败");
@@ -67,7 +69,7 @@
 		}
 		//获取分解视频
 	self.getworkResolve = function() {
-			mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkType[0] + "&pageSize=" + pageSize, {
+			mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkType[0].value + "&pageSize=" + pageSize, {
 				type: "GET",
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
@@ -78,7 +80,7 @@
 		}
 		//获取完整教程
 	self.getworkFull = function() {
-			mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkType[1] + "&pageSize=" + pageSize, {
+			mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkType[1].value + "&pageSize=" + pageSize, {
 				type: "GET",
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
@@ -88,7 +90,7 @@
 	};
 		//获取演出作品
 	self.getwork = function() {
-		mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkType[2] + "&pageSize=" + pageSize, {
+		mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkType[2].value + "&pageSize=" + pageSize, {
 			type: "GET",
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");

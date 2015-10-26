@@ -23,8 +23,8 @@ var login = function() {
 				},
 				success: function(responseText) {
 					//mui.toast(index.getURL() + "第1");
-					var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');
-					plus.webview.close(index); //关闭首页webview
+					//var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');
+					//plus.webview.close(index); //关闭首页webview
 					//mui.toast(index.getURL() + "第2");
 					var result = responseText; //eval("(" + responseText + ")");
 					setLocalItem("UserID", result.UserID);

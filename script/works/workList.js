@@ -40,9 +40,47 @@ var workList = function() {
 		//mui('#pullrefresh').pullRefresh().refresh(true);
 
 	};
+
+	mui.init({
+		pullRefresh: {
+			container: '#pullrefresh',
+			down: {
+				callback: pulldownRefresh
+			},
+			up: {
+				contentrefresh: '正在加载...',
+				callback: pullupRefresh
+			}
+		}
+	});
+
+	function pulldownRefresh() {
+		setTimeout(function() {
+			
+			page++;
+			var curl = pageUrl + page;
+			if (typeof(subjectID) === "number" && subjectID > 0) {
+				curl += subjectUrl + subjectID;
+			}
+			if (typeof(sortID) === "number" && sortID > 0) {
+				curl += sortUrl + sortID;
+			}
+			mui.ajax(thisUrl + curl, {
+				type: 'GET',
+				success: function(responseText) {
+					var result = eval("(" + responseText + ")");
+					self.works(self.works().concat(result));
+					mui('#pullrefresh').pullRefresh().endPullupToRefresh();
+					mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
+				}
+			});
+		}, 1500)
+	}
+
 	//刷新
 	var count = 0;
-	self.pullupRefresh = function() {
+
+	function pullupRefresh() {
 		setTimeout(function() {
 			mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
 			page++;
@@ -61,10 +99,21 @@ var workList = function() {
 				}
 			});
 		}, 1500)
+	};
+
+	if (mui.os.plus) {
+		mui.plusReady(function() {
+			setTimeout(function() {
+				mui('#pullrefresh').pullRefresh().pullupLoading();
+			}, 1000);
+
+		});
+	} else {
 		mui.ready(function() {
 			mui('#pullrefresh').pullRefresh().pullupLoading();
-		})
-	};
+		});
+	}
+
 	//预加载详情页面
 	var worksDetails = mui.preload({
 		url: 'WorksDetails.html',
@@ -149,11 +198,11 @@ var workList = function() {
 		common.transfer('../../modules/works/addWorks.html', true);
 	};
 	mui.plusReady(function() {
-		var web = plus.webview.currentWebview();
-		if (typeof(web.teacherID) !== "undefined") {
-			teacherID = web.teacherID;
-			self.displayCheck(web.displayCheck);
-		}
+				var web = plus.webview.currentWebview();
+				if (typeof(web.teacherID) !== "undefined") {
+					teacherID = web.teacherID;
+					self.displayCheck(web.displayCheck);
+				}
 		ppSubject = new mui.PopPicker();
 		mui.ajax(common.gServerUrl + "Common/Subject/Get", {
 			dataType: 'json',
