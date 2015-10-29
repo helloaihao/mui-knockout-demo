@@ -30,25 +30,66 @@ var message_notification = function() {
 				}
 			});
 		}
-		//上拉加载
-	var count = 0;
-	self.pullupRefresh = function() {
+	
+	mui.init({
+		pullRefresh: {
+			container: '#pullrefresh',
+			down: {
+				callback: pulldownRefresh
+			},
+			up: {
+				contentrefresh: '正在加载...',
+				callback: pullupRefresh
+			}
+		}
+	});
+	
+	function pulldownRefresh() {
 		setTimeout(function() {
-			mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
-			pageNum++;
 			mui.ajax(common.gServerUrl + "API/Message/GetMyMessage?receiver=" + receiverId + "&page=" + pageNum, {
 				dataType: 'json',
 				type: 'GET',
 				success: function(responseText) {
-					/*tmp = ko.observableArray([]);
-					tmp(responseText);*/
+					self.messages(self.messages().concat(responseText));
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+				}
+			});
+		}, 1500);
+	}
+
+	var count = 0;
+
+	function pullupRefresh() {
+		setTimeout(function() {
+			mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
+			mui.ajax(common.gServerUrl + "API/Message/GetMyMessage?receiver=" + receiverId + "&page=" + pageNum, {
+				dataType: 'json',
+				type: 'GET',
+				success: function(responseText) {
 					self.messages(self.messages().concat(responseText));
 				}
 			});
 		}, 1500);
+	}
+
+	if (mui.os.plus) {
+		mui.plusReady(function() {
+			setTimeout(function() {
+				mui('#pullrefresh').pullRefresh().pullupLoading();
+			}, 1000);
+		});
+	} else {
 		mui.ready(function() {
 			mui('#pullrefresh').pullRefresh().pullupLoading();
-		})
+		});
 	}
+
+	mui.plusReady(function(){
+		plus.uploader.enumerate(function(uploads){
+			console.log('arr'+uploads.length);
+			mui.toast('arr'+uploads.length);
+			//self.tasks(uploads);
+		});
+	});
 }
 ko.applyBindings(message_notification);

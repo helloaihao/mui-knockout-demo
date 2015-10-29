@@ -1,11 +1,12 @@
 ﻿/*-----输入框-----*/
-li{
+
+li {
 	list-style: none;
 }
-.info-kc:active{
-				color: #666!important;
-			}
-.popover-height{
+.info-kc:active {
+	color: #666!important;
+}
+.popover-height {
 	min-height: 20px!important;
 }
 .mui-input-row label {
@@ -14,9 +15,10 @@ li{
 .mui-input-group .mui-input-row:after {
 	background: #C8C7CC!important;
 }
-.reg-mui-input-row input[type=text],
+.reg-mui-input-row input[type=text], 
 input[type=password],
-input[type=number],textarea {
+input[type=number],
+textarea {
 	line-height: 18px!important;
 	height: 44px!important;
 	font-family: Microsoft YaHei, Tahoma, Arial, sans-serif!important;
@@ -294,7 +296,6 @@ input[type=number],textarea {
 	border: none!important;
 }
 /*-----register注册页面结束------*/
-
 /*-------老师注册页面开始-------*/
 
 .th-mui-btn-block {
@@ -373,7 +374,7 @@ input[type=number],textarea {
 	margin-left: 9px;
 	position: relative;
 }
-.index-up-secher-bg ul li:active{
+.index-up-secher-bg ul li:active {
 	background-color: #F1F1F1;
 }
 .index-up-secher-bg ul li em {
@@ -443,19 +444,17 @@ input[type=number],textarea {
 	overflow: hidden;
 }
 .index-content-ctn {
-	border-radius: 3px;
 	background-color: rgb(255, 255, 255);
-	box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.078);
-	width: 24.88rem;
+	border-bottom: 1px solid #C8C7CC;
+	width: 100%;
 	height: auto;
 	margin: 10px auto;
 	color: #666;
 	padding-bottom: 5px;
 }
 .index-content-ctn em {
-	width: 24.88rem;
-	height: 300px;
-	border-radius: 3px 3px 0 0;
+	width:100%;
+	height: 13.995rem;
 	display: inline-block;
 	background: #ccc;
 	margin-bottom: 22px;
@@ -485,7 +484,7 @@ input[type=number],textarea {
 .index-tel {
 	height: 2.8rem;
 	width: 16rem;
-	margin: 40px auto 90px;
+	margin: 30px auto;
 	border-radius: 2rem;
 	border: 1px solid #036fb8;
 	color: #036fb8;
@@ -692,6 +691,13 @@ input[type=number],textarea {
 	height: 15px;
 	width: 100%;
 }
+.work-p-content{
+	padding:0 15px 15px 15px;
+	line-height: 26px;
+	font-size: 14px;
+	color: #666;
+	text-indent: 2em;
+}
 .pin-mui-table-view-cell span {
 	position: absolute;
 	left: 120px;
@@ -751,7 +757,6 @@ input[type=number],textarea {
 	height: auto;
 	width: 100%;
 	overflow: hidden;
-	padding: 15px 0;
 	box-sizing: border-box;
 }
 .works-content-up span {
@@ -765,19 +770,45 @@ input[type=number],textarea {
 .works-content-up ul {
 	height: 46px;
 	width: 100%;
-	display: flexbox;
+	text-align: right;
 }
 .works-content-up ul li {
-	float: left;
 	line-height: 46px;
-	text-align: center;
-	margin-left: 5px;
-	margin-right: 3px;
+
 	color: #999;
-	font-size: 12px;
-	flex: 1;
+	padding-right: 15px;
+	font-size: 14px;
+	display: inline-block;
 }
-.works-content-up ul li:nth-of-type(2) i {
+.works-icon{
+	font-size: 20px;
+}
+	.works-date{
+				height: 38px;
+				line-height: 38px;
+				width: 100%;
+				padding: 0 10px;
+				box-sizing: border-box;
+			}
+			.works-date ul{
+				width: 100%;
+				height: 100%;
+				display: table;
+				
+			}
+			.works-date ul li{
+				height: 100%;
+				font-size: 12px;
+				width: 20%;
+				float: left;
+				line-height: 30px;
+				text-align: center;
+				display: table-cell;
+			}	
+			.works-date ul li.week{
+				width: 30%;
+			}
+/*.works-content-up ul li:nth-of-type(2) i {
 	font-size: 20px;
 }
 .works-content-up ul li:nth-of-type(6) {
@@ -785,7 +816,7 @@ input[type=number],textarea {
 }
 .works-content-up ul li:nth-of-type(6) i {
 	font-size: 20px;
-}
+}*/
 .works-label {
 	position: absolute;
 	left: 15px;
@@ -1017,20 +1048,15 @@ input[type=number],textarea {
 	min-height: 300px;
 	width: 100%;
 }
-.mui-popover.mui-active{
-	left: 0!important;
-	top: 78px!important;
-}
-.wrapper-margin{
+.wrapper-margin {
 	margin: 0!important;
 }
-
-.navigate-font{
+.navigate-font {
 	font-size: 0.88rem;
 	color: #999!important;
 	width: 100%;
 }
-.mui-popover{
+.mui-popover {
 	border-radius: 0!important;
 }
 .mui-popover-arrow:after {
@@ -1047,7 +1073,6 @@ input[type=number],textarea {
 	margin-left: 2%;
 	padding: 15px 0;
 	box-sizing: border-box;
-	margin-top: 10px;
 	margin-bottom: 10px;
 	position: relative;
 	overflow: hidden;
@@ -1228,7 +1253,6 @@ input[type=number],textarea {
 	display: inline-block;
 	line-height: 3.92rem;
 	text-align: center;
-	
 }
 .addWorks-add em i {
 	font-size: 2.6rem;
@@ -1718,7 +1742,7 @@ input[type=number],textarea {
 	overflow: hidden;
 	width: 100%;
 	box-sizing: border-box;
-	padding: 13px 2px 13px 10px;
+	padding: 13px 2px 50px 10px;
 }
 .teacherList-resolve-content ul {
 	height: auto;
@@ -1731,7 +1755,13 @@ input[type=number],textarea {
 	position: relative;
 	padding-right: 8px;
 	height: 6.8rem;
+	padding-bottom: 8px;
 	text-align: left
+}
+.teacherList-resolve-content ul li img{
+	height: 100%;
+	width: 100%;
+	overflow: hidden;
 }
 .teacherList-resolve-content ul li i {
 	height: 2.96rem;
@@ -1740,8 +1770,8 @@ input[type=number],textarea {
 	position: absolute;
 	left: 50%;
 	top: 50%;
-	margin-left: -2rem;
-	margin-top: -2rem;
+	margin-left: -1.78rem;
+	margin-top: -1.48rem;
 }
 .teacherList-more {
 	height: 2.8rem;
@@ -2948,11 +2978,11 @@ input[type=number],textarea {
 	margin-right: 0.5rem;
 }*/
 
-.availableTime-date{
+.availableTime-date {
 	background: #f1f1f1;
 	height: 3rem;
 }
-.availableTime-date tr td{
+.availableTime-date tr td {
 	color: #666;
 	font-size: 0.96rem;
 	text-align: center;
@@ -2973,43 +3003,93 @@ input[type=number],textarea {
 	word-wrap: break-word;
 	word-break: normal;
 	text-overflow: ellipsis;
-
 }
-.availableTime-date .month{
+.availableTime-date .month {
 	font-size: 1.2rem!important;
 }
-.date-current{
+.date-current {
 	background: #ccc;
 	color: #fff!important;
 }
-.availableTime-table tr td:first-of-type,.availableTime-date .month{
+.availableTime-table tr td:first-of-type,
+.availableTime-date .month {
 	width: 14.8%;
 	margin-right: 3px;
 	color: #666;
 	font-size: 0.8rem;
 	border: none!important;
 }
-.availableTime-table .freetime {
+.course-z{
+	height: 22px;
+	width: 100%;
+	margin-top: 10px;
+	position: relative;
+	padding-left: 50px;
+	box-sizing: border-box;
+	}
+.course-z em{
+	width: 16px;
+	display: inline-block;
+	height: 16px;
+	margin-right: 5px;
+}	
+.course-z span{
+	font-size: 12px;
+	color: #666;
+	top: -1px;
+	position: absolute;
+	margin-left: 5px;
+}
+.normaltime-font{
+	left:70px;	
+	}
+.availableTime-table .freetime,.availableTime-table .normaltime {
 	background: #00abeb;
 	color: #fff;
 	font-size: 0.8rem;
 }
-.availableTime-table .notime {
+.course-z .finishedtime{
+	width: 16px;
+}
+.availableTime-table .finishedtime {
 	background: darkgray;
 	color: #fff;
 	font-size: 0.8rem;
+}
+.course-z .finishedtime{
+	margin-left: 40px;
+}
+.finishedtime-font{
+	left: 135px;
 }
 .availableTime-table .busytime {
 	background: orange;
 	color: #fff;
 	font-size: 0.8rem;
-	margin-top: -1px;
-	border: none;
 }
-.availableTime-table .conflicttime {
-	background: red;
+.availableTime-table .fontadjusting{
+	background: #00abeb;
+	}
+.course-z .fontadjusting{
+
+	width: 50px!important;
+	margin-left: 35px;
+}
+.fontadjusting-font{
+	color: greenyellow !important;
+	left: 250px;
+}
+.availableTime-table .overtime {
+	background: darkred;
 	color: #fff;
 	font-size: 0.8rem;
+	}
+.course-z .overtime {
+	
+	margin-left: 50px;
+}
+.overtime-font{
+	left: 210px;
 }
 .availableTime-table a {
 	color: #fff;
@@ -3069,7 +3149,7 @@ input[type=number],textarea {
 .availableTime-add {
 	height: 2.2rem!important;
 	width: 100%!important;
-	padding-left: 14.8%;
+	/*padding-left: 14.8%;*/
 	box-sizing: border-box;
 }
 .time-up-add {
@@ -3596,7 +3676,7 @@ input[type=number],textarea {
 	float: left;
 	margin-left: 15px;
 }
-.mui-bar-nav .a-right{
+.mui-bar-nav .a-right {
 	float: right;
 	height: 100%;
 	width: 30%;
@@ -3605,9 +3685,9 @@ input[type=number],textarea {
 	text-align: right;
 	box-sizing: border-box;
 	display: inline-block;
-	color: #fff;	
+	color: #fff;
 }
-.mui-bar-nav .a-left{
+.mui-bar-nav .a-left {
 	float: left;
 	height: 100%;
 	width: 30%;
@@ -3616,14 +3696,48 @@ input[type=number],textarea {
 	text-align: left;
 	box-sizing: border-box;
 	display: inline-block;
-	color: #fff;	
+	color: #fff;
 }
 
-
-
-
-
-
-
-
-
+/*筛选弹窗*/
+.ah-scroll>.mui-navigate-right:after,
+.ah-scroll>.mui-push-right:after {
+	content: "\e61c"!important;
+	right: 22px;
+	top: 22px;
+	font-size: 16px!important;
+	color: #999;
+}
+.ah-scroll.mui-active>.mui-navigate-right:after {
+	content: "\e635"!important;
+	top: 22px;
+	color: #036FB8;
+	font-size: 14px!important;
+}
+.ah-scroll.mui-active>.mui-navigate-right {
+	color: #036FB8!important;
+}
+.xl-table tr td {
+	text-align: center;
+	padding: 5px 0;
+	box-sizing: border-box;
+	font-size: 0.88rem;
+	color: #999;
+}
+.ah-scroll > a {
+	background: none!important;
+}
+.ah-scroll.mui-active {
+	background: #f1f1f1!important;
+}
+.table-current {
+	border: 1px solid #036FB8;
+	border-radius: 5px;
+	font-size: 0.88rem;
+	color: #036FB8;
+	width: 60%;
+	padding: 0 5px;
+	height: 28px;
+	line-height: 28px;
+	margin: 0 auto;
+}

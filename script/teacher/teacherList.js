@@ -80,8 +80,7 @@ var viewModel = function() {
 					}
 					var result = eval("(" + responseText + ")");
 					self.teacherList(self.teacherList().concat(result));
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh();
-					mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
 				}
 			});
 		}, 1500);
@@ -155,8 +154,11 @@ var viewModel = function() {
 			extras: {
 				teacherID: tmpID
 			},
+			show: {
+				autoShow: false,
+			},
 			waiting: {
-				autoShow: false
+				autoShow: true
 			}
 		});
 	};

@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="../../content/mui/mui.min.css" />
+		<link rel="stylesheet" href="http://g.alicdn.com/sui-mobile/sm/0.5.0/css/sm.css">
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/me.css" rel="stylesheet" />
+		<link href="../../content/common/Tf_global.css" rel="stylesheet" />
+		<link href="../../content/my/messageList.css" rel="stylesheet" />
+		<style>
+			.mui-content{
+				background: #F1F1F1;
+			}
+			.card-content-inner{
+				padding: 1rem!important;
+			}
+			.card{
+				width: 96%;
+				margin: 0.5rem auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<!--页面内容区域-->
+		<!--下拉刷新容器-->
+		<div class="mui-content">
+			<div id="pullrefresh" class=" mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<!--数据列表-->
+					<div data-bind="template: {name:'messageTemplate', foreach: messages }">
+					</div>
+					<!--message模板页-->
+					<script type="text/html" id="messageTemplate">
+						<div class="card">
+							<div class="card-header card-font">
+								<!--ko text:Title--><!--/ko-->
+								<i class="icon icon-remove" data-bind="click:removeMessages"></i>
+							</div>
+							<div class="card-content">
+								<div class="card-content-inner">
+									<span data-bind="text:ContentText"></span>
+								</div>
+							</div>
+							<div class="card-footer">
+								<span data-bind="text:SendTime"></span>
+							</div>
+						</div>
+					</script>
+				</div>
+			</div>
+		</div>
+		<script src="../../script/mui/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/my/messageList.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

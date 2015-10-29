@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-
+<html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
@@ -9,6 +8,7 @@
 		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
 		<link href="../../content/common/global.css" rel="stylesheet" />
 		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../script/libs/video.js/video-js.css" rel="stylesheet" />
 		<style>
 			.mui-card {
 				margin: 0 0 60px 0!important;
@@ -60,129 +60,140 @@
 				min-height: 12.8rem!important;
 				width: 16.2rem;
 			}
-			.mui-bar-nav .shareTeacher-tb{
+			.mui-bar-nav .shareTeacher-tb {
 				float: right;
 				text-align: right;
-			}		
+			}
 		</style>
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<i class="iconfont mui-action-back">&#xe602;</i>
-			<h1 class="mui-title"> 我的作品</h1>
+			<h1 class="mui-title" data-bind="text:Works().Title">我的作品</h1>
 			<a class="iconfont shareTeacher-tb" href="#middlePopover">&#xe60e;</a>
 		</header>
 		<div class="mui-content">
 			<div class="works-content-up">
-				<span data-bind="text:Title"></span>
 				<ul>
-					<li data-bind="text:AddTime"></li>
-					<li><i class="iconfont">&#xe61a;</i data-bind="text:ReadCount"></li>
-					<li data-bind="text:Remark"></li>
-					<li data-bind="text:SubjectName"></li>
-					<li>|</li>
-					<li data-bind='click: Like'><i class="iconfont">&#xe61e;</i>
-						<!--ko text:LikeCount-->
+					<li data-bind='click: Like'><i class="iconfont works-icon">&#xe61e;</i>
+						<!--ko text:Works().LikeCount-->
 						<!--/ko-->
 					</li>
-					<li data-bind='click: Fav'><i class="iconfont">&#xe61e;</i>
-						<!--ko text:FavCount-->
+					<li data-bind='click: Fav'><i class="iconfont works-icon">&#xe60d;</i>
+						<!--ko text:Works().FavCount-->
 						<!--/ko-->
 					</li>
-					<li data-bind="click:worksDelete"><i class="iconfont">&#xe61b;</i>删除</li>
+					<li data-bind="click:worksDelete, visible: IsAuthor"><i class="iconfont">&#xe61b;</i>删除</li>
 
-					<li data-bind="click:worksSet"><i class="iconfont">&#xe63e;</>修改</li>
-            </ul>
-            <div class="works-img-div">图片</div>
-            <p data-bind="text:ContentText"></p>
-        </div>
-        <!--分享弹出框-->
-        <div id="middlePopover" class="mui-popover">
-			<div class="mui-scroll-wrapper">
-				<div class="mui-scroll">
-					<div class="shareTeacher-pic">
-						<ul id="recommendArray">
-							<li id="weichatFriend">
-								<img src="../../images/share-wx.png" />
-								<span>微信好友</span>
-							</li>
-							<li id="weichatMoments">
-								<img src="../../images/share-py.png" />
-								<span>朋友圈</span>
-							</li>
-							<li id="qqFriend">
-								<img src="../../images/share-qq.png" />
-								<span>QQ好友</span>
-							</li>
-						</ul>
+					<li data-bind="click:worksSet, visible: IsAuthor"><i class="iconfont">&#xe63e;</i>修改</li>
+				</ul>
+				<!--<div class="works-img-div" data-bind="style:{'background-image': 'url('+Works().imgUrl+')', 'background-size': 'cover'}">图片</div>-->
+				<video id="video1" class="video-js vjs-default-skin" height="240px" data-bind="attr:{poster: Works().imgUrl}" controls data-setup="{}">
+					
+				</video>
+				<div class="works-date">
+					<ul>
+						<li class="week" data-bind="text:Works().AddTime">2015-11-12</li>
+						<li><i class="iconfont">&#xe61a;</i>
+							<!--ko text:Works().ReadCount-->
+							<!--/ko-->
+						</li>
+						<li data-bind="text:Works().SubjectName">钢琴</li>
+						<li data-bind="text:Works().IsPublicText, visible: IsAuthor">公开</li>
+					</ul>
+				</div>
+				<p data-bind="text:Works().ContentText"></p>
+			</div>
+			<!--分享弹出框-->
+			<div id="middlePopover" class="mui-popover">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+						<div class="shareTeacher-pic">
+							<ul id="recommendArray">
+								<li id="weichatFriend">
+									<img src="../../images/share-wx.png" />
+									<span>微信好友</span>
+								</li>
+								<li id="weichatMoments">
+									<img src="../../images/share-py.png" />
+									<span>朋友圈</span>
+								</li>
+								<li id="qqFriend">
+									<img src="../../images/share-qq.png" />
+									<span>QQ好友</span>
+								</li>
+							</ul>
+						</div>
+						<div class="shareTeacher-qx" data-bind="click:closeShare">取消</div>
 					</div>
-					<div class="shareTeacher-qx" data-bind="click:closeShare">取消</div>
+
 				</div>
 			</div>
-		</div>
-        <div class="pin-blank"></div>
-        <div class="mui-card">
-        	<ul class="mui-table-view" data-bind="template:{name:'commentTemplate',foreach:teacherComment}">
-			</ul>
+
+			<div class="pin-blank" data-bind="visible: teacherComment().length > 0 && IsAuthor"></div>
+			<div class="mui-card" data-bind="visible: teacherComment().length > 0 && IsAuthor">
+				<ul class="mui-table-view" data-bind="template:{name:'commentTemplate',foreach:teacherComment}">
+				</ul>
 			</div>
 			<!--老师点评模板-->
 			<script type="text/html" id="commentTemplate">
-						<li class="mui-table-view-cell mui-collapse">
-							<a class="mui-navigate-right" href="#">
-								<i class="iconfont">&#xe62d;</i>
+				<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right" href="#">
+						<i class="iconfont">&#xe62d;</i> [
 						<!--ko text:CommenterName-->
-						<!--/ko-->老师评语</a>
-						<div class="mui-collapse-content">
-							<div class="works-content-dow">
-								<div data-bind="template:{name:'commentToRulseTemplate',foreach:CommentToRules}"></div>
-								<span>总评语</span>
-								<p data-bind="text:TotalComment"></p>
-							</div>
-							<div class="works-consult-title">
-								<span><i class="iconfont">&#xe609;</i>咨询 </span>
-								<em class="iconfont" data-bind="click:addfeedbacks">&#xe621;</em>
-							</div>
-							<div class="works-answer" data-bind="template:{name:'feedBackTemplate',foreach:CommentFeedbacks}">
-							</div>
-							<!--<div class="works-answer" data-bind="text:CommentFeedbacks">
-							</div>-->
+						<!--/ko-->]老师评语</a>
+					<div class="mui-collapse-content">
+						<div class="works-content-dow">
+							<div data-bind="template:{name:'commentToRulseTemplate',foreach:CommentToRules}"></div>
+							<span>总评语</span>
+							<p data-bind="text:TotalComment"></p>
 						</div>
-					</li>
-					</script>
-					<!--老师评语模板-->
-					<script type="text/html" id="commentToRulseTemplate">
-						<span data-bind="text:RuleName"></span>
-						<p data-bind="text:Comment"></p>
-					</script>
-					<!--咨询模板-->
-					<script type="text/html" id="feedBackTemplate">
-						<p>
-							<i>Q.</i>
-							<!--ko text:Question-->
-							<!--/ko-->
-						</p>
-						<p>
-							<i>A.</i>
-							<span data-bind="text:Answer"></span>
-						</p>
-					</script>
-					<nav class="mui-bar mui-bar-tab ">
-						<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab teacherList-mui " href="#tabbar-with-chat" data-bind="event:{tap:workRemorkSet}">
-							<i class="iconfont works-iconfont">&#xe644;</i>
-							<span class="mui-tab-label " data-bind="tap:workRemorkSet">公开</span>
-						</a>
-						<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab " data-bind="event:{tap:getTeacherComment}">
-							<i class="iconfont works-iconfont">&#xe643;</i>
-							<span class="mui-tab-label " data-bind="text:findTeacherComment">找老师点评</span>
-						</a>
-					</nav>
-			</div>
+						<div class="works-consult-title" data-bind="click:addfeedbacks">
+							<span><i class="iconfont">&#xe609;</i>咨询 </span>
+							<em class="iconfont">&#xe621;</em>
+						</div>
+						<div class="works-answer" data-bind="template:{name:'feedBackTemplate',foreach:CommentFeedbacks}">
+						</div>
+						<!--<div class="works-answer" data-bind="text:CommentFeedbacks">
+							</div>-->
+					</div>
+				</li>
+			</script>
+			<!--老师评语模板-->
+			<script type="text/html" id="commentToRulseTemplate">
+				<span data-bind="text:RuleName"></span>
+				<p data-bind="text:Comment"></p>
+			</script>
+			<!--咨询模板-->
+			<script type="text/html" id="feedBackTemplate">
+				<p>
+					<i>Q.</i>
+					<!--ko text:Question-->
+					<!--/ko-->
+				</p>
+				<p>
+					<i>A.</i>
+					<span data-bind="text:Answer"></span>
+				</p>
+			</script>
+			<nav class="mui-bar mui-bar-tab" data-bind="visible: IsAuthor">
+				<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab teacherList-mui" data-bind="event:{tap:setPublic}">
+					<i class="iconfont works-iconfont">&#xe644;</i>
+					<span class="mui-tab-label" data-bind="text: Works().IsPublicOppositeText"></span>
+				</a>
+				<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab " data-bind="event:{tap:getTeacherComment}">
+					<i class="iconfont works-iconfont">&#xe643;</i>
+					<span class="mui-tab-label">找老师点评</span>
+				</a>
+			</nav>
+		</div>
 	</body>
 	<script src="../../script/mui/mui.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../script/works/worksDetails.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/libs/video.js/video.js" type="text/javascript" charset="utf-8"></script>
 
 </html>

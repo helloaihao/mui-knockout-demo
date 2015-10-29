@@ -43,6 +43,7 @@ var myCourse = function() {
 
 	self.ViewLesson = ko.observable({}); //浏览的当前课程
 	self.Lessons = ko.observableArray([]); //我的课程数组
+	self.Courses = ko.observableArray([]); //所有开设的课程
 
 	self.BeginTimeNew = ko.observable(''); //调整后的时间
 
@@ -90,6 +91,24 @@ var myCourse = function() {
 		return ret;
 	})
 	
+	//获取老师所有开设的课程
+	self.GetCourses = function(){
+		if(!IsTeacher) return;
+		
+		var ajaxUrl = common.gServerUrl + 'API/Course/GetAllCourseByUserID?userid=' + getLocalItem('UserID');
+		mui.ajax(ajaxUrl, {
+			type: 'GET',
+			success: function(responseText) {
+				var courses = JSON.parse(responseText);
+				self.Courses(courses);
+				self.Courses.unshift({
+					ID: 0,
+					CourseName: '全部'
+				})
+			}
+		})
+	}
+
 	//获取一周的课程
 	self.GetData = function(){
 		var self = this;
@@ -140,6 +159,7 @@ var myCourse = function() {
 		}
 		else{
 			self.GetData();
+			self.GetCourses();
 		}
 	})
 
@@ -239,12 +259,14 @@ var myCourse = function() {
 	};
 	
 	//点击课程列表
-	self.filterCourses = function() {
-		if(self.FilteredCourseID() > 0)
-			self.FilteredCourseID(0);
-		else
-			self.FilteredCourseID(13);
-		self.GetData();
+	self.filterCourses = function(data) {
+		if(self.FilteredCourseID() != data.ID){
+			self.FilteredCourseID(data.ID);
+
+			self.GetData();
+		}
+		
+		mui('#bottomPopover').popover('toggle');
 	};
 	
 	//初始化课时单元格
@@ -272,14 +294,27 @@ var myCourse = function() {
 			var self = this;
 			var value = ko.unwrap(valueAccessor());
 			if (value) {
-				element.className = 'busytime';
+				//console.log(typeof value.FeedbackStatus);
+				element.className = 'freetime';
+				if(value.IsFinish){
+					element.className = 'finishedtime';
+				}
+				else{
+					var endtime = newDate(value.EndTime);
+					if(endtime < new Date()){
+						element.className = 'overtime';
+					}
+				}
+				if(value.FeedbackStatus == common.gDictLessonFeedbackStatus.Handling){
+					element.className += ' fontadjusting';
+				}
 				element.innerText = value.SubjectName;
 				element.onclick = function() {
 					self.ViewLesson(value);
 					mui('#middlePopover').popover('toggle');
 				}
 			} else {
-				element.className = 'freetime';
+				element.className = '';
 				element.innerHTML = '&nbsp;';
 			}
 		}

@@ -63,6 +63,7 @@ var uploadVideo = function(path, name, userid, workid, workstitle) {
 var getAllUploads = function() {
 	plus.uploader.enumerate(function(arr) {
 		console.log('arr');
+		mui.toast("arr");
 		//self.tasks(arr);
 	});
 }
@@ -184,10 +185,11 @@ var viewModel = function() {
 		}
 
 		//getAllUploads();
-		/*plus.uploader.enumerate(function(uploads){
+		plus.uploader.enumerate(function(uploads){
 			console.log('arr'+uploads.length);
+			mui.toast('arr'+uploads.length);
 			//self.tasks(uploads);
-		});*/
+		});
 	});
 	
 	self.gotoAddWorks = function() {

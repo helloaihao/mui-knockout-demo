@@ -45,29 +45,9 @@
 	</head>
 
 	<body>
-		<header class="mui-bar mui-bar-nav">
-			<i class="iconfont mui-action-back ah-back">&#xe602;</i>
-			<h1 class="mui-title"> 老师列表</h1>
-		</header>
 		<div class="mui-content">
-			<div class="works-list-select ah-select-list">
-				<ul>
-					<li class="mui-collapse" data-bind="click: setSubject">
-						<a id="subject" data-bind="text: dbSubject">科目</a>
-						<span class="mui-navigate-right ah-mui-navigate-right"> </span>
-					</li>
-					<li class="mui-collapse" data-bind="click: setStar">
-						<a id="star" data-bind="text: dbStar">星级</a>
-						<span class="mui-navigate-right ah-mui-navigate-right"> </span>
-					</li>
-					<li class="mui-collapse" data-bind="click: setSort">
-						<a id="sort" data-bind="text: dbSort">排序</a>
-						<span class="mui-navigate-right ah-mui-navigate-right"> </span>
-					</li>
-				</ul>
-			</div>
 
-			<div id="pullrefresh" class="mui-scroll-wrapper" style="top: 80px">
+			<div id="pullrefresh" class="mui-scroll-wrapper">
 				<div class="mui-scroll">
 					<!--教师显示页-->
 					<ul class="mui-input-group">

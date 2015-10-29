@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/Tf_global.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<style type="text/css">
+			.ah-select-list ul li {
+				width: 33.3333%;
+				padding: 0 20px;
+			}
+			.ah-select-list a {
+				height: 100%;
+				display: block;
+			}
+			.ah-select-list span {} .ah-mui-navigate-right:after {
+				right: 9%;
+			}
+			.mui-bar-tab .ah-mui-tab-item {
+				display: table-cell;
+				overflow: hidden;
+				width: 1%;
+				height: 50px;
+				text-align: center;
+				vertical-align: middle;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				color: #929292;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<i class="iconfont mui-action-back ah-back">&#xe602;</i>
+			<h1 class="mui-title"> 老师列表</h1>
+		</header>
+		<div class="mui-content">
+			<div class="works-list-select ah-select-list">
+				<ul>
+					<li id="subject" class="mui-collapse" data-bind="click: setSubject">
+						<a data-bind="text: dbSubject">科目</a>
+						<span class="mui-navigate-right ah-mui-navigate-right"> </span>
+					</li>
+					<li id="star" class="mui-collapse" data-bind="click: setStar">
+						<a data-bind="text: dbStar">星级</a>
+						<span class="mui-navigate-right ah-mui-navigate-right"> </span>
+					</li>
+					<li id="sort" class="mui-collapse" data-bind="click: setSort">
+						<a data-bind="text: dbSort">排序</a>
+						<span class="mui-navigate-right ah-mui-navigate-right"> </span>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="mui-content">
+
+		</div>
+		<script src="../../script/mui/mui.js"></script>
+		<script src="../../script/mui/mui.picker.min.js"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init({
+				subpages: [{
+					url: 'teacherList.html',
+					id: 'teacherListID',
+					styles: {
+						top: '78px',
+						bottom: '0px'
+					}
+				}]
+			});
+			var contentWebview = null;
+			document.querySelector('#subject').addEventListener('tap', function() {
+				if (contentWebview == null) {
+					contentWebview = plus.webview.currentWebview().children()[0];
+				}
+				contentWebview.evalJS("mui('#middlePopover1').popover('toggle')");
+			});
+			document.querySelector('#star').addEventListener('tap', function() {
+				if (contentWebview == null) {
+					contentWebview = plus.webview.currentWebview().children()[0];
+				}
+				contentWebview.evalJS("mui('#middlePopover2').popover('toggle')");
+			});
+			document.querySelector('#sort').addEventListener('tap', function() {
+				if (contentWebview == null) {
+					contentWebview = plus.webview.currentWebview().children()[0];
+				}
+				contentWebview.evalJS("mui('#middlePopover2').popover('toggle')");
+			});
+		</script>
+
+	</body>
+
+</html>

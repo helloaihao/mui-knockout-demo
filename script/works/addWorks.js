@@ -54,7 +54,7 @@ var viewModel = function() {
 
 	//添加文件
 	self.addFile = function() {
-		video.SelectVideo(false, function(value) {
+		videoPicker.SelectVideo(false, function(value) {
 			if(value){
 				self.filePath(value[0].srcPath);
 				self.fileName(value[0].fileName);

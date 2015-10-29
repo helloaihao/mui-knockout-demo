@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<style>
+			.mui-collapse a {
+				width: 100%;
+				display: inline-block;
+				height: 100%;
+				padding: 0 30%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 id="title" class="mui-title">点评</h1>
+			<em class="iconfont" data-bind="click:goMessageList">&#xe628;<span class="mui-badge mui-badge-warning" data-bind="text: UnreadCount, visible: UnreadCount() > 0"></span></em>
+		</header>
+		<div class="mui-content">
+			<div class="commentList-select">
+				<ul>
+					<li id="select1" class="mui-collapse">
+						<a class="mui-navigate-right navigate-font" style="display:block">科目</a>
+					</li>
+					<li id="select2" class="mui-collapse">
+						<a class="mui-navigate-right navigate-font" style="display:block">排序</a>
+					</li>
+				</ul>
+			</div>
+
+		</div>
+		<div class="mui-content">
+
+		</div>
+		<script src="../../script/mui/mui.min.js"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+		</script>
+		<script type="text/javascript">
+			mui.init({
+				subpages: [{
+					url: 'commentList.html',
+					id: 'commentListID',
+					styles: {
+						top: '78px',
+						bottom: '0px'
+					}
+				}]
+			});
+			var contentWebview = null;
+			document.querySelector('#select1').addEventListener('tap', function() {
+				if (contentWebview == null) {
+					contentWebview = plus.webview.currentWebview().children()[0];
+				}
+				contentWebview.evalJS("mui('#middlePopover1').popover('toggle')");
+			});
+			document.querySelector('#select2').addEventListener('tap', function() {
+				if (contentWebview == null) {
+					contentWebview = plus.webview.currentWebview().children()[0];
+				}
+				contentWebview.evalJS("mui('#middlePopover2').popover('toggle')");
+			});
+			var CommentListHeader = function() {
+				var self = this;
+				self.UnreadCount = ko.observable("0");
+				//跳转至消息页面
+				self.goMessageList = function() {
+						common.gotoMessage();
+					}
+					//获取未读消息数量
+				self.getUnreadCount = function() {
+					common.getUnreadCount(self.UnreadCount());
+				}
+			}
+			ko.applyBindings(CommentListHeader);
+		</script>
+	</body>
+
+</html>

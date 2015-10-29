@@ -88,10 +88,10 @@
 			<!--科目-->
 			<div class="index-subject">
 				<ul>
-					<a id="addCourse"><li>
+					<li>
 						<img src="../../images/index1.png"/>
 						<span>钢琴</span>
-					</li></a>
+					</li>
 					<li>
 						<img src="../../images/index2.png" />
 						<span>小提琴</span>
@@ -135,7 +135,7 @@
 				<!--teacher模板页-->
 				<script type="text/html" id="teacherTemplate">
 						<div class="index-content-ctn" data-bind="event:{tap:gotoTeacher}">
-							<em>图片</em>
+							<em data-bind="style:{'background-image': 'url('+common.getPhotoUrl(Poster)+')', 'background-size': 'cover'}">图片</em>
 							<span data-bind="text: DisplayName"></span>
 							<i>(教龄<!--ko text:TeachAge--><!--/ko-->年)</i>
 							<b><!--ko text:SubjectName--><!--/ko-->  ￥<!--ko text:Cost--><!--/ko--></b>
@@ -144,7 +144,7 @@
 				</script>
 
 				<div class="index-tel">
-					官方热线：400-800-4552
+					官方热线：020-38031250
 				</div>
 			</div>
 		</div>
@@ -158,10 +158,6 @@
 			mui.init();
 			mui('#slider').slider({
 				interval: 3000
-			});
-			var addCourse = document.getElementById('addCourse');
-			addCourse.addEventListener('tap', function(){
-				common.transfer('../course/openedCoursesList.html', false);
 			});
 			
 			var addWorks = document.getElementById('addWorks');
@@ -182,6 +178,11 @@
 					}
 				});
 			});
+			plus.uploader.enumerate(function(uploads){
+			console.log('arr'+uploads.length);
+			mui.toast('arr'+uploads.length);
+			//self.tasks(uploads);
+		});
 		</script>
 	</body>
 

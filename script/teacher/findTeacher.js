@@ -12,10 +12,15 @@ var viewModel = function() {
 			success: function(responseText) {
 				var arr = common.JsonConvert(responseText, 'ID', 'SubjectName');
 				subjectName.setData(arr);
+				self.subjectText(arr[0].text);
+				self.Subject = arr[0].value;
 			}
 		});
+		
 		starName = new mui.PopPicker();
 		starName.setData(common.gJsonTeacherLever);
+		self.starText(common.gJsonTeacherLever[0].text);
+		self.starID = common.gJsonTeacherLever[0].value;
 	});
 	//科目获取
 	self.setSubject = function() {
@@ -31,24 +36,18 @@ var viewModel = function() {
 		});
 	};
 	self.gotoTeacherList = function() {
-		if( typeof(Subject) === "undefined" ) {
+		if( typeof(self.Subject) === "undefined" ) {
 			mui.toast("请选择科目");
 			return ;
 		}
-		if( typeof(starID) === "undefined" ) {
+		if( typeof(self.starID) === "undefined" ) {
 			mui.toast("请选择星级");
 			return ;
 		}
-		var webview = mui.openWindow({
-			url: "../../modules/teacher/teacherList.html",
-			extras: {
-				//subjectName: self.subjectText(),
-				Subject: Subject,
-				starText: starID
-			},
-			waiting: {
-				autoShow: false
-			}
+		
+		common.transfer("../../modules/teacher/teacherListHeader.html", false, {
+			Subject: self.Subject,
+				starText: self.starID
 		});
 	};
 }

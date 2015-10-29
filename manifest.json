@@ -3,7 +3,7 @@
 	"id": "H506D8436",/*应用的标识，创建应用时自动生成，勿手动修改*/
 	"name": "乐评+",/*应用名称，程序桌面图标名称*/
 	"version": {
-		"name": "3.8",/*应用版本名称*/
+		"name": "2.5",/*应用版本名称*/
 		"code": "83"
 	},
 	"description": "",/*应用描述信息*/
@@ -113,7 +113,7 @@
 						"appid": "wx142ee69041c3765a",
 						"appsecret": "ccc2e2f99e99b2f912f65a433e776252",
 						"description": "微信分享"
-					}
+					},"qq":{"appid":"1104854381","description":"QQ分享"}
 				}
 			},
 			"apple": {
@@ -125,7 +125,7 @@
 				"frameworks": []
 			},
 			"google": {
-				"packagename": "com.LinkEOL.Mobile",/*Android应用包名，如io.dcloud.HelloH5*/
+				"packagename": "io.dcloud.H506D8436",/*Android应用包名，如io.dcloud.HelloH5*/
 				"keystore": "",/*Android应用打包使用的密钥库文件*/
 				"password": "",/*Android应用打包使用密钥库中证书的密码*/
 				"aliasname": "",/*Android应用打包使用密钥库中证书的别名*/
@@ -197,5 +197,5 @@
 			},
 			"debug": true
 		}
-	}
+	},"fullscreen":false
 }

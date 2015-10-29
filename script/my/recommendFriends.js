@@ -13,7 +13,6 @@ var recommendFriends = function() {
 	var lis = ul.getElementsByTagName("li");
 	for (var i = 0; i < lis.length; i++) {
 		lis[i].onclick = function() {
-			mui.toast(this.id);
 			if (this.id == "weichatFriend") {
 				//微信好友
 				shareID = "weixin";
@@ -41,7 +40,7 @@ var recommendFriends = function() {
 			return;
 		}
 		if (s.authenticated) {
-			mui.toast("---已授权---");
+			console.log("---已授权---");
 			self.shareMessage(s, ex);
 		} else {
 			mui.toast("---未授权---");

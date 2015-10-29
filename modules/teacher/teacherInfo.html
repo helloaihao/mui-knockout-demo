@@ -28,8 +28,7 @@
 			.mui-popover.mui-active {
 				top: 50%!important;
 				margin-top: -6.4rem!important;
-				left: 50%!important;
-				margin-left: -10.33rem!important;
+				left: 0;				
 				min-height: 12.8rem!important;
 			}
 			.shareTeacher-pic {
@@ -132,13 +131,13 @@
 		<div class="p-header-div">
 			<a class="iconfont mui-action-back top-btn first">&#xe602;</a>
 			<a href="#middlePopover" class="iconfont top-btn top-btn-right second">&#xe60e;</a>
-			<div class="photo">
+			<div class="photo" data-bind="click: goTeacherAlbum">
 				<!--<img src="../../images/default.jpg" />-->
 				<img data-bind="attr: {src: Photo}" />
 			</div>
-			<span class="userName" data-bind="text:DisplayName"></span>
+			<span class="userName" data-bind="text:DisplayName()+'('+TeachAge()+'年教龄)'"></span>
 			<!--科目|教龄-->
-			<span class="message"><!--ko text:SubjectName--><!--/ko--> | <!--ko text:TeachAge--><!--/ko-->年教龄 |
+			<span class="message"><!--ko text:SubjectName--><!--/ko--> | <!--ko text:Score--><!--/ko--> |
 				<i data-bind="css: 'star'+Star()"></i>				
 			</span>
 			<span class="address">
@@ -148,14 +147,12 @@
 			</span>
 			<div class="p-footer-btn">
 				<ul>
-					<li>
-						<button>得分
-							<!--ko text:Score-->
-							<!--/ko-->
+					<li data-bind="click: goTeacherAlbum">
+						<button>相册
 						</button>
 					</li>
-					<li>
-						<button data-bind="click: Fav">关注
+					<li data-bind="click: Fav">
+						<button>关注
 							<!--ko text:FavCount-->
 							<!--/ko-->
 						</button>
@@ -189,9 +186,9 @@
 		<div class="mui-content">
 			<!--模板文件-->
 			<script type="text/html " id="worksTemplate">
-				<li>
-					<i><img data-bind="attr:{src:Infoimgurl} "/></i>
-					<img data-bind="attr:{src:photoimgurl} " />
+				<li data-bind="click: goWorksDetail">
+					<i><img data-bind="attr:{src:logoimgurl} "/></i>
+					<img data-bind="attr:{src: common.StrIsNull(VideoThumbnail) != '' ? common.getPhotoUrl(VideoThumbnail) : photoimgurl}" onerror="this.src='../../images/video-default.png';" />
 					<p data-bind="text:Title"></p>
 				</li>
 			</script>

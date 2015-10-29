@@ -1,32 +1,57 @@
 var worksDetails = function() {
 	var self = this;
-	var WorkID,AuthorID;
-	self.AuthorName = ko.observable('');
-	self.SubjectID = ko.observable('');
-	self.Subject = {value:0, text:''};
-	//作品的元素绑定
 
-	self.Title = ko.observable("作品标题"); //作品标题
-	self.AddTime = ko.observable("2015-09-11"); //添加时间
-	self.ReadCount = ko.observable("1254"); //已看
-	self.Remark = ko.observable("未公开"); //作品权限
-	self.RemarkValue = 1; //作品权限数值
-	self.SubjectName = ko.observable("钢琴"); //科目
-	self.LikeCount = ko.observable("456"); //点赞
-	self.FavCount = ko.observable("0"); //点赞
-	self.ContentText = ko.observable("作品内容作品内容");
-	self.imgUrl = ko.observable('');
-	self.findTeacherComment=ko.observable("找老师点评");
+	self.UserID = getLocalItem("UserID"); //当前用户UserID
+
+	//作品的元素绑定
+	self.Works = ko.observable({}); //作品实例
+	self.initWorksValue = function(works) {
+		//console.log(JSON.stringify(works));
+		var self = this;
+		self.WorkID = ko.observable(works.ID); //作品编码
+		self.AuthorID = ko.observable(works.AuthorID); //作品作者UserID
+		self.AuthorName = ko.observable(works.AuthorName); //作品作者名称
+		self.SubjectID = ko.observable(works.SubjectID); //作品科目ID
+		self.Title = ko.observable(works.Title); //作品标题
+		self.AddTime = ko.observable(works.AddTime.split(' ')[0]); //添加时间
+		self.ReadCount = ko.observable(works.ReadCount); //浏览次数
+		self.IsPublic = ko.observable(works.IsPublic); //作品是否公开
+		self.IsPublicText = ko.computed(function() {
+			return common.getTextByValue(common.gJsonWorkPublicType, self.IsPublic());
+		}); //作品是否公开的文字
+		self.IsPublicOppositeText = ko.computed(function() {
+			return common.getTextByValue(common.gJsonWorkPublicType, !self.IsPublic());
+		}); //作品是否公开的相反文字
+		self.SubjectName = ko.observable(works.SubjectName); //科目名称
+		self.LikeCount = ko.observable(works.LikeCount); //点赞次数
+		self.FavCount = ko.observable(works.FavCount); //收藏数
+		self.ContentText = ko.observable(works.ContentText);
+		if (common.StrIsNull(works.VideoThumbnail) != '')
+			self.imgUrl = common.getPhotoUrl(works.VideoThumbnail);
+		else
+			self.imgUrl = '';
+	}
+	self.IsAuthor = ko.computed(function() {
+		if (!self.Works().AuthorID)
+			return false;
+
+		if (self.UserID == self.Works().AuthorID())
+			return true;
+		else
+			return false;
+	})
+
 	//评论的相关元素绑定
 	self.teacherComment = ko.observableArray([]); //各个老师评论数组
 	//分享的参数
-	var shares = null,bhref = false;
-	var shareID="";
-	var shardEX="";
-	var shareUrl="";//分享附上的链接，链接到作品
+	var shares = null,
+		bhref = false;
+	var shareID = "";
+	var shardEX = "";
+	var shareUrl = ""; //分享附上的链接，链接到作品
 	//var shareTitle=""//分享内容的标题
 	//var shareContent="";//分享的内容
-	
+
 	//分享功能
 	var ul = document.getElementById("recommendArray");
 	var lis = ul.getElementsByTagName("li");
@@ -46,34 +71,33 @@ var worksDetails = function() {
 			}
 			self.shareAction(shareID, shardEX);
 		}
-
 	}
 	/**
 	 * 分享操作
 	 * @param {String} id
 	 */
 	self.shareAction = function(id, ex) {
-		var s = null;
-		if (!id || !(s = shares[id])) {
-			mui.toast("无效的分享服务！");
-			return;
-		}
-		if (s.authenticated) {
-			mui.toast("---已授权---");
-			self.shareMessage(s, ex);
-		} else {
-			mui.toast("---未授权---");
-			s.authorize(function() {
+			var s = null;
+			if (!id || !(s = shares[id])) {
+				mui.toast("无效的分享服务！");
+				return;
+			}
+			if (s.authenticated) {
+				mui.toast("---已授权---");
 				self.shareMessage(s, ex);
-			}, function(e) {
-				mui.toast("认证授权失败：" + e.code + " - " + e.message);
-			});
+			} else {
+				mui.toast("---未授权---");
+				s.authorize(function() {
+					self.shareMessage(s, ex);
+				}, function(e) {
+					mui.toast("认证授权失败：" + e.code + " - " + e.message);
+				});
+			}
 		}
-	}
-	/**
-	 * 发送分享消息
-	 * @param {plus.share.ShareService} s
-	 */
+		/**
+		 * 发送分享消息
+		 * @param {plus.share.ShareService} s
+		 */
 	self.shareMessage = function(s, ex) {
 		var msg = {
 			content: self.ContentText(),
@@ -88,15 +112,15 @@ var worksDetails = function() {
 			msg.thumbs = ["_www/images/my-photo.jpg"];
 			msg.pictures = ["_www/images/my-photo.jpg"];
 		}
-		
+
 		s.send(msg, function() {
 			mui.toast("分享到\"" + s.description + "\"成功！ ");
 		}, function(e) {
 			mui.toast("分享到\"" + s.description + "\"失败: " + e.code + " - " + e.message);
 		});
 	}
-	// H5 plus事件处理
 
+	// H5 plus事件处理
 	function plusReady() {
 		updateSerivces();
 		if (plus.os.name == "Android") {
@@ -115,61 +139,72 @@ var worksDetails = function() {
 	 * 更新分享服务
 	 */
 	function updateSerivces() {
-		plus.share.getServices(function(s) {
-			shares = {};
-			for (var i in s) {
-				var t = s[i];
-				shares[t.id] = t;
-			}
-		}, function(e) {
-			outSet("获取分享服务列表失败：" + e.message);
+			plus.share.getServices(function(s) {
+				shares = {};
+				for (var i in s) {
+					var t = s[i];
+					shares[t.id] = t;
+				}
+			}, function(e) {
+				outSet("获取分享服务列表失败：" + e.message);
+			});
+		}
+	
+	//获取视频
+	self.getVideo = function(workId){
+		var myPlayer = videojs("video1",{},function(){
+			var self = this;
+			
+			mui.ajax(common.gServerUrl + "API/Video/GetVideoUrl/?workId="+workId,{
+				type:'GET',
+				success: function(responseText) {
+					var obj = JSON.parse(responseText);
+					//console.log(common.gServerUrl + obj.VideoUrl);
+		           	self.src({
+		           		type: obj.Type,
+		           		src: common.gServerUrl + obj.VideoUrl
+		           	});
+		           	self.play();
+				}
+			});
+			/*var req = new XMLHttpRequest();
+		    req.onload = function () {
+		        var obj = JSON.parse(this.response);
+		        self.src({
+	           		type: obj.Type,
+	           		src: common.gServerUrl + obj.VideoUrl
+	           	});
+	           	self.play();
+		    };
+		    req.open('GET', common.gServerUrl + "API/Video/GetVideoUrl/?workId="+workId, true);
+		    req.setRequestHeader("Authorization", getAuth());
+		    req.send(null);*/
 		});
 	}
-	//在ready获取上级页面的数据
-	mui.ready(function() {
-		mui.plusReady(function() {
-			var workVaule = plus.webview.currentWebview();
-			WorkID=workVaule.WorkID; //由上级页面传此参数到此页面
-			AuthorID=workVaule.AuthorID; //由上一级页面传此参数到此页面
-			//mui.toast(WorkID);
-			self.getComment();
-		});
+	
+	//获取上级页面的数据
+	mui.plusReady(function() {
+		var workVaule = plus.webview.currentWebview();
+		if (workVaule) {
+			var obj = new self.initWorksValue(workVaule.works);
+			self.Works(obj);
+			self.getVideo(obj.WorkID());
+		}
+		self.getComment();
 	});
-	//获取作品和评论
+
+	//获取评论
 	self.getComment = function() {
-		mui.ajax(common.gServerUrl + "API/Work/" + WorkID, {
-			type: 'GET',
-			success: function(responseText) {
-				var result = eval("(" + responseText + ")");
-				//alert(responseText);
-				self.Title(result.Title);
-				self.AddTime(result.AddTime.split(" ")[0]);
-				self.ReadCount(result.ReadCount);
-				self.RemarkValue = result.Remark;
-				self.Remark(common.gJsonWorkRemarkType[result.Remark].text);
-				self.SubjectName(result.SubjectName);
-				self.SubjectID(result.SubjectID);
-				self.LikeCount(result.LikeCount);
-				self.FavCount(result.FavCount);
-				self.ContentText(result.ContentText);
-				self.AuthorName(result.AuthorName);
-			}
-		});
-		mui.ajax(common.gServerUrl + "Common/Comment/GetCommentsByWork?WorkID=" + WorkID, {
+		mui.ajax(common.gServerUrl + "Common/Comment/GetCommentsByWork?WorkID=" + self.Works().WorkID(), {
 			type: 'Get',
 			success: function(responseText) {
-				//var result = JSON.parse(responseText);
+				//console.log(responseText);
 				var result = eval("(" + responseText + ")");
 				result.forEach(function(item, i, array) {
-						self.teacherComment.push(Comment(item));
-					})
-					//self.teacherComment(result);
-					//setLocalItem('CommentId',result.id)
-					//self.CommentRules(result[0].CommentToRules);
-					//self.feedback(result.CommentFeedbacks);
+					self.teacherComment.push(Comment(item));
+				})
 			}
 		});
-
 	}
 
 	//删除作品
@@ -177,7 +212,7 @@ var worksDetails = function() {
 			var btnArray = ['是', '否'];
 			mui.confirm('确认删除吗', '您点击了删除', btnArray, function(e) {
 				if (e.index == 0) {
-					mui.ajax(common.gServerUrl + "API/Work/" + WorkID, {
+					mui.ajax(common.gServerUrl + "API/Work/" + self.Works().WorkID(), {
 						type: 'DELETE',
 						success: function(responseText) {
 							mui.toast("删除成功");
@@ -191,10 +226,10 @@ var worksDetails = function() {
 		}
 		//修改作品
 	self.worksSet = function() {
-		
-		}
-		//点评的模型
 
+	}
+
+	//点评的模型
 	function Comment(model) {
 			var obj = {};
 			obj.ID = model ? model.ID : 0;
@@ -228,7 +263,7 @@ var worksDetails = function() {
 
 			//e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
 			var btnArray = ['确定', '取消'];
-			mui.prompt('请输入你要咨询的评内容：', '', '咨询', btnArray, function(e) {
+			mui.prompt('请输入咨询内容：', '', '咨询', btnArray, function(e) {
 				if (e.index == 0) {
 					mui.ajax(common.gServerUrl + "API/Comment/AddCommentFeedback", {
 						type: "POST",
@@ -256,8 +291,8 @@ var worksDetails = function() {
 		}
 		//找老师点评
 	self.getTeacherComment = function() {
-		self.Subject.value = self.SubjectID();
-		self.Subject.text = self.SubjectName();
+			self.Subject.value = self.SubjectID();
+			self.Subject.text = self.SubjectName();
 			mui.openWindow({
 				url: '../../modules/teacher/teacherList.html',
 				show: {
@@ -269,7 +304,7 @@ var worksDetails = function() {
 					autoShow: false
 				},
 				extras: {
-					WorkID: WorkID,
+					WorkID: self.Works().WorkID(),
 					AuthorID: AuthorID,
 					Title: self.Title(),
 					AuthorName: self.AuthorName(),
@@ -278,31 +313,27 @@ var worksDetails = function() {
 				}
 			});
 		}
-		//作品权限 更改
-	self.workRemorkSet = function() {
-		mui.toast("公开");
-		if (self.RemarkValue == 1) {
-			self.RemarkValue = 0;
-		} else if (self.RemarkValue == 0) {
-			self.RemarkValue = 1;
-		}
-		mui.ajax(common.gServerUrl + "API/Work/" + WorkID, {
+		//设置作品是否公开
+	self.setPublic = function() {
+		var ispublic = self.Works().IsPublic();
+		mui.ajax(common.gServerUrl + "API/Work/" + self.Works().WorkID(), {
 			type: "PUT",
 			data: {
-				ID: WorkID,
-				AuthorID: AuthorID,
-				Remark: self.RemarkValue
+				AuthorID: self.Works().AuthorID(),
+				IsPublic: !ispublic
 			},
 			success: function(responseText) {
-				self.Remark(common.gJsonWorkRemarkType[self.RemarkValue].text);
-				mui.toast("权限已修改为" + self.Remark);
+				self.Works().IsPublic(!ispublic);
+				mui.toast("成功设置为" + self.Works().IsPublicText());
 			}
 		})
 	}
 
 	//赞
 	self.Like = function() {
-		var ret = common.postAction(common.gDictActionType.Like, common.gDictActionTargetType.Works, WorkID);
+		if (self.IsAuthor()) return; //作者本人不允许赞
+
+		var ret = common.postAction(common.gDictActionType.Like, common.gDictActionTargetType.Works, self.Works().WorkID());
 		if (ret) {
 			self.LikeCount(self.LikeCount() + 1);
 			mui.toast('感谢您的赞许');
@@ -311,16 +342,17 @@ var worksDetails = function() {
 
 	//收藏
 	self.Fav = function() {
-		var ret = common.postAction(common.gDictActionType.Favorite, common.gDictActionTargetType.Works, WorkID);
-		if (ret) {
-			self.FavCount(self.FavCount() + 1);
-			mui.toast('收藏成功');
+			if (self.IsAuthor()) return; //作者本人不允许收藏
+
+			var ret = common.postAction(common.gDictActionType.Favorite, common.gDictActionTargetType.Works, self.Works().WorkID());
+			if (ret) {
+				self.FavCount(self.FavCount() + 1);
+				mui.toast('收藏成功');
+			}
 		}
-	}
-	//关闭分享窗口
-	self.closeShare=function(){
+		//关闭分享窗口
+	self.closeShare = function() {
 		mui('#middlePopover').popover('toggle');
 	}
-	
 }
 ko.applyBindings(worksDetails);

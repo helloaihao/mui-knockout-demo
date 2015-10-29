@@ -12,7 +12,7 @@ var downloadUrl = "" //增量包下载地址
 function plusReady() {
 	plus.runtime.getProperty(plus.runtime.appid, function(inf) {
 		wgtVer = inf.version;
-		checkVersion();
+		//checkVersion();
 	})
 }
 if (window.plus) {
@@ -20,39 +20,38 @@ if (window.plus) {
 } else {
 	document.addEventListener('plusready', plusReady, false);
 }
-//版本号字符串转化为数字
-function transformNum(txt) {
-		var result = "";
-		var txtArr = txt.split(".");
-		for (var i = 0; i < txtArr.length; i++) {
-			result += txtArr[i];
-		}
-		return Number(result);
-	}
+
 	//版本检测
 
 function checkVersion() {
-		mui.ajax(common.gServerUrl + 'API/Common/GetLatestVersion', {
+		mui.ajax(common.gServerUrl + "API/Common/GetLatestVersion", {
 			type: "GET",
 			success: function(responseTest) {
 				var result = eval("(" + responseTest + ")");
 				ServerVersion = result.Version;
 				downloadUrl = common.gServerUrl + result.Url;
+				mui.toast("ServerVersion:"+ServerVersion+",downloadUrl:"+downloadUrl);
+				checkUpdate();
+				
 			}
 		});
-		checkUpdate();
-
 	}
 	//检测是否有增量包
 
 function checkUpdate() {
 		ServerVersion = transformNum(ServerVersion);
 		wgtVer = transformNum(wgtVer);
-		if (wgtVer && ServerVersion && (wgtVer != ServerVersion)) {
-			downloadWgt();
-		} else {
-			console.log("已是最新版本")
+		mui.toast("ServerVersion:"+ServerVersion+",wgtVer:"+wgtVer);
+		if (ServerVersion != "") {
+			if (wgtVer && (wgtVer != ServerVersion)) {
+				downloadWgt();
+			} else {
+				console.log("已是最新版本");
+			}
+		}else{
+			mui.toast("获取不到最新版本号，请检查错误");
 		}
+
 	}
 	//下载增量包wgt
 
@@ -92,3 +91,12 @@ function installWgt(path) {
 		alert("安装wgt文件失败[" + e.code + "]：" + e.message);
 	});
 }
+//版本号字符串转化为数字
+function transformNum(txt) {
+		var result = "";
+		var txtArr = txt.split(".");
+		for (var i = 0; i < txtArr.length; i++) {
+			result += txtArr[i];
+		}
+		return Number(result);
+	}

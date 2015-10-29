@@ -191,7 +191,7 @@
 	},
 	
 	//Web API地址
-	gServerUrl: "http://192.168.1.88:8090/", //"http://192.168.1.102:8090/", //"http://localhost:53651/"	//"http://192.168.1.99:8090/"
+	gServerUrl: "http://192.168.1.99:8090/", //"http://192.168.1.102:8090/", //"http://localhost:53651/"	//"http://192.168.1.99:8090/"
 	//用户类型枚举
 	gDictUserType: {
 		teacher: 32,
@@ -329,7 +329,7 @@
 		text: "点赞降序"
 	}],
 	//作品权限类型JSON
-	gJsonWorkRemarkType: [{
+	gJsonWorkPublicType: [{
 		value: 0,
 		text: '不公开'
 	}, {

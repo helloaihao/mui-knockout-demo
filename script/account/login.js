@@ -22,15 +22,13 @@ var login = function() {
 					Password: self.Password()
 				},
 				success: function(responseText) {
-					//mui.toast(index.getURL() + "第1");
-					//var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');
-					//plus.webview.close(index); //关闭首页webview
-					//mui.toast(index.getURL() + "第2");
-					var result = responseText; //eval("(" + responseText + ")");
+					var result = responseText;
 					setLocalItem("UserID", result.UserID);
 					setLocalItem("UserName", result.UserName);
 					setLocalItem("Token", result.Token);
 					setLocalItem("UserType", result.UserType);
+					var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');
+					plus.webview.close(index); //关闭首页webview
 					mui.toast("登录成功，正在返回...");
 					mui.openWindow({
 							id: 'indexID',

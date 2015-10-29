@@ -19,7 +19,7 @@
 
 
 var commentList = function() {
-	
+
 	mui.init({
 		pullRefresh: {
 			container: '#pullrefresh',
@@ -32,14 +32,13 @@ var commentList = function() {
 			}
 		}
 	});
-//mui('.mui-scroll-wrapper').scroll();
+
+//mui('#middlePopover2').popover('toggle');
 	var self = this;
 	self.works = ko.observableArray([]);
 	var pageNum = 1;
-	self.UnreadCount = ko.observable("0");
 	//加载作品
 	self.getWorks = function() {
-		self.getUnreadCount;
 		mui.ajax(common.gServerUrl + "API/Work?page=" + pageNum, {
 			type: 'GET',
 			success: function(responseText) {
@@ -54,23 +53,24 @@ var commentList = function() {
 	//刷新
 
 	function pulldownRefresh() {
+		setTimeout(function() {
 			pageNum++;
 			mui.ajax(common.gServerUrl + "API/Work?page=" + pageNum, {
 				type: 'GET',
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
 					self.works(self.works().concat(result));
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh();
-					mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+
 				}
 			});
-
-
+		}, 1500);
 	}
 
 	var count = 0;
 
 	function pullupRefresh() {
+		setTimeout(function() {
 			pageNum++;
 			mui.ajax(common.gServerUrl + "API/Work?page=" + pageNum, {
 				type: 'GET',
@@ -80,6 +80,7 @@ var commentList = function() {
 					self.works(self.works().concat(result));
 				}
 			});
+		}, 1500);
 	}
 
 	if (mui.os.plus) {
@@ -88,30 +89,14 @@ var commentList = function() {
 				mui('#pullrefresh').pullRefresh().pullupLoading();
 			}, 1000);
 
+			if (plus.os.vendor == 'Apple') {
+				mui('.mui-scroll-wrapper').scroll();
+			}
 		});
 	} else {
 		mui.ready(function() {
 			mui('#pullrefresh').pullRefresh().pullupLoading();
 		});
-	}
-	//跳转至消息页面
-	self.goMessageList = function() {
-			common.gotoMessage();
-		}
-		//获取未读消息数量
-	self.getUnreadCount = function() {
-		common.getUnreadCount(self.UnreadCount());
-	}
-
-	function plusReady() {
-		if (plus.networkinfo.getCurrentType() == 1) {
-			mui.toast("网络还没连接哦");
-		}
-	}
-	if (window.plus) {
-		plusReady();
-	} else {
-		document.addEventListener('plusready', plusReady, false);
 	}
 }
 ko.applyBindings(commentList);

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
 	<head>
@@ -23,16 +23,6 @@
 				color: #fff!important;
 				line-height: 44px!important;
 			}
-			.mui-content{
-				background: #F1F1F1;
-			}
-			.card-content-inner{
-				padding: 1rem!important;
-			}
-			.card{
-				width: 96%;
-				margin: 0.5rem auto;
-			}
 		</style>
 	</head>
 
@@ -41,52 +31,23 @@
 			<i class="iconfont">&#xe602;</i>
 			<h1 class="mui-title">消息通知</h1>
 		</header>
-		<!--页面内容区域-->
-		<!--下拉刷新容器-->
 		<div class="mui-content">
-			<div id="pullrefresh" class=" mui-scroll-wrapper" style="top: 44px;">
-				<div class="mui-content mui-scroll">
-					<!--数据列表-->
-					<div data-bind="template: {name:'messageTemplate', foreach: messages }">
-					</div>
-					<!--message模板页-->
-					<script type="text/html" id="messageTemplate">
-						<div class="card">
-							<div class="card-header card-font">
-								<!--ko text:Title-->
-								<!--/ko-->
-								<i class="icon icon-remove" data-bind="click:removeMessages"></i>
-							</div>
-							<div class="card-content">
-								<div class="card-content-inner">
-									<span data-bind="text:ContentText"></span>
-								</div>
-							</div>
-							<div class="card-footer">
-								<span data-bind="text:SendTime"></span>
 
-							</div>
-						</div>
-					</script>
-				</div>
-			</div>
 		</div>
 		<script src="../../script/mui/mui.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../script/my/messageList.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			 //启用双击监听
 			mui.init({
-				swipeBack: true, //启用右滑关闭功能
-				pullRefresh: {
-					container: '#pullrefresh',
-					up: {
-						contentrefresh: '正在加载...',
-						callback: pullupRefresh
+				subpages: [{
+					url: 'messageListSub.html',
+					id: 'messageListID',
+					styles: {
+						top: '45px',
+						bottom: '0px'
 					}
-				}
+				}]
 			});
 		</script>
 	</body>
