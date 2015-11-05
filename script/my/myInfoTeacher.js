@@ -2,37 +2,36 @@ var my_teacher = function() {
 	var self = this;
 	self.ID = ko.observable(0);
 	self.DisplayName = ko.observable('请登录');
-	self.Photo = ko.observable('../../images/my-default.jpg');
+	self.Photo = ko.observable('../../images/my-default.png');
 	self.FavCount = ko.observable(0);
 	self.UserID = ko.observable(getLocalItem('UserID'));
 	self.UserType = ko.observable(getLocalItem('UserType'));
 
 	self.goMyinfo = function() {
-		common.transfer('myInfo.html',true,{},true);
+		common.transfer('myInfo.html', true, {}, true);
 	}
-	self.goMoreInfo=function(){
-		common.transfer('moreInfo.html',true,{},true);
+	self.goMoreInfo = function() {
+		common.transfer('moreInfo.html', true, {}, true);
 	}
-	self.goAuth = function(){
+	self.goAuth = function() {
 		common.transfer('teacherAuth.html', true);
 	}
-	self.goMyAccount = function(){
-		common.transfer('myAccount.html', true);
+	self.goMyAccount = function() {
+		common.transfer('myAccountMain.html', true);
 	}
-	self.goMessageList = function(){
+	self.goMessageList = function() {
 		common.transfer('messageList.html', true);
 	}
-	self.goMyAttention = function(){
+	self.goMyAttention = function() {
 		common.transfer('myAttention.html', true);
 	}
-	self.goMyAlbum = function(){
+	self.goMyAlbum = function() {
 		common.transfer('myAlbum.html', true);
 	}
 
 	if (self.UserID() > 0) {
 		self.getStudent = function() {
 			var ajaxUrl = common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID() + "&usertype=" + self.UserType();
-			
 			mui.ajax(ajaxUrl, {
 				dataType: 'json',
 				type: 'GET',
@@ -44,8 +43,12 @@ var my_teacher = function() {
 						self.Photo(common.getPhotoUrl(responseText.Photo));
 					self.FavCount(responseText.FavCount);
 					//self.UserID(responseText.UserID);
+					if (self.DisplayName() == "请登录") {
+						mui.alert('还没完善信息哦，点击头像完善信息，马上就去~', '信息不完整', self.goMyinfo());
+					}
 				}
 			})
+
 		}();
 	}
 }

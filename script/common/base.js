@@ -106,6 +106,8 @@ var handleResult = function(result) {
 		if (opt.success) {
 			fn.success = opt.success;
 		}
+
+		
 		//扩展增强处理  
 		var _opt = $.extend(opt, {
 			beforeSend: function(req) {
@@ -129,10 +131,16 @@ var handleResult = function(result) {
 						mui.toast(handleResult(XMLHttpRequest.responseText));
 						break;
 				}
+				mui.plusReady(function() {
+					plus.nativeUI.closeWaiting();
+				});
 				//错误方法增强处理
 				fn.error(XMLHttpRequest, textStatus, errorThrown);
 			},
 			success: function(data, textStatus) {
+				mui.plusReady(function() {
+					plus.nativeUI.closeWaiting();
+				});
 				//成功回调方法增强处理  
 				fn.success(data, textStatus);
 			}

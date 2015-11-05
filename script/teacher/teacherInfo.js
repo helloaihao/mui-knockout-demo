@@ -1,10 +1,12 @@
 ﻿var teacherInfo = function() {
 	var self = this;
+	
+	self.teacherInfo = ko.observable();		//老师详情对象
 	self.workResolve = ko.observableArray([]); //分解视频  数组
 	self.workFull = ko.observableArray([]); //完整视频  数组
 	self.workShow = ko.observableArray([]); //演出作品  数组
 	self.workResolve = ko.observableArray([]); //分解视频  数组
-	self.Photo = ko.observable('../../images/default.jpg'); //头像
+	self.Photo = ko.observable('../../images/my-default.png'); //头像
 	self.DisplayName = ko.observable("袁怡航"); //教师姓名
 	self.SubjectName = ko.observable("钢琴"); //课程名字
 	self.TeachAge = ko.observable("3"); //教龄
@@ -32,6 +34,8 @@
 			type: 'GET',
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
+				self.teacherInfo(result);
+				
 				if (common.StrIsNull(result.Photo) != '')
 					self.Photo(common.getPhotoUrl(result.Photo));
 				self.DisplayName(result.DisplayName);
@@ -44,14 +48,8 @@
 				self.FavCount(result.FavCount);
 				self.Star(result.Star);
 				self.Introduce(result.Introduce);
+
 				
-				//加载完后跳转
-				mui.plusReady(function() {
-					//关闭等待框
-					plus.nativeUI.closeWaiting();
-					//显示当前页面
-					mui.currentWebview.show();
-				});
 			},
 			error: function(responseText) {
 				mui.toast("获取信息失败");
@@ -118,21 +116,9 @@
 		}
 		//帮我点评
 	self.gotoComment = function() {
-			//alert("点击了帮我点评");
-			mui.openWindow({
-				url: '../works/worksList.html',
-				show: {
-					autoShow: true,
-					aniShow: "slide-in-right",
-					duration: "100ms"
-				},
-				waiting: {
-					autoShow: false
-				},
-				extras: {
-					teacherID: TUserID,
-					displayCheck: true
-				}
+			common.transfer('../works/worksList.html', true, {
+				teacher: self.teacherInfo(),
+				displayCheck: true
 			});
 		}
 		//预约上课
@@ -165,6 +151,7 @@
 	}
 
 	mui.plusReady(function() {
+		//plus.nativeUI.showWaiting();
 		var web = plus.webview.currentWebview();
 		if (typeof(web.teacherID) !== "undefined") {
 			TUserID = web.teacherID;

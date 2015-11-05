@@ -2,7 +2,7 @@ var my_student = function() {
 	var self = this;
 	self.ID = ko.observable(0);
 	self.DisplayName = ko.observable('请登录');
-	self.Photo = ko.observable('../../images/my-default.jpg');
+	self.Photo = ko.observable('../../images/my-default.png');
 	self.FavCount = ko.observable(0);
 	self.UserID = ko.observable(getLocalItem('UserID'));
 	self.UserType = ko.observable(getLocalItem('UserType'));
@@ -14,7 +14,7 @@ var my_student = function() {
 		common.transfer('moreInfo.html',true,{},true);
 	}
 	self.goMyOrders = function(){
-		common.transfer('myOrders.html', true);
+		common.transfer('myOrderMain.html', true);
 	}
 	self.goMessageList = function(){
 		common.transfer('messageList.html', true);

@@ -45,7 +45,7 @@
 		<div class="mui-content">
 			<div class="works-list-select ah-select-list">
 				<ul>
-					<li id="subject" class="mui-collapse" data-bind="click: setSubject">
+					<li id="subject" class="mui-collapse">
 						<a data-bind="text: dbSubject">科目</a>
 						<span class="mui-navigate-right ah-mui-navigate-right"> </span>
 					</li>
@@ -79,24 +79,35 @@
 					}
 				}]
 			});
-			var contentWebview = null;
-			document.querySelector('#subject').addEventListener('tap', function() {
-				if (contentWebview == null) {
-					contentWebview = plus.webview.currentWebview().children()[0];
+			mui.plusReady(function(){
+				var contentWebview = null;
+				document.querySelector('#subject').addEventListener('tap', function() {
+					if (contentWebview == null) {
+						contentWebview = plus.webview.currentWebview().children()[0];
+					}
+					contentWebview.evalJS("mui('#popSubjects').popover('toggle')");
+				});
+				document.querySelector('#star').addEventListener('tap', function() {
+					if (contentWebview == null) {
+						contentWebview = plus.webview.currentWebview().children()[0];
+					}
+					contentWebview.evalJS("mui('#popStar').popover('toggle')");
+				});
+				document.querySelector('#sort').addEventListener('tap', function() {
+					if (contentWebview == null) {
+						contentWebview = plus.webview.currentWebview().children()[0];
+					}
+					contentWebview.evalJS("mui('#popSort').popover('toggle')");
+				});
+				
+				var web = plus.webview.currentWebview(); //页面间传值
+
+				if (typeof(web.search) !== "undefined" && web.search == true) {
+					if (contentWebview == null) {
+						contentWebview = plus.webview.currentWebview().children()[0];
+					}
+					contentWebview.evalJS("mui('#popSubjects').popover('toggle')");
 				}
-				contentWebview.evalJS("mui('#middlePopover1').popover('toggle')");
-			});
-			document.querySelector('#star').addEventListener('tap', function() {
-				if (contentWebview == null) {
-					contentWebview = plus.webview.currentWebview().children()[0];
-				}
-				contentWebview.evalJS("mui('#middlePopover2').popover('toggle')");
-			});
-			document.querySelector('#sort').addEventListener('tap', function() {
-				if (contentWebview == null) {
-					contentWebview = plus.webview.currentWebview().children()[0];
-				}
-				contentWebview.evalJS("mui('#middlePopover2').popover('toggle')");
 			});
 		</script>
 

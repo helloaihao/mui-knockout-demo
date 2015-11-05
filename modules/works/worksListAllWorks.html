@@ -28,6 +28,7 @@
 				position: fixed;
 				top: 0;
 			}
+			
 		</style>
 	</head>
 
@@ -47,7 +48,7 @@
 					<div class="works-center">
 						<span data-bind="text:Title"></span>
 						<div class="works-list-img" data-bind="event:{tap: goWorksDetails}">
-							<img src="../../images/worksList.jpg" />
+							<img data-bind="attr: {src: common.getThumbnail(VideoThumbnail)}" onerror="this.src='../../images/video-big-default.png';"/>
 							<i data-bind="text:SubjectName"></i>
 						</div>
 						<p data-bind="text:ContentText"></p>
@@ -60,195 +61,18 @@
 					</div>
 				</div>
 			</script>
-			<div id="middlePopover1" class="mui-popover">
+
+		<div id="popSubjects" class="mui-popover">
 			<div id="subject-scroll" class="mui-scroll-wrapper wrapper-margin">
 				<div class="mui-scroll">
-					<ul class="mui-table-view">
+					<ul class="mui-table-view" data-bind="foreach: {data: tmplSubjectClasses, as: 'class1'}">
 						<li class="mui-table-view-cell mui-collapse ah-scroll">
-							<a class="mui-navigate-right navigate-font" href="#">民族乐</a>
-							<div class="mui-collapse-content">
-								<table class="xl-table" cellSpacing="0" cellPadding="0" height="100%" width="100%" border="0">
-									<tr>
-										<td>全部</td>
-										<td>
-											<div class="table-current">笛子笛子</div>
-										</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-								</table>
+							<a class="mui-navigate-right navigate-font" href="#" data-bind="text: subjectClassName"></a>
+							
+							<div class="mui-collapse-content" data-bind="foreach: {data: tmplSubjects, as: 'subject'}">
+								<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass() == class1.subjectClass), css:{'table-current': (typeof currentSubject().id === 'function' && subject.id() == currentSubject().id() && subject.subjectClass() == currentSubject().subjectClass())}"></span>
 							</div>
 						</li>
-						<li class="mui-table-view-cell mui-collapse ah-scroll">
-							<a class="mui-navigate-right navigate-font" href="#">西洋乐</a>
-							<div class="mui-collapse-content">
-								<table class="xl-table" height="100%" width="100%" border="0">
-									<tr>
-										<td>全部</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-								</table>
-							</div>
-						</li>
-						<li class="mui-table-view-cell mui-collapse ah-scroll">
-							<a class="mui-navigate-right navigate-font" href="#">西洋乐</a>
-							<div class="mui-collapse-content">
-								<table class="xl-table" height="100%" width="100%" border="0">
-									<tr>
-										<td>全部</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-								</table>
-							</div>
-						</li>
-						<li class="mui-table-view-cell mui-collapse ah-scroll">
-							<a class="mui-navigate-right navigate-font" href="#">西洋乐</a>
-							<div class="mui-collapse-content">
-								<table class="xl-table" height="100%" width="100%" border="0">
-									<tr>
-										<td>全部</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-								</table>
-							</div>
-						</li>
-						<li class="mui-table-view-cell mui-collapse ah-scroll">
-							<a class="mui-navigate-right navigate-font" href="#">西洋乐</a>
-							<div class="mui-collapse-content">
-								<table class="xl-table" height="100%" width="100%" border="0">
-									<tr>
-										<td>全部</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-								</table>
-							</div>
-						</li>
-						<li class="mui-table-view-cell mui-collapse ah-scroll">
-							<a class="mui-navigate-right navigate-font" href="#">西洋乐</a>
-							<div class="mui-collapse-content">
-								<table class="xl-table" height="100%" width="100%" border="0">
-									<tr>
-										<td>全部</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-									<tr>
-										<td>二胡</td>
-										<td>笛子</td>
-										<td>二胡</td>
-									</tr>
-								</table>
-							</div>
-						</li>
-
 					</ul>
 				</div>
 			</div>
@@ -273,6 +97,7 @@
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/works/workListAll.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/templateSubjects.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			mui.init({
 				pullRefresh: {

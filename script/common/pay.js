@@ -36,13 +36,15 @@ var pays = {};
 	})
 
 	//order：支付订单信息，由支付通道定义的数据格式，通常是由业务服务器生成或向支付服务器获取，是经过加密的字符串信息。
-	Pay.pay = function(payid, order) {
-		//order = '{"appid":"wx142ee69041c3765a","noncestr":"5d318d9f064b4415b6db41340a17c1af","package":"Sign=WXPay","partnerid":"1278334601","prepayid":"wx20151024103140e1b59c3a3e0111701027","timestamp":"1445653811","sign":"6AC524C881A3C2CEBF148F4C7BAD6BDA"}';
+	Pay.pay = function(payid, order, successCB, failureCB) {
+		//order = '{"appid":"wx888888","noncestr":"5d318d9f064b4415b6db41340a17c1af","package":"Sign=WXPay","partnerid":"88888","prepayid":"wx9999999","timestamp":"1445653811","sign":"8888"}';
 		//console.log(order);
 		plus.payment.request(pays[payid], order, function(result) {
 			mui.toast("支付成功");
+			successCB(result.tradeno);
 		}, function(e) {
 			mui.toast("支付失败");	// + e.code);
-			console.log("["+e.code+"]："+e.message);
+			//console.log("["+e.code+"]："+e.message);
+			failureCB();
 		});
 	}

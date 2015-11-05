@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
@@ -27,12 +26,12 @@
 			}
 			.mui-popover.mui-active {
 				top: 50%!important;
-				margin-top: -6.4rem!important;
-				left: 0;				
-				min-height: 12.8rem!important;
+				margin-top: -5rem!important;
+				left: 0!important;				
+				min-height: 10rem!important;
 			}
 			.shareTeacher-pic {
-				height: 8.8rem;
+				height: 6.8rem;
 				width: 100%;
 				border-bottom: 1px solid #C8C7CC;
 				overflow: hidden;
@@ -47,8 +46,8 @@
 				position: relative;
 			}
 			.shareTeacher-pic ul li img {
-				height: 4.5rem;
-				width: 4.5rem;
+				height: 3.6rem;
+				width: 3.6rem;
 			}
 			.shareTeacher-pic ul li span {
 				height: 2rem;
@@ -60,15 +59,15 @@
 				color: #666;
 				line-height: 2rem;
 				text-align: center;
-				font-size: 1.02rem;
+				font-size: 16px;
 			}
 			.shareTeacher-qx {
-				height: 4rem;
+				height: 50px;
 				width: 100%;
 				text-align: center;
-				line-height: 3.5rem;
+				line-height: 50px;
 				color: #666;
-				font-size: 1.2rem;
+				font-size: 18px;
 			}
 			.mui-bar-tab .ah-mui-tab-item {
 			    display: table-cell;
@@ -132,7 +131,6 @@
 			<a class="iconfont mui-action-back top-btn first">&#xe602;</a>
 			<a href="#middlePopover" class="iconfont top-btn top-btn-right second">&#xe60e;</a>
 			<div class="photo" data-bind="click: goTeacherAlbum">
-				<!--<img src="../../images/default.jpg" />-->
 				<img data-bind="attr: {src: Photo}" />
 			</div>
 			<span class="userName" data-bind="text:DisplayName()+'('+TeachAge()+'年教龄)'"></span>
@@ -188,7 +186,7 @@
 			<script type="text/html " id="worksTemplate">
 				<li data-bind="click: goWorksDetail">
 					<i><img data-bind="attr:{src:logoimgurl} "/></i>
-					<img data-bind="attr:{src: common.StrIsNull(VideoThumbnail) != '' ? common.getPhotoUrl(VideoThumbnail) : photoimgurl}" onerror="this.src='../../images/video-default.png';" />
+					<img data-bind="attr:{src: common.StrIsNull(VideoThumbnail) != '' ? common.getThumbnail(VideoThumbnail) : photoimgurl}" onerror="this.src='../../images/video-default.png';" />
 					<p data-bind="text:Title"></p>
 				</li>
 			</script>
@@ -262,11 +260,11 @@
 			-->
 			<div class="teacherList-blank-bgColor bgColor-footer "></div>
 			<nav class="mui-bar mui-bar-tab ">
-				<a class="ah-mui-tab-item teacherList-mui-bar-tab teacherList-mui" href="#tabbar" data-bind="event:{tap: gotoComment}">
+				<a class="ah-mui-tab-item teacherList-mui-bar-tab teacherList-mui" data-bind="event:{click: gotoComment}">
 					<i class="iconfont">&#xe62d;</i>
 					<span class="mui-tab-label ">帮我点评</span>
 				</a>
-				<a class="mui-tab-item teacherList-mui-bar-tab" href="#tabbar-with-map" data-bind="event:{tap: appiontLesson}">
+				<a class="mui-tab-item teacherList-mui-bar-tab" data-bind="event:{tap: appiontLesson}">
 					<i class="iconfont">&#xe63b;</i>
 					<span class="mui-tab-label">预约上课</span>
 				</a>
@@ -277,5 +275,5 @@
 	<script src="../../script/common/common.js " type="text/javascript " charset="utf-8 "></script>
 	<script src="../../script/common/base.js " type="text/javascript " charset="utf-8 "></script>
 	<script src="../../script/libs/knockout/knockout-3.3.0.min.js " type="text/javascript " charset="utf-8 "></script>
-	<script src="../../script/teacher/teacherInfo.js " type="text/javascript " charset="utf-8 "></script>
+	<script src="../../script/teacher/teacherInfo.js" type="text/javascript " charset="utf-8 "></script>
 </html>

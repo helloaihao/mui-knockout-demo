@@ -15,14 +15,8 @@ var home = function() {
 	}();
 
 	self.gotoTeacher = function() {
-			mui.openWindow({
-				url: "../../modules/teacher/teacherInfo.html",
-				extras: {
-					teacherID: this.UserID
-				},
-				waiting: {
-					autoShow: false
-				}
+			common.transfer('../../modules/teacher/teacherInfo.html', false, {
+				teacherID: this.UserID
 			});
 		}
 		//跳转至消息页面
@@ -33,5 +27,6 @@ var home = function() {
 	self.getUnreadCount = function() {
 		common.getUnreadCount(self.UnreadCount());
 	}
+
 };
 ko.applyBindings(home);

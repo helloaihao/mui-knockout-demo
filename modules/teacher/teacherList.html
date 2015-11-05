@@ -41,6 +41,20 @@
 			.mui-radio.mui-left input[type='radio'] {
 				left: 10px;
 			}
+			
+			.mui-input-group:after,
+			.mui-input-group:before,
+			.mui-input-group {
+				background: #f1f1f1!important;
+			}
+			.mui-content-padded {
+				margin: 10px 0 0 0!important;
+			}
+			.mui-popover {
+				min-height: 255px;
+				position: fixed;
+				top: 0;
+			}
 		</style>
 	</head>
 
@@ -59,12 +73,12 @@
 						<div class="works-center teacherList-content">
 							<span data-bind="text: DisplayName"></span>
 							<i class="mui-input-row mui-checkbox mui-left">
-				                    <div class="mui-input-row mui-radio mui-left" data-bind="visible: displayCheck">
-				                        <input name="radio" type="radio">
-				                    </div>
-                				</i>
+			                    <div class="mui-input-row mui-radio mui-left" data-bind="visible: displayCheck">
+			                        <input name="radio" type="radio">
+			                    </div>
+            				</i>
 							<div class="works-list-img" data-bind="event:{tap: gotoTeacherInfo}">
-								<img src="../../images/22.jpg" />
+								<em data-bind="style:{'background-image': 'url('+common.getPhotoUrl(Poster)+')', 'background-size': 'cover'}" onerror="this.backgroundImage=url('../../images/poster-default.png');" />
 								<i data-bind="text: SubjectName"></i>
 							</div>
 							<p data-bind="text: Introduce"></p>
@@ -75,10 +89,60 @@
 								<li>
 									<em class="iconfont" data-bind="text: Star > 0 ? common.gJsonTeacherLever[Star].text : ''"></em>
 								</li>
+								<li>
+									<em class="iconfont" data-bind="text: CommentPrice > 0 ? '￥' + CommentPrice : '免费'"></em>
+								</li>
 							</ol>
 						</div>
 					</script>
 				</div>
+			</div>
+
+			<div id="popSubjects" class="mui-popover">
+				<div id="subject-scroll" class="mui-scroll-wrapper wrapper-margin">
+					<div class="mui-scroll">
+						<ul class="mui-table-view" data-bind="foreach: {data: tmplSubjectClasses, as: 'class1'}">
+							<li class="mui-table-view-cell mui-collapse ah-scroll">
+								<a class="mui-navigate-right navigate-font" href="#" data-bind="text: subjectClassName"></a>
+								
+								<div class="mui-collapse-content" data-bind="foreach: {data: tmplSubjects, as: 'subject'}">
+									<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass() == class1.subjectClass), css:{'table-current': (typeof currentSubject().id === 'function' && subject.id() == currentSubject().id() && subject.subjectClass() == currentSubject().subjectClass())}"></span>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<!--<div id="popStar" class="mui-popover popover-height">
+				<ul id="list2" class="mui-table-view">
+					<li class="mui-table-view-cell navigate-font">
+						<a href="#">默认</a>
+					</li>
+					<li class="mui-table-view-cell navigate-font">
+						<a href="#">日期</a>
+					</li>
+					<li class="mui-table-view-cell navigate-font">
+						<a href="#">名称</a>
+					</li>
+				</ul>
+			</div>-->
+
+			<div id="popSort" class="mui-popover popover-height">
+				<ul id="list2" class="mui-table-view">
+					<li class="mui-table-view-cell navigate-font">
+						<a href="#">评分</a>
+					</li>
+					<li class="mui-table-view-cell navigate-font">
+						<a href="#">教龄</a>
+					</li>
+					<li class="mui-table-view-cell navigate-font">
+						<a href="#">价位升序</a>
+					</li>
+					<li class="mui-table-view-cell navigate-font">
+						<a href="#">价位降序</a>
+					</li>
+				</ul>
 			</div>
 
 			<nav class="mui-bar mui-bar-tab" data-bind="visible: displayCheck">
@@ -98,6 +162,7 @@
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/teacher/teacherList.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/templateSubjects.js" type="text/javascript" charset="utf-8"></script>
 
 	</body>
 

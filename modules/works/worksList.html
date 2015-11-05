@@ -34,9 +34,11 @@
 				width: 1%;
 				height: 50px;
 				text-align: center;
+				font-size: 16px;
 				vertical-align: middle;
 				white-space: nowrap;
 				text-overflow: ellipsis;
+				background: #fff!important;
 			}
 			.mui-segmented-control .mui-control-item {
 				border-left: none!important;
@@ -62,6 +64,9 @@
 			.mui-navigate-right:after {
 				right: 30%;
 			}
+			.mui-popover {
+				top: 78px;
+			}
 		</style>
 	</head>
 
@@ -70,27 +75,48 @@
 			<i class="iconfont mui-action-back">&#xe602;</i>
 			<!--<em class="iconfont" data-bind="click:goMessageList">&#xe628;<span class="mui-badge mui-badge-warning" data-bind="text: UnreadCount, visible: UnreadCount() > 0"></span></em>-->
 			<em class="iconfont" data-bind="event:{tap: gotoAddWorks}">&#xe633;</em>
-
-			<div id="segmentedControl" class="mui-segmented-control works-list-mui">
-				<a class="mui-control-item mui-control-item1 mui-active" href="#item1">
-                我的作品
-            </a>
-				<a class="mui-control-item mui-control-item2 " href="#item2">
-                所有作品
-            </a>
-			</div>
+			<h1 id="title" class="mui-title">选择作品</h1>
 		</header>
+		
+		
+		
 		<div class="mui-content">
-			<div class="works-list-select">
-				<ul>
-					<li class="mui-collapse" data-bind="click: setSubject">
-						<a class="mui-navigate-right" data-bind="text: dbSubject">科目</a>
+			<div id="popSubjects" class="mui-popover">
+				<div id="subject-scroll" class="mui-scroll-wrapper wrapper-margin">
+					<div class="mui-scroll">
+						<ul class="mui-table-view" data-bind="foreach: {data: tmplSubjectClasses, as: 'class1'}">
+							<li class="mui-table-view-cell mui-collapse ah-scroll">
+								<a class="mui-navigate-right navigate-font" href="#" data-bind="text: subjectClassName"></a>
+								<div class="mui-collapse-content" data-bind="foreach: {data: tmplSubjects, as: 'subject'}">
+									<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass() == class1.subjectClass), css:{'table-current': (typeof currentSubject().id === 'function' && subject.id() == currentSubject().id() && subject.subjectClass() == currentSubject().subjectClass())}"></span>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div id="middlePopover2" class="mui-popover popover-height">
+				<ul id="list2" class="mui-table-view">
+					<li class="mui-table-view-cell navigate-font">
+						<a href="#">日期</a>
 					</li>
-					<li class="mui-collapse" data-bind="click:setSort">
-						<a class="mui-navigate-right" data-bind="text: dbSort">排序</a>
+					<li class="mui-table-view-cell navigate-font">
+						<a href="#">状态</a>
 					</li>
 				</ul>
 			</div>
+			<div class="works-list-select">
+				<ul id="nav1">
+					<li class="mui-collapse" id="workListSubject">
+						<a class="mui-navigate-right" id="dbSubject">科目</a>
+					</li>
+					<li class="mui-collapse" id="workListSort">
+						<a class="mui-navigate-right" id="dbSort">排序</a>
+					</li>
+				</ul>
+			</div>
+			
 			<div id="item1" class=" mui-control-content mui-active" style="position:static">
 				<div id="pullrefresh" class="mui-scroll-wrapper" style="top:80px">
 					<div class="mui-scroll">
@@ -110,7 +136,7 @@
                     					</div>
                 					</i>
 									<div class="works-list-img" data-bind="event:{tap: goWorksDetails}">
-										<img src="../../images/worksList.jpg" />
+										<img data-bind="attr: {src: common.getThumbnail(VideoThumbnail)}" onerror="this.src='../../images/video-big-default.png';" />
 										<i data-bind="text:SubjectName"></i>
 									</div>
 									<p data-bind="text:ContentText"></p>
@@ -126,18 +152,6 @@
 					</div>
 				</div>
 			</div>
-			<div id="item2" class=" mui-control-content" style="position:static">
-				<div id="pullrefresh" class="mui-scroll-wrapper" style="top:80px">
-					<div class="mui-scroll">
-						<!--作品显示页-->
-						<ul class="mui-input-group">
-							<div data-bind="template:{name:'worksTemplate', foreach:works}">
-							</div>
-						</ul>
-					</div>
-				</div>
-
-			</div>
 			<nav class="mui-bar mui-bar-tab" data-bind="visible: displayCheck">
 				<a class="ah-mui-tab-item works-list-mui-tab-label" href="#tabbar">
 					<span class="mui-tab-label ">取消</span>
@@ -146,16 +160,15 @@
 					<span class="mui-tab-label works-list-mui-btn">确定</span>
 				</a>
 			</nav>
-			
-			
+
 		</div>
 		<script src="../../script/mui/mui.min.js"></script>
 		<script src="../../script/mui/mui.picker.min.js"></script>
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/templateSubjects.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/works/workList.js" type="text/javascript" charset="utf-8"></script>
-
 
 	</body>
 

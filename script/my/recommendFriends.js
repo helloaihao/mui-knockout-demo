@@ -41,6 +41,7 @@ var recommendFriends = function() {
 		}
 		if (s.authenticated) {
 			console.log("---已授权---");
+			mui.toast("---已授权---");
 			self.shareMessage(s, ex);
 		} else {
 			mui.toast("---未授权---");
@@ -66,7 +67,7 @@ var recommendFriends = function() {
 			if (bhref) {
 				msg.href = shareUrl;
 				msg.title = shareTitle;
-				msg.content = shareContent;
+				//msg.content = shareContent;
 				msg.thumbs = ["_www/images/ewm.png"];
 				msg.pictures = ["_www/images/ewm.png"];
 			}

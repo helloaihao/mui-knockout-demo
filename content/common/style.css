@@ -21,6 +21,7 @@ input[type=number],
 textarea {
 	line-height: 18px!important;
 	height: 44px!important;
+	font-size: 16px!important;
 	font-family: Microsoft YaHei, Tahoma, Arial, sans-serif!important;
 }
 /*------共有头部样式------*/
@@ -28,6 +29,7 @@ textarea {
 .mui-input-row label,
 .mui-input-row .mui-btn {
 	font-family: Microsoft YaHei, Tahoma, Arial, sans-serif!important;
+	font-size: 16px!important;
 }
 .mui-table-view-cell>a:not(.mui-btn).mui-active {
 	background: #f1f1f1!important;
@@ -45,17 +47,22 @@ textarea {
 	height: 100%;
 	padding-left: 10px;
 	display: inline-block;
-	font-size: 1.2rem!important;
+	font-size: 18px!important;
 }
-.mui-bar-nav span,
 .mui-bar-nav em {
 	width: 25%;
 	height: 100%;
 	padding-right: 10px;
 	display: inline-block;
 	text-align: right;
-	margin-right: 0!important;
 }
+.mui-bar-nav span {
+	bottom: 1px;
+	right: 1px;
+	position: absolute;
+	display: none;
+}
+
 .mui-bar-nav em {
 	right: 5px!important;
 }
@@ -141,7 +148,7 @@ textarea {
 }
 .login-link-area a {
 	color: #007AFF;
-	font-size: 0.96rem;
+	font-size: 14px;
 }
 .btn-login {
 	height: 40px!important;
@@ -246,7 +253,7 @@ textarea {
 	padding: 0.8rem 2rem!important;
 }
 .th-mui-f {
-	margin-top: 90px;
+	margin-top: 60px;
 }
 .reg-mui-input {
 	font-size: 0.96rem;
@@ -263,7 +270,7 @@ textarea {
 	top: 6px;
 	border-radius: 5px;
 	color: #fff;
-	font-size: 0.88rem;
+	font-size:14px;
 }
 .reg-mui-input-row label {
 	font-size: 1.02rem;
@@ -276,7 +283,7 @@ textarea {
 	margin: 20px auto;
 	color: #999;
 	line-height: 33px;
-	font-size: 0.96rem;
+	font-size: 14px;
 	position: relative;
 }
 .reg-protocol img {
@@ -316,7 +323,7 @@ textarea {
 }
 .th-textarea-div label {
 	width: 100%;
-	font-size: 1.02rem;
+	font-size: 16px;
 	color: #333;
 	height: 40px;
 	line-height: 40px;
@@ -378,9 +385,9 @@ textarea {
 	background-color: #F1F1F1;
 }
 .index-up-secher-bg ul li em {
-	font-size: 3rem;
+	font-size: 48px;
 	position: absolute;
-	left: 12px;
+	left: 14px;
 	top: 18px;
 }
 .index-up-secher-bg ul li:nth-of-type(1) em {
@@ -391,14 +398,14 @@ textarea {
 }
 .index-up-secher-bg ul li span {
 	color: #333;
-	font-size: 1.12rem;
+	font-size: 16px;
 	position: absolute;
-	right: 20px;
+	right: 18px;
 	top: 18px;
 }
 .index-subject {
 	height: auto;
-	padding: 0px 15px;
+	padding: 15px 15px;
 	width: 100%;
 	box-sizing: border-box;
 	overflow: hidden;
@@ -416,26 +423,27 @@ textarea {
 	text-align: center;
 }
 .index-subject ul li img {
-	width: 3.8rem;
+	width: 56px;
 	vertical-align: middle;
 }
 .index-subject ul li span {
 	width: 100%;
 	text-align: center;
 	color: #333;
-	font-size: 0.96rem;
+	font-size: 15px;
+	margin-top: 6px;
 	display: inline-block;
 }
 .index-th-div {
-	height: 3.52rem;
+	height: 54px;
 	width: 100%;
 	border-bottom: 1px solid #e5e5e5;
 	border-top: 1px solid #e5e5e5;
 	padding: 0 1.5rem;
 	box-sizing: border-box;
-	line-height: 3.52rem;
+	line-height: 54px;
 	color: #036fb8;
-	font-size: 1.12rem;
+	font-size: 18px;
 }
 .index-content-bg {
 	background: #e5e5e5;
@@ -450,46 +458,45 @@ textarea {
 	height: auto;
 	margin: 10px auto;
 	color: #666;
-	padding-bottom: 5px;
 }
 .index-content-ctn em {
 	width:100%;
 	height: 13.995rem;
 	display: inline-block;
 	background: #ccc;
-	margin-bottom: 22px;
+	margin-bottom: 10px;
 }
 .index-content-ctn span {
-	font-size: 1.12rem;
+	font-size: 16px;
 	color: #333;
 	margin-left: 12px;
 	font-weight: 400;
 }
 .index-content-ctn i {
 	color: #999;
-	font-size: 1.02rem;
+	font-size: 14px;
 }
 .index-content-ctn b {
 	color: #036fb8;
-	font-size: 1.02rem;
+	font-size: 14px;
 	font-weight: normal;
 	float: right;
-	margin-right: 62px;
+	margin-right: 15px;
 }
 .index-content-ctn p {
 	margin: 10px 12px;
 	color: #666;
-	font-size: 0.96rem;
+	font-size: 14px;
 }
 .index-tel {
-	height: 2.8rem;
-	width: 16rem;
+	height: 44px;
+	width: 240px;
 	margin: 30px auto;
-	border-radius: 2rem;
+	border-radius: 30px;
 	border: 1px solid #036fb8;
 	color: #036fb8;
-	font-size: 1.12rem;
-	line-height: 2.8rem;
+	font-size: 16px;
+	line-height: 44px;
 	text-align: center;
 }
 /*-------首页结束-------*/
@@ -578,16 +585,17 @@ textarea {
 .mui-table-view-chevron .mui-table-view-cell > a:not(.mui-btn) {
 	margin-right: -75px!important;
 	color: #333!important;
+	font-size: 16px;
 }
 .mui-table-view-cell em,
 .th-mui-table-view em {
-	height: 2rem;
-	width: 2rem;
+	height: 1.8rem;
+	width: 1.8rem;
 	border-radius: 50%;
 	display: inline-block;
-	line-height: 2rem;
+	line-height: 1.8rem;
 	text-align: center;
-	font-size: 1.12rem;
+	font-size: 20px;
 	margin-right: 7px;
 }
 .my-mui-table-view li:nth-of-type(1) em {
@@ -665,7 +673,7 @@ textarea {
 }
 .pi-tx-bg span {
 	color: #666;
-	font-size: 1.02rem!important;
+	font-size: 16px!important;
 	position: absolute;
 	left: 15px;
 	top: 40%;
@@ -725,7 +733,7 @@ textarea {
 .pic-mui-input-row span {
 	width: 65%!important;
 	color: #999;
-	font-size: 1.02rem;
+	font-size: 16px;
 	display: inline-block;
 	height: 40px!important;
 	line-height: 40px!important;
@@ -741,7 +749,7 @@ textarea {
 	font-size: 17px!important;
 }
 .pin-btn-footer {
-	margin-top: 3rem;
+	margin-top: 30px;
 }
 /*-------作品详情页面开始------*/
 
@@ -760,8 +768,8 @@ textarea {
 	box-sizing: border-box;
 }
 .works-content-up span {
-	color: #036fb8;
-	font-size: 18px;
+	color: #666;
+	font-size: 15px;
 	width: 100%;
 	text-align: center;
 	height: auto;
@@ -838,7 +846,7 @@ textarea {
 	font-size: 1.02rem;
 }
 .works-img-div {
-	height: 19.2rem;
+	height: 12.88rem;
 	width: 100%;
 	background: #999;
 }
@@ -856,7 +864,7 @@ textarea {
 	width: 100%;
 }
 .works-content-dow span {
-	color: #036fb8;
+	color: #036fb8!important;
 	font-size: 16px;
 	height: 32px;
 	line-height: 45px;
@@ -865,7 +873,7 @@ textarea {
 	box-sizing: border-box;
 	display: inline-block;
 }
-.works-content-dow span:last-of-type {
+.works-content-dow.totil {
 	font-size: 18px;
 	height: 56px;
 	line-height: 90px;
@@ -1052,7 +1060,7 @@ textarea {
 	margin: 0!important;
 }
 .navigate-font {
-	font-size: 0.88rem;
+	font-size: 14px;
 	color: #999!important;
 	width: 100%;
 }
@@ -1114,6 +1122,13 @@ textarea {
 	position: relative;
 	margin: 30px 0 12px 0;
 }
+.works-list-img em {
+	width:100%;
+	height: 12.88rem;
+	display: inline-block;
+	background: #ccc;
+	margin-bottom: 22px;
+}
 .works-list-img img {
 	height: 12.88rem;
 	width: 100%;
@@ -1122,26 +1137,28 @@ textarea {
 	top: 0;
 }
 .works-list-img i:nth-of-type(1) {
-	height: 2rem;
-	width: 6rem;
+	height: 34px;
+	width:120px;
+	padding: 0 10px;
 	background-color: rgb(255, 255, 255);
 	opacity: 0.502;
 	position: absolute;
 	left: 15px;
-	top: 11rem;
-	padding: 0 10px;
+	top: 11.2rem;
+	font-size: 16px;
 	display: inline-block;
 	text-align: center;
-	line-height: 2rem;
+	line-height: 34px;
 	border-radius: 5px 5px 0 0;
 	color: #036fb8;
 }
 .works-center p {
 	color: #666;
-	font-size: 0.96rem;
+	font-size: 14px;
 	text-indent: 2em;
-	margin-left: -20px;
+/*	margin-left: -20px;*/
 	margin-bottom: -10px;
+	padding: 0 10px;
 }
 .works-center ul {
 	width: 100%;
@@ -1186,15 +1203,16 @@ textarea {
 	background: #fff;
 }
 .works-list-mui-btn {
-	height: 2.2rem;
+	height: 34px!important;
 	width: auto!important;
 	padding: 0 15px;
 	background: #036fb8;
 	border-radius: 5px;
 	display: inline-block;
 	color: #fff;
-	line-height: 2rem;
+	line-height: 34px!important;
 	text-align: center;
+	font-size: 14px;
 }
 .works-list-mui-input-group {
 	background: #f1f1f1!important;
@@ -1324,13 +1342,13 @@ textarea {
 	right: 20px;
 }
 .addWorksPlan-graph {
-	width: 11rem;
-	height: 2px;
-	background: #d2d2d2;
+	width: 80%;
+	left: 10%;
+	top: 42%;
 	position: absolute;
-	left: 9.2rem;
-	top: 4.28rem;
-	font-size: 0.8rem;
+	height: 8%;
+	background-color: #F3F3F3;
+	font-size: 1.2rem;
 }
 #bar {
 	display: block;
@@ -1418,7 +1436,7 @@ textarea {
 	box-sizing: border-box;
 	background: #fff;
 }
-.works-list-mui-btn {
+/*.works-list-mui-btn {
 	height: 2.2rem;
 	width: 4.6rem;
 	background: #036fb8;
@@ -1430,7 +1448,7 @@ textarea {
 }
 .works-list-mui-input-group {
 	background: #f1f1f1!important;
-}
+}*/
 /*-----点评列表页面-----*/
 
 .commentList-select {
@@ -1468,6 +1486,9 @@ textarea {
 	color: #036fb8;
 	font-size: 0.8rem;
 	margin-top: 3px;
+}
+.checked-font input[type=checkbox]:before, .mui-radio input[type=radio]:before{
+	font-size: 22px!important;
 }
 .commentList-center {
 	background: #f1f1f1!important;
@@ -1512,7 +1533,7 @@ textarea {
 .p-header-div {
 	position: relative;
 	background: url(../../images/my-bg.png) no-repeat;
-	height: 17.6rem;
+	height: 17rem;
 	width: 100%;
 	overflow: hidden;
 	background-size: 100% auto;
@@ -1522,8 +1543,8 @@ textarea {
 
 .p-header-div a {
 	position: absolute;
-	top: 15px;
-	font-size: 1.4rem;
+	top: 30px;
+	font-size: 1.2rem;
 	color: #fff;
 }
 .p-header-div .first {
@@ -1558,83 +1579,83 @@ textarea {
 }
 .star0:after {
 	color: #fe5400;
-	font-size: 1.12rem;
+	font-size: 1.02rem;
 	content: "\e60d";
 	font-family: "iconfont"!important;
 }
 .star1:after {
 	color: #fe5400;
-	font-size: 1.12rem;
+	font-size: 1.02rem;
 	content: "\e62f";
 	font-family: "iconfont"!important;
 }
 .star2:after {
 	color: #fe5400;
-	font-size: 1.12rem;
+	font-size: 1.02rem;
 	content: "\e62f\e62f";
 	font-family: "iconfont"!important;
 }
 .star3:after {
 	color: #fe5400;
-	font-size: 1.12rem;
+	font-size: 1.02rem;
 	content: "\e62f\e62f\e62f";
 	font-family: "iconfont"!important;
 }
 .star4:after {
 	color: #fe5400;
-	font-size: 1.12rem;
+	font-size: 1.02rem;
 	content: "\e62f\e62f\e62f\e62f";
 	font-family: "iconfont"!important;
 }
 .star5:after {
 	color: #fe5400;
-	font-size: 1.12rem;
+	font-size: 1.02rem;
 	content: "\e62f\e62f\e62f\e62f\e62f";
 	font-family: "iconfont"!important;
 }
 .p-header-div .address i {
 	color: #fff;
-	font-size: 1.3rem;
+	font-size: 20px;
 }
 .p-header-div .userName {
 	top: 8.6rem;
-	font-size: 1.02rem;
+	font-size: 16px;
 }
 .p-header-div .message {
-	top: 10.4rem;
-	font-size: 0.96rem;
+	top: 10.2rem;
+	font-size: 16px;
 }
 .p-header-div .address {
 	top: 12rem;
-	font-size: 0.96rem;
+	font-size: 16px;
 }
 .p-footer-btn {
 	width: 100%;
-	height: 2.4rem;
+	height: 34px;
 	position: absolute;
 	left: 0;
-	bottom: 13px;
+	bottom: 26px;
 }
 .p-footer-btn ul {
 	width: 100%;
-	height: 2rem;
+	height: 34px;
 	text-align: center;
 }
 .p-footer-btn ul li {
-	height: 2rem;
+	height: 34px;
 	border-radius: 5px;
 	position: relative;
 	display: inline-block;
 	background: #e1dcd8;
 	border-radius: 5px;
-	line-height: 2rem;
-	min-width: 5rem;
+	line-height: 34px;
+	min-width: 90px;
 }
 .p-footer-btn ul li button {
 	background: none;
-	line-height: 2rem;
+	line-height: 34px;
 	text-align: center;
-	font-size: 1.02rem!important;
+	font-size: 14px!important;
 	color: #fff;
 }
 .teacherList-mui-control-item {
@@ -2031,7 +2052,7 @@ textarea {
 }
 .top {
 	color: #666;
-	font-size: 1.02rem;
+	font-size: 16px;
 	text-align: center;
 }
 .footer {
@@ -2056,13 +2077,12 @@ textarea {
 }
 .footer ul li span {
 	position: absolute;
-	left: 50%;
+	left: 0;
 	bottom: 0;
 	color: #666;
-	width: 4.4rem;
+	width: 100%;
 	text-align: center;
-	margin-left: -2.2rem;
-	font-size: 0.88rem;
+	font-size: 14px;
 }
 /*-----职称认证-----*/
 
@@ -2298,7 +2318,7 @@ textarea {
 	height: 40px;
 	display: inline-block;
 	text-align: center;
-	font-size: 1.12rem;
+	font-size: 16px;
 	color: #666;
 	line-height: 40px;
 }
@@ -2385,6 +2405,7 @@ textarea {
 	font-size: 16px;
 	text-align: center;
 }
+
 .works-list-img i:nth-of-type(2) {
 	height: 2rem;
 	width: 6rem;
@@ -2576,10 +2597,11 @@ textarea {
 	overflow: hidden;
 }
 .submitClass-mui-scroll ul li {
-	height: 3.52rem;
+	height: 50px;
 	border-bottom: 1px solid #C8C7CC;
 	width: 100%;
-	line-height: 3.52rem;
+	line-height: 50px;
+	font-size: 16px!important;
 }
 .submitClass-mui-scroll ul li img {
 	height: 1.68rem;
@@ -2595,13 +2617,13 @@ textarea {
 }
 .submitClass-mui-scroll ul li i {
 	color: #666;
-	font-size: 1.2rem;
+	font-size: 16px;
 	float: right;
 	margin-right: 15px;
 }
 .submitClass-mui-scroll ul li:last-child {
 	color: #E03F00;
-	font-size: 1.12rem;
+	font-size: 16px;
 	border-bottom: 0!important;
 }
 .submitClass-mui-scroll button {
@@ -2645,13 +2667,13 @@ textarea {
 	margin-top: 15px;
 }
 .aboutClass-class-title {
-	height: 2.4rem;
+	height: 2rem;
 	border-bottom: 1px solid #C8C7CC;
 	width: 100%;
-	line-height: 2.4rem;
+	line-height: 2rem;
 	padding: 0 15px;
 	color: #666;
-	font-size: 0.88rem;
+	font-size: 14px;
 }
 .about-lesson li:active {
 	background-color: #CCCCCC;
@@ -2671,21 +2693,21 @@ textarea {
 }
 .aboutClass-class .two span {
 	color: #999;
-	font-size: 0.96rem;
+	font-size: 14px;
 	width: 100%;
 	height: 1.5rem;
 	line-height: 1.5rem;
 	display: inline-block;
 }
 .aboutClass-class em {
-	height: 2rem;
+	height: 34px;
 	width: 4.8rem;
 	color: #666;
 	border: 1px solid #C8C7CC;
 	border-radius: 5px;
-	line-height: 2rem;
+	line-height: 34px;
 	text-align: center;
-	font-size: 1.02rem;
+	font-size: 14px;
 	display: inline-block;
 	margin-right: 6px;
 }
@@ -2984,7 +3006,7 @@ textarea {
 }
 .availableTime-date tr td {
 	color: #666;
-	font-size: 0.96rem;
+	font-size: 14px;
 	text-align: center;
 }
 .availableTime-table {
@@ -3005,7 +3027,7 @@ textarea {
 	text-overflow: ellipsis;
 }
 .availableTime-date .month {
-	font-size: 1.2rem!important;
+	font-size: 20px!important;
 }
 .date-current {
 	background: #ccc;
@@ -3016,7 +3038,7 @@ textarea {
 	width: 14.8%;
 	margin-right: 3px;
 	color: #666;
-	font-size: 0.8rem;
+	font-size: 16px;
 	border: none!important;
 }
 .course-z{
@@ -3129,22 +3151,22 @@ textarea {
 .availableTime-footer span {
 	line-height: 50px;
 	margin-left: 10px;
-	font-size: 0.96rem;
+	font-size: 14px;
 }
 .availableTime-footer em {
-	height: 2rem;
+	height: 34px;
 	width: auto;
 	padding: 0 15px;
 	display: inline-block;
 	float: right;
 	margin-right: 15px;
 	text-align: center;
-	line-height: 2rem;
-	margin-top: 12px;
+	line-height:34px;
+	margin-top: 10px;
 	background: #036FB8;
 	border-radius: 5px;
 	color: #fff;
-	font-size: 1.02rem;
+	font-size: 14px;
 }
 .availableTime-add {
 	height: 2.2rem!important;
@@ -3465,14 +3487,7 @@ textarea {
 	bottom: 9px;
 	z-index: 100;
 	border-radius: 50%;
-	height: 20px;
-	width: 20px;
-	background: #fff;
-	position: absolute;
-	right: 6px;
-	bottom: 7px;
-	z-index: 100;
-	border-radius: 50%;
+
 }
 .checkIcon i {
 	color: #fd7700;
@@ -3485,7 +3500,7 @@ textarea {
 /*----弹出分享-----*/
 
 .shareTeacher-pic {
-	height: 8.8rem;
+	height: 6rem;
 	width: 100%;
 	border-bottom: 1px solid #C8C7CC;
 	overflow: hidden;
@@ -3500,8 +3515,8 @@ textarea {
 	position: relative;
 }
 .shareTeacher-pic ul li img {
-	height: 4.5rem;
-	width: 4.5rem;
+	height: 4rem;
+	width: 4rem;
 }
 .shareTeacher-pic ul li span {
 	height: 2rem;
@@ -3513,15 +3528,15 @@ textarea {
 	color: #666;
 	line-height: 2rem;
 	text-align: center;
-	font-size: 1.02rem;
+	font-size: 16px!important;
 }
 .shareTeacher-qx {
-	height: 4rem;
+	height: 2rem;
 	width: 100%;
 	text-align: center;
-	line-height: 3.5rem;
+	line-height: 1.5rem;
 	color: #666;
-	font-size: 1.2rem;
+	font-size: 16px!important;
 }
 .shareTeacher-tb {
 	color: #fff!important;
@@ -3565,7 +3580,9 @@ textarea {
 }
 .p-btn-padding {
 	margin: 0 auto!important;
-	padding: 10px 0!important;
+	padding: 8px 0!important;
+	width: 86%!important;
+	font-size: 16px;
 }
 .disabled {
 	background-color: #aaa!important;
@@ -3717,12 +3734,18 @@ textarea {
 .ah-scroll.mui-active>.mui-navigate-right {
 	color: #036FB8!important;
 }
-.xl-table tr td {
+
+#popSubjects span {
+	border: 1px solid #FFFFFF;
 	text-align: center;
 	padding: 5px 0;
+	margin: 5px 1% 0 1%;
 	box-sizing: border-box;
-	font-size: 0.88rem;
+	font-size: 14px;
 	color: #999;
+	width: 30%;
+	line-height: 100%;
+	display: inline-block;
 }
 .ah-scroll > a {
 	background: none!important;
@@ -3731,13 +3754,23 @@ textarea {
 	background: #f1f1f1!important;
 }
 .table-current {
-	border: 1px solid #036FB8;
+	border: 1px solid #036FB8 !important;
 	border-radius: 5px;
-	font-size: 0.88rem;
+	font-size:14px;
 	color: #036FB8;
-	width: 60%;
-	padding: 0 5px;
-	height: 28px;
-	line-height: 28px;
+	line-height: 100%;
 	margin: 0 auto;
+}
+.mask{
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 99;
+	background-color: gray !important;
+	opacity: 0.6;
+	text-align: center;
+	line-height: 100%;
+	vertical-align: middle;
 }

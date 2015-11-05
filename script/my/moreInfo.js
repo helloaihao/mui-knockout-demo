@@ -4,10 +4,10 @@ var moreInfo = function() {
 	self.Password = ko.observable(""); //原密码
 	self.newPassword = ko.observable(""); //新密码
 	self.ConPassword = ko.observable(""); //确认密码
-	self.UserName = getLocalItem('UserName'); //手机号
-	self.UserID = getLocalItem('UserID'); //用户id
+	var UserName = getLocalItem('UserName'); //手机号
+	var UserID = getLocalItem('UserID'); //用户id
 	self.RemainTime = ko.observable(0); //验证码剩余等待时间
-	self.WaitTime = 15; //验证码默认等待时间
+	var WaitTime = 15; //验证码默认等待时间
 	self.feedBackText = ko.observable(""); //意见反馈文本
 	/*更多页面 js
 	 */
@@ -30,7 +30,7 @@ var moreInfo = function() {
 			} else {
 				var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');
 				plus.webview.close(index);
-				console.log(index);
+				//console.log(index);
 				removeLocalItem('UserID');
 				removeLocalItem('UserName');
 				removeLocalItem('Token');
@@ -57,13 +57,13 @@ var moreInfo = function() {
 
 	self.getVerifyCode = function() {
 		//获取验证码
-		mui.ajax(common.gServerUrl + "Common/GetVerifyCode?mobile=" + self.UserName, {
+		mui.ajax(common.gServerUrl + "Common/GetVerifyCode?mobile=" + UserName, {
 			//dataType:'json',
 			type: 'GET',
 			success: function(responseText) {
 				//var result = eval("(" + responseText + ")");
 				mui.toast(responseText);
-				self.RemainTime(self.WaitTime);
+				self.RemainTime(WaitTime);
 				self.CheckTime();
 			},
 			error: function(responseText) {
@@ -128,7 +128,7 @@ var moreInfo = function() {
 			mui.ajax(common.gServerUrl + "API/Feedback", {
 				type: 'POST',
 				data: {
-					UserID: self.UserID,
+					UserID: UserID,
 					ContentText: self.feedBackText()
 				},
 				success: function(responseText) {

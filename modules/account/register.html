@@ -11,21 +11,28 @@
 		<link href="../../content/common/style.css" rel="stylesheet" />
 		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
 		<style>
-			.mui-input-group .mui-input-row:after{
+			.mui-input-group .mui-input-row:after {
 				background: #C8C7CC!important;
 			}
-			.mui-input-row .mui-btn{
-				line-height: 3.3!important;
+			.mui-input-row .mui-btn {
+				line-height: 3!important;
+				font-size: 16px!important;
 			}
-			.reg-mui-input-row label ~ input, .th-mui-btn-block{
+			.reg-mui-input-row label ~ input,
+			.th-mui-btn-block {
 				line-height: 1.1!important;
+				font-size: 16px;
 			}
-			.mui-checkbox.mui-left input[type=checkbox]{
+			.mui-checkbox.mui-left input[type=checkbox] {
 				left: -34px;
 			}
-			.reg-mui-input-row input[type=text],input[type=password]{
-				line-height:18px!important;
+			.reg-mui-input-row input[type=text],
+			input[type=password] {
+				line-height: 18px!important;
 				height: 44px!important;
+			}
+			.hideDiv{
+				display: none;
 			}
 		</style>
 	</head>
@@ -33,43 +40,97 @@
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<i class="iconfont mui-action-back">&#xe602;</i>
-			<h1 class="mui-title">注册</h1>
+			<h1 class="mui-title" data-bind="text:registerTitle"></h1>
 		</header>
 		<div class="mui-content">
-			<form class="mui-input-group reg-mui-input-group">
-				<!--选择用户-->
-				<div class="mui-input-row reg-mui-input-row th-mui-input-row">
-					<label>用户类型</label>
-					<button id='selectUserPicker' class="mui-btn mui-btn-block th-mui-btn-block" type='button' data-bind="text:UserTypeText,event:{click:setUserType}"></button>
+			<div id="registerFirst">
+				<form class="mui-input-group reg-mui-input-group">
+					<!--选择用户-->
+					<div class="mui-input-row reg-mui-input-row th-mui-input-row">
+						<label>用户类型</label>
+						<button id='selectUserPicker' class="mui-btn mui-btn-block th-mui-btn-block" type='button' data-bind="text:UserTypeText,event:{click:setUserType}"></button>
+					</div>
+					<div class="mui-input-row reg-mui-input-row">
+						<label>手机号码</label>
+						<input type="text" onfocus="this.type='number'" onblur="this.type='text'" class="mui-input-clear mui-input reg-mui-input" placeholder="请输入手机号码" data-bind="value:UserName">
+					</div>
+					<div class="mui-input-row reg-mui-input-row">
+						<label>验证码</label>
+						<input type="text" onfocus="this.type='number'" onblur="this.type='text'" class="mui-input reg-mui-input" placeholder="请输入验证码" data-bind="value:CheckNum">
+						<em data-bind="click:getVerifyCode, css:{disabled: RemainTime() > 0}">获取验证码<span data-bind="text:'('+RemainTime()+')', visible: RemainTime() > 0"></span></em>
+					</div>
+					<div class="mui-input-row reg-mui-input-row">
+						<label>密码</label>
+						<input id='password' type="password" class="mui-input-clear mui-input reg-mui-input" placeholder="请输入密码" data-bind="value:Password">
+					</div>
+					<div class="mui-input-row reg-mui-input-row">
+						<label>确认密码</label>
+						<input id='password_confirm' type="password" class="mui-input-clear mui-input reg-mui-input" placeholder="请确认密码" data-bind="value:ConPassword">
+					</div>
+					<div class="reg-protocol">
+						<div class="mui-checkbox mui-left">
+							<input name="chkAgree" value="true" type="checkbox" data-bind='checked: Agreed'>
+						</div>
+						我已阅读并同意<a href="http://www.baidu.com" target="_blank">“乐评+用户服务协议”</a>
+					</div>
+				</form>
+				<div class="mui-content-padded">
+					<button id='reg' class="mui-btn mui-btn-block mui-btn-primary btn-login reg-btn-login" data-bind="click:registerUser">注册</button>
+				</div>
+			</div>
+			<!--注册第二页-->
+			<div class="pin-mui-content hideDiv" id="registerInfo">
+			<div class="pi-tx-bg">
+				<span>头像</span>
+				<i data-bind="click:selectPic"><img data-bind="attr: {'src': Path}" /></i>
+			</div>
+			<div class="pin-blank"></div>
+			<form class="mui-input-group">
+				<div class="mui-input-row pic-mui-input-row" data-bind="visible: IsRegister() == false">
+					<label>手机</label>
+					<span data-bind="text:UserName,event:{click:changeUserName}"></span>
+					<i class="iconfont">&#xe618;</i>
+				</div>
+				<div class="mui-input-row pic-mui-input-row">
+					<label>姓名</label>
+					<input type="text" placeholder="请输入您的姓名" data-bind="value:DisplayName" />
+				</div>
+				<div class="mui-input-row reg-mui-input-row th-mui-input-row" data-bind='visible: UserType() == common.gDictUserType.teacher'>
+					<label>科目</label>
+					<button class="mui-btn mui-btn-block th-mui-btn-block th-font" type='button' data-bind="text:SubjectName,event:{click:getSubject}"></button>
+				</div>
+				<div class="mui-input-row pic-mui-input-row" data-bind='visible: UserType() == common.gDictUserType.student'>
+					<label>生日</label>
+					<button id='pickDateBtn' type="button" class="mui-btn mui-btn-block th-mui-btn-block th-font" data-bind="text:Birthday, click:getBirthday"></button>
+				</div>
+				<div class="mui-input-row pic-mui-input-row">
+					<label>性别</label>
+					<button id='showUserPicker' class="mui-btn mui-btn-block th-mui-btn-block th-font" type='button' data-bind="text:GenderText,event:{click:setUserGender}"></button>
+				</div>
+				<div class="mui-input-row reg-mui-input-row" data-bind='visible: UserType() == common.gDictUserType.teacher'>
+					<label>教龄</label>
+					<input id='account' type="text" onfocus="this.type='number'" onblur="this.type='text'" class="mui-input-clear mui-input reg-mui-input th-font" placeholder="请输入教龄" data-bind="value:TeachAge">
 				</div>
 				<div class="mui-input-row reg-mui-input-row">
-					<label>手机号码</label>
-					<input type="text" onfocus="this.type='number'" onblur="this.type='text'" class="mui-input-clear mui-input reg-mui-input" placeholder="请输入手机号码" data-bind="value:UserName">
+					<label>位置</label>
+					<button id="address" type="button" class="mui-btn mui-btn-block th-mui-btn-block" data-bind="text:Place,click:address"></button>
 				</div>
-				<div class="mui-input-row reg-mui-input-row">
-					<label>验证码</label>
-					<input type="text" onfocus="this.type='number'" onblur="this.type='text'" class="mui-input reg-mui-input" placeholder="请输入验证码" data-bind="value:CheckNum">
-					<em data-bind="click:getVerifyCode, css:{disabled: RemainTime() > 0}">获取验证码<span data-bind="text:'('+RemainTime()+')', visible: RemainTime() > 0"></span></em>
-				</div>
-				<div class="mui-input-row reg-mui-input-row">
-					<label>密码</label>
-					<input id='password' type="password" class="mui-input-clear mui-input reg-mui-input" placeholder="请输入密码" data-bind="value:Password">
-				</div>
-				<div class="mui-input-row reg-mui-input-row">
-					<label>确认密码</label>
-					<input id='password_confirm' type="password" class="mui-input-clear mui-input reg-mui-input" placeholder="请确认密码" data-bind="value:ConPassword">
-				</div>
+				<div class="th-textarea-div th-textarea" data-bind='visible: UserType() == common.gDictUserType.teacher'>
+					<label>自我简介</label>
+					<textarea placeholder="请输入自我简介" data-bind="value:Introduce"></textarea>
 				<div class="reg-protocol">
-					<div class="mui-checkbox mui-left">
+					<div class="mui-checkbox mui-left checked-font">
 						<input name="chkAgree" value="true" type="checkbox" data-bind='checked: Agreed'>
 					</div>
 					我已阅读并同意<a href="http://www.baidu.com" target="_blank">“乐评+用户服务协议”</a>
+
 				</div>
 			</form>
-			<div class="mui-content-padded">
-				<button id='reg' class="mui-btn mui-btn-block mui-btn-primary btn-login reg-btn-login" data-bind="click:registerUser">注册</button>
+			<div class="pin-blank"></div>
+			<div class="mui-content-padded pin-btn-footer">
+				<button class="mui-btn mui-btn-block mui-btn-primary th-btn th-mui-f" data-bind="click:setInfo">完成</button>
 			</div>
-
+			</div>
 		</div>
 
 		<script src="../../script/mui/mui.min.js"></script>
@@ -78,7 +139,6 @@
 		<script src="../../script/mui/mui.picker.min.js"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/account/register.js" type="text/javascript" charset="utf-8"></script>
-
 	</body>
 
 </html>

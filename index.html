@@ -18,23 +18,23 @@
 			<em class="iconfont" data-bind="click:goMessageList">&#xe628;</em><span class="mui-badge mui-badge-warning" data-bind="text: UnreadCount, visible: UnreadCount() > 0"></span>
 		</header>-->
 		<nav class="mui-bar mui-bar-tab">
-			<a id="defaultTab" class="mui-tab-item mui-active" href="modules/home/home.html">
+			<a id="Tab1" class="mui-tab-item" href="modules/home/home.html">
 				<span class="mui-icon iconfont">&#xe627;</span>
 				<span class="mui-tab-label">首页</span>
 			</a>
-			<a class="mui-tab-item" href="modules/comment/commentListHeader.html">
+			<a id="Tab2" class="mui-tab-item" href="modules/comment/commentListHeader.html">
 				<span class="mui-icon iconfont">&#xe62d;</span>
 				<span class="mui-tab-label">点评</span>
 			</a>
-			<a class="mui-tab-item" href="modules/course/myCourse.html">
+			<a id="Tab3" class="mui-tab-item" href="modules/course/myCourse.html">
 				<span class="mui-icon iconfont">&#xe641;</span>
 				<span class="mui-tab-label">课程</span>
 			</a>
-			<a class="mui-tab-item" data-bind="attr: {'href': self.worksList}">
+			<a id="Tab4" class="mui-tab-item" data-bind="attr: {'href': self.worksList}">
 				<span class="mui-icon iconfont">&#xe646;</span>
 				<span class="mui-tab-label">作品</span>
 			</a>
-			<a class="mui-tab-item" data-bind="attr: {'href': MyHref}">
+			<a id="Tab5" class="mui-tab-item" data-bind="attr: {'href': MyHref}">
 				<span class="mui-icon iconfont">&#xe60b;</span>
 				<span class="mui-tab-label">我</span>
 			</a>
@@ -44,26 +44,32 @@
 		<script src="script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="script/common/index.js" type="text/javascript" charset="utf-8"></script>
-
 		<script type="text/javascript" charset="utf-8">
 			 //mui初始化
 			mui.init();
 			 //var subpages = [self.MyHref()];
-			var subpages = ['modules/home/home.html', 'modules/course/myCourse.html', 'modules/comment/commentListHeader.html', self.worksList(), self.MyHref()];
+			var subpages = ['modules/home/home.html','modules/comment/commentListHeader.html',  'modules/course/myCourse.html', self.worksList(), self.MyHref()];
 			var subpage_style = {
 				top: '0px',
 				bottom: '50px'
 			};
 			var aniShow = {};
+			var dfPage = 0;
+
 			 //创建子页面，首个选项卡页面显示，其它均隐藏；
 			mui.plusReady(function() {
+				var web = plus.webview.currentWebview();
+				console.log('plusReady'+web.page);
+				if (typeof(web.page) !== "undefined") {
+					dfPage = web.page;
+				}
 				setLocalItem('UUID', plus.device.uuid);
 				this.getUnreadCount();
 				var self = plus.webview.currentWebview();
 				for (var i = 0; i < subpages.length; i++) {
 					var temp = {};
 					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
-					if (i == 0) {
+					if (i == dfPage) {
 						temp[subpages[i]] = "true";
 						mui.extend(aniShow, temp);
 						
@@ -72,9 +78,14 @@
 					}
 					self.append(sub);
 				}
+				var defaultTab = document.getElementById("Tab"+(dfPage+1));
+				defaultTab.classList.add('mui-active');
 			});
+			
+
+			
 			 //当前激活选项
-			var activeTab = subpages[0];
+			var activeTab = subpages[dfPage];
 			 //var title = document.getElementById("title");
 			 //选项卡点击事件
 			mui('.mui-bar-tab').on('tap', 'a', function(e) {
@@ -100,7 +111,8 @@
 			});
 			 //自定义事件，模拟点击“首页选项卡”
 			document.addEventListener('gohome', function() {
-				var defaultTab = document.getElementById("defaultTab");
+				var defaultTab = document.getElementById("Tab"+(dfPage+1));
+				
 				//模拟首页点击
 				mui.trigger(defaultTab, 'tap');
 				//切换选项卡高亮

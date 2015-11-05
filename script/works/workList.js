@@ -2,43 +2,46 @@ var workList = function() {
 	var self = this;
 	var pageNum = 1;
 	var receiverId = 1;
-	var teacherID;
-	var thisUrl = common.gServerUrl + "API/Work"; //接口url
-	var pageUrl = "?page=";
-	var subjectUrl = "&subject=";
-	var sortUrl = "&sortType=";
-	var subjectID, sortID;
-	var page = 1;
-	var ppSubject, ppSort;
+	var sortID;
+	self.teacherInfo = ko.observable();			//点评老师对象
 	self.works = ko.observableArray([]);
 	self.displayCheck = ko.observable(false); //控制单选框和确认按钮是否显示
 	self.UnreadCount = ko.observable("0");
 	self.dbSubject = ko.observable("科目");
 	self.dbSort = ko.observable("排序");
 	//var receiverId = getLocalItem("UserID");
-	//加载作品
-	self.getWorks = function() {
-		var curl = pageUrl + page;
-		if (typeof(subjectID) === "number" && subjectID > 0) {
-			curl += subjectUrl + subjectID;
+	
+	self.tmplSubjects = ko.observableArray([]);
+	self.tmplSubjectClasses = ko.observableArray([]);
+	
+	self.currentSubject = ko.observable({});	//当前选中的科目
+	
+	//拼接请求Url
+	self.getAjaxUrl=function(){
+		var ajaxUrl = common.gServerUrl + "API/Work?userID="+getLocalItem("UserID");
+		ajaxUrl += "&page="+pageNum;
+		
+		if (typeof self.currentSubject().id === "function") {
+			ajaxUrl += "&subject=" + self.currentSubject().id();
+			ajaxUrl += "&subjectClass=" + self.currentSubject().subjectClass();
 		}
 		if (typeof(sortID) === "number" && sortID > 0) {
-			curl += sortUrl + sortID;
+			ajaxUrl += "&sortType=" + sortID;
 		}
-		mui.ajax(thisUrl + curl, {
+
+		return ajaxUrl;
+	}
+	
+	//加载作品
+	self.getWorks = function() {
+		mui.ajax(self.getAjaxUrl(), {
 			type: 'GET',
 			success: function(responseText) {
 				//console.log(responseText);
 				var result = eval("(" + responseText + ")");
 				self.works(result);
-			},
-			error: function() {
-				mui.toast("ERROR");
 			}
-
 		});
-		//mui('#pullrefresh').pullRefresh().refresh(true);
-
 	};
 
 	mui.init({
@@ -54,24 +57,22 @@ var workList = function() {
 		}
 	});
 
+	document.querySelector('#dbSubject').addEventListener('tap', function() {
+		mui('#popSubjects').popover('toggle');
+	});
+	document.querySelector('#dbSort').addEventListener('tap', function() {
+		mui('#middlePopover2').popover('toggle');
+	});
+
 	function pulldownRefresh() {
 		setTimeout(function() {
-			
-			page++;
-			var curl = pageUrl + page;
-			if (typeof(subjectID) === "number" && subjectID > 0) {
-				curl += subjectUrl + subjectID;
-			}
-			if (typeof(sortID) === "number" && sortID > 0) {
-				curl += sortUrl + sortID;
-			}
-			mui.ajax(thisUrl + curl, {
+			pageNum++;
+			mui.ajax(self.getAjaxUrl(), {
 				type: 'GET',
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
 					self.works(self.works().concat(result));
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh();
-					mui('#pullrefresh').pullRefresh().scrollTo(0, 0, 100);
+					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
 				}
 			});
 		}, 1500)
@@ -79,18 +80,12 @@ var workList = function() {
 
 	//刷新
 	var count = 0;
+
 	function pullupRefresh() {
 		setTimeout(function() {
-			mui('#pullrefreshAll').pullRefresh().endPullupToRefresh((++count > 2));
-			page++;
-			var curl = pageUrl + page;
-			if (typeof(subjectID) === "number" && subjectID > 0) {
-				curl += subjectUrl + subjectID;
-			}
-			if (typeof(sortID) === "number" && sortID > 0) {
-				curl += sortUrl + sortID;
-			}
-			mui.ajax(thisUrl + curl, {
+			mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
+			pageNum++;
+			mui.ajax(self.getAjaxUrl(), {
 				type: 'GET',
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
@@ -106,116 +101,80 @@ var workList = function() {
 				mui('#pullrefresh').pullRefresh().pullupLoading();
 			}, 1000);
 
+			if (plus.os.vendor == 'Apple') {
+				mui('.mui-scroll-wrapper').scroll();
+			}
 		});
 	} else {
 		mui.ready(function() {
-			mui('#pullrefreshAll').pullRefresh().pullupLoading();
+			mui('#pullrefresh').pullRefresh().pullupLoading();
 		});
 	}
-
 	
-	//预加载详情页面
-	var worksDetails = mui.preload({
-		url: 'WorksDetails.html',
-		extras: {
-			WorkID: works.ID,
-			AuthorID: works.AuthorID
-		}
-	});
+		//选择科目
+	self.selectSubject = function(data){
+		self.currentSubject(data);
+		self.works.removeAll();		//先移除所有
+		
+		/*此处可能有bug，若之前所选科目已经刷新到无数据了，
+		    再切换为有多页数据的科目，似乎无法翻页了，会一直显示“没有更多数据了”*/
+		pageNum = 1;						//还原为显示第一页
+		self.getWorks();
+		mui('#popSubjects').popover('toggle');
+	}
+
+//	//预加载详情页面
+//	var worksDetails = mui.preload({
+//		url: 'WorksDetails.html',
+//		extras: {
+//			WorkID: works
+//		}
+//	});
+	
 	//跳转到作品详情页面
-	self.goWorksDetails = function() {
-		var works = this;
-		mui.openWindow({
-			url: 'WorksDetails.html',
-			show: {
-				autoShow: true,
-				aniShow: "slide-in-right",
-				duration: "100ms"
-			},
-			waiting: {
-				autoShow: false
-			},
-			extras: {
-				WorkID: works.ID,
-				AuthorID: works.AuthorID
-			}
-		});
+	self.goWorksDetails = function(data) {
+		common.transfer("WorksDetails.html", false, {
+			works: data
+		})
 	}
 
 	self.gotoSubmitClass = function() {
-			var radios = document.getElementsByName('radio');
-			var pos = -1;
-			for (var i = 0; i < radios.length; i++) {
-				if (radios[i].checked) {
-					pos = i;
-				}
+		var radios = document.getElementsByName('radio');
+		var pos = -1;
+		for (var i = 0; i < radios.length; i++) {
+			if (radios[i].checked) {
+				pos = i;
+				break;
 			}
-			mui.openWindow({
-				url: '../student/submitComment.html',
-				show: {
-					autoShow: true,
-					aniShow: "slide-in-right",
-					duration: "100ms"
-				},
-				waiting: {
-					autoShow: false
-				},
-				extras: {
-					WorkID: works.ID,
-					AuthorID: works.AuthorID,
-					WorkTitle: self.works()[pos].Title,
-					AuthorName: self.works()[pos].AuthorName,
-					CommenterID: teacherID
-				}
-			});
 		}
-		//跳转至消息页面
-	self.goMessageList = function() {
-			common.gotoMessage();
+		if(pos == -1){
+			mui.toast("请选择需要点评的作品");
+			return;
 		}
-		//获取未读消息数量
-	self.getUnreadCount = function() {
-		common.getUnreadCount(self.UnreadCount());
+		common.transfer('../student/submitComment.html', true, {
+			works: self.works()[pos],
+			teacher: teacherInfo()
+		});
 	}
 
-	self.setSubject = function() {
-		ppSubject.show(function(items) {
-			self.dbSubject(items[0].text);
-			subjectID = items[0].value;
-			self.getWorks();
-		});
-	};
-
-	self.setSort = function() {
-		ppSort.show(function(items) {
-			self.dbSort(items[0].text);
-			sortID = items[0].value;
-			self.getWorks();
-		});
-	};
-
 	self.gotoAddWorks = function() {
-		common.transfer('workListHeader.html')
-		//common.transfer('../../modules/works/addWorks.html', true);
+		common.transfer('addWorks.html')
 	};
 	mui.plusReady(function() {
-				var web = plus.webview.currentWebview();
-				if (typeof(web.teacherID) !== "undefined") {
-					teacherID = web.teacherID;
-					self.displayCheck(web.displayCheck);
-				}
-//		ppSubject = new mui.PopPicker();
-		mui.ajax(common.gServerUrl + "Common/Subject/Get", {
-			dataType: 'json',
-			type: "GET",
-			success: function(responseText) {
-				var arr = common.JsonConvert(responseText, 'ID', 'SubjectName');
-				ppSubject.setData(arr);
-			}
-		});
-//		ppSort = new mui.PopPicker();
-//		ppSort.setData(common.gJsonWorkSort);
-		self.getWorks();
+		var web = plus.webview.currentWebview();
+		if (typeof(web.teacher) !== "undefined") {
+			self.teacherInfo(web.teacher);
+			self.displayCheck(web.displayCheck);
+		}
+		
+//		var subjectvm = new subjectsViewModel();
+//		self.tmplSubjectClasses(subjectvm.getSubjectClasses());
+//		self.tmplSubjects(subjectvm.getSubjects());
+//		if(self.tmplSubjects().length > 0){
+//			self.currentSubject(self.tmplSubjects()[0]);
+//		}
+//
+//		self.getWorks();
 	});
 }
 

@@ -11,11 +11,6 @@
 		<link href="../../content/common/style.css" rel="stylesheet" />
 		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
 		<style type="text/css">
-			/*跨webview需要手动指定位置*/
-			/*header.mui-bar {
-				display: none!important;
-			}*/
-			
 			body,
 			.mui-content {
 				background: #f1f1f1!important;
@@ -62,12 +57,14 @@
 			.mui-navigate-right:after {
 				right: 30%;
 			}
+			.mui-bar-nav ~ .mui-content .mui-pull-top-pocket {
+				top: 78px !important;
+			}
 		</style>
 	</head>
 
 	<body style="background:#f1f1f1;">
 		<header class="mui-bar mui-bar-nav works-list-mui-bar-nav">
-			<i class="iconfont mui-action-back">&#xe602;</i>
 			<em class="iconfont" data-bind="event:{tap: gotoAddWorks}">&#xe633;</em>
 			<div id="segmentedControl" class="mui-segmented-control works-list-mui">
 				<a class="mui-control-item mui-control-item1 mui-active" href="worksListMyWorks.html" id="myworks">
@@ -88,14 +85,14 @@
 						<a class="mui-navigate-right" id="dbSort">排序</a>
 					</li>
 				</ul>
-				<ul id="nav2" style="display: none;">
+				<!--<ul id="nav2" style="display: none;">
 					<li class="mui-collapse" id="workListSubject2">
 						<a class="mui-navigate-right" id="dbSubject">科目</a>
 					</li>
 					<li class="mui-collapse" id="workListSort2">
 						<a class="mui-navigate-right" id="dbSort">排序</a>
 					</li>
-				</ul>
+				</ul>-->
 			</div>
 		</div>
 		<script src="../../script/mui/mui.min.js"></script>
@@ -105,105 +102,105 @@
 		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/works/workListHeader.js" type="text/javascript" charset="utf-8"></script>
 		<script>
-			mui.init();
-		/*	mui.init({
-				gestureConfig:{
-					doubletap:true
-				},
-				subpages:[{
-					url:'workListAllWorks.html',
-					id:'workListAllWorks.html',
-					styles:{
-						top: '78px',
-						bottom: '50px',
-					}
-				}]
-			});*/
-				var subpages = ['worksListMyWorks.html', 'worksListAllWorks.html'];
-					var subpage_style = {
-						top: '78px',
-						bottom: '0px'
-					};
-					var aniShow = {};
-					//创建子页面，首个选项卡页面显示，其它均隐藏；
-					mui.plusReady(function() {
-						var self = plus.webview.currentWebview();
-						for (var i = 0; i < subpages.length; i++) {
-							var temp = {};
-							var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
-							if (i == 0) {
-								temp[subpages[i]] = "true";
-								mui.extend(aniShow, temp);
-							} else {
-								sub.hide();
-							}
-							self.append(sub);
+			 //mui.init();
+			/*	mui.init({
+					gestureConfig:{
+						doubletap:true
+					},
+					subpages:[{
+						url:'workListAllWorks.html',
+						id:'workListAllWorks.html',
+						styles:{
+							top: '78px',
+							bottom: '50px',
 						}
-					});
-					//当前激活选项
-				var activeTab = subpages[0];
-				 //选项卡点击事件
-				mui('#segmentedControl').on('tap', 'a', function(e) {
-					var targetTab = this.getAttribute('href');
-					if (targetTab == activeTab) {
-						return;
-					}
-					if (mui.os.ios || aniShow[targetTab]) {
-						plus.webview.show(targetTab);
-					} else {
-						var temp = {};
-						temp[targetTab] = "true";
+					}]
+				});*/
+			var subpages = ['worksListMyWorks.html', 'worksListAllWorks.html'];
+			var subpage_style = {
+				top: '78px',
+				bottom: '0px'
+			};
+			var aniShow = {};
+			 //创建子页面，首个选项卡页面显示，其它均隐藏；
+			mui.plusReady(function() {
+				var current = plus.webview.currentWebview();
+				for (var i = 0; i < subpages.length; i++) {
+					var temp = {};
+					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
+					if (i == 0) {
+						temp[subpages[i]] = "true";
 						mui.extend(aniShow, temp);
-						plus.webview.show(targetTab, "fade-in", 300);
-					}
-					//隐藏当前;
-					plus.webview.hide(activeTab);
-					//更改当前活跃的选项卡
-					activeTab = targetTab;
-					var nav1 = document.querySelector("#nav1");
-					var nav2 = document.querySelector("#nav2");
-					if( nav1.style.display === "none" ) {
-						nav1.style.display = "block";
 					} else {
-						nav1.style.display = "none";
+						sub.hide();
 					}
-					if( nav2.style.display === "none" ) {
-						nav2.style.display = "block";
-					} else {
-						nav2.style.display = "none";
-					}
-				});
-				document.addEventListener('gohome', function() {
-					var defaultTab = document.getElementById("myworks");
-					//模拟首页点击
-					mui.trigger(defaultTab, 'tap');
-					//切换选项卡高亮
-					var current = document.querySelector("#segmentedControl>.mui-control-item .mui-active");
-					if (defaultTab !== current) {
-						current.classList.remove('mui-active');
-						defaultTab.classList.add('mui-active');
-					}
-				});
-				
-				var currentWebview=null;
-				var webviewshow=null;
-				document.querySelector("#workListSort").addEventListener('tap',function(){
-					currentWebview=plus.webview.currentWebview().children()[0];
-					currentWebview.evalJS("mui('#middlePopover2').popover('toggle')");
-				});
-				document.querySelector("#workListSubject").addEventListener('tap',function(){
-					currentWebview=plus.webview.currentWebview().children()[0];
-					currentWebview.evalJS("mui('#middlePopover1').popover('toggle')");
-				});
-				document.querySelector("#workListSort2").addEventListener('tap',function(){
-					currentWebview=plus.webview.currentWebview().children()[1];
-					currentWebview.evalJS("mui('#middlePopover2').popover('toggle')");
-				});
-				
-				document.querySelector("#workListSubject2").addEventListener('tap',function(){
-					currentWebview=plus.webview.currentWebview().children()[1];
-					currentWebview.evalJS("mui('#middlePopover1').popover('toggle')");
-				});
+					current.append(sub);
+				}
+			});
+			 //当前激活选项
+			var activeTab = subpages[0];
+			 //选项卡点击事件
+			mui('#segmentedControl').on('tap', 'a', function(e) {
+				var targetTab = this.getAttribute('href');
+				if (targetTab == activeTab) {
+					return;
+				}
+				if (mui.os.ios || aniShow[targetTab]) {
+					plus.webview.show(targetTab);
+				} else {
+					var temp = {};
+					temp[targetTab] = "true";
+					mui.extend(aniShow, temp);
+					plus.webview.show(targetTab, "fade-in", 300);
+				}
+				//隐藏当前;
+				plus.webview.hide(activeTab);
+				//更改当前活跃的选项卡
+				activeTab = targetTab;
+				//				var nav1 = document.querySelector("#nav1");
+				//				var nav2 = document.querySelector("#nav2");
+				//				if (nav1.style.display === "none") {
+				//					nav1.style.display = "block";
+				//				} else {
+				//					nav1.style.display = "none";
+				//				}
+				//				if (nav2.style.display === "none") {
+				//					nav2.style.display = "block";
+				//				} else {
+				//					nav2.style.display = "none";
+				//				}
+			});
+			document.addEventListener('gohome', function() {
+				var defaultTab = document.getElementById("myworks");
+				//模拟首页点击
+				mui.trigger(defaultTab, 'tap');
+				//切换选项卡高亮
+				var current = document.querySelector("#segmentedControl>.mui-control-item .mui-active");
+				if (defaultTab !== current) {
+					current.classList.remove('mui-active');
+					defaultTab.classList.add('mui-active');
+				}
+			});
+			var currentWebview = null;
+			var webviewshow = null;
+			document.querySelector("#workListSort").addEventListener('tap', function() {
+				currentWebview = plus.webview.currentWebview().children()[0];
+				currentWebview.evalJS("mui('#middlePopover2').popover('toggle')");
+				currentWebview = plus.webview.currentWebview().children()[1];
+				currentWebview.evalJS("mui('#middlePopover2').popover('toggle')");
+			});
+			document.querySelector("#workListSubject").addEventListener('tap', function() {
+				currentWebview = plus.webview.currentWebview().children()[0];
+				currentWebview.evalJS("mui('#popSubjects').popover('toggle')");
+				currentWebview = plus.webview.currentWebview().children()[1];
+				currentWebview.evalJS("mui('#popSubjects').popover('toggle')");
+			});
+			 //			document.querySelector("#workListSort2").addEventListener('tap', function() {
+			 //				
+			 //			});
+			 //			document.querySelector("#workListSubject2").addEventListener('tap', function() {
+			 //				
+			 //			});
 		</script>
 
 	</body>

@@ -85,7 +85,9 @@ var viewModel = function() {
 			return;
 		}
 
-		mui.ajax(common.gServerUrl + "API/Work", {
+		var arrTmp = self.filePath().split('.');
+		var ext = arrTmp[arrTmp.length - 1];
+		mui.ajax(common.gServerUrl + "Common/Work", {
 			type: "POST",
 			data: {
 				AuthorID: getLocalItem("UserID"),
@@ -93,21 +95,31 @@ var viewModel = function() {
 				SubjectID: subjectID,
 				ContentText: self.contentText(),
 				WorkType: workTypeID,
-				IsPublic: publicID == 1 ? true : false
+				IsPublic: publicID == 1 ? true : false,
+				Video: self.fileName() + '.' + ext
 			},
 			success: function(responseText) {
 				if(responseText){
 					mui.toast("已保存，等待上传完成");
 					var obj = JSON.parse(responseText);
-					var videopath = self.filePath();
-					var videoname = self.fileName();
-					var workstitle = self.titleText();
-					common.transfer('worksUploading.html', true, {
-						workId: obj.ID,
-						videoPath: videopath,
-						videoName: videoname,
-						worksTitle: workstitle
+					
+					//保存至本地缓存
+					var oldTasks = plus.storage.getItem(common.gVarLocalUploadTask);
+					var arr = JSON.parse(oldTasks) || [];
+					arr.push({
+						workid: obj.ID,
+						videopath: self.filePath()
 					});
+					plus.storage.setItem(common.gVarLocalUploadTask, JSON.stringify(arr));
+					
+					var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');	//获取首页Webview对象
+					plus.webview.close(index);	//关闭首页
+					common.transfer('../../index.html', true, {page: 3}, true);
+					
+					/*var myworks = plus.webview.getWebviewById('worksListMyWorks.html');
+					myworks.addEventListener('loaded',function () {
+						myworks.evalJS("upload.uploadVideo("+obj+",'"+videopath+"')");
+					})*/
 					
 					/*self.subjectText("请选择科目");
 					self.workTypeText("请选择类别");

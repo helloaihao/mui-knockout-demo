@@ -27,7 +27,7 @@ var myOrders = function() {
 				self.Balance(balance);
 			}
 		})
-		self.GetNotPay();
+		//self.GetNotPay();
 	})
 	//未支付
 	self.GetNotPay=function(){
@@ -89,6 +89,11 @@ var myOrders = function() {
 	//提现
 	self.Withdraw =function(){
 		mui.toast("你点击了提现按钮");
+		common.transfer('myOrderMain.html');
+	}
+	var count = 0;
+	self.pullupRefresh=function(){
+		this.endPullUpToRefresh((++count>2));
 	}
 }
 ko.applyBindings(myOrders);

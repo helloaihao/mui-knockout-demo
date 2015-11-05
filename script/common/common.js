@@ -47,11 +47,13 @@
 		return '';
 	},
 
-	transfer: function(targetUrl, checkLogin, extras, createNew, autoShowValue) {
+	transfer: function(targetUrl, checkLogin, extras, createNew) {
 		var tmpUrl = targetUrl;
 		if (checkLogin && getLocalItem('UserID') <= 0) {
 			tmpUrl = '../account/login.html';
 		}
+
+		//console.log(targetUrl);
 		mui.openWindow({
 			url: tmpUrl,
 			extras: extras,
@@ -62,7 +64,7 @@
 				duration: "100ms"
 			},
 			waiting: {
-				autoShow: true
+				autoShow: false
 			}
 		});
 	},
@@ -123,6 +125,17 @@
 		})
 
 		return ret;
+	},
+	
+	//获取所有科目
+	getAllSubjects: function(){
+		var ajaxUrl = common.gServerUrl + 'Common/Subject/Get';
+		mui.ajax(ajaxUrl, {
+			type: 'GET',
+			success: function(responseText) {
+				plus.storage.setItem(common.gVarLocalAllSubjects, responseText);
+			}
+		})
 	},
 
 	//根据起始时间和结束时间返回类似“9月20日 15:00~16:00”
@@ -190,8 +203,19 @@
 		return common.gServerUrl + 'Common/GetImage?url=' + photo;
 	},
 	
+	/**
+	 * 获取视频缩略图
+	 * @param {String} photo 图片名
+	 */
+	getThumbnail: function(photo) {
+		return common.gVideoServerUrl + 'Thumbnails/' + photo;
+	},
+	
 	//Web API地址
-	gServerUrl: "http://192.168.1.99:8090/", //"http://192.168.1.102:8090/", //"http://localhost:53651/"	//"http://192.168.1.99:8090/"
+	gServerUrl: "http://172.16.30.90:8090/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/", //"http://192.168.1.99:8090/"
+	//Video地址
+	gVideoServerUrl: "http://172.16.30.90:8099/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/", //"http://192.168.1.99:8090/"
+	
 	//用户类型枚举
 	gDictUserType: {
 		teacher: 32,
@@ -345,8 +369,10 @@
 	}, {
 		value: 3,
 		text: '讲师/演奏家'
-	}]
+	}],
 
+	gVarLocalUploadTask: 'uploadTasks',
+	gVarLocalAllSubjects: 'allSubjects'
 	/*获取网络状态值
 	 * CONNECTION_UNKNOW: 网络连接状态未知  固定值0
 	 * CONNECTION_NONE: 未连接网络  固定值1

@@ -16,6 +16,16 @@ var OrderNO = ko.observable(''); //请求后返回的订单号
 var gotoPay = function() {
 	var ajaxUrl;
 	
+	//支付方式的数值
+	var paytype = 3;
+	if (self.PayType() == 'wxpay') {
+		paytype = 1;
+	} else if (self.PayType() == 'alipay') {
+		paytype = 2;
+	} else {
+		paytype = 3;
+	}
+
 	if (!self.ViewOrder()) { //不是由我的订单跳转而来
 		if (!self.selectedCourse()) {
 			mui.toast("请选择课程");
@@ -66,23 +76,35 @@ var gotoPay = function() {
 		ajaxUrl = common.gServerUrl + 'API/Order/ResubmitOrder?id=' + self.Order().ID + '&payType=' + paytype;
 	}
 
-	//支付方式的数值
-	var paytype = 3;
-	if (self.PayType() == 'wxpay') {
-		paytype = 1;
-	} else if (self.PayType() == 'alipay') {
-		paytype = 2;
-	} else {
-		paytype = 3;
-	}
-
+	plus.nativeUI.showWaiting();
 	//新增则保存约课及课时信息；修改则保存新的支付方式。均返回订单信息
 	mui.ajax(ajaxUrl, {
 		type: 'POST',
 		data: self.ViewOrder() ? self.Order() : courseToUser,
 		success: function(responseText) {	//responseText为微信支付所需的json
+			var ret = JSON.parse(responseText);
+			var orderID = ret.orderID;
+			var requestJson = JSON.stringify(ret.requestJson);
+
 			//根据支付方式、订单信息，调用支付操作
-			Pay.pay(self.PayType(), responseText);
+			Pay.pay(self.PayType(), requestJson, function(tradeno){	//成功后的回调函数
+				var aurl = common.gServerUrl + 'API/Order/SetOrderSuccess?id='+orderID+'&otherOrderNO='+tradeno;
+				mui.ajax(aurl,{
+					type: 'PUT',
+					success:function(respText){
+						var lessons = JSON.parse(respText);
+						if(lessons.length > 0){
+							//跳转至约课的课时（打开第一个）
+							common.transfer("../../modules/course/myCourse.html", true, {
+								lessonID: lessons[0].ID
+							});
+							plus.nativeUI.closeWaiting();
+						}
+					}
+				})
+			}, function(){
+				plus.nativeUI.closeWaiting();
+			});
 		}
 	})
 };

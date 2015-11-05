@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -10,69 +10,109 @@
 		<link href="../../content/common/global.css" rel="stylesheet" />
 		<link href="../../content/common/style.css" rel="stylesheet" />
 		<style>
-			.mui-content-padded{
+			.mui-content-padded {
 				margin: 0!important;
 			}
-			.mui-btn-block{
+			.mui-btn-block {
 				width: 30%!important;
 				float: right;
 				margin-right: 15px;
 				font-size: 14px!important;
 			}
-			.mui-bar .mui-btn{
+			.mui-bar .mui-btn {
 				top: 10px;
 				padding: 6px 18px;
 			}
+			.details-ul{
+				width: 100%;
+				display: flex;
+			}
+			.details-ul li{
+				flex: 1;
+			}
+			.details-ul .details-date{
+				flex: 2;
+			}
 		</style>
 	</head>
+
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<i class="iconfont mui-action-back">&#xe602;</i>
-			<h1 class="mui-title"> 发表点评</h1>			
+			<h1 class="mui-title" data-bind="text: isCommenter() ? '发表点评' : '查看点评'"></h1>
 		</header>
 		<div class="mui-content">
-			  <div class="works-content-up reviewInfo-content-up">
-            <span data-bind="text: title">作品标题</span>
-            <ul>
-                <li data-bind="text: addTime">2015-09-11</li>
-                <li data-bind="text: readCount"><i class="iconfont">&#xe61a;</i>1234</li>
-                <li data-bind="text: likeCount"><i class="iconfont">&#xe61e;</i>456</li>
-                <li data-bind="text: remark">未公开</li>
-                <li data-bind="text: subjectName">钢琴</li>                                    
-            </ul>
-            <div class="works-img-div">图片</div>
-            <p data-bind="text: contentText">作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容作品内容</p>
-        </div>
-		
-		  <div class="pin-blank"></div>
-        <div class="works-content-dow reviewInfo-content">
-            <span>
-                <i class="iconfont">&#xe62d;</i> 评语
-            </span>
-            <span>演奏姿势，手形(口形)、指法</span>
-            <textarea placeholder="请输入评语"></textarea>
-            <span>音准、节拍、节奏感</span>
-            <textarea placeholder="请输入评语"></textarea>
-            <span>演奏技巧</span>
-          	<textarea placeholder="请输入评语"></textarea>
-            <span>总评语</span>
-            <textarea placeholder="请输入评语"></textarea>
-        </div>		
-			<nav class="mui-bar mui-bar-tab">				
+			<div class="works-content-up reviewInfo-content-up">
+				<span data-bind="text: works().Title">作品标题</span>
+				<ul class="details-ul">
+					<li class="details-date" data-bind="text: works().AddTime ? works().AddTime.split(' ')[0] : ''"></li>
+					<li>
+						<i class="iconfont">&#xe61a;</i>
+						<!--ko text:works().ReadCount-->
+						<!--/ko-->
+					</li>
+					<li>
+						<i class="iconfont">&#xe61e;</i>
+						<!--ko text:works().LikeCount-->
+						<!--/ko-->
+					</li>
+					<!--<li data-bind="text: remark">未公开</li>-->
+					<li data-bind="text: works().SubjectName">钢琴</li>
+				</ul>
+				<div class="works-img-div" data-bind="event:{tap: goWorksDetails}">
+					<img data-bind="attr: {src: common.getThumbnail(works().VideoThumbnail)}" onerror="this.src='../../images/video-big-default.png';" />
+				</div>
+				<p data-bind="text: works().ContentText"></p>
+			</div>
+
+			<div class="pin-blank"></div>
+			<div class="works-content-dow reviewInfo-content">
+				<span>
+	                <i class="iconfont">&#xe62d;</i>
+	                <em data-bind="text:'[' + teacher().DisplayName + ']', visible: !isCommenter()"></em>老师评语
+	            </span>
+	            <!--ko foreach: {data: commentToRules}-->
+				<span data-bind="text: RuleName"></span>
+				<p data-bind="text:Comment, visible: isCommenter() == false"></p>
+				<textarea data-bind="value: Comment, visible: isCommenter() == true, attr:{'placeholder': '请输入评语'}"></textarea>
+				<!--/ko-->
+				<span>总评语</span>
+				<p data-bind="text:totalComment, visible: isCommenter() == false"></p>
+				<textarea data-bind="value: totalComment, visible: isCommenter() == true, attr:{'placeholder': '请输入评语'}"></textarea>
+				
+				<div class="works-consult-title" data-bind="click:addfeedback">
+					<span><i class="iconfont">&#xe609;</i>咨询 </span>
+					<em class="iconfont" data-bind="visible: isCommenter() == false">&#xe621;</em>
+				</div>
+				<div class="works-answer" data-bind="foreach:{data: feedbacks}">
+					<p>
+						<i>Q.</i>
+						<!--ko text:Question-->
+						<!--/ko-->
+						<em data-bind="click: replyfeedback, visible: isCommenter() == true">回复</em>
+					</p>
+					<p>
+						<i>A.</i>
+						<span data-bind="text:Answer"></span>
+					</p>
+				</div>
+			</div>
+			<nav class="mui-bar mui-bar-tab" data-bind="visible: isCommenter">
 				<div class="mui-content-padded availableTime-sure">
-				<a href="#tabbar-with-sms">
-					<button type="button" class="mui-btn mui-btn-primary availableTime-mui-btn">
-						确定发表
-					</button>
-				</a>
+					<a href="#tabbar-with-sms">
+						<button type="button" class="mui-btn mui-btn-primary availableTime-mui-btn" data-bind="click: setComment">
+							确定发表
+						</button>
+					</a>
 				</div>
 			</nav>
-	</div>
-	
-	<script src="../../script/mui/mui.min.js"></script>
+		</div>
+
+		<script src="../../script/mui/mui.min.js"></script>
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/comment/commentDetails.js" type="text/javascript" charset="utf-8"></script>
 	</body>
+
 </html>

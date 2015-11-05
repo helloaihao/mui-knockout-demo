@@ -5,14 +5,16 @@ var worksDetails = function() {
 
 	//作品的元素绑定
 	self.Works = ko.observable({}); //作品实例
+	self.mv = ko.observable();
 	self.initWorksValue = function(works) {
-		//console.log(JSON.stringify(works));
+		console.log(JSON.stringify(works));
 		var self = this;
 		self.WorkID = ko.observable(works.ID); //作品编码
 		self.AuthorID = ko.observable(works.AuthorID); //作品作者UserID
 		self.AuthorName = ko.observable(works.AuthorName); //作品作者名称
 		self.SubjectID = ko.observable(works.SubjectID); //作品科目ID
 		self.Title = ko.observable(works.Title); //作品标题
+		console.log(works.AddTime);
 		self.AddTime = ko.observable(works.AddTime.split(' ')[0]); //添加时间
 		self.ReadCount = ko.observable(works.ReadCount); //浏览次数
 		self.IsPublic = ko.observable(works.IsPublic); //作品是否公开
@@ -27,7 +29,7 @@ var worksDetails = function() {
 		self.FavCount = ko.observable(works.FavCount); //收藏数
 		self.ContentText = ko.observable(works.ContentText);
 		if (common.StrIsNull(works.VideoThumbnail) != '')
-			self.imgUrl = common.getPhotoUrl(works.VideoThumbnail);
+			self.imgUrl = common.getThumbnail(works.VideoThumbnail);
 		else
 			self.imgUrl = '';
 	}
@@ -53,8 +55,8 @@ var worksDetails = function() {
 	//var shareContent="";//分享的内容
 
 	//分享功能
-	var ul = document.getElementById("recommendArray");
-	var lis = ul.getElementsByTagName("li");
+	var ull = document.getElementById("recommendArray");
+	var lis = ull.getElementsByTagName("li");
 	for (var i = 0; i < lis.length; i++) {
 		lis[i].onclick = function() {
 			mui.toast(this.id);
@@ -139,17 +141,19 @@ var worksDetails = function() {
 	 * 更新分享服务
 	 */
 	function updateSerivces() {
-			plus.share.getServices(function(s) {
-				shares = {};
-				for (var i in s) {
-					var t = s[i];
-					shares[t.id] = t;
-				}
-			}, function(e) {
-				outSet("获取分享服务列表失败：" + e.message);
-			});
-		}
+		plus.share.getServices(function(s) {
+			shares = {};
+			for (var i in s) {
+				var t = s[i];
+				shares[t.id] = t;
+			}
+		}, function(e) {
+			outSet("获取分享服务列表失败：" + e.message);
+		});
+	}
 	
+//	VideoJS.setupAllWhenReady();
+
 	//获取视频
 	self.getVideo = function(workId){
 		var myPlayer = videojs("video1",{},function(){
@@ -159,29 +163,30 @@ var worksDetails = function() {
 				type:'GET',
 				success: function(responseText) {
 					var obj = JSON.parse(responseText);
-					//console.log(common.gServerUrl + obj.VideoUrl);
+					//console.log(obj.type + '~'+common.gVideoServerUrl + obj.VideoUrl);
+					
 		           	self.src({
-		           		type: obj.Type,
-		           		src: common.gServerUrl + obj.VideoUrl
+		           		src: common.gVideoServerUrl + obj.VideoUrl
 		           	});
-		           	self.play();
+//		           	self.play();
 				}
 			});
-			/*var req = new XMLHttpRequest();
-		    req.onload = function () {
-		        var obj = JSON.parse(this.response);
-		        self.src({
-	           		type: obj.Type,
-	           		src: common.gServerUrl + obj.VideoUrl
-	           	});
-	           	self.play();
-		    };
-		    req.open('GET', common.gServerUrl + "API/Video/GetVideoUrl/?workId="+workId, true);
-		    req.setRequestHeader("Authorization", getAuth());
-		    req.send(null);*/
 		});
 	}
-	
+	/*var req = new XMLHttpRequest();
+    req.onload = function () {
+        var obj = JSON.parse(this.response);
+        self.src({
+       		type: obj.Type,
+       		src: common.gServerUrl + obj.VideoUrl
+       	});
+       	self.play();
+    };
+    req.open('GET', common.gServerUrl + "API/Video/GetVideoUrl/?workId="+workId, true);
+    req.setRequestHeader("Authorization", getAuth());
+    req.send(null);*/
+
+
 	//获取上级页面的数据
 	mui.plusReady(function() {
 		var workVaule = plus.webview.currentWebview();
@@ -212,7 +217,7 @@ var worksDetails = function() {
 			var btnArray = ['是', '否'];
 			mui.confirm('确认删除吗', '您点击了删除', btnArray, function(e) {
 				if (e.index == 0) {
-					mui.ajax(common.gServerUrl + "API/Work/" + self.Works().WorkID(), {
+					mui.ajax(common.gServerUrl + "Common/Work/" + self.Works().WorkID(), {
 						type: 'DELETE',
 						success: function(responseText) {
 							mui.toast("删除成功");
@@ -291,10 +296,8 @@ var worksDetails = function() {
 		}
 		//找老师点评
 	self.getTeacherComment = function() {
-			self.Subject.value = self.SubjectID();
-			self.Subject.text = self.SubjectName();
 			mui.openWindow({
-				url: '../../modules/teacher/teacherList.html',
+				url: '../../modules/teacher/teacherListHeader.html',
 				show: {
 					autoShow: true,
 					aniShow: "slide-in-right",
@@ -305,10 +308,10 @@ var worksDetails = function() {
 				},
 				extras: {
 					WorkID: self.Works().WorkID(),
-					AuthorID: AuthorID,
-					Title: self.Title(),
-					AuthorName: self.AuthorName(),
-					Subject: Subject,
+					AuthorID: self.Works().AuthorID,
+					Title: self.Works().Title(),
+					AuthorName: self.Works().AuthorName(),
+					SubjectID: self.Works().SubjectID(),
 					DisplayCheck: true
 				}
 			});
@@ -316,7 +319,7 @@ var worksDetails = function() {
 		//设置作品是否公开
 	self.setPublic = function() {
 		var ispublic = self.Works().IsPublic();
-		mui.ajax(common.gServerUrl + "API/Work/" + self.Works().WorkID(), {
+		mui.ajax(common.gServerUrl + "Common/Work/" + self.Works().WorkID(), {
 			type: "PUT",
 			data: {
 				AuthorID: self.Works().AuthorID(),

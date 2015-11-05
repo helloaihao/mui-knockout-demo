@@ -30,7 +30,7 @@ var myInfo = function() {
 	self.VerifyCode = ko.observable(""); //验证码
 	self.RemainTime = ko.observable(0); //验证码剩余等待时间
 	self.WaitTime = 15; //验证码默认等待时间
-	self.Path = ko.observable('../../images/my-default.jpg'); //图片路径
+	self.Path = ko.observable('../../images/my-default.png'); //图片路径
 	self.Base64 = ko.observable(''); //图片的base64字符串
 
 	self.selectPic = function() {
@@ -74,6 +74,8 @@ var myInfo = function() {
 		//地址获取
 	self.address = function() {
 			mui.ready(function() {
+				mui.toast('点击了位置获取');
+				console.log("点击了位置获取");
 				self.places.show(function(items) {
 					cityValueMon = (items[0] || {}).text + " " + common.StrIsNull((items[1] || {}).text) + " " + common.StrIsNull((items[2] || {}).text);
 					self.Province(cityValueMon.split(" ")[0]);
@@ -93,7 +95,8 @@ var myInfo = function() {
 	}
 	var genders, places, subjects;
 	mui.plusReady(function() {
-//		mui.ready(function() {
+		/*var currentWebview=plus.webview.getWebviewById('register.html');
+		currentWebview.evalJS("closeWebview()");*/
 		self.genders = new mui.PopPicker();
 		self.genders.setData(common.gJsonGenderType);
 

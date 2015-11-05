@@ -1,5 +1,6 @@
 ﻿<!DOCTYPE html>
 <html>
+
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
@@ -89,111 +90,121 @@
 					<li data-bind="click:worksSet, visible: IsAuthor"><i class="iconfont">&#xe63e;</i>修改</li>
 				</ul>
 				<!--<div class="works-img-div" data-bind="style:{'background-image': 'url('+Works().imgUrl+')', 'background-size': 'cover'}">图片</div>-->
-				<video id="video1" class="video-js vjs-default-skin" height="240px" data-bind="attr:{poster: Works().imgUrl}" controls data-setup="{}">
-					
-				</video>
-				<div class="works-date">
-					<ul>
-						<li class="week" data-bind="text:Works().AddTime">2015-11-12</li>
-						<li><i class="iconfont">&#xe61a;</i>
-							<!--ko text:Works().ReadCount-->
-							<!--/ko-->
-						</li>
-						<li data-bind="text:Works().SubjectName">钢琴</li>
-						<li data-bind="text:Works().IsPublicText, visible: IsAuthor">公开</li>
+				<!--<video id="video1" class="video-js vjs-default-skin" height="240px" data-bind="attr:{poster: Works().imgUrl}" controls data-setup="{}">
+				</video>-->
+				<div class="video-js-box" style="margin:20px auto">
+					<!-- Using the Video for Everybody Embed Code http://camendesign.com/code/video_for_everybody -->
+					<video id="video1" class="video-js" width="300" height="200" controls="controls" preload="auto" data-bind="attr:{poster: Works().imgUrl}">
+						<!--<source data-bind="attr:{src: mv}"  type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />-->
+					</video>
+				</div>
+					<!--<video controls="controls" width="100%" autoplay="autoplay">
+					<source src="http://192.168.1.99:8099/Videos/a3e45ab36c32318d5e6fa28f27a7647.mov" type='video/mp4'/>
+					your browser does not support the video tag
+				</video>-->
+
+					<div class="works-date">
+						<ul>
+							<li class="week" data-bind="text:Works().AddTime">2015-11-12</li>
+							<li><i class="iconfont">&#xe61a;</i>
+								<!--ko text:Works().ReadCount-->
+								<!--/ko-->
+							</li>
+							<li data-bind="text:Works().SubjectName">钢琴</li>
+							<li data-bind="text:Works().IsPublicText, visible: IsAuthor">公开</li>
+						</ul>
+					</div>
+					<p data-bind="text:Works().ContentText"></p>
+				</div>
+				<!--分享弹出框-->
+				<div id="middlePopover" class="mui-popover">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<div class="shareTeacher-pic">
+								<ul id="recommendArray">
+									<li id="weichatFriend">
+										<img src="../../images/share-wx.png" />
+										<span>微信好友</span>
+									</li>
+									<li id="weichatMoments">
+										<img src="../../images/share-py.png" />
+										<span>朋友圈</span>
+									</li>
+									<li id="qqFriend">
+										<img src="../../images/share-qq.png" />
+										<span>QQ好友</span>
+									</li>
+								</ul>
+							</div>
+							<div class="shareTeacher-qx" data-bind="click:closeShare">取消</div>
+						</div>
+
+					</div>
+				</div>
+
+				<div class="pin-blank" data-bind="visible: teacherComment().length > 0 && IsAuthor"></div>
+				<div class="mui-card" data-bind="visible: teacherComment().length > 0 && IsAuthor">
+					<ul class="mui-table-view" data-bind="template:{name:'commentTemplate',foreach:teacherComment}">
 					</ul>
 				</div>
-				<p data-bind="text:Works().ContentText"></p>
-			</div>
-			<!--分享弹出框-->
-			<div id="middlePopover" class="mui-popover">
-				<div class="mui-scroll-wrapper">
-					<div class="mui-scroll">
-						<div class="shareTeacher-pic">
-							<ul id="recommendArray">
-								<li id="weichatFriend">
-									<img src="../../images/share-wx.png" />
-									<span>微信好友</span>
-								</li>
-								<li id="weichatMoments">
-									<img src="../../images/share-py.png" />
-									<span>朋友圈</span>
-								</li>
-								<li id="qqFriend">
-									<img src="../../images/share-qq.png" />
-									<span>QQ好友</span>
-								</li>
-							</ul>
-						</div>
-						<div class="shareTeacher-qx" data-bind="click:closeShare">取消</div>
-					</div>
-
-				</div>
-			</div>
-
-			<div class="pin-blank" data-bind="visible: teacherComment().length > 0 && IsAuthor"></div>
-			<div class="mui-card" data-bind="visible: teacherComment().length > 0 && IsAuthor">
-				<ul class="mui-table-view" data-bind="template:{name:'commentTemplate',foreach:teacherComment}">
-				</ul>
-			</div>
-			<!--老师点评模板-->
-			<script type="text/html" id="commentTemplate">
-				<li class="mui-table-view-cell mui-collapse">
-					<a class="mui-navigate-right" href="#">
-						<i class="iconfont">&#xe62d;</i> [
-						<!--ko text:CommenterName-->
-						<!--/ko-->]老师评语</a>
-					<div class="mui-collapse-content">
-						<div class="works-content-dow">
-							<div data-bind="template:{name:'commentToRulseTemplate',foreach:CommentToRules}"></div>
-							<span>总评语</span>
-							<p data-bind="text:TotalComment"></p>
-						</div>
-						<div class="works-consult-title" data-bind="click:addfeedbacks">
-							<span><i class="iconfont">&#xe609;</i>咨询 </span>
-							<em class="iconfont">&#xe621;</em>
-						</div>
-						<div class="works-answer" data-bind="template:{name:'feedBackTemplate',foreach:CommentFeedbacks}">
-						</div>
-						<!--<div class="works-answer" data-bind="text:CommentFeedbacks">
+				<!--老师点评模板-->
+				<script type="text/html" id="commentTemplate">
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">
+							<i class="iconfont">&#xe62d;</i> [
+							<!--ko text:CommenterName-->
+							<!--/ko-->]老师评语</a>
+						<div class="mui-collapse-content">
+							<div class="works-content-dow">
+								<div data-bind="template:{name:'commentToRulseTemplate',foreach:CommentToRules}"></div>
+								<span class="totil">总评语</span>
+								<p data-bind="text:TotalComment"></p>
+							</div>
+							<div class="works-consult-title" data-bind="click:addfeedbacks">
+								<span><i class="iconfont">&#xe609;</i>咨询 </span>
+								<em class="iconfont">&#xe621;</em>
+							</div>
+							<div class="works-answer" data-bind="template:{name:'feedBackTemplate',foreach:CommentFeedbacks}">
+							</div>
+							<!--<div class="works-answer" data-bind="text:CommentFeedbacks">
 							</div>-->
-					</div>
-				</li>
-			</script>
-			<!--老师评语模板-->
-			<script type="text/html" id="commentToRulseTemplate">
-				<span data-bind="text:RuleName"></span>
-				<p data-bind="text:Comment"></p>
-			</script>
-			<!--咨询模板-->
-			<script type="text/html" id="feedBackTemplate">
-				<p>
-					<i>Q.</i>
-					<!--ko text:Question-->
-					<!--/ko-->
-				</p>
-				<p>
-					<i>A.</i>
-					<span data-bind="text:Answer"></span>
-				</p>
-			</script>
-			<nav class="mui-bar mui-bar-tab" data-bind="visible: IsAuthor">
-				<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab teacherList-mui" data-bind="event:{tap:setPublic}">
-					<i class="iconfont works-iconfont">&#xe644;</i>
-					<span class="mui-tab-label" data-bind="text: Works().IsPublicOppositeText"></span>
-				</a>
-				<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab " data-bind="event:{tap:getTeacherComment}">
-					<i class="iconfont works-iconfont">&#xe643;</i>
-					<span class="mui-tab-label">找老师点评</span>
-				</a>
-			</nav>
-		</div>
+						</div>
+					</li>
+				</script>
+				<!--老师评语模板-->
+				<script type="text/html" id="commentToRulseTemplate">
+					<span data-bind="text:RuleName"></span>
+					<p data-bind="text:Comment"></p>
+				</script>
+				<!--咨询模板-->
+				<script type="text/html" id="feedBackTemplate">
+					<p>
+						<i>Q.</i>
+						<!--ko text:Question-->
+						<!--/ko-->
+					</p>
+					<p>
+						<i>A.</i>
+						<span data-bind="text:Answer"></span>
+					</p>
+				</script>
+				<nav class="mui-bar mui-bar-tab" data-bind="visible: IsAuthor">
+					<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab teacherList-mui" data-bind="event:{tap:setPublic}">
+						<i class="iconfont works-iconfont">&#xe644;</i>
+						<span class="mui-tab-label" data-bind="text: Works().IsPublicOppositeText"></span>
+					</a>
+					<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab " data-bind="event:{tap:getTeacherComment}">
+						<i class="iconfont works-iconfont">&#xe643;</i>
+						<span class="mui-tab-label">找老师点评</span>
+					</a>
+				</nav>
+			</div>
 	</body>
 	<script src="../../script/mui/mui.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
-	<script src="../../script/works/worksDetails.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../script/libs/video.js/video.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/works/worksDetails.js" type="text/javascript" charset="utf-8"></script>
 
 </html>

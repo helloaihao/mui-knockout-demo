@@ -53,6 +53,7 @@ var login = function() {
 	self.registerUser = function() {
 			mui.openWindow({
 				url: 'register.html',
+				id:'register.html',
 				show: {
 					autoShow: true,
 					aniShow: "slide-in-right",
@@ -61,7 +62,7 @@ var login = function() {
 				waiting: {
 					autoShow: false
 				}
-			})
+			});
 		}
 		//忘记密码
 	self.forgetpw = function() {

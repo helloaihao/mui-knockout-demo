@@ -29,12 +29,16 @@
 			.pic-mui-input-row label ~ input,
             .mui-input-row label ~ select, 
 			.mui-input-row label ~ textarea{
-				font-size: 1.02rem;
+				font-size: 16px;
 			}
 			.reg-mui-input-row label ~ input, .th-mui-btn-block{
 				color: #999;
 			}
-			
+			@media only screen and (min-width: 376px) and (max-width: 414px) {
+				.th-mui-f{
+					margin-top: 140px;
+				}
+			}
 		
 		</style>
 	</head>
@@ -42,9 +46,10 @@
 	<body>
 		<header class="mui-bar mui-bar-nav mui-action-back">
 			<i class="iconfont">&#xe602;</i>
-			<h1 class="mui-title" data-bind="text: (IsRegister() == true ? '填写' : '修改') + '个人信息'"></h1>
+			<h1 class="mui-title"></h1>
 		</header>
-		<div class="mui-content pin-mui-content">
+		<div class="mui-content">
+			<div class="pin-mui-content">
 			<div class="pi-tx-bg">
 				<span>头像</span>
 				<i data-bind="click:selectPic"><img data-bind="attr: {'src': Path}" /></i>
@@ -87,9 +92,9 @@
 				</div>
 			</form>
 			<div class="pin-blank"></div>
-
 			<div class="mui-content-padded pin-btn-footer">
 				<button class="mui-btn mui-btn-block mui-btn-primary th-btn th-mui-f" data-bind="click:setInfo">完成</button>
+			</div>
 			</div>
 		</div>
 
@@ -109,6 +114,5 @@
 				swipeBack: true //启用右滑关闭功能
 			});
 		</script>
-	</body>
 
 </html>

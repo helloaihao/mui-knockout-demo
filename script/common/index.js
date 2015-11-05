@@ -11,13 +11,18 @@ var viewModel = function() {
 		self.MyHref('modules/my/myInfoTeacher.html');
 	}
 	//跳转至消息页面
-	self.goMessageList=function(){
+	self.goMessageList = function() {
 		common.gotoMessage();
 	}
+
 	//获取未读消息数量
-	self.getUnreadCount=function(){
+	self.getUnreadCount = function() {
 		var self = this;
 		common.getUnreadCount(self.UnreadCount());
 	}
+
+	mui.plusReady(function() {
+		common.getAllSubjects();
+	})
 };
 ko.applyBindings(viewModel);
