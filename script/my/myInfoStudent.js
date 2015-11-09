@@ -43,5 +43,9 @@ var my_student = function() {
 			})
 		}();
 	}
+	
+	mui.plusReady(function(){
+		common.confirmQuit();
+	})
 }
 ko.applyBindings(my_student);

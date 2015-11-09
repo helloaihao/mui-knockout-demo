@@ -81,6 +81,9 @@
 					<li class="mui-collapse" id="workListSubject">
 						<a class="mui-navigate-right" id="dbSubject">科目</a>
 					</li>
+					<li class="mui-collapse" id="workListType">
+						<a class="mui-navigate-right" id="dbType">类型</a>
+					</li>
 					<li class="mui-collapse" id="workListSort">
 						<a class="mui-navigate-right" id="dbSort">排序</a>
 					</li>
@@ -103,19 +106,6 @@
 		<script src="../../script/works/workListHeader.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			 //mui.init();
-			/*	mui.init({
-					gestureConfig:{
-						doubletap:true
-					},
-					subpages:[{
-						url:'workListAllWorks.html',
-						id:'workListAllWorks.html',
-						styles:{
-							top: '78px',
-							bottom: '50px',
-						}
-					}]
-				});*/
 			var subpages = ['worksListMyWorks.html', 'worksListAllWorks.html'];
 			var subpage_style = {
 				top: '78px',
@@ -157,18 +147,6 @@
 				plus.webview.hide(activeTab);
 				//更改当前活跃的选项卡
 				activeTab = targetTab;
-				//				var nav1 = document.querySelector("#nav1");
-				//				var nav2 = document.querySelector("#nav2");
-				//				if (nav1.style.display === "none") {
-				//					nav1.style.display = "block";
-				//				} else {
-				//					nav1.style.display = "none";
-				//				}
-				//				if (nav2.style.display === "none") {
-				//					nav2.style.display = "block";
-				//				} else {
-				//					nav2.style.display = "none";
-				//				}
 			});
 			document.addEventListener('gohome', function() {
 				var defaultTab = document.getElementById("myworks");
@@ -195,12 +173,6 @@
 				currentWebview = plus.webview.currentWebview().children()[1];
 				currentWebview.evalJS("mui('#popSubjects').popover('toggle')");
 			});
-			 //			document.querySelector("#workListSort2").addEventListener('tap', function() {
-			 //				
-			 //			});
-			 //			document.querySelector("#workListSubject2").addEventListener('tap', function() {
-			 //				
-			 //			});
 		</script>
 
 	</body>

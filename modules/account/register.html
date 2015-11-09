@@ -31,8 +31,25 @@
 				line-height: 18px!important;
 				height: 44px!important;
 			}
-			.hideDiv{
+			.hideDiv {
 				display: none;
+			}
+			.reg-mui-input-row label,
+			.mui-input-row label,
+			.th-mui-btn-block,
+			.pic-mui-input-row label ~ input,
+			.mui-input-row label ~ select,
+			.mui-input-row label ~ textarea {
+				font-size: 16px;
+			}
+			.reg-mui-input-row label ~ input,
+			.th-mui-btn-block {
+				color: #999;
+			}
+			@media only screen and (min-width: 376px) and (max-width: 414px) {
+				.th-mui-f {
+					margin-top: 140px;
+				}
 			}
 		</style>
 	</head>
@@ -80,64 +97,56 @@
 			</div>
 			<!--注册第二页-->
 			<div class="pin-mui-content hideDiv" id="registerInfo">
-			<div class="pi-tx-bg">
-				<span>头像</span>
-				<i data-bind="click:selectPic"><img data-bind="attr: {'src': Path}" /></i>
-			</div>
-			<div class="pin-blank"></div>
-			<form class="mui-input-group">
-				<div class="mui-input-row pic-mui-input-row" data-bind="visible: IsRegister() == false">
-					<label>手机</label>
-					<span data-bind="text:UserName,event:{click:changeUserName}"></span>
-					<i class="iconfont">&#xe618;</i>
+				<div class="pi-tx-bg">
+					<span>头像</span>
+					<i data-bind="click:selectPic"><img data-bind="attr: {'src': Path}" /></i>
 				</div>
-				<div class="mui-input-row pic-mui-input-row">
-					<label>姓名</label>
-					<input type="text" placeholder="请输入您的姓名" data-bind="value:DisplayName" />
-				</div>
-				<div class="mui-input-row reg-mui-input-row th-mui-input-row" data-bind='visible: UserType() == common.gDictUserType.teacher'>
-					<label>科目</label>
-					<button class="mui-btn mui-btn-block th-mui-btn-block th-font" type='button' data-bind="text:SubjectName,event:{click:getSubject}"></button>
-				</div>
-				<div class="mui-input-row pic-mui-input-row" data-bind='visible: UserType() == common.gDictUserType.student'>
-					<label>生日</label>
-					<button id='pickDateBtn' type="button" class="mui-btn mui-btn-block th-mui-btn-block th-font" data-bind="text:Birthday, click:getBirthday"></button>
-				</div>
-				<div class="mui-input-row pic-mui-input-row">
-					<label>性别</label>
-					<button id='showUserPicker' class="mui-btn mui-btn-block th-mui-btn-block th-font" type='button' data-bind="text:GenderText,event:{click:setUserGender}"></button>
-				</div>
-				<div class="mui-input-row reg-mui-input-row" data-bind='visible: UserType() == common.gDictUserType.teacher'>
-					<label>教龄</label>
-					<input id='account' type="text" onfocus="this.type='number'" onblur="this.type='text'" class="mui-input-clear mui-input reg-mui-input th-font" placeholder="请输入教龄" data-bind="value:TeachAge">
-				</div>
-				<div class="mui-input-row reg-mui-input-row">
-					<label>位置</label>
-					<button id="address" type="button" class="mui-btn mui-btn-block th-mui-btn-block" data-bind="text:Place,click:address"></button>
-				</div>
-				<div class="th-textarea-div th-textarea" data-bind='visible: UserType() == common.gDictUserType.teacher'>
-					<label>自我简介</label>
-					<textarea placeholder="请输入自我简介" data-bind="value:Introduce"></textarea>
-				<div class="reg-protocol">
-					<div class="mui-checkbox mui-left checked-font">
-						<input name="chkAgree" value="true" type="checkbox" data-bind='checked: Agreed'>
+				<div class="pin-blank"></div>
+				<form class="mui-input-group">
+					<div class="mui-input-row pic-mui-input-row">
+						<label>姓名</label>
+						<input type="text" placeholder="请输入您的姓名" data-bind="value:DisplayName" />
 					</div>
-					我已阅读并同意<a href="http://www.baidu.com" target="_blank">“乐评+用户服务协议”</a>
-
+					<div class="mui-input-row reg-mui-input-row th-mui-input-row" data-bind='visible: UserType() == common.gDictUserType.teacher'>
+						<label>科目</label>
+						<button class="mui-btn mui-btn-block th-mui-btn-block th-font" type='button' data-bind="text:SubjectName,event:{click:getSubject}"></button>
+					</div>
+					<div class="mui-input-row pic-mui-input-row" data-bind='visible: UserType() == common.gDictUserType.student'>
+						<label>生日</label>
+						<button id='pickDateBtn' type="button" class="mui-btn mui-btn-block th-mui-btn-block th-font" data-bind="text:Birthday, click:getBirthday"></button>
+					</div>
+					<div class="mui-input-row pic-mui-input-row">
+						<label>性别</label>
+						<button id='showUserPicker' class="mui-btn mui-btn-block th-mui-btn-block th-font" type='button' data-bind="text:GenderText,event:{click:setUserGender}"></button>
+					</div>
+					<div class="mui-input-row reg-mui-input-row" data-bind='visible: UserType() == common.gDictUserType.teacher'>
+						<label>教龄</label>
+						<input id='account' type="text" onfocus="this.type='number'" onblur="this.type='text'" class="mui-input-clear mui-input reg-mui-input th-font" placeholder="请输入教龄" data-bind="value:TeachAge">
+					</div>
+					<div class="mui-input-row reg-mui-input-row">
+						<label>位置</label>
+						<button id="address" type="button" class="mui-btn mui-btn-block th-mui-btn-block" data-bind="text:Place,click:address"></button>
+					</div>
+					<div class="th-textarea-div th-textarea" data-bind='visible: UserType() == common.gDictUserType.teacher'>
+						<label>自我简介</label>
+						<textarea placeholder="请输入自我简介" data-bind="value:Introduce"></textarea>
+					</div>
+				</form>
+				<div class="pin-blank"></div>
+				<div class="mui-content-padded pin-btn-footer">
+					<button class="mui-btn mui-btn-block mui-btn-primary th-btn th-mui-f" data-bind="click:setInfo">完成</button>
 				</div>
-			</form>
-			<div class="pin-blank"></div>
-			<div class="mui-content-padded pin-btn-footer">
-				<button class="mui-btn mui-btn-block mui-btn-primary th-btn th-mui-f" data-bind="click:setInfo">完成</button>
-			</div>
 			</div>
 		</div>
-
 		<script src="../../script/mui/mui.min.js"></script>
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/mui/mui.picker.min.js"></script>
+		<script src="../../script/common/city.data-3.js"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/cropperjs/cropper.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/picture.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/dtPicker.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/account/register.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 

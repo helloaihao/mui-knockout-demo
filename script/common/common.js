@@ -64,9 +64,20 @@
 				duration: "100ms"
 			},
 			waiting: {
-				autoShow: false
+				autoShow: true
 			}
 		});
+	},
+	confirmQuit: function(){
+		//首页返回键处理
+	    plus.key.addEventListener('backbutton', function(){
+			var btnArray = ['确认', '取消'];
+	        mui.confirm('确认退出乐评+？', '退出提示', btnArray, function(e) {
+				if (e.index == 0) {
+					plus.runtime.quit();
+				}
+			});
+	    }, false);
 	},
 	//根据认证状态及图片路径获取其中文描述
 	getAuthStatusStr: function(authStatus, picPath) {
@@ -126,9 +137,9 @@
 
 		return ret;
 	},
-	
+
 	//获取所有科目
-	getAllSubjects: function(){
+	getAllSubjects: function() {
 		var ajaxUrl = common.gServerUrl + 'Common/Subject/Get';
 		mui.ajax(ajaxUrl, {
 			type: 'GET',
@@ -177,11 +188,16 @@
 			}
 		});
 	},
+	
+	//判断是否已有登录信息缓存
+	hasLogined: function(){
+		return (common.StrIsNull(getLocalItem('UUID')) != '' && common.StrIsNull(getLocalItem('UserID')) != '');
+	},
 
 	//获取未读消息
 	getUnreadCount: function(UnreadCount) {
-		if (common.StrIsNull(getLocalItem('UUID')) == '')
-			return;
+		if (!common.hasLogined()) return;
+		
 		mui.ajax(common.gServerUrl + "API/Message/GetUnreadCount", {
 			dataType: 'json',
 			type: "GET",
@@ -202,7 +218,7 @@
 	getPhotoUrl: function(photo) {
 		return common.gServerUrl + 'Common/GetImage?url=' + photo;
 	},
-	
+
 	/**
 	 * 获取视频缩略图
 	 * @param {String} photo 图片名
@@ -210,11 +226,21 @@
 	getThumbnail: function(photo) {
 		return common.gVideoServerUrl + 'Thumbnails/' + photo;
 	},
-	
+	/*
+	 * 获取当前页面名称（不带后缀名）
+	 */
+	getPageName: function() {
+		var a = location.href;
+		var b = a.split("/");
+		var c = b.slice(b.length - 1, b.length).toString(String).split(".");
+		return c.slice(0, 1);
+	},
+
 	//Web API地址
-	gServerUrl: "http://172.16.30.90:8090/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/", //"http://192.168.1.99:8090/"
+	gServerUrl: "http://172.16.30.90:8090/", //"http://172.16.6.118:8090/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/", //"http://192.168.1.99:8090/"
 	//Video地址
-	gVideoServerUrl: "http://172.16.30.90:8099/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/", //"http://192.168.1.99:8090/"
+	gVideoServerUrl: "http://172.16.30.90:8099/", //"http://172.16.6.118:8099/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/", //"http://192.168.1.99:8090/"
+
 	
 	//用户类型枚举
 	gDictUserType: {
@@ -293,7 +319,7 @@
 		value: 1,
 		text: '女'
 	}],
-	gJsonWorkType: [{
+	gJsonWorkTypeTeacher: [{
 		value: 1,
 		text: "分解教程"
 	}, {
@@ -302,6 +328,13 @@
 	}, {
 		value: 3,
 		text: "演出作品"
+	}],
+	gJsonWorkTypeStudent: [{
+		value: 104,
+		text: "学生作品"
+	}, {
+		value: 105,
+		text: "学生作业"
 	}],
 
 	//老师评级
@@ -371,19 +404,19 @@
 		text: '讲师/演奏家'
 	}],
 
-	gVarLocalUploadTask: 'uploadTasks',
-	gVarLocalAllSubjects: 'allSubjects'
-	/*获取网络状态值
-	 * CONNECTION_UNKNOW: 网络连接状态未知  固定值0
-	 * CONNECTION_NONE: 未连接网络  固定值1
-	 * CONNECTION_ETHERNET: 有线网络  固定值2
-	 * CONNECTION_WIFI: 无线WIFI网络  固定值3
-	 * CONNECTION_CELL2G: 蜂窝移动2G网络  固定值4
-	 * CONNECTION_CELL3G: 蜂窝移动3G网络  固定值5
-	 * CONNECTION_CELL4G: 蜂窝移动4G网络  固定值6
-	 * @description 获取网络状态的函数
-	 */
-	//gNetworkState: plus.networkinfo.getCurrentType(),
+	gVarLocalUploadTask: 'global.UploadTasks',
+	gVarLocalAllSubjects: 'global.AllSubjects'
+		/*获取网络状态值
+		 * CONNECTION_UNKNOW: 网络连接状态未知  固定值0
+		 * CONNECTION_NONE: 未连接网络  固定值1
+		 * CONNECTION_ETHERNET: 有线网络  固定值2
+		 * CONNECTION_WIFI: 无线WIFI网络  固定值3
+		 * CONNECTION_CELL2G: 蜂窝移动2G网络  固定值4
+		 * CONNECTION_CELL3G: 蜂窝移动3G网络  固定值5
+		 * CONNECTION_CELL4G: 蜂窝移动4G网络  固定值6
+		 * @description 获取网络状态的函数
+		 */
+		//gNetworkState: plus.networkinfo.getCurrentType(),
 
 
 }

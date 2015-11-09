@@ -34,12 +34,12 @@ var myInfo = function() {
 	self.Base64 = ko.observable(''); //图片的base64字符串
 
 	self.selectPic = function() {
-//		mui.ready(function() {
-			picture.SelectPicture(true, false, function(retValue) {
-				self.Base64(retValue[0].Base64);
-				self.Path(self.Base64());
-			}); //需要裁剪
-//		});
+		//		mui.ready(function() {
+		picture.SelectPicture(true, false, function(retValue) {
+			self.Base64(retValue[0].Base64);
+			self.Path(self.Base64());
+		}); //需要裁剪
+		//		});
 	}
 
 	//性别获取
@@ -74,7 +74,6 @@ var myInfo = function() {
 		//地址获取
 	self.address = function() {
 			mui.ready(function() {
-				mui.toast('点击了位置获取');
 				console.log("点击了位置获取");
 				self.places.show(function(items) {
 					cityValueMon = (items[0] || {}).text + " " + common.StrIsNull((items[1] || {}).text) + " " + common.StrIsNull((items[2] || {}).text);
@@ -108,7 +107,7 @@ var myInfo = function() {
 		var web = plus.webview.currentWebview();
 		if (typeof(web.isRegister) !== "undefined") {
 			self.IsRegister(true); //注册的第二步
-			
+
 		}
 
 		mui.ajax(common.gServerUrl + 'Common/Subject/Get', {
@@ -119,19 +118,19 @@ var myInfo = function() {
 				self.subjects.setData(arr);
 			}
 		})
-		
+
 		mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID() + "&usertype=" + self.UserType(), {
 			type: 'GET',
 			success: function(responseText) {
 				console.log(responseText);
-				if( responseText != "" ) {
+				if (responseText != "") {
 					var result = eval("(" + responseText + ")");
-				//self.UserID = responseText.ID;
+					//self.UserID = responseText.ID;
 					self.initData(result);
 				}
 			}
 		})
-		
+
 	})
 
 	self.initData = function(result) {
@@ -140,7 +139,7 @@ var myInfo = function() {
 		self.Photo(result.Photo);
 		if (common.StrIsNull(result.Photo) != '')
 			self.Path(common.getPhotoUrl(result.Photo));
-		
+
 		if (result.Birthday)
 			self.Birthday(result.Birthday.split(" ")[0]);
 		self.Gender(result.Gender);
@@ -151,11 +150,11 @@ var myInfo = function() {
 		}
 		if (result.TeachAge)
 			self.TeachAge(result.TeachAge);
-		
+
 		self.Province(common.StrIsNull(result.Province));
 		self.City(common.StrIsNull(result.City));
 		self.District(common.StrIsNull(result.District));
-		
+
 		self.Introduce(common.StrIsNull(result.Introduce));
 	}
 
@@ -216,19 +215,9 @@ var myInfo = function() {
 			//contentType: 'application/json',
 			data: data,
 			success: function(responseText) {
-				if (self.IsRegister() == true) {
-					plus.webview.close(index); //关闭首页webview
-					mui.toast("注册成功，正在返回...");
-//					common.transfer('../../index.html');
-				} else {
-					mui.toast("修改成功");
-//					if (self.UserType() == common.gDictUserType.student)
-//						common.transfer('myInfoStudent.html');
-//					else
-//						common.transfer('myInfoTeacher.html');
-				}
-				var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');	//获取首页Webview对象
-				plus.webview.close(index);	//关闭首页
+				mui.toast("修改成功");
+				var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID'); //获取首页Webview对象
+				plus.webview.close(index); //关闭首页
 				mui.openWindow({
 					id: 'indexID',
 					url: "../../index.html",
@@ -319,7 +308,5 @@ var myInfo = function() {
 			}
 		});
 	}
-
-
 }
 ko.applyBindings(myInfo);

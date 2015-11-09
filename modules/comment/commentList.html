@@ -12,15 +12,23 @@
 		<style>
 			body,
 			.mui-content {
-				background: #f1f1f1;
+				background: #f1f1f1!important;
 			}
-			.mui-content-padded {
-				margin: 10px 0 0 0!important;
-			}
+
 			.mui-popover {
 				min-height: 255px;
 				position: fixed;
 				top: 0;
+			}
+			.works-center i{
+				top: 0!important;
+				width: 27%;
+				text-align: right;
+				padding-right: 5px;
+			}
+			.commentList-mui-left{
+				margin-top: 0!important;
+				font-size: 16px;
 			}
 		</style>
 	</head>
@@ -57,6 +65,7 @@
 				<!--点评列表-->
 				<div data-bind="template:{name:'commentTemplate', foreach:comments}">
 				</div>
+				
 				<!--点评模板-->
 				<script type="text/html" id="commentTemplate">
 					<div class="works-center commentList-ctn" data-bind="click: goCommentDetail">
@@ -67,12 +76,12 @@
 						</div>
 						<p data-bind="text: WorkContentText"></p>
 						<ol>
-							<li>点评老师：<!--ko text:CommenterName--><!--/ko--></li>
-							<li>
-								<div class="mui-content-padded">
-									<button type="button" class="mui-btn mui-btn-warning" data-bind="text: IsFinish ? '已完成' : '未完成'">
+							<li class="dp-teacher">点评老师：<!--ko text:CommenterName--><!--/ko--></li>
+							<li class="flesh" data-bind="text: IsFinish ? '已完成' : '未完成'">
+								<!--<div data-bind="text: IsFinish ? '已完成' : '未完成'">完成
+									<!--<button type="button" class="mui-btn mui-btn-warning" data-bind="text: IsFinish ? '已完成' : '未完成'">完成
 									</button>
-								</div>
+								</div>-->
 							</li>
 						</ol>
 					</div>

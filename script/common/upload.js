@@ -14,8 +14,9 @@ upload.uploadVideo = function(path, workid, callback) {
 		method: "POST",
 		blocksize: 102400
 	}, function(ul, status) {	//上传完成后的回调
-//		console.log(status);
-		callback(ul, true);
+		//console.log(status);
+		//上传成功
+		if(status == 200) callback(ul, true);
 	});
 	uploadTmp.setRequestHeader('Authorization', getAuth()); //加上请求的认证信息
 	uploadTmp.addEventListener("statechanged", function(ul, responseStatus) {

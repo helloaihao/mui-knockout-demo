@@ -51,5 +51,9 @@ var my_teacher = function() {
 
 		}();
 	}
+	
+	mui.plusReady(function(){
+		common.confirmQuit();
+	})
 }
 ko.applyBindings(my_teacher);

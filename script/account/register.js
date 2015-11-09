@@ -1,6 +1,5 @@
 var register = function() {
 	var cleanvalue = "";
-
 	self.UserTypeText = ko.observable("请选择用户类型");
 	self.UserName = ko.observable(""); //用户名，即手机号
 	self.Password = ko.observable(""); //密码
@@ -9,12 +8,13 @@ var register = function() {
 	self.UserType = ko.observable(0); //用户类型
 	self.RemainTime = ko.observable(0); //验证码剩余等待时间
 	self.Agreed = ko.observable(true); //同意协议
-	self.registerTitle=ko.observable('注册');
+	self.registerTitle = ko.observable('注册');
 	self.WaitTime = 60; //验证码默认等待时间
+
 	/*
 	 * registerInfo 相关绑定
-	 * 
 	 */
+	self.UserType = ko.observable(''); //用户类型
 	self.DisplayName = ko.observable(''); //姓名
 	self.Photo = ko.observable(''); //头像
 	self.Birthday = ko.observable(''); //生日
@@ -25,7 +25,13 @@ var register = function() {
 	self.District = ko.observable("天河区"); //默认天河区
 	self.Place = ko.computed(function() { //位置
 		return self.Province() + ' ' + self.City() + ' ' + self.District();
-	})
+	});
+	self.SubjectName = ko.observable('请选择科目'); //所属科目名称
+	self.SubjectID = ko.observable(0); //所属科目
+	self.TeachAge = ko.observable("0"); //教龄
+	self.Introduce = ko.observable(''); //简介
+	self.Path = ko.observable('../../images/my-default.png'); //图片路径
+	self.Base64 = ko.observable(''); //图片的base64字符串
 	//头像裁剪
 	self.selectPic = function() {
 			picture.SelectPicture(true, false, function(retValue) {
@@ -33,15 +39,15 @@ var register = function() {
 				self.Path(self.Base64());
 			}); //需要裁剪
 
-	}
-	//用户类型选择
+		}
+		//用户类型选择
 	self.setUserType = function() {
-		userType.show(function(items) {
-			self.UserTypeText(items[0].text);
-			self.UserType(items[0].value);
-		});
-	}
-	//验证码获取
+			userType.show(function(items) {
+				self.UserTypeText(items[0].text);
+				self.UserType(items[0].value);
+			});
+		}
+		//验证码获取
 	self.getVerifyCode = function() {
 			if (self.RemainTime() > 0) {
 				mui.toast("不可频繁操作");
@@ -87,72 +93,54 @@ var register = function() {
 		}
 		//注册按钮实现
 	self.registerUser = function() {
-		if (self.UserType() <= 0) {
-			mui.toast('请选择用户类型');
-			return;
-		}
-		if (self.UserName() == "") {
-			mui.toast('手机号不能为空');
-			return;
-		}
-		if (self.CheckNum() == "") {
-			mui.toast('验证码不能为空');
-			return;
-		}
-		if (self.Password() == "") {
-			mui.toast('密码不能为空');
-			return;
-		}
-		if (self.Password() != self.ConPassword()) {
-			mui.toast('请输入一致密码');
-			return;
-		}
-		if (self.Agreed() == false) {
-			mui.toast('请阅读并同意服务协议');
-			return;
-		}
-		mui.ajax(common.gServerUrl + "API/Account/CheckAccount?userName=" + self.UserName() + "&exists=false", {
-			type: "GET",
-			success: function() {
-				/*mui.ajax(common.gServerUrl + "API/Account/Register", {
-					type: 'POST',
-					data: {
-						UserName: self.UserName(),
-						Password: self.Password(),
-						UserType: self.UserType(),
-						VerifyCode: self.CheckNum()
-					},
-					success: function(responseText) {
-						var result = eval("(" + responseText + ")");
-						setLocalItem("UserID", result.UserID);
-						setLocalItem("UserName", result.UserName);
-						setLocalItem("Token", result.Token);
-						setLocalItem("UserType", result.UserType);
-
-						common.transfer('../my/myInfo.html', false, {
-							isRegister: true
-						});
-						//plus.webview.close(plus.webview.getWebviewById('register.html'));
-					}
-				});*/
-				document.getElementById('registerInfo').className="pin-mui-content";
-				document.getElementById('registerFirst').style="display:none";
-				self.registerTitle("完善信息");
-			},
-			error: function() {
-				mui.toast("账号已注册，请返回登录~");
+			if (self.UserType() <= 0) {
+				mui.toast('请选择用户类型');
+				return;
 			}
-		});
-	//性别获取
+			if (self.UserName() == "") {
+				mui.toast('手机号不能为空');
+				return;
+			}
+			if (self.CheckNum() == "") {
+				mui.toast('验证码不能为空');
+				return;
+			}
+			if (self.Password() == "") {
+				mui.toast('密码不能为空');
+				return;
+			}
+			if (self.Password() != self.ConPassword()) {
+				mui.toast('请输入一致密码');
+				return;
+			}
+			if (self.Agreed() == false) {
+				mui.toast('请阅读并同意服务协议');
+				return;
+			}
+			mui.ajax(common.gServerUrl + "API/Account/CheckAccount?userName=" + self.UserName() + "&exists=false", {
+				type: "GET",
+				success: function() {
+					//setLocalItem('Usertype',);
+					document.getElementById('registerInfo').className = "pin-mui-content";
+					//document.getElementById('registerFirst').style = "display:none";
+					document.getElementById('registerFirst').setAttribute("class", "hideDiv");
+					self.registerTitle("完善信息");
+				},
+				error: function() {
+					mui.toast("账号已注册，请返回登录~");
+				}
+			})
+		}
+		//性别获取
 	self.setUserGender = function() {
-		mui.ready(function() {
-			self.genders.show(function(items) {
-				self.GenderText(items[0].text);
-				self.Gender(items[0].value);
+			mui.ready(function() {
+				self.genders.show(function(items) {
+					self.GenderText(items[0].text);
+					self.Gender(items[0].value);
+				});
 			});
-		});
-	}
-	//生日获取
+		}
+		//生日获取
 	self.getBirthday = function() {
 			console.log(self.Birthday());
 			var now = new Date();
@@ -174,7 +162,6 @@ var register = function() {
 		//地址获取
 	self.address = function() {
 			mui.ready(function() {
-				mui.toast('点击了位置获取');
 				console.log("点击了位置获取");
 				self.places.show(function(items) {
 					cityValueMon = (items[0] || {}).text + " " + common.StrIsNull((items[1] || {}).text) + " " + common.StrIsNull((items[2] || {}).text);
@@ -186,14 +173,101 @@ var register = function() {
 		}
 		//科目获取
 	self.getSubject = function() {
-		mui.ready(function() {
-			self.subjects.show(function(items) {
-				self.SubjectName(items[0].text);
-				self.SubjectID(items[0].value);
+			mui.ready(function() {
+				self.subjects.show(function(items) {
+					self.SubjectName(items[0].text);
+					self.SubjectID(items[0].value);
+				});
 			});
-		});
-	}
-	var userType,genders, places, subjects;
+		}
+		//提交注册
+	self.setInfo = function() {
+			if (common.StrIsNull(self.DisplayName()) == "") {
+				mui.toast('姓名不能为空');
+				return;
+			}
+			if (self.UserType() == common.gDictUserType.teacher) {
+				if (self.SubjectID() <= 0) {
+					mui.toast('请选择科目');
+					return;
+				}
+			}
+			if (common.StrIsNull(self.GenderText()) == "") {
+				mui.toast('请选择性别');
+				return;
+			}
+			if (common.StrIsNull(self.Province()) == "") {
+				mui.toast('请选择位置');
+				return;
+			}
+			if (self.UserType() == common.gDictUserType.teacher) {
+				if (common.StrIsNull(self.Introduce()) == "") {
+					mui.toast('自我简介不能为空');
+					return;
+				}
+			}
+			if (self.UserType() == common.gDictUserType.student) {
+				if (common.StrIsNull(self.Birthday()) == "") {
+					mui.toast('生日不能为空');
+					return;
+				}
+			}
+			if (self.UserType() == common.gDictUserType.teacher) {
+				if (common.StrIsNull(self.TeachAge()) == "") {
+					mui.toast('教龄不能为空');
+					return;
+				}
+			}
+			var data = {
+				UserName: self.UserName(),
+				DisplayName: self.DisplayName(),
+				Password: self.Password(),
+				UserType: self.UserType(),
+				VerifyCode: self.CheckNum(),
+				Gender: self.Gender(),
+				Province: self.Province(),
+				City: self.City(),
+				District: self.District(),
+				Birthday: self.Birthday(),
+				SubjectID: self.SubjectID(),
+				TeachAge: self.TeachAge(),
+				Introduce: self.Introduce()
+
+			};
+			if (self.Base64() != '') {
+				data.PhotoBase64 = self.Base64();
+			}
+			mui.ajax(common.gServerUrl + "API/Account/Register", {
+				type: 'POST',
+				data: data,
+				success: function(responseText) {
+					var result = eval("(" + responseText + ")");
+					setLocalItem("UserID", result.UserID);
+					setLocalItem("UserName", result.UserName);
+					setLocalItem("Token", result.Token);
+					setLocalItem("UserType", result.UserType);
+					plus.webview.close(index); //关闭首页webview
+					mui.toast("注册成功，正在返回...");
+					var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID'); //获取首页Webview对象
+					plus.webview.close(index); //关闭首页
+					mui.openWindow({
+						id: 'indexID',
+						url: "../../index.html",
+						show: {
+							autoShow: true,
+							aniShow: "slide-in-right",
+							duration: "100ms"
+						},
+						waiting: {
+							autoShow: false
+						},
+						createNew: true
+					})
+				}
+			});
+		}
+		//预加载数据
+	var userType, genders, places, subjects;
 	mui.ready(function() {
 		userType = new mui.PopPicker();
 		userType.setData([{
@@ -218,8 +292,6 @@ var register = function() {
 				self.subjects.setData(arr);
 			}
 		})
-		
 	});
-	
 }
 ko.applyBindings(register);

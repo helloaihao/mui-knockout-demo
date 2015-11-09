@@ -114,15 +114,32 @@ var handleResult = function(result) {
 				req.setRequestHeader('Authorization', self.getAuth());
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
-				if (plus.networkinfo.getCurrentType() == 1) {
-					mui.toast('还没连接网络哦');
-				}else if (plus.networkinfo.getCurrentType() == 0){
-				mui.toast("未知网络错误")
+				mui.plusReady(function() {
+					if (plus.networkinfo.getCurrentType() == 1) {
+						mui.toast('还没连接网络哦');
+					}else if (plus.networkinfo.getCurrentType() == 0){
+						mui.toast("未知网络错误")
+					}
+					plus.nativeUI.closeWaiting();
+				});
+				console.log('xmlhttprequest:'+JSON.stringify(XMLHttpRequest));
+				var status;
+				if(XMLHttpRequest.statusCode){
+					status = XMLHttpRequest.statusCode;
 				}
-				switch (XMLHttpRequest.statusCode) {
+				else if (XMLHttpRequest.status){
+					status = XMLHttpRequest.status;
+				}
+				switch (status) {
 					case 401:
-						window.location = "Login.html";
-						console.log('return 401, jump to login.');
+						if (getLocalItem("UserName") != '') {
+							removeLocalItem("UserName");
+							removeLocalItem("UserID");
+							removeLocalItem("Token");
+							
+							mui.toast('帐号已在其它设备登录，当前设备将退出。');
+						}
+						common.transfer("../../modules/account/login.html");
 						break;
 					case 404:
 						window.location = "404.html";
@@ -131,9 +148,6 @@ var handleResult = function(result) {
 						mui.toast(handleResult(XMLHttpRequest.responseText));
 						break;
 				}
-				mui.plusReady(function() {
-					plus.nativeUI.closeWaiting();
-				});
 				//错误方法增强处理
 				fn.error(XMLHttpRequest, textStatus, errorThrown);
 			},

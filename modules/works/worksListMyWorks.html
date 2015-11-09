@@ -82,15 +82,30 @@
 			</div>
 		</div>
 
+		<div id="popType" class="mui-popover">
+			<div id="subject-scroll" class="mui-scroll-wrapper wrapper-margin">
+				<div class="mui-scroll">
+					<!--<ul class="mui-table-view" data-bind="foreach: {data: tmplSubjectClasses, as: 'class1'}">
+						<li class="mui-table-view-cell mui-collapse ah-scroll">
+							<a class="mui-navigate-right navigate-font" href="#" data-bind="text: subjectClassName"></a>
+							<div class="mui-collapse-content" data-bind="foreach: {data: tmplSubjects, as: 'subject'}">
+								<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass() == class1.subjectClass), css:{'table-current': (typeof currentSubject().id === 'function' && subject.id() == currentSubject().id() && subject.subjectClass() == currentSubject().subjectClass())}"></span>
+							</div>
+						</li>
+					</ul>-->
+				</div>
+			</div>
+		</div>
+
 		<div id="middlePopover2" class="mui-popover popover-height">
-			<ul id="list2" class="mui-table-view">
-				<li class="mui-table-view-cell navigate-font">
+			<ul id="sortList" class="mui-table-view" data-bind="click:worksResort">
+				<li class="mui-table-view-cell navigate-font" id="defaultSort">
 					<a href="#">默认</a>
 				</li>
-				<li class="mui-table-view-cell navigate-font">
+				<li class="mui-table-view-cell navigate-font" id="dateSort">
 					<a href="#">日期</a>
 				</li>
-				<li class="mui-table-view-cell navigate-font">
+				<li class="mui-table-view-cell navigate-font" id="nameSort">
 					<a href="#">名称</a>
 				</li>
 			</ul>

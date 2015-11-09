@@ -28,39 +28,38 @@
 				position: fixed;
 				top: 0;
 			}
-			
 		</style>
 	</head>
 
 	<body style="background:#f1f1f1;">
-			<div id="pullrefreshAll" class="mui-content mui-scroll-wrapper">
-				<div class="mui-scroll">
-					<!--数据列表-->
-					<ul class="mui-input-group">
-						<div data-bind="template:{name:'worksTemplate', foreach:works}">
-						</div>
+		<div id="pullrefreshAll" class="mui-content mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<!--数据列表-->
+				<ul class="mui-input-group">
+					<div data-bind="template:{name:'worksTemplate', foreach:works}">
+					</div>
+				</ul>
+			</div>
+		</div>
+		<!--作品模板页-->
+		<script type="text/html" id="worksTemplate">
+			<div id="gowork" class="mui-input-group works-list-mui-input-group">
+				<div class="works-center">
+					<span data-bind="text:Title"></span>
+					<div class="works-list-img" data-bind="event:{tap: goWorksDetails}">
+						<img data-bind="attr: {src: common.getThumbnail(VideoThumbnail)}" onerror="this.src='../../images/video-big-default.png';" />
+						<i data-bind="text:SubjectName"></i>
+					</div>
+					<p data-bind="text:ContentText"></p>
+					<ul>
+						<li data-bind="text:AddTime.split(' ')[0]"></li>
+						<li data-bind="text:ReadCount"></li>
+						<li data-bind="text:LikeCount"></li>
+						<li data-bind="text:WorkStatus"></li>
 					</ul>
 				</div>
 			</div>
-			<!--作品模板页-->
-			<script type="text/html" id="worksTemplate">
-				<div id="gowork" class="mui-input-group works-list-mui-input-group">
-					<div class="works-center">
-						<span data-bind="text:Title"></span>
-						<div class="works-list-img" data-bind="event:{tap: goWorksDetails}">
-							<img data-bind="attr: {src: common.getThumbnail(VideoThumbnail)}" onerror="this.src='../../images/video-big-default.png';"/>
-							<i data-bind="text:SubjectName"></i>
-						</div>
-						<p data-bind="text:ContentText"></p>
-						<ul>
-							<li data-bind="text:AddTime.split(' ')[0]"></li>
-							<li data-bind="text:ReadCount"></li>
-							<li data-bind="text:LikeCount"></li>
-							<li data-bind="text:WorkStatus"></li>
-						</ul>
-					</div>
-				</div>
-			</script>
+		</script>
 
 		<div id="popSubjects" class="mui-popover">
 			<div id="subject-scroll" class="mui-scroll-wrapper wrapper-margin">
@@ -68,7 +67,7 @@
 					<ul class="mui-table-view" data-bind="foreach: {data: tmplSubjectClasses, as: 'class1'}">
 						<li class="mui-table-view-cell mui-collapse ah-scroll">
 							<a class="mui-navigate-right navigate-font" href="#" data-bind="text: subjectClassName"></a>
-							
+
 							<div class="mui-collapse-content" data-bind="foreach: {data: tmplSubjects, as: 'subject'}">
 								<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass() == class1.subjectClass), css:{'table-current': (typeof currentSubject().id === 'function' && subject.id() == currentSubject().id() && subject.subjectClass() == currentSubject().subjectClass())}"></span>
 							</div>
@@ -78,15 +77,30 @@
 			</div>
 		</div>
 
+		<div id="popType" class="mui-popover">
+			<div id="subject-scroll" class="mui-scroll-wrapper wrapper-margin">
+				<div class="mui-scroll">
+					<!--<ul class="mui-table-view" data-bind="foreach: {data: tmplSubjectClasses, as: 'class1'}">
+						<li class="mui-table-view-cell mui-collapse ah-scroll">
+							<a class="mui-navigate-right navigate-font" href="#" data-bind="text: subjectClassName"></a>
+							<div class="mui-collapse-content" data-bind="foreach: {data: tmplSubjects, as: 'subject'}">
+								<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass() == class1.subjectClass), css:{'table-current': (typeof currentSubject().id === 'function' && subject.id() == currentSubject().id() && subject.subjectClass() == currentSubject().subjectClass())}"></span>
+							</div>
+						</li>
+					</ul>-->
+				</div>
+			</div>
+		</div>
+
 		<div id="middlePopover2" class="mui-popover popover-height">
-			<ul id="list2" class="mui-table-view">
-				<li class="mui-table-view-cell navigate-font">
+			<ul id="sortList" class="mui-table-view" data-bind="click:worksResort">
+				<li class="mui-table-view-cell navigate-font" id="defaultSort">
 					<a href="#">默认</a>
 				</li>
-				<li class="mui-table-view-cell navigate-font">
+				<li class="mui-table-view-cell navigate-font" id="dateSort">
 					<a href="#">日期</a>
 				</li>
-				<li class="mui-table-view-cell navigate-font">
+				<li class="mui-table-view-cell navigate-font" id="nameSort">
 					<a href="#">名称</a>
 				</li>
 			</ul>
@@ -106,11 +120,12 @@
 						contentrefresh: '正在加载...',
 						callback: pullupRefresh
 					},
-					down:{
+					down: {
 						callback: pulldownRefresh
 					}
 				}
 			});
 		</script>
 	</body>
+
 </html>

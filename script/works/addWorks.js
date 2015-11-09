@@ -12,7 +12,7 @@ var viewModel = function() {
 	var subjectName, workTypeName, publicName;
 	var workTypeID, subjectID, publicID = 1;
 
-	mui.ready(function() {
+	mui.plusReady(function() {
 		subjectName = new mui.PopPicker();
 		mui.ajax(common.gServerUrl + "Common/Subject/Get", {
 			dataType: 'json',
@@ -23,9 +23,27 @@ var viewModel = function() {
 			}
 		});
 		workTypeName = new mui.PopPicker();
-		workTypeName.setData(common.gJsonWorkType);
+		if(getLocalItem("UserType") == common.gDictUserType.teacher.toString()){
+			workTypeName.setData(common.gJsonWorkTypeTeacher);
+		}
+		else{
+			workTypeName.setData(common.gJsonWorkTypeStudent);
+		}
 		publicName = new mui.PopPicker();
 		publicName.setData(common.gJsonYesorNoType);
+		
+		//从本地缓存读取之前所选的科目
+		var cacheSubjectName = plus.storage.getItem(common.getPageName()+'.SubjectName');
+		
+		if(cacheSubjectName && cacheSubjectName != '') self.subjectText(cacheSubjectName);
+		var cacheSubjectID = plus.storage.getItem(common.getPageName()+'.SubjectID');
+		
+		if(cacheSubjectID && cacheSubjectID != '') subjectID = cacheSubjectID;
+		//从本地缓存读取之前所选的类型
+		var cacheWorkTypeName = plus.storage.getItem(common.getPageName()+'.WorkTypeName');
+		if(cacheWorkTypeName && cacheWorkTypeName != '') self.workTypeText(cacheWorkTypeName);
+		var cacheWorkTypeID = plus.storage.getItem(common.getPageName()+'.WorkTypeID');
+		if(cacheWorkTypeID && cacheWorkTypeID != '') workTypeID = cacheWorkTypeID;
 	});
 	
 	//科目选择
@@ -33,6 +51,9 @@ var viewModel = function() {
 		subjectName.show(function(items) {
 			self.subjectText(items[0].text);
 			subjectID = items[0].value;
+			//保存所选科目到本地缓存
+			plus.storage.setItem(common.getPageName()+'.SubjectName', self.subjectText());
+			plus.storage.setItem(common.getPageName()+'.SubjectID', subjectID.toString());
 		});
 	};
 	
@@ -41,6 +62,9 @@ var viewModel = function() {
 		workTypeName.show(function(items) {
 			self.workTypeText(items[0].text);
 			workTypeID = items[0].value;
+			//保存所选类型到本地缓存
+			plus.storage.setItem(common.getPageName()+'.WorkTypeName', self.workTypeText());
+			plus.storage.setItem(common.getPageName()+'.WorkTypeID', workTypeID.toString());
 		});
 	};
 
@@ -68,6 +92,7 @@ var viewModel = function() {
 			mui.toast('请填写标题');
 			return;
 		}
+
 		if (!subjectID || subjectID <= 0) {
 			mui.toast('请选择科目');
 			return;

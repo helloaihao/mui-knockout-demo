@@ -22,9 +22,9 @@ var workListMy = function() {
 	var refreshUploadState = function(task, finished) {
 		for (var i = 0; i < self.worksList().length; i++) {
 			var item = self.worksList()[i];
-			
 			if (task.url.indexOf('workId=' + item.works.ID) > 0) {
-				if (finished && item.UploadedSize() == item.TotalSize()) {
+				//if (finished && item.UploadedSize() == item.TotalSize()) {
+				if(finished){
 					item.UploadedSize(item.TotalSize());
 					item.IsFinish(true);
 					
@@ -151,16 +151,9 @@ var workListMy = function() {
 	};
 	if (mui.os.plus) {
 		mui.plusReady(function() {
-			setTimeout(function() {
-				mui('#pullrefreshMy').pullRefresh().pullupLoading();
-			}, 1000);
 			if (plus.os.vendor == 'Apple') {
 				mui('.mui-scroll-wrapper').scroll();
 			}
-		});
-	} else {
-		mui.ready(function() {
-			mui('#pullrefreshMy').pullRefresh().pullupLoading();
 		});
 	}
 	/*	//预加载详情页面
@@ -176,17 +169,36 @@ var workListMy = function() {
 	self.selectSubject = function(data){
 		self.currentSubject(data);
 		self.worksList.removeAll();		//先移除所有
-		
-		/*此处可能有bug，若之前所选科目已经刷新到无数据了，
-		    再切换为有多页数据的科目，似乎无法翻页了，会一直显示“没有更多数据了”
-		    此处bug已改好
-		    */
-		   
 		page = 1;//还原为显示第一页
 		count = 0; //还原刷新次数
 		mui('#pullrefreshMy').pullRefresh().refresh(true);
 		self.getWorks();
 		mui('#popSubjects').popover('toggle');
+	}
+	//作品排序
+	var ul = document.getElementById('sortList');
+	var lis = ul.getElementsByTagName("li");
+	for (var i = 0; i < lis.length; i++) {
+		lis[i].onclick = function() {
+			if (this.id == "defaultSort") {
+				//默认排序
+				self.getWorks();
+			} else if (this.id == "dateSort") {
+				//日期排序
+				self.works().sort(function(a,b) {
+					//从小到大
+					return dateNum(a.AddTime.split(' ')[0])>dateNum(b.AddTime.split(' ')[0])?1:-1
+				});
+
+			} else if (this.id == "nameSort") {
+				//名称排序
+				self.works().sort(function(a,b){
+					return a.Title.localeCompare(b.Title);
+				})
+
+			}
+
+		}
 	}
 	
 	//跳转到作品详情页面
@@ -205,13 +217,13 @@ var workListMy = function() {
 			teacherID = getLocalItem("UserID"); //获取自己的作品
 		}
 		self.getWorks();
-		
 		var subjectvm = new subjectsViewModel();
 		self.tmplSubjectClasses(subjectvm.getSubjectClasses());
 		self.tmplSubjects(subjectvm.getSubjects());
 		if(self.tmplSubjects().length > 0){
 			self.currentSubject(self.tmplSubjects()[0]);
 		}
+		common.confirmQuit();
 	});
 }
 ko.applyBindings(workListMy);

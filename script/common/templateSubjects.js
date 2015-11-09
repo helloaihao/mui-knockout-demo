@@ -1,6 +1,5 @@
 var subjectsViewModel = function() {
 	var self = this;
-	
 	self.tmplSubjects = ko.observableArray([]);
 	self.tmplSubjectClasses = ko.observableArray([]);
 	

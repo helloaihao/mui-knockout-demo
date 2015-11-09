@@ -151,29 +151,25 @@ var worksDetails = function() {
 			outSet("获取分享服务列表失败：" + e.message);
 		});
 	}
-	
-//	VideoJS.setupAllWhenReady();
+
+
 
 	//获取视频
-	self.getVideo = function(workId){
-		var myPlayer = videojs("video1",{},function(){
-			var self = this;
-			
-			mui.ajax(common.gServerUrl + "API/Video/GetVideoUrl/?workId="+workId,{
-				type:'GET',
+	self.getVideo = function(workId) {
+			console.log(workId);
+			mui.ajax(common.gServerUrl + "API/Video/GetVideoUrl/?workId=" + workId, {
+				type: 'GET',
 				success: function(responseText) {
 					var obj = JSON.parse(responseText);
-					//console.log(obj.type + '~'+common.gVideoServerUrl + obj.VideoUrl);
-					
-		           	self.src({
-		           		src: common.gVideoServerUrl + obj.VideoUrl
-		           	});
-//		           	self.play();
+					var videoPos = document.getElementById('videoPos');
+					var vwidth = window.screen.width;
+					var vheight = vwidth * 3 / 4;
+					videoPos.innerHTML = '<div class="video-js-box" style="margin:20px auto"><video controls width="' + vwidth +'px" height="' + vheight + 'px" class="video-js" poster: ' + Works().imgUrl + ' data-setup="{}"><source src="' + common.gVideoServerUrl + obj.VideoUrl + '" type="video/mp4" /></video></div>'
+					VideoJS.setupAllWhenReady();
 				}
 			});
-		});
-	}
-	/*var req = new XMLHttpRequest();
+		}
+		/*var req = new XMLHttpRequest();
     req.onload = function () {
         var obj = JSON.parse(this.response);
         self.src({

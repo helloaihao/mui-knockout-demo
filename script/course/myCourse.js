@@ -93,6 +93,7 @@ var myCourse = function() {
 	
 	//获取老师所有开设的课程
 	self.GetCourses = function(){
+		if (!common.hasLogined()) return;
 		if(!IsTeacher) return;
 		
 		var ajaxUrl = common.gServerUrl + 'API/Course/GetAllCourseByUserID?userid=' + getLocalItem('UserID');
@@ -111,6 +112,8 @@ var myCourse = function() {
 
 	//获取一周的课程
 	self.GetData = function(){
+		if (!common.hasLogined()) return;
+		
 		var self = this;
 		var paraCourseid = 0;
 		if(self.FilteredCourseID() > 0)
@@ -161,6 +164,7 @@ var myCourse = function() {
 			self.GetData();
 			self.GetCourses();
 		}
+		common.confirmQuit();
 	})
 
 	self.gotoTeacherInfo = function() {

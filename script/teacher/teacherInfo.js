@@ -69,7 +69,7 @@
 		}
 		//获取分解视频
 	self.getworkResolve = function() {
-			mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkType[0].value + "&pageSize=" + pageSize, {
+			mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkTypeTeacher[0].value + "&pageSize=" + pageSize, {
 				type: "GET",
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
@@ -80,7 +80,7 @@
 		}
 		//获取完整教程
 	self.getworkFull = function() {
-		mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkType[1].value + "&pageSize=" + pageSize, {
+		mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkTypeTeacher[1].value + "&pageSize=" + pageSize, {
 			type: "GET",
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
@@ -90,7 +90,7 @@
 	};
 	//获取演出作品
 	self.getwork = function() {
-		mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkType[2].value + "&pageSize=" + pageSize, {
+		mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkTypeTeacher[2].value + "&pageSize=" + pageSize, {
 			type: "GET",
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");

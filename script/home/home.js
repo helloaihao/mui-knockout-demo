@@ -27,6 +27,9 @@ var home = function() {
 	self.getUnreadCount = function() {
 		common.getUnreadCount(self.UnreadCount());
 	}
-
+	
+	mui.plusReady(function() {
+	    common.confirmQuit();
+	});
 };
 ko.applyBindings(home);

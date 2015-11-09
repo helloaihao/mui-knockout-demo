@@ -1,9 +1,7 @@
 var login = function() {
 	var self = this;
-	var networkState; //网络状态
 	self.UserName = ko.observable('');
 	self.Password = ko.observable('');
-	var index;
 	//登录
 	self.checkLogin = function() {
 			if (self.UserName() == "") {
@@ -78,18 +76,5 @@ var login = function() {
 				}
 			})
 		}
-		// H5 plus事件处理
-
-//	function plusReady() {
-//		//获取当前应用首页窗口对象
-//
-//		console.log(index);
-//		networkState = plus.networkinfo.getCurrentType();
-//	}
-//	if (window.plus) {
-//		plusReady();
-//	} else {
-//		document.addEventListener('plusready', plusReady, false);
-//	}
 }
 ko.applyBindings(login);
