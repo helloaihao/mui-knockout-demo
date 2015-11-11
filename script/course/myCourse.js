@@ -164,9 +164,12 @@ var myCourse = function() {
 			self.GetData();
 			self.GetCourses();
 		}
-		common.confirmQuit();
 	})
 
+	mui.back = function() {
+		common.confirmQuit();
+	}
+	
 	self.gotoTeacherInfo = function() {
 		var self = this;
 		var tmpID = self.ViewLesson().TeacherID;

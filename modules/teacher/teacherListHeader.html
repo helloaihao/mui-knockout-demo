@@ -69,16 +69,6 @@
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			mui.init({
-				subpages: [{
-					url: 'teacherList.html',
-					id: 'teacherListID',
-					styles: {
-						top: '78px',
-						bottom: '0px'
-					}
-				}]
-			});
 			mui.plusReady(function(){
 				var contentWebview = null;
 				document.querySelector('#subject').addEventListener('tap', function() {
@@ -101,13 +91,25 @@
 				});
 				
 				var web = plus.webview.currentWebview(); //页面间传值
-
-				if (typeof(web.search) !== "undefined" && web.search == true) {
-					if (contentWebview == null) {
-						contentWebview = plus.webview.currentWebview().children()[0];
-					}
-					contentWebview.evalJS("mui('#popSubjects').popover('toggle')");
+				var work, display;
+				if (typeof(web.displayCheck) !== "undefined") {
+					work = web.works;
+					display = web.displayCheck;
 				}
+				mui.init({
+				subpages: [{
+					url: 'teacherList.html',
+					id: 'teacherListID',
+					styles: {
+						top: '78px',
+						bottom: '0px'
+					},
+					extras:{
+						displayCheck: display,
+						works: work
+					}
+				}]
+			});
 			});
 		</script>
 

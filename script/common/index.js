@@ -1,4 +1,4 @@
-var viewModel = function() {
+var viewModelIndex = function() {
 	var self = this;
 	self.UserName = ko.observable(getLocalItem('UserName'));
 	self.UserID = ko.observable(getLocalItem('UserID'));
@@ -25,4 +25,4 @@ var viewModel = function() {
 		common.getAllSubjects();
 	})
 };
-ko.applyBindings(viewModel);
+ko.applyBindings(viewModelIndex);

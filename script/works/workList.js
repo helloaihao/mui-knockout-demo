@@ -3,24 +3,24 @@ var workList = function() {
 	var pageNum = 1;
 	var receiverId = 1;
 	var sortID;
-	self.teacherInfo = ko.observable();			//点评老师对象
+	self.teacherInfo = ko.observable(); //点评老师对象
 	self.works = ko.observableArray([]);
 	self.displayCheck = ko.observable(false); //控制单选框和确认按钮是否显示
 	self.UnreadCount = ko.observable("0");
 	self.dbSubject = ko.observable("科目");
 	self.dbSort = ko.observable("排序");
 	//var receiverId = getLocalItem("UserID");
-	
+
 	self.tmplSubjects = ko.observableArray([]);
 	self.tmplSubjectClasses = ko.observableArray([]);
-	
-	self.currentSubject = ko.observable({});	//当前选中的科目
-	
+
+	self.currentSubject = ko.observable({}); //当前选中的科目
+
 	//拼接请求Url
-	self.getAjaxUrl=function(){
-		var ajaxUrl = common.gServerUrl + "API/Work?userID="+getLocalItem("UserID");
-		ajaxUrl += "&page="+pageNum;
-		
+	self.getAjaxUrl = function() {
+		var ajaxUrl = common.gServerUrl + "API/Work?userID=" + getLocalItem("UserID");
+		ajaxUrl += "&page=" + pageNum;
+
 		if (typeof self.currentSubject().id === "function") {
 			ajaxUrl += "&subject=" + self.currentSubject().id();
 			ajaxUrl += "&subjectClass=" + self.currentSubject().subjectClass();
@@ -31,7 +31,7 @@ var workList = function() {
 
 		return ajaxUrl;
 	}
-	
+
 	//加载作品
 	self.getWorks = function() {
 		mui.ajax(self.getAjaxUrl(), {
@@ -110,27 +110,27 @@ var workList = function() {
 			mui('#pullrefresh').pullRefresh().pullupLoading();
 		});
 	}
-	
-		//选择科目
-	self.selectSubject = function(data){
+
+	//选择科目
+	self.selectSubject = function(data) {
 		self.currentSubject(data);
-		self.works.removeAll();		//先移除所有
-		
+		self.works.removeAll(); //先移除所有
+
 		/*此处可能有bug，若之前所选科目已经刷新到无数据了，
 		    再切换为有多页数据的科目，似乎无法翻页了，会一直显示“没有更多数据了”*/
-		pageNum = 1;						//还原为显示第一页
+		pageNum = 1; //还原为显示第一页
 		self.getWorks();
 		mui('#popSubjects').popover('toggle');
 	}
 
-//	//预加载详情页面
-//	var worksDetails = mui.preload({
-//		url: 'WorksDetails.html',
-//		extras: {
-//			WorkID: works
-//		}
-//	});
-	
+	//	//预加载详情页面
+	//	var worksDetails = mui.preload({
+	//		url: 'WorksDetails.html',
+	//		extras: {
+	//			WorkID: works
+	//		}
+	//	});
+
 	//跳转到作品详情页面
 	self.goWorksDetails = function(data) {
 		common.transfer("WorksDetails.html", false, {
@@ -147,34 +147,43 @@ var workList = function() {
 				break;
 			}
 		}
-		if(pos == -1){
+		if (pos == -1) {
 			mui.toast("请选择需要点评的作品");
 			return;
 		}
-		common.transfer('../student/submitComment.html', true, {
-			works: self.works()[pos],
-			teacher: teacherInfo()
-		});
+		var info = self.teacherInfo();
+		if (typeof(info) === "undefined") {
+			common.transfer('../teacher/teacherListHeader.html', true, {
+				works: self.works()[pos],
+				displayCheck: true
+			});
+		} else {
+			common.transfer('../student/submitComment.html', true, {
+				works: self.works()[pos],
+				teacher: teacherInfo()
+			});
+		}
 	}
 
 	self.gotoAddWorks = function() {
 		common.transfer('addWorks.html')
 	};
 	mui.plusReady(function() {
+		
 		var web = plus.webview.currentWebview();
-		if (typeof(web.teacher) !== "undefined") {
+		if (typeof(web.displayCheck) !== "undefined") {
 			self.teacherInfo(web.teacher);
 			self.displayCheck(web.displayCheck);
 		}
+
+				var subjectvm = new subjectsViewModel();
+				self.tmplSubjectClasses(subjectvm.getSubjectClasses());
+				self.tmplSubjects(subjectvm.getSubjects());
+				if(self.tmplSubjects().length > 0){
+					self.currentSubject(self.tmplSubjects()[0]);
+				}
 		
-//		var subjectvm = new subjectsViewModel();
-//		self.tmplSubjectClasses(subjectvm.getSubjectClasses());
-//		self.tmplSubjects(subjectvm.getSubjects());
-//		if(self.tmplSubjects().length > 0){
-//			self.currentSubject(self.tmplSubjects()[0]);
-//		}
-//
-//		self.getWorks();
+				self.getWorks();
 	});
 }
 

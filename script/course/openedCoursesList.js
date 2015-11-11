@@ -73,6 +73,10 @@ var viewModel = function() {
 		common.transfer("../../modules/course/addCourse.html", true, {course: this});
 	};
 
+	self.gotoRegistered = function() {
+		common.transfer("../../modules/course/registeredList.html", true, {course: this});
+	};
+
 	self.gotoAddCourse = function() {
 		common.transfer("../../modules/course/addCourse.html", true);
 	};

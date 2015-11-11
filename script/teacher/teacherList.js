@@ -15,7 +15,7 @@ var viewModel = function() {
 	self.SubjectID = ko.observable(0); //上一个页面传递过来的科目ID
 	//接收属性
 	var starID, sortID;
-	var Title, AuthorName, AuthorID;
+	var works;
 	self.displayCheck = ko.observable(false); //是否显示选择
 	self.tmplSubjects = ko.observableArray([]);
 	self.tmplSubjectClasses = ko.observableArray([]);
@@ -37,7 +37,7 @@ var viewModel = function() {
 			curl += sortUrl + sortID;
 		}
 
-		//console.log(thisUrl + curl);
+//		console.log(thisUrl + curl);
 		mui.ajax(thisUrl + curl, {
 			type: 'GET',
 			success: function(responseText) {
@@ -45,7 +45,6 @@ var viewModel = function() {
 				self.teacherList(result);
 			}
 		});
-		//mui('.mui-scroll-wrapper').scroll().scrollTo(0, 0, 100); //滚动到最顶部
 	};
 
 	mui.init({
@@ -121,7 +120,9 @@ var viewModel = function() {
 			setTimeout(function() {
 				mui('#pullrefresh').pullRefresh().pullupLoading();
 			}, 1000);
-
+			if (plus.os.vendor == 'Apple') {
+				mui('.mui-scroll-wrapper').scroll();
+			}
 		});
 	} else {
 		mui.ready(function() {
@@ -172,34 +173,17 @@ var viewModel = function() {
 				pos = i;
 			}
 		}
-		mui.openWindow({
-			url: '../student/submitCommnet.html',
-			show: {
-				autoShow: true,
-				aniShow: "slide-in-right",
-				duration: "100ms"
-			},
-			waiting: {
-				autoShow: false
-			},
-			extras: {
-				AuthorID: self.AuthorID,
-				WorkTitle: self.Title,
-				AuthorName: self.AuthorName,
-				CommenterID: self.teacherList()[pos].UserID
-			}
+		common.transfer('../student/submitComment.html', true, {
+			works: self.works,
+			teacher: self.teacherList()[pos]
 		});
 	};
 	mui.plusReady(function() {
-		plus.nativeUI.showWaiting();
 		var web = plus.webview.currentWebview(); //页面间传值
 
-		if (typeof(web.DisplayCheck) !== "undefined") {
-			self.displayCheck(web.DisplayCheck);
-			self.Title = web.Title;
-			self.AuthorName = web.AuthorName;
-			self.AuthorID = web.AuthorID;
-			self.SubjectID = web.SubjectID;
+		if (typeof(web.displayCheck) !== "undefined") {
+			self.displayCheck(web.displayCheck);
+			self.works = web.works;
 		}
 		self.getTeacherList();
 

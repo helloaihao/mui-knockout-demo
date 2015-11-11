@@ -55,11 +55,15 @@
 				left: 10px;
 			}
 			.mui-navigate-right:after {
-				right: 30%;
+				right: 20%;
 			}
 			.mui-bar-nav ~ .mui-content .mui-pull-top-pocket {
 				top: 78px !important;
 			}
+			.works-list-select ul li{
+				width:33.333%!important
+			}
+		
 		</style>
 	</head>
 
@@ -88,14 +92,6 @@
 						<a class="mui-navigate-right" id="dbSort">排序</a>
 					</li>
 				</ul>
-				<!--<ul id="nav2" style="display: none;">
-					<li class="mui-collapse" id="workListSubject2">
-						<a class="mui-navigate-right" id="dbSubject">科目</a>
-					</li>
-					<li class="mui-collapse" id="workListSort2">
-						<a class="mui-navigate-right" id="dbSort">排序</a>
-					</li>
-				</ul>-->
 			</div>
 		</div>
 		<script src="../../script/mui/mui.min.js"></script>
@@ -172,6 +168,12 @@
 				currentWebview.evalJS("mui('#popSubjects').popover('toggle')");
 				currentWebview = plus.webview.currentWebview().children()[1];
 				currentWebview.evalJS("mui('#popSubjects').popover('toggle')");
+			});
+			document.querySelector("#workListType").addEventListener('tap', function() {
+				currentWebview = plus.webview.currentWebview().children()[0];
+				currentWebview.evalJS("mui('#popType').popover('toggle')");
+				currentWebview = plus.webview.currentWebview().children()[1];
+				currentWebview.evalJS("mui('#popType').popover('toggle')");
 			});
 		</script>
 

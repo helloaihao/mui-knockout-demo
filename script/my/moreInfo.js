@@ -49,7 +49,7 @@ var moreInfo = function() {
 						autoShow: false
 					},
 					createNew: true
-				})
+				});
 			}
 		}
 		/*修改密码 js
@@ -140,6 +140,6 @@ var moreInfo = function() {
 			})
 		}
 	}
-	
+
 }
 ko.applyBindings(moreInfo);

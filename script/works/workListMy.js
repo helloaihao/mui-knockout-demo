@@ -10,13 +10,17 @@ var workListMy = function() {
 	var sortID;
 	var page = 1;
 	var count = 0; //刷新检测值
+	var workTypeUrl = "&workType=";
+	var workTypeID;
 	var uploadingWorks;
 	var videoPath;
+	self.UserType = ko.observable(getLocalItem('UserType'));
 	self.worksList = ko.observableArray([]);
 	self.tmplSubjects = ko.observableArray([]);
 	self.tmplSubjectClasses = ko.observableArray([]);
-	
-	self.currentSubject = ko.observable({});	//当前选中的科目
+
+	self.currentSubject = ko.observable({}); //当前选中的科目
+	self.currentWorkTypes = ko.observable({});
 	/*var counter = 0;*/
 
 	var refreshUploadState = function(task, finished) {
@@ -24,25 +28,24 @@ var workListMy = function() {
 			var item = self.worksList()[i];
 			if (task.url.indexOf('workId=' + item.works.ID) > 0) {
 				//if (finished && item.UploadedSize() == item.TotalSize()) {
-				if(finished){
+				if (finished) {
 					item.UploadedSize(item.TotalSize());
 					item.IsFinish(true);
-					
 					//更换缩略图
 					item.VideoThumbnail('');
+					console.log(item.works.VideoThumbnail);
 					item.VideoThumbnail(item.works.VideoThumbnail);
-					
+
 					//从本地缓存中删除
 					var tmp = plus.storage.getItem(common.gVarLocalUploadTask);
 					var tasks = JSON.parse(tmp);
 					for (var j = 0; j < tasks.length; j++) {
-						if(tasks[j].workid == item.works.ID){
+						if (tasks[j].workid == item.works.ID) {
 							tasks.pop(tasks[j]);
 							break;
 						}
 					}
 					plus.storage.setItem(common.gVarLocalUploadTask, JSON.stringify(tasks));
-					
 					mui.toast('上传完成');
 					return;
 				}
@@ -85,7 +88,7 @@ var workListMy = function() {
 
 	//加载作品
 	self.getWorks = function() {
-		if(!teacherID){
+		if (!teacherID) {
 			return;
 		}
 		var curl = useridUrl + teacherID + pageUrl + page;
@@ -95,6 +98,9 @@ var workListMy = function() {
 		}
 		if (typeof(sortID) === "number" && sortID > 0) {
 			curl += sortUrl + sortID;
+		}
+		if (typeof(workTypeID) === "number" && workTypeID > 0) {
+			curl += workTypeUrl + workTypeID;
 		}
 
 		mui.ajax(thisUrl + curl, {
@@ -121,7 +127,7 @@ var workListMy = function() {
 		//上拉刷新
 	self.pullupRefresh = function(pullrefreshId, worksArray) {
 		setTimeout(function() {
-			if(!teacherID){
+			if (!teacherID) {
 				return;
 			}
 			mui('#pullrefreshMy').pullRefresh().endPullupToRefresh((++count > 2));
@@ -134,6 +140,9 @@ var workListMy = function() {
 			if (typeof(sortID) === "number" && sortID > 0) {
 				curl += sortUrl + sortID;
 			}
+			if (typeof(workTypeID) === "number" && workTypeID > 0) {
+				curl += workTypeUrl + workTypeID;
+			}
 			mui.ajax(thisUrl + curl, {
 				type: 'GET',
 				success: function(responseText) {
@@ -143,7 +152,6 @@ var workListMy = function() {
 							var obj = new worksItem(item);
 							self.worksList.push(obj);
 						})
-						//upload.initTasks(refreshUploadState);
 					}
 				}
 			});
@@ -164,50 +172,48 @@ var workListMy = function() {
 				AuthorID: works.AuthorID
 			}
 		});*/
-	
+
 	//选择科目
-	self.selectSubject = function(data){
-		self.currentSubject(data);
-		self.worksList.removeAll();		//先移除所有
-		page = 1;//还原为显示第一页
+	self.selectSubject = function(data) {
+			self.currentSubject(data);
+//			console.log(self.currentSubject().id);
+			self.worksList.removeAll(); //先移除所有
+			page = 1; //还原为显示第一页
+			count = 0; //还原刷新次数
+			mui('#pullrefreshMy').pullRefresh().refresh(true);
+			self.getWorks();
+			mui('#popSubjects').popover('toggle');
+		}
+		//作品排序
+	self.sortWorks = function() {
+			self.worksList.removeAll();
+			workTypeID = this.value;
+			page = 1; //还原为显示第一页
+			count = 0; //还原刷新次数
+			mui('#pullrefreshMy').pullRefresh().refresh(true);
+			self.getWorks();
+			mui('#popSort').popover('toggle');
+		}
+		//跳转到作品详情页面
+	self.goWorksDetails = function(data) {
+			common.transfer("../works/WorksDetails.html", false, {
+				works: data.works
+			})
+		}
+		//作品类型筛选
+	self.selectWorksType = function() {
+		self.worksList.removeAll();
+		workTypeID = this.value;
+		page = 1; //还原为显示第一页
 		count = 0; //还原刷新次数
 		mui('#pullrefreshMy').pullRefresh().refresh(true);
 		self.getWorks();
-		mui('#popSubjects').popover('toggle');
+		mui('#popType').popover('toggle');
+		//console.log(this.value);
 	}
-	//作品排序
-	var ul = document.getElementById('sortList');
-	var lis = ul.getElementsByTagName("li");
-	for (var i = 0; i < lis.length; i++) {
-		lis[i].onclick = function() {
-			if (this.id == "defaultSort") {
-				//默认排序
-				self.getWorks();
-			} else if (this.id == "dateSort") {
-				//日期排序
-				self.works().sort(function(a,b) {
-					//从小到大
-					return dateNum(a.AddTime.split(' ')[0])>dateNum(b.AddTime.split(' ')[0])?1:-1
-				});
 
-			} else if (this.id == "nameSort") {
-				//名称排序
-				self.works().sort(function(a,b){
-					return a.Title.localeCompare(b.Title);
-				})
 
-			}
 
-		}
-	}
-	
-	//跳转到作品详情页面
-	self.goWorksDetails = function(data) {
-		common.transfer("../works/WorksDetails.html", false, {
-			works: data.works
-		})
-	}
-	
 	mui.plusReady(function() {
 		var web = plus.webview.currentWebview();
 		if (typeof(web.teacherID) !== "undefined") {
@@ -220,10 +226,13 @@ var workListMy = function() {
 		var subjectvm = new subjectsViewModel();
 		self.tmplSubjectClasses(subjectvm.getSubjectClasses());
 		self.tmplSubjects(subjectvm.getSubjects());
-		if(self.tmplSubjects().length > 0){
+		if (self.tmplSubjects().length > 0) {
 			self.currentSubject(self.tmplSubjects()[0]);
 		}
-		common.confirmQuit();
 	});
+
+	mui.back = function() {
+		common.confirmQuit();
+	}
 }
 ko.applyBindings(workListMy);

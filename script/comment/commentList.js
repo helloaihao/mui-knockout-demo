@@ -2,6 +2,7 @@ var commentList = function() {
 	var self = this;
 	var pageNum = 1;
 	var sortID;
+	var count = 0; //刷新检测次数
 	var contentfreshDownPrompt = "正在刷新...";
 	var contentfreshUpPrompt = "正在加载";
 	self.comments = ko.observableArray([]);
@@ -32,8 +33,12 @@ var commentList = function() {
 		if (self.tmplSubjects().length > 0) {
 			self.currentSubject(self.tmplSubjects()[0]);
 		}
-		common.confirmQuit();
 	});
+	
+	mui.back = function() {
+		common.confirmQuit();
+	}
+
 	//拼接请求Url
 	self.getAjaxUrl = function() {
 			var ajaxUrl = common.gServerUrl + "API/Comment/GetMyComments?userId=" + getLocalItem("UserID");
@@ -52,7 +57,7 @@ var commentList = function() {
 		//加载点评
 	self.getMyComments = function() {
 		if (!common.hasLogined()) return;
-		
+
 		mui.ajax(self.getAjaxUrl(), {
 			type: 'GET',
 			success: function(responseText) {
@@ -67,10 +72,9 @@ var commentList = function() {
 	self.selectSubject = function(data) {
 		self.currentSubject(data);
 		self.comments.removeAll(); //先移除所有
-
-		/*此处可能有bug，若之前所选科目已经刷新到无数据了，
-		    再切换为有多页数据的科目，似乎无法翻页了，会一直显示“没有更多数据了”*/
 		pageNum = 1; //还原为显示第一页
+		count = 0; //还原刷新次数
+		mui('#pullrefreshMy').pullRefresh().refresh(true);
 		self.getMyComments();
 		mui('#popSubjects').popover('toggle');
 	}
@@ -82,13 +86,15 @@ var commentList = function() {
 			})
 		}
 		//下拉加载
-	function pulldownRefresh () {
+
+	function pulldownRefresh() {
 			setTimeout(function() {
 				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
 			}, 1500);
 		}
 		//刷新
-	var count = 0;
+
+
 	function pullupRefresh() {
 		setTimeout(function() {
 			pageNum++;
@@ -113,5 +119,42 @@ var commentList = function() {
 			}
 		});
 	}
+	//点评排序
+	var ul = document.getElementById('sortCommentList');
+	var lis = ul.getElementsByTagName("li");
+	for (var i = 0; i < lis.length; i++) {
+		lis[i].onclick = function() {
+			if (this.id == "statusSort") {
+				//状态排序
+				self.comments.removeAll(); //先移除所有
+				sortID = 8;
+				count = 0; //还原刷新次数
+				pageNum = 1; //还原为显示第一页
+				mui('#pullrefreshMy').pullRefresh().refresh(true);
+				self.getMyComments();
+				mui('#middlePopover2').popover('toggle');
+			} else if (this.id == "dateSort") {
+				//日期排序
+				self.comments.removeAll(); //先移除所有
+				sortID = 9;
+				count = 0; //还原刷新次数
+				pageNum = 1; //还原为显示第一页
+				mui('#pullrefreshMy').pullRefresh().refresh(true);
+				self.getMyComments();
+				mui('#middlePopover2').popover('toggle');
+
+			}
+
+		}
+	}
+	//日期转化为数字
+	function dateNum(item) {
+		var arr = [];
+		arr = item.split("-");
+		var str = arr.join("");
+		return Number(str);
+	}
+
+
 }
 ko.applyBindings(commentList);

@@ -35,6 +35,22 @@
 				width: 86%!important;
 				font-size: 18px;
 			}
+			.messageNotification-content em {
+				height: 30px;
+				width: 60px;
+				display: inline-block;
+				border-radius: 5px;
+				line-height: 30px;
+				text-align: center;
+				margin-right: 12px;
+				font-size: 14px;
+				margin-bottom: 12px;
+
+			}
+			.opened-gl{
+				margin-bottom: 10px;
+				font-size: 14px;
+			}
 		</style>
 	</head>
 
@@ -47,7 +63,12 @@
 		<div class="mui-content">
 			<div data-bind="template:{name:'courseTemplate', foreach:courses}">
 			</div>
-
+			<!--
+            	作者：980126968@qq.com
+            	时间：2015-11-10
+            	描述：
+            -->
+				
 			<!--作品模板页-->
 			<script type="text/html" id="courseTemplate">
 				<div class="messageNotification-content openedCoursesList">
@@ -56,13 +77,20 @@
 						<i class="iconfont" data-bind='click: removeCourse'>&#xe61b;</i>
 					</div>
 					<span class="openedCoursesList-span" data-bind="text: SubjectName">钢琴</span>
+					<span class="openedCoursesList-span openedCoursesList-right">一对一</span>
 					<p data-bind="text: Introduce">2015年8月26日上午10:00广州市少年宫的钢琴课调到2015年8月26日下午14:00。</p>
 					<b>￥<span data-bind="text: Price">130</span>起</b>
 					<u>限<span data-bind="text: MaxStudent">1</span>人</u>
-					<div class="openedCoursesList-btn">
-						<i class="iconfont" data-bind="click: gotoEditCourse">&#xe63e;修改</i>
-						<em id="btn-enabled" data-bind="css: {'m-active': !IsEnabled}, click: setEnabled ">启用</em>
-						<em id="btn-enabled" data-bind="css: {'m-active': IsEnabled}, click: setDisabled ">停用</em>
+					<div class="openedCoursesList-ban">2015-11-12 开课</div>
+					<div class="openedCoursesList-total">共20课时</div>
+					<div class="openedCoursesList-start">星期四 18:00~19:00</div>
+					<div class="openedCoursesList-start">星期五 18:00~19:00</div>
+										
+					<div class="openedCoursesList-start opened-gl">
+						<i class="iconfont" data-bind="click: gotoEditCourse">&#xe63e;</i>修改
+						<!--<i class="iconfont" data-bind="click: gotoRegistered">&#xe63e;管理报名</i>-->
+						<em class="q-em" id="btn-enabled" data-bind="css: {'m-active': !IsEnabled}, click: setEnabled ">启用</em>
+						<em class="t-em" id="btn-enabled" data-bind="css: {'m-active': IsEnabled}, click: setDisabled ">停用</em>
 					</div>
 				</div>
 			</script>
@@ -79,7 +107,10 @@
 			</nav>
 
 			<div class="openedCourses-ys" data-bind="visible: courses().length <= 0">
-				<i class="iconfont">&#xe61f;</i>
+				<!--<i class="iconfont">&#xe61f;</i>-->
+				<i>
+					<img src="../../images/logo-pic.png" />
+				</i>
 				<span>还没开课，赶紧去开课吧！</span>
 				<div class="mui-content-padded">
 					<button type="button" class="mui-btn mui-btn-primary mui-btn-block p-btn-padding" data-bind="click: gotoAddCourse">开课</button>

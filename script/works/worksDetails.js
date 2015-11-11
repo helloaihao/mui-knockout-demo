@@ -7,14 +7,12 @@ var worksDetails = function() {
 	self.Works = ko.observable({}); //作品实例
 	self.mv = ko.observable();
 	self.initWorksValue = function(works) {
-		console.log(JSON.stringify(works));
 		var self = this;
 		self.WorkID = ko.observable(works.ID); //作品编码
 		self.AuthorID = ko.observable(works.AuthorID); //作品作者UserID
 		self.AuthorName = ko.observable(works.AuthorName); //作品作者名称
 		self.SubjectID = ko.observable(works.SubjectID); //作品科目ID
 		self.Title = ko.observable(works.Title); //作品标题
-		console.log(works.AddTime);
 		self.AddTime = ko.observable(works.AddTime.split(' ')[0]); //添加时间
 		self.ReadCount = ko.observable(works.ReadCount); //浏览次数
 		self.IsPublic = ko.observable(works.IsPublic); //作品是否公开
@@ -156,15 +154,15 @@ var worksDetails = function() {
 
 	//获取视频
 	self.getVideo = function(workId) {
-			console.log(workId);
+//			console.log(workId);
 			mui.ajax(common.gServerUrl + "API/Video/GetVideoUrl/?workId=" + workId, {
 				type: 'GET',
 				success: function(responseText) {
 					var obj = JSON.parse(responseText);
 					var videoPos = document.getElementById('videoPos');
-					var vwidth = window.screen.width;
-					var vheight = vwidth * 3 / 4;
-					videoPos.innerHTML = '<div class="video-js-box" style="margin:20px auto"><video controls width="' + vwidth +'px" height="' + vheight + 'px" class="video-js" poster: ' + Works().imgUrl + ' data-setup="{}"><source src="' + common.gVideoServerUrl + obj.VideoUrl + '" type="video/mp4" /></video></div>'
+//					var vwidth = window.screen.width;
+//					var vheight = vwidth * 3 / 4;common.gVideoServerUrl + obj.VideoUrl
+					videoPos.innerHTML = '<div class="video-js-box" style="margin:5px auto"><video controls width="' + 320 +'px" height="' + 240 + 'px" class="video-js" poster: ' + Works().imgUrl + ' data-setup="{}"><source src="' + common.gVideoServerUrl + obj.VideoUrl + '" type="video/mp4" /></video></div>'
 					VideoJS.setupAllWhenReady();
 				}
 			});
@@ -182,12 +180,14 @@ var worksDetails = function() {
     req.setRequestHeader("Authorization", getAuth());
     req.send(null);*/
 
-
+	
 	//获取上级页面的数据
+	var workobj;
 	mui.plusReady(function() {
 		var workVaule = plus.webview.currentWebview();
 		if (workVaule) {
-			var obj = new self.initWorksValue(workVaule.works);
+			workobj = workVaule.works;
+			obj = new self.initWorksValue(workVaule.works);
 			self.Works(obj);
 			self.getVideo(obj.WorkID());
 		}
@@ -292,25 +292,11 @@ var worksDetails = function() {
 		}
 		//找老师点评
 	self.getTeacherComment = function() {
-			mui.openWindow({
-				url: '../../modules/teacher/teacherListHeader.html',
-				show: {
-					autoShow: true,
-					aniShow: "slide-in-right",
-					duration: "100ms"
-				},
-				waiting: {
-					autoShow: false
-				},
-				extras: {
-					WorkID: self.Works().WorkID(),
-					AuthorID: self.Works().AuthorID,
-					Title: self.Works().Title(),
-					AuthorName: self.Works().AuthorName(),
-					SubjectID: self.Works().SubjectID(),
-					DisplayCheck: true
-				}
+			common.transfer('../../modules/teacher/teacherListHeader.html', true, {
+					works: workobj,
+					displayCheck: true
 			});
+			
 		}
 		//设置作品是否公开
 	self.setPublic = function() {

@@ -1,19 +1,21 @@
 var authProTitle = function() {
 	var self = this;
-	self.Auth=ko.observable({});
+	self.Auth = ko.observable({});
 	self.Editable = ko.observable(true); //是否可编辑并提交认证
 	self.AuthStatus = ko.observable("确认信息正确后，请提交审核"); //身份认证状态（显示）
-	self.ProTitleTypeText = ko.observable('请选择职称');	//职称类型名称
-	self.ProTitleType = ko.observable(0);	//职称类型
+	self.ProTitleTypeText = ko.observable('请选择职称'); //职称类型名称
+	self.ProTitleType = ko.observable(0); //职称类型
 	self.Base64 = ko.observable(''); //所选图片的base64字符串
 	self.Path = ko.observable(''); //图片路径
 
-	var ppProTitle;
+	var ppProTitle, setPic;
 	mui.ready(function() {
+		setPic = new mui.PopPicker();
+		setPic.setData(common.gAuthImgage);
 		ppProTitle = new mui.PopPicker();
 		ppProTitle.setData(common.gProfessionalType);
 	});
-	
+
 	//职称选择
 	self.chooseAuthPro = function() {
 		ppProTitle.show(function(items) {
@@ -21,17 +23,39 @@ var authProTitle = function() {
 			self.ProTitleType(items[0].value);
 		});
 	}
-	
-	self.initProTitleText = function(value){
+	self.showPic = function() {
+		mui.ready(function() {
+			setPic.show(function(items) {
+				if (items[0].value == 0) {
+					//图片预览
+					if (self.Base64() == "") {
+						mui.toast("还没选中照片");
+					} else {
+						var imgUpload = document.getElementById('imgUpload');
+						imgUpload.setAttribute("data-preview-src", "");
+						var previewImg = new mui.previewImage();
+						previewImg.open(imgUpload);
+						imgUpload.removeAttribute("data-preview-src");
+					}
+
+				} else if (items[0].value == 1) {
+					//图片选择
+					self.selectPic();
+				}
+			});
+		})
+	}
+
+	self.initProTitleText = function(value) {
 		var list = common.gProfessionalType;
 		var retText = '请选择职称';
-		list.forEach(function(item){
-			if(item.value == value){
+		list.forEach(function(item) {
+			if (item.value == value) {
 				retText = item.text;
 				return;
 			}
 		})
-		
+
 		return retText;
 	}
 
@@ -57,9 +81,8 @@ var authProTitle = function() {
 
 	self.selectPic = function() {
 		if (!self.Editable()) return;
-
 		mui.ready(function() {
-			picture.SelectPicture(false, false, function(retValue) {
+			picture.SelectPicture(true, false, function(retValue) {
 				self.Path(retValue[0].Base64);
 				self.Base64(retValue[0].Base64);
 			}); //不需要裁剪，单选

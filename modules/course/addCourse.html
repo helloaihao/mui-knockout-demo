@@ -42,6 +42,31 @@
           	.reg-mui-input-row input[type=text],input[type=password],button,input[type=number]{
 				line-height:18px!important;
 				height: 44px!important;
+				color: #999;
+			}
+			
+			@media screen and (max-height: 530px) {
+				.auto-height {
+					line-height: 24px;
+				}
+			}
+			@media screen and (min-height:531px) and (max-height: 608px) {
+				.auto-height {
+					line-height: 25px;
+				}
+			}
+			@media screen and (min-height:609px) and (max-height: 657px) {
+				.auto-height {
+					line-height: 30px;
+				}
+			}
+			@media screen and (min-height:658px) {
+				.auto-height {
+					line-height: 35px;
+				}
+			}
+			.mui-input-group:after{
+				height: 0!important;
 			}
 		</style>
 	</head>
@@ -54,20 +79,36 @@
 		<div class="mui-content">
 			<div id="page1">
 				<form class="mui-input-group reg-mui-input-group">
-					<div class="mui-input-row reg-mui-input-row addCourse-mui-input">
+					<div class="mui-input-row reg-mui-input-row addCourse-mui-input addCourse-left">
 						<label>课程名称</label>
 						<input id='account' type="text" class="mui-input-clear mui-input reg-mui-input " placeholder="个性的标题更吸引学生" data-bind="value: course().CourseName">
 					</div>
-					<div class="mui-input-row reg-mui-input-row th-mui-input-row addCourse-mui-input">
+					<div class="mui-input-row reg-mui-input-row th-mui-input-row addCourse-mui-input addCourse-left">
+						<label>课程类型</label>
+						<button class="mui-btn mui-btn-block th-mui-btn-block addCourse-line" type='button' data-bind="click: setCourseType, text: course().CourseTypeName"></button>
+					</div>
+					<div class="mui-input-row reg-mui-input-row th-mui-input-row addCourse-mui-input addCourse-left">
 						<label>所属科目</label>
 						<button class="mui-btn mui-btn-block th-mui-btn-block addCourse-line" type='button' data-bind="click: setSubject, text: course().SubjectName"></button>
 					</div>
-					<div class="mui-input-row reg-mui-input-row th-mui-input-row addCourse-mui-input ah-input-row">
+					<div class="mui-input-row reg-mui-input-row th-mui-input-row addCourse-mui-input ah-input-row addCourse-left">
 						<label>年龄要求</label>
 						<input type="text" class="mui-input-clear mui-input reg-mui-input" onfocus="this.type='number'" onblur="this.type='text'" placeholder="最小年龄" data-bind="value: course().AgeMin">
 						<!--<span class="label-to">~</span>-->
 						<input type="text" class="mui-input-clear mui-input reg-mui-input" onfocus="this.type='number'" onblur="this.type='text'" placeholder="最大年龄" data-bind="value: course().AgeMax">
 						<!--<label id="ageLimits" data-bind="text: dbAgeLimits"></label>-->
+					</div>
+					<div class="mui-input-row reg-mui-input-row th-mui-input-row addCourse-mui-input addCourse-left" data-bind="visible: course().CourseType() != common.gDictCourseType.One2One">
+						<label>人数限制</label>
+						<input type="text" class="mui-input-clear mui-input reg-mui-input " onfocus="this.type='number'" onblur="this.type='text'" placeholder="请输入最大人数" data-bind="value: course().MaxStudent">
+					</div>
+					<div class="mui-input-row reg-mui-input-row th-mui-input-row addCourse-mui-input addCourse-left" data-bind='visible: course().CourseType() != common.gDictCourseType.One2One'>
+						<label>开始日期</label>
+						<button id='pickDateBtn' type="button" class="mui-btn mui-btn-block th-mui-btn-block th-font" data-bind="text:course().BeginTime, click:chooseDate"></button>
+					</div>
+					<div class="mui-input-row reg-mui-input-row th-mui-input-row addCourse-mui-input addCourse-left" data-bind="visible: course().CourseType() != common.gDictCourseType.One2One">
+						<label>总课时数</label>
+						<input type="text" class="mui-input-clear mui-input reg-mui-input " onfocus="this.type='number'" onblur="this.type='text'" placeholder="请输入总课时数" data-bind="value: course().LessonCount">
 					</div>
 				</form>
 				<div class="addCourse-class">
@@ -77,24 +118,70 @@
 					<textarea placeholder="用一段话介绍您的教学水平或教学成绩" data-bind="value: course().Introduce"></textarea>
 				</form>
 
-				<!--<form class="mui-input-group reg-mui-input-group addCourse-mui-input-group">
-					<div class="mui-input-row reg-mui-input-row addCourse-mui-input addCourse-mui">
-						<label>人数限制</label>
-						<input id='account' type="text" class="mui-input-clear mui-input reg-mui-input " placeholder="请输入最多人数" data-bind="value: course().MaxStudent">
-					</div>
-				</form>-->
-
-				<div class="addCourse-class">
+				<div class="addCourse-class" data-bind="visible: course().CourseType() == common.gDictCourseType.One2One">
 					授课方式及课时费
 				</div>
-				<form class="mui-input-group reg-mui-input-group" data-bind='foreach:{data: Locations}'>
-					<div class="mui-input-row reg-mui-input-row addCourse-mui-input">
+				<form class="mui-input-group reg-mui-input-group" data-bind='foreach:{data: Locations}, visible: course().CourseType() == common.gDictCourseType.One2One'>
+					<div class="mui-input-row reg-mui-input-row addCourse-mui-input addCourse-left">
 						<label data-bind='text: getLocationName(LocationType())'>老师上门 </label>
 						<input id='taccount' type="text" onfocus="this.type='number'" onblur="this.type='text'" class="mui-input reg-mui-input " placeholder="请输入费用" data-bind="value: Cost">
 						<span>元</span>
 					</div>
 				</form>
+				<div class="addCourse-class comment-bg" data-bind="visible: course().CourseType() != common.gDictCourseType.One2One">
+					上课时间
+				</div>
+				<div class="aboutClass-class submitClass-mui-scroll aboutClass-time comment-top" data-bind="visible: course().CourseType() != common.gDictCourseType.One2One">
+					<ul class="about-lesson" data-bind="visible: classtimeCount() <= 0">
+						<a href="#popChooseTime">
+							<li class="fontcolor">
+								请选择上课时间
+								<i class="iconfont">&#xe618;</i>
+							</li>
+						</a>
+					</ul>
+					<ul class="about-lesson" data-bind="foreach: {data: ClasstimesText, as: 'timeText'}">
+						<a href='#popChooseTime'>
+							<li class="fontcolor">
+								<!--ko text: timeText-->
+								<!--/ko-->
+								<i class="iconfont">&#xe618;</i>
+							</li>
+						</a>
+					</ul>
+				</div>
+				
+				<!--弹出课时选择 -->
+				<div id="popChooseTime" class="mui-popover aboutLesson-tc">
+					<header class="aboutLesson-header">
+						<i class="iconfont" data-bind="click: closePopChooseTime">&#xe602;</i> 选择上课时间
+					</header>
+					<table class="vailableTime-title availableTime-add availableTime-date" border="0" width="100%" height="100%">
+						<tr>
+							<td class="month">
+								
+							</td>
+							<!--ko foreach:{data: DayOfWeek}-->
+								<td data-bind='text: $data'></td>
+							<!--/ko-->
+						</tr>
+					</table>
+					
+					<table class="availableTime-table availableTime-bottom auto-height" border="2" cellspacing="0" cellpadding="0" width="100%" height="100%" data-bind="foreach:{data: Hours, as: 'hour'}">
+						<tr>
+							<td data-bind='text: $data + ":00"'></td>
+							<!--ko foreach:{data: DayOfWeekValue}-->
+							<td data-bind='cellValue: initCell($data, hour)'></td>
+							<!--/ko-->
+						</tr>
+					</table>
 
+					<nav class="mui-bar mui-bar-tab availableTime-footer">
+						<span>点击蓝色区块选择</span>
+						<em class='disabled' data-bind='event:{tap: back}, css:{"disabled": classtimeCount() <= 0}, text: "确定("+classtimeCount()+")"'>确定(0)</em>
+					</nav>
+				</div>
+				
 				<div class="mui-content-padded ah-btn-margin">
 					<button id='next' class="mui-btn mui-btn-block mui-btn-primary btn-findTeacher " data-bind="click: saveCourse">保存</button>
 				</div>
@@ -105,6 +192,7 @@
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/dtPicker.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/course/addCourse.js" type="text/javascript" charset="utf-8"></script>
 		<script>
 			mui.init();

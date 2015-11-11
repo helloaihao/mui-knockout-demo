@@ -10,39 +10,45 @@
 		<link href="../../content/common/global.css" rel="stylesheet" />
 		<link href="../../content/common/style.css" rel="stylesheet" />
 		<style>
-			.index-subject li:active{
+			.index-subject li:active {
 				background: #f1f1f1;
 			}
 			@media only screen and (min-width: 375px) and (max-width: 415px) {
-			.index-up-secher-bg ul li em {
-				font-size: 46px;
-				position: absolute;
-				left: 26px;
-				top: 18px;
-			}
-			.index-up-secher-bg ul li span {
-				color: #333;
-				font-size: 16px;
-				position: absolute;
-				right: 40px;
-				top: 18px;
-			}
+				.index-up-secher-bg ul li em {
+					font-size: 46px;
+					position: absolute;
+					left: 26px;
+					top: 18px;
+				}
+				.index-up-secher-bg ul li span {
+					color: #333;
+					font-size: 16px;
+					position: absolute;
+					right: 40px;
+					top: 18px;
+				}
 			}
 			@media only screen and (min-width: 321px) and (max-width: 375px) {
-			.index-up-secher-bg ul li em {
-				font-size: 46px;
-				position: absolute;
-				left: 20px;
-				top: 18px;
+				.index-up-secher-bg ul li em {
+					font-size: 46px;
+					position: absolute;
+					left: 20px;
+					top: 18px;
+				}
+				.index-up-secher-bg ul li span {
+					color: #333;
+					font-size: 16px;
+					position: absolute;
+					right: 30px;
+					top: 18px;
+				}
 			}
-			.index-up-secher-bg ul li span {
-				color: #333;
-				font-size: 16px;
-				position: absolute;
-				right: 30px;
-				top: 18px;
-			}
-			}
+			.mui-bar-nav span {
+	bottom: 1px;
+	right: 1px;
+	position: absolute;
+	display: none;
+}
 		</style>
 	</head>
 
@@ -146,7 +152,7 @@
 						<img src="../../images/index7.png" />
 						<span>萨克斯</span>
 					</li>
-					<li>
+					<li onclick="gotoMore()">
 						<img src="../../images/index8.png" />
 						<span>更多</span>
 					</li>
@@ -190,20 +196,15 @@
 			mui('#slider').slider({
 				interval: 3000
 			});
-			
 			document.getElementById('addWorks').addEventListener('click', function() {
 				common.transfer('../works/addWorks.html', true);
 			});
+
 			function gotoTeachers() {
 				common.transfer('../teacher/teacherListHeader.html', false, {
 					search: true
 				});
 			}
-			/*document.getElementById('findTeacher').addEventListener('click', function() {
-				common.transfer('../teacher/teacherListHeader.html', false, {
-					search: true
-				});
-			});*/
 		</script>
 	</body>
 

@@ -25,8 +25,9 @@
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
+			<!--<i class="font-size" data-bind="click:goMessageList">新增</i>-->
 			<h1 id="title" class="mui-title">点评</h1>
-			<em class="iconfont" data-bind="click:goMessageList">&#xe628;<span class="mui-badge mui-badge-warning" data-bind="text: UnreadCount, visible: UnreadCount() > 0"></span></em>
+			<em class="iconfont" data-bind="click: goWorksList" >&#xe621;</em>
 		</header>
 		<div class="mui-content">
 			<div class="commentList-select">
@@ -82,6 +83,11 @@
 					//获取未读消息数量
 				self.getUnreadCount = function() {
 					common.getUnreadCount(self.UnreadCount());
+				}
+				self.goWorksList = function() {
+					common.transfer('../works/worksList.html', true, {
+						displayCheck: true
+					});
 				}
 			}
 			ko.applyBindings(CommentListHeader);

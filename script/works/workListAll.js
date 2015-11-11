@@ -91,54 +91,40 @@ var workListAll = function() {
 	self.selectSubject = function(data) {
 			self.currentSubject(data);
 			self.works.removeAll(); //先移除所有
-			/*此处可能有bug，若之前所选科目已经刷新到无数据了，
-			    再切换为有多页数据的科目，似乎无法翻页了，会一直显示“没有更多数据了”*/
-			page = 1;
+			page = 1; //还原为显示第一页
 			count = 0;
-			mui('#pullrefreshMy').pullRefresh().refresh(true); //还原为显示第一页
+			mui('#pullrefreshMy').pullRefresh().refresh(true);
 			self.getWorks();
 			mui('#popSubjects').popover('toggle');
 		}
-		//作品排序
-	var ul = document.getElementById('sortList');
-	var lis = ul.getElementsByTagName("li");
-	for (var i = 0; i < lis.length; i++) {
-		lis[i].onclick = function() {
-			if (this.id == "defaultSort") {
-				//默认排序
-				self.getWorks();
-			} else if (this.id == "dateSort") {
-				//日期排序
-				self.works().sort(function(a, b) {
-					//从小到大
-					return dateNum(a.AddTime.split(' ')[0]) > dateNum(b.AddTime.split(' ')[0]) ? 1 : -1
-				});
-
-			} else if (this.id == "nameSort") {
-				//名称排序
-				self.works().sort(function(a, b) {
-					return a.Title.localeCompare(b.Title);
-				})
-
-			}
+		//选择类别
+	self.selectWorksType = function() {
+			self.worksList.removeAll();
+			workTypeID = this.value;
+			page = 1; //还原为显示第一页
+			count = 0; //还原刷新次数
+			mui('#pullrefreshMy').pullRefresh().refresh(true);
+			self.getWorks();
+			mui('#popType').popover('toggle');
+			//console.log(this.value);
 
 		}
-	}
-	//日期转化为数字
-	function dateNum(item) {
-		var arr = [];
-		arr = item.split("-");
-		var str = arr.join("");
-		return Number(str);
-	}
-
-	//跳转到作品详情页面
+		//作品排序
+	self.sortWorks = function() {
+			self.worksList.removeAll();
+			workTypeID = this.value;
+			page = 1; //还原为显示第一页
+			count = 0; //还原刷新次数
+			mui('#pullrefreshMy').pullRefresh().refresh(true);
+			self.getWorks();
+			mui('#popSort').popover('toggle');
+		}
+		//跳转到作品详情页面
 	self.goWorksDetails = function(data) {
 		common.transfer("WorksDetails.html", false, {
 			works: data
 		})
 	}
-
 	mui.plusReady(function() {
 		self.getWorks();
 		var subjectvm = new subjectsViewModel();
@@ -147,7 +133,10 @@ var workListAll = function() {
 		if (self.tmplSubjects().length > 0) {
 			self.currentSubject(self.tmplSubjects()[0]);
 		}
-		common.confirmQuit();
 	});
+	
+	mui.back = function() {
+		common.confirmQuit();
+	}
 }
 ko.applyBindings(workListAll);

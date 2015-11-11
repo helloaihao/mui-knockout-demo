@@ -157,7 +157,6 @@
 			<span data-bind="event: {tap: confirmDelete}, visible: DeleteMode() && IsManage()">删除</span>
 		</header>
 		<div class="mui-content myAlbum-content">
-
 			<ul class="figure-list" data-bind="visible: Albums().length > 0">
 				<!--ko foreach: {data: Albums}-->
 				<li>
@@ -171,7 +170,6 @@
 						<i class="mui-icon ">&#xe442;</i>
 					</div>
 				</li>
-
 				<!--/ko-->
 				<li data-bind="visible: !DeleteMode() && IsManage()">
 					<figure class="figure-add" data-bind="click: selectImage">
@@ -182,7 +180,9 @@
 			</ul>
 
 			<div class="openedCourses-ys" data-bind="visible: (Albums().length <= 0) && IsManage()">
-				<i class="iconfont">&#xe61f;</i>
+				<i>
+					<img src="../../images/logo-pic.png" />
+				</i>
 				<span>还没照片呢，快来上传吧！</span>
 				<div class="mui-content-padded">
 					<button type="button" class="mui-btn mui-btn-primary mui-btn-block p-btn-padding" data-bind="click: selectImage">添加照片</button>

@@ -54,14 +54,17 @@
 			.font-p{
 				padding: 15px 15px;
 				text-indent: 2em;
+				width: 90%;
+				line-height: 24px;
+				box-sizing: border-box;
 			}
 			.info-pic{
 				height: 44px!important;
 				line-height:22px!important;
 			}
-			.info-li:after{
+			/*.info-li:after{
 				height: 0!important;
-			}
+			}*/
 			.mui-table-view-cell.mui-collapse.mui-active >.info-pic{
 				color: #666;
 				line-height:24px!important;
@@ -69,15 +72,15 @@
 			.mui-table-view-cell.mui-collapse.mui-active >.info-pic:after{
 				color: #333!important;
 				font-size: 20px!important;
-				right: 35px!important;
+				right: 30px!important;
 				content: "\e61c"!important;
 				top: 24px;	
 			}
 			.mui-table-view-cell.mui-collapse >.info-pic:after{
 				color: #333!important;
-				font-size: 14px!important;
-				right: 37px!important;
-				content: "\e635"!important;
+				font-size: 16px!important;
+				right: 30px!important;
+				content: "\e618"!important;
 				top: 22px;				
 			}			
 		</style>
@@ -139,6 +142,15 @@
 			</div>
 		</div>
 		<div class="mui-content">
+			<li class="mui-table-view-cell mui-collapse info-li">
+				<a class="mui-navigate-right info-pic" href="#">
+					简介
+				</a>
+				<ul class="mui-table-view mui-table-view-chevron">				
+					<p class="font-p" data-bind="text: Introduce"></p>
+				</ul>
+			</li>
+			
 			<!--模板文件-->
 			<script type="text/html " id="worksTemplate">
 				<li data-bind="click: goWorksDetail">
@@ -198,15 +210,6 @@
 				</div>
 			</script>
 			<div class="teacherList-blank-bgColor "></div>
-			
-			<li class="mui-table-view-cell mui-collapse info-li">
-				<a class="mui-navigate-right info-pic" href="#">
-					简介
-				</a>
-				<ul class="mui-table-view mui-table-view-chevron">
-					<p class="font-p" data-bind="text: Introduce">介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍</p>
-				</ul>
-			</li>
 			
 			<!--<li class="mui-table-view-cell" data-bind="click:openWork">
 				<a class="my-mui-navigate-right">

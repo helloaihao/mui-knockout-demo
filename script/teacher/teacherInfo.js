@@ -145,7 +145,7 @@
 		}
 		//浏览老师相册
 	self.goTeacherAlbum = function() {
-		common.transfer("../../Modules/my/myAlbum.html", false, {
+		common.transfer("../../modules/my/myAlbum.html", false, {
 			userID: TUserID
 		})
 	}

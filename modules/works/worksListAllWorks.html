@@ -15,6 +15,7 @@
 			/*header.mui-bar {
 				display: none!important;
 			}*/
+			
 			.mui-input-group:after,
 			.mui-input-group:before,
 			.mui-input-group {
@@ -48,7 +49,7 @@
 					<span data-bind="text:Title"></span>
 					<div class="works-list-img" data-bind="event:{tap: goWorksDetails}">
 						<img data-bind="attr: {src: common.getThumbnail(VideoThumbnail)}" onerror="this.src='../../images/video-big-default.png';" />
-						<i data-bind="text:SubjectName"></i>
+						<span class='subjectSpace'><i data-bind="text:SubjectName"></i></span>
 					</div>
 					<p data-bind="text:ContentText"></p>
 					<ul>
@@ -67,7 +68,6 @@
 					<ul class="mui-table-view" data-bind="foreach: {data: tmplSubjectClasses, as: 'class1'}">
 						<li class="mui-table-view-cell mui-collapse ah-scroll">
 							<a class="mui-navigate-right navigate-font" href="#" data-bind="text: subjectClassName"></a>
-
 							<div class="mui-collapse-content" data-bind="foreach: {data: tmplSubjects, as: 'subject'}">
 								<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass() == class1.subjectClass), css:{'table-current': (typeof currentSubject().id === 'function' && subject.id() == currentSubject().id() && subject.subjectClass() == currentSubject().subjectClass())}"></span>
 							</div>
@@ -80,28 +80,29 @@
 		<div id="popType" class="mui-popover">
 			<div id="subject-scroll" class="mui-scroll-wrapper wrapper-margin">
 				<div class="mui-scroll">
-					<!--<ul class="mui-table-view" data-bind="foreach: {data: tmplSubjectClasses, as: 'class1'}">
-						<li class="mui-table-view-cell mui-collapse ah-scroll">
-							<a class="mui-navigate-right navigate-font" href="#" data-bind="text: subjectClassName"></a>
-							<div class="mui-collapse-content" data-bind="foreach: {data: tmplSubjects, as: 'subject'}">
-								<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass() == class1.subjectClass), css:{'table-current': (typeof currentSubject().id === 'function' && subject.id() == currentSubject().id() && subject.subjectClass() == currentSubject().subjectClass())}"></span>
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell mui-collapse">
+							<a class="mui-navigate-right">老师作品类型</a>
+							<div class="mui-collapse-content" data-bind="foreach: {data:common.gJsonWorkTypeTeacher}">
+								<!--<span data-bind="text:text, event: {'tap': selectSubject}, visible: (subject.subjectClass() == class1.subjectClass), css:{'table-current': (typeof currentSubject().id === 'function' && subject.id() == currentSubject().id() && subject.subjectClass() == currentSubject().subjectClass())}"></span>-->
+								<span data-bind="text:text,event:{'tap':selectWorksType}"></span>
 							</div>
 						</li>
-					</ul>-->
+						<li class="mui-table-view-cell mui-collapse">
+							<a class="muis-navigate-right">学生作品类型</a>
+							<div class="mui-collapse-content" data-bind="foreach:{data:common.gJsonWorkTypeStudent}">
+								<span data-bind="text:text,event:{'tap':selectWorksType}"></span>
+							</div>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
 
 		<div id="middlePopover2" class="mui-popover popover-height">
-			<ul id="sortList" class="mui-table-view" data-bind="click:worksResort">
-				<li class="mui-table-view-cell navigate-font" id="defaultSort">
-					<a href="#">默认</a>
-				</li>
-				<li class="mui-table-view-cell navigate-font" id="dateSort">
-					<a href="#">日期</a>
-				</li>
-				<li class="mui-table-view-cell navigate-font" id="nameSort">
-					<a href="#">名称</a>
+			<ul id="sortAllWorksList" class="mui-table-view">
+				<li class="mui-table-view-cell navigate-font" data-bind="foreach:{data:common.gJsonWorkSort}">
+					<span data-bind="text:text,event:{'tap':sortWorks}"></span>
 				</li>
 			</ul>
 		</div>

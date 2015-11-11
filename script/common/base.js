@@ -112,6 +112,7 @@ var handleResult = function(result) {
 		var _opt = $.extend(opt, {
 			beforeSend: function(req) {
 				req.setRequestHeader('Authorization', self.getAuth());
+//				console.log('request send:'+JSON.stringify(req));
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				mui.plusReady(function() {
@@ -122,7 +123,7 @@ var handleResult = function(result) {
 					}
 					plus.nativeUI.closeWaiting();
 				});
-				console.log('xmlhttprequest:'+JSON.stringify(XMLHttpRequest));
+//				console.log('request return error:'+JSON.stringify(XMLHttpRequest));
 				var status;
 				if(XMLHttpRequest.statusCode){
 					status = XMLHttpRequest.statusCode;
@@ -138,8 +139,9 @@ var handleResult = function(result) {
 							removeLocalItem("Token");
 							
 							mui.toast('帐号已在其它设备登录，当前设备将退出。');
+							var myInfo=view
 						}
-						common.transfer("../../modules/account/login.html");
+						//common.transfer("../../modules/account/login.html");
 						break;
 					case 404:
 						window.location = "404.html";
@@ -152,6 +154,7 @@ var handleResult = function(result) {
 				fn.error(XMLHttpRequest, textStatus, errorThrown);
 			},
 			success: function(data, textStatus) {
+//				console.log('request return success:'+JSON.stringify(data));
 				mui.plusReady(function() {
 					plus.nativeUI.closeWaiting();
 				});

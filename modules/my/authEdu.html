@@ -10,6 +10,7 @@
 		<link href="../../content/common/global.css" rel="stylesheet" />
 		<link href="../../content/common/style.css" rel="stylesheet" />
 		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../content/cropperjs/cropper.css" />
 		<style>
 			.mui-table-view {
 				margin: 0!important;
@@ -49,7 +50,7 @@
 		<div class="mui-content titleCertification-mui-content">
 			<p>请提交在有效期内的学历证件照片，需保证头像及文字清晰可见</p>
 
-			<div class="titleCertification-pic-div" data-bind="click:selectPic">
+			<div class="titleCertification-pic-div" data-bind="click:showPic">
 				<div class="uploadbar"><img id="imgUpload" data-bind="attr: {'src': Path}" /></div>
 				<i class="iconfont">&#xe633;</i>
 				<em data-bind="visible: Editable">点击上传图片</em>

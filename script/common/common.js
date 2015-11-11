@@ -68,16 +68,13 @@
 			}
 		});
 	},
-	confirmQuit: function(){
-		//首页返回键处理
-	    plus.key.addEventListener('backbutton', function(){
-			var btnArray = ['确认', '取消'];
-	        mui.confirm('确认退出乐评+？', '退出提示', btnArray, function(e) {
-				if (e.index == 0) {
-					plus.runtime.quit();
-				}
-			});
-	    }, false);
+	confirmQuit: function() {
+		var btnArray = ['确认', '取消'];
+		mui.confirm('确认退出乐评+？', '退出提示', btnArray, function(e) {
+			if (e.index == 0) {
+				plus.runtime.quit();
+			}
+		});
 	},
 	//根据认证状态及图片路径获取其中文描述
 	getAuthStatusStr: function(authStatus, picPath) {
@@ -188,16 +185,16 @@
 			}
 		});
 	},
-	
+
 	//判断是否已有登录信息缓存
-	hasLogined: function(){
+	hasLogined: function() {
 		return (common.StrIsNull(getLocalItem('UUID')) != '' && common.StrIsNull(getLocalItem('UserID')) != '');
 	},
 
 	//获取未读消息
 	getUnreadCount: function(UnreadCount) {
 		if (!common.hasLogined()) return;
-		
+
 		mui.ajax(common.gServerUrl + "API/Message/GetUnreadCount", {
 			dataType: 'json',
 			type: "GET",
@@ -237,11 +234,11 @@
 	},
 
 	//Web API地址
-	gServerUrl: "http://172.16.30.90:8090/", //"http://172.16.6.118:8090/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/", //"http://192.168.1.99:8090/"
+	gServerUrl: "http://172.16.30.90:8090/", //"http://172.16.30.90:8090/", //"http://172.16.6.190:8090/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/",
 	//Video地址
-	gVideoServerUrl: "http://172.16.30.90:8099/", //"http://172.16.6.118:8099/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/", //"http://192.168.1.99:8090/"
+	gVideoServerUrl: "http://172.16.30.90:8099/", //"http://172.16.30.90:8099/", //"http://172.16.6.190:8099/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/",
 
-	
+
 	//用户类型枚举
 	gDictUserType: {
 		teacher: 32,
@@ -302,6 +299,11 @@
 		Comment: 1, //点评
 		CourseToUser: 2, //约课
 		Download: 3 //下载
+	},
+	//课程类型
+	gDictCourseType: {
+		One2One: 1, //一对一
+		One2More: 2 //大班（一对多）
 	},
 	//是否类型JSON
 	gJsonYesorNoType: [{
@@ -403,9 +405,24 @@
 		value: 3,
 		text: '讲师/演奏家'
 	}],
+	//课程类型
+	gJsonCourseType: [{
+		value: 1,
+		text: '一对一课程'
+	}, {
+		value: 2,
+		text: '大班课程'
+	}],
 
 	gVarLocalUploadTask: 'global.UploadTasks',
-	gVarLocalAllSubjects: 'global.AllSubjects'
+	gVarLocalAllSubjects: 'global.AllSubjects',
+	gAuthImgage:[{
+			value: 0,
+			text: '图片预览'
+		}, {
+			value: 1,
+			text: '选择图片'
+		}]
 		/*获取网络状态值
 		 * CONNECTION_UNKNOW: 网络连接状态未知  固定值0
 		 * CONNECTION_NONE: 未连接网络  固定值1

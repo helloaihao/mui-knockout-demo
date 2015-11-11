@@ -13,6 +13,9 @@
 			.mui-content-padded {
 				margin: 0!important;
 			}
+			.mui-bar-nav ~ .mui-content{
+				padding-top: 25px;
+			}
 			.mui-btn-block {
 				width: 30%!important;
 				float: right;
@@ -25,13 +28,16 @@
 			}
 			.details-ul{
 				width: 100%;
-				display: flex;
+				display:inline;
 			}
 			.details-ul li{
-				flex: 1;
+				/*float: left;
+				width: 20%;*/
+				display: table-cell;
+				
 			}
 			.details-ul .details-date{
-				flex: 2;
+				width: 35%;
 			}
 		</style>
 	</head>
@@ -45,16 +51,16 @@
 			<div class="works-content-up reviewInfo-content-up">
 				<span data-bind="text: works().Title">作品标题</span>
 				<ul class="details-ul">
-					<li class="details-date" data-bind="text: works().AddTime ? works().AddTime.split(' ')[0] : ''"></li>
+					<li class="details-date"  data-bind="text: works().AddTime ? works().AddTime.split(' ')[0] : ''"></li>
 					<li>
 						<i class="iconfont">&#xe61a;</i>
 						<!--ko text:works().ReadCount-->
-						<!--/ko-->
+						<!--/ko-->						
 					</li>
 					<li>
 						<i class="iconfont">&#xe61e;</i>
 						<!--ko text:works().LikeCount-->
-						<!--/ko-->
+						<!--/ko-->						
 					</li>
 					<!--<li data-bind="text: remark">未公开</li>-->
 					<li data-bind="text: works().SubjectName">钢琴</li>
@@ -76,8 +82,8 @@
 				<p data-bind="text:Comment, visible: isCommenter() == false"></p>
 				<textarea data-bind="value: Comment, visible: isCommenter() == true, attr:{'placeholder': '请输入评语'}"></textarea>
 				<!--/ko-->
-				<span>总评语</span>
-				<p data-bind="text:totalComment, visible: isCommenter() == false"></p>
+				<span class="t-comment">总评语</span>
+				<p  data-bind="text: works().ContentText"></p>
 				<textarea data-bind="value: totalComment, visible: isCommenter() == true, attr:{'placeholder': '请输入评语'}"></textarea>
 				
 				<div class="works-consult-title" data-bind="click:addfeedback">
@@ -85,16 +91,18 @@
 					<em class="iconfont" data-bind="visible: isCommenter() == false">&#xe621;</em>
 				</div>
 				<div class="works-answer" data-bind="foreach:{data: feedbacks}">
-					<p>
+					<div class="question">
 						<i>Q.</i>
+						<span>				
 						<!--ko text:Question-->
-						<!--/ko-->
-						<em data-bind="click: replyfeedback, visible: isCommenter() == true">回复</em>
-					</p>
-					<p>
+						<!--/ko--></span>
+						<em  data-bind="click: replyfeedback, visible: isCommenter() == true">回复</em>
+					</div>
+				</div>
+					<div class="works-answer">
+						<div class="answer">
 						<i>A.</i>
 						<span data-bind="text:Answer"></span>
-					</p>
 				</div>
 			</div>
 			<nav class="mui-bar mui-bar-tab" data-bind="visible: isCommenter">

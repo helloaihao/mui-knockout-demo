@@ -17,9 +17,9 @@ var register = function() {
 	self.UserType = ko.observable(''); //用户类型
 	self.DisplayName = ko.observable(''); //姓名
 	self.Photo = ko.observable(''); //头像
-	self.Birthday = ko.observable(''); //生日
+	self.Birthday = ko.observable('请选择生日'); //生日
 	self.Gender = ko.observable(0); //性别
-	self.GenderText = ko.observable('选择性别'); //性别文本
+	self.GenderText = ko.observable('请选择性别'); //性别文本
 	self.Province = ko.observable("广东省"); //默认广东省
 	self.City = ko.observable("广州市"); //默认广州市
 	self.District = ko.observable("天河区"); //默认天河区
@@ -142,22 +142,25 @@ var register = function() {
 		}
 		//生日获取
 	self.getBirthday = function() {
-			console.log(self.Birthday());
-			var now = new Date();
-			var year = 1900 + now.getYear();
-			if (self.Birthday() == '') {
-				self.Birthday('2005-01-01');
-			}
+			mui.ready(function() {
+				console.log("点击了生日获取");
+				//console.log(self.Birthday());
+				var now = new Date();
+				var year = 1900 + now.getYear();
+				if (self.Birthday() == '') {
+					self.Birthday('2005-01-01');
+				}
+				dtPicker.PopupDtPicker({
+						'type': 'date',
+						'beginYear': 1980,
+						'endYear': year
+					},
+					self.Birthday(), function(value) {
+						//self.Birthday(value.format('yyyy-MM-dd'));
+						self.Birthday(value.split(' ')[0]);
+					});
+			});
 
-			dtPicker.PopupDtPicker({
-					'type': 'date',
-					'beginYear': 1980,
-					'endYear': year
-				},
-				self.Birthday(), function(value) {
-					//self.Birthday(value.format('yyyy-MM-dd'));
-					self.Birthday(value.split(' ')[0]);
-				});
 		}
 		//地址获取
 	self.address = function() {

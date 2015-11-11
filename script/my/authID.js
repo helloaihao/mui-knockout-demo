@@ -1,5 +1,7 @@
 var authID = function() {
+
 	var self = this;
+	var setPic;
 	self.IDNumber = ko.observable(""); //身份证号码
 	self.Auth = ko.observable({}); //身份认证信息
 	self.AuthStatus = ko.observable('确认信息正确后，请提交审核'); //身份认证状态（显示）
@@ -12,7 +14,7 @@ var authID = function() {
 		var web = plus.webview.currentWebview();
 		if (typeof(web.data) !== "undefined") {
 			var auth = web.data;
-		
+
 			if (auth && auth.AuthType) {
 				self.Auth(auth);
 				self.Path(common.getPhotoUrl(auth.PicPath));
@@ -28,12 +30,34 @@ var authID = function() {
 
 	self.selectPic = function() {
 		if (!self.Editable()) return;
-
 		mui.ready(function() {
-			picture.SelectPicture(false, false, function(retValue) {
+			picture.SelectPicture(true, false, function(retValue) {
 				self.Path(retValue[0].Base64);
 				self.Base64(retValue[0].Base64);
 			}); //不需要裁剪，单选
+		})
+	}
+	self.showPic = function() {
+		mui.ready(function() {
+			setPic.show(function(items) {
+				if (items[0].value == 0) {
+					//图片预览
+					if (self.Base64() == "") {
+						mui.toast("还没选中照片");
+					} else {
+						mui.toast(self.Base64());
+						var imgUpload = document.getElementById('imgUpload');
+						imgUpload.setAttribute("data-preview-src", "");
+						var previewImg = new mui.previewImage();
+						previewImg.open(imgUpload);
+						imgUpload.removeAttribute("data-preview-src");
+					}
+
+				} else if (items[0].value == 1) {
+					//图片选择
+					self.selectPic();
+				}
+			});
 		})
 	}
 
@@ -71,5 +95,9 @@ var authID = function() {
 			}
 		})
 	}
+	mui.ready(function() {
+		setPic = new mui.PopPicker();
+		setPic.setData(common.gAuthImgage);
+	});
 }
 ko.applyBindings(authID);

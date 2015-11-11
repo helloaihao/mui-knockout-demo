@@ -10,6 +10,7 @@
 		<link href="../../content/common/global.css" rel="stylesheet" />
 		<link href="../../content/common/style.css" rel="stylesheet" />
 		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<link rel="stylesheet" type="text/css" href="../../content/cropperjs/cropper.css" />
 		<style>
 			.mui-input-group .mui-input-row:after {
 				background: #C8C7CC!important;
@@ -88,7 +89,7 @@
 						<div class="mui-checkbox mui-left">
 							<input name="chkAgree" value="true" type="checkbox" data-bind='checked: Agreed'>
 						</div>
-						我已阅读并同意<a href="http://www.baidu.com" target="_blank">“乐评+用户服务协议”</a>
+						我已阅读并同意<em onclick="common.transfer('serviceProtocol.html');">“乐评+用户服务协议”</em>
 					</div>
 				</form>
 				<div class="mui-content-padded">
@@ -113,7 +114,7 @@
 					</div>
 					<div class="mui-input-row pic-mui-input-row" data-bind='visible: UserType() == common.gDictUserType.student'>
 						<label>生日</label>
-						<button id='pickDateBtn' type="button" class="mui-btn mui-btn-block th-mui-btn-block th-font" data-bind="text:Birthday, click:getBirthday"></button>
+						<button id='pickDateBtn' type="button" class="mui-btn mui-btn-block th-mui-btn-block th-font" data-bind="text:Birthday, event:{click:getBirthday}"></button>
 					</div>
 					<div class="mui-input-row pic-mui-input-row">
 						<label>性别</label>

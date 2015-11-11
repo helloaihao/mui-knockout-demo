@@ -39,7 +39,6 @@
 					<ul class="mui-table-view" data-bind="foreach: {data: tmplSubjectClasses, as: 'class1'}">
 						<li class="mui-table-view-cell mui-collapse ah-scroll">
 							<a class="mui-navigate-right navigate-font" href="#" data-bind="text: subjectClassName"></a>
-							
 							<div class="mui-collapse-content" data-bind="foreach: {data: tmplSubjects, as: 'subject'}">
 								<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass() == class1.subjectClass), css:{'table-current': (typeof currentSubject().id === 'function' && subject.id() == currentSubject().id() && subject.subjectClass() == currentSubject().subjectClass())}"></span>
 							</div>
@@ -50,12 +49,12 @@
 		</div>
 
 		<div id="middlePopover2" class="mui-popover popover-height">
-			<ul id="list2" class="mui-table-view">
-				<li class="mui-table-view-cell navigate-font">
-					<a href="#">日期</a>
+			<ul id="sortCommentList" class="mui-table-view">
+				<li class="mui-table-view-cell navigate-font" id="dateSort">
+					<span>日期</span>
 				</li>
-				<li class="mui-table-view-cell navigate-font">
-					<a href="#">状态</a>
+				<li class="mui-table-view-cell navigate-font" id="statusSort">
+					<span>状态</span>
 				</li>
 			</ul>
 		</div>
