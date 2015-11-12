@@ -23,21 +23,19 @@
 			.p-footer-btn ul li{
 				line-height:3.1rem!important;
 			}
-			
-			
 		</style>
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<h1 id="title" class="mui-title">个人信息</h1>
 		</header>
-		<div class="p-header-div" data-bind="click: goMyinfo">
-			<div class="photo">
+		<div class="p-header-div">
+			<div class="photo" data-bind="click: goMyinfo">
 				<img data-bind="attr: {'src': Photo}" />
 			</div>
 			<span data-bind="text: DisplayName"></span>
 			<div class="p-footer-btn">
-				<ul>
+				<ul data-bind="visible: typeof(ID())==='Number'||ID() > 0 ">
 					<!--<li>
 						<button>得分	</button>
 					</li>-->
@@ -85,7 +83,7 @@
 			</ul>
 			<div class="pin-blank"></div>
 			<ul class="mui-table-view mui-table-view-chevron ">
-				<li class="mui-table-view-cell my-table-chevron">
+				<li class="mui-table-view-cell my-table-chevron" data-bind="click:goHelp">
 					<a class="my-mui-navigate-right">
 						<em class="iconfont">&#xe619;</em>
 						<span class="mui-badge my-mui-badge iconfont">&#xe618;</span> 帮助

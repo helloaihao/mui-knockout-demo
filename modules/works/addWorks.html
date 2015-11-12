@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
-
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
@@ -46,6 +45,10 @@
 				height: 100%;
 				position: absolute;
 			}
+			.addWorks-mui-bar-nav i:nth-of-type(2){
+				top: 0!important;
+				font-size: 14px!important;
+			}
 		</style>
 	</head>
 
@@ -53,7 +56,7 @@
 		<header class="mui-bar mui-bar-nav addWorks-mui-bar-nav">
 			<i class="iconfont mui-action-back">&#xe602;</i>
 			<h1 class="mui-title">添加作品</h1>
-			<i class="iconfont" id="addWorksPlan" data-bind="click: upload">上传</i>
+			<i class="addWorks-r-font" id="addWorksPlan" data-bind="click: upload">上传</i>
 		</header>
 		<div class="mui-content addWork-mui-content">
 			<form class="mui-input-group reg-mui-input-group">

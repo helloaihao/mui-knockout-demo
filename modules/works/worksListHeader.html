@@ -159,9 +159,9 @@
 			var webviewshow = null;
 			document.querySelector("#workListSort").addEventListener('tap', function() {
 				currentWebview = plus.webview.currentWebview().children()[0];
-				currentWebview.evalJS("mui('#middlePopover2').popover('toggle')");
+				currentWebview.evalJS("mui('#popSort').popover('toggle')");
 				currentWebview = plus.webview.currentWebview().children()[1];
-				currentWebview.evalJS("mui('#middlePopover2').popover('toggle')");
+				currentWebview.evalJS("mui('#popSort').popover('toggle')");
 			});
 			document.querySelector("#workListSubject").addEventListener('tap', function() {
 				currentWebview = plus.webview.currentWebview().children()[0];

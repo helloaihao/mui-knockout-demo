@@ -28,6 +28,11 @@ var my_teacher = function() {
 	self.goMyAlbum = function() {
 		common.transfer('myAlbum.html', true);
 	}
+	self.goHelp = function(){
+		//reloadThis();
+		mui.toast("点击了帮助");
+	}
+	
 
 	if (self.UserID() > 0) {
 		self.getStudent = function() {
@@ -51,7 +56,6 @@ var my_teacher = function() {
 
 		}();
 	}
-	
 	mui.back = function() {
 		common.confirmQuit();
 	}

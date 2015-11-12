@@ -12,8 +12,10 @@ var workListMy = function() {
 	var count = 0; //刷新检测值
 	var workTypeUrl = "&workType=";
 	var workTypeID;
+	var pullupValue = 1;
 	var uploadingWorks;
 	var videoPath;
+	var contentnomore = "上拉显示更多";
 	self.UserType = ko.observable(getLocalItem('UserType'));
 	self.worksList = ko.observableArray([]);
 	self.tmplSubjects = ko.observableArray([]);
@@ -22,7 +24,18 @@ var workListMy = function() {
 	self.currentSubject = ko.observable({}); //当前选中的科目
 	self.currentWorkTypes = ko.observable({});
 	/*var counter = 0;*/
-
+	mui.init({
+		pullRefresh: {
+			container: '#pullrefreshMy',
+			up: {
+				contentrefresh: '正在加载...',
+				callback: pullupRefresh
+			},
+			down: {
+				callback: pulldownRefresh
+			}
+		}
+	});
 	var refreshUploadState = function(task, finished) {
 		for (var i = 0; i < self.worksList().length; i++) {
 			var item = self.worksList()[i];
@@ -119,18 +132,48 @@ var workListMy = function() {
 		});
 	};
 	//下拉加载
-	self.pulldownRefresh = function() {
+	function pulldownRefresh() {
 			setTimeout(function() {
 				mui('#pullrefreshMy').pullRefresh().endPulldownToRefresh(); //refresh completed
+				if (!teacherID) {
+					return;
+				}
+				var curl = useridUrl + teacherID + pageUrl + "1";
+				if (typeof self.currentSubject().id === "function") {
+					curl += subjectUrl + self.currentSubject().id();
+					curl += subjectClassUrl + self.currentSubject().subjectClass();
+				}
+				if (typeof(sortID) === "number" && sortID > 0) {
+					curl += sortUrl + sortID;
+				}
+				if (typeof(workTypeID) === "number" && workTypeID > 0) {
+					curl += workTypeUrl + workTypeID;
+				}
+				if (plus.networkinfo.getCurrentType() > 1) {
+					mui.ajax(thisUrl + curl, {
+						type: 'GET',
+						success: function(responseText) {
+							mui('#pullrefreshMy').pullRefresh().endPullupToRefresh((++count > 2));
+							var result = eval("(" + responseText + ")");
+							if (result && result.length > 0) {
+								result.forEach(function(item) {
+									var obj = new worksItem(item);
+									self.worksList.push(obj);
+								})
+							}
+						}
+
+					});
+				}
 			}, 1500);
 		}
 		//上拉刷新
-	self.pullupRefresh = function(pullrefreshId, worksArray) {
+
+	function pullupRefresh(pullrefreshId, worksArray) {
 		setTimeout(function() {
 			if (!teacherID) {
 				return;
 			}
-			mui('#pullrefreshMy').pullRefresh().endPullupToRefresh((++count > 2));
 			page++;
 			var curl = useridUrl + teacherID + pageUrl + page;
 			if (typeof self.currentSubject().id === "function") {
@@ -143,18 +186,22 @@ var workListMy = function() {
 			if (typeof(workTypeID) === "number" && workTypeID > 0) {
 				curl += workTypeUrl + workTypeID;
 			}
-			mui.ajax(thisUrl + curl, {
-				type: 'GET',
-				success: function(responseText) {
-					var result = eval("(" + responseText + ")");
-					if (result && result.length > 0) {
-						result.forEach(function(item) {
-							var obj = new worksItem(item);
-							self.worksList.push(obj);
-						})
+			if (plus.networkinfo.getCurrentType() > 1) {
+				mui.ajax(thisUrl + curl, {
+					type: 'GET',
+					success: function(responseText) {
+						mui('#pullrefreshMy').pullRefresh().endPullupToRefresh((++count > 2));
+						var result = eval("(" + responseText + ")");
+						if (result && result.length > 0) {
+							result.forEach(function(item) {
+								var obj = new worksItem(item);
+								self.worksList.push(obj);
+							})
+						}
 					}
-				}
-			});
+
+				});
+			}
 		}, 1500)
 	};
 	if (mui.os.plus) {
@@ -176,7 +223,7 @@ var workListMy = function() {
 	//选择科目
 	self.selectSubject = function(data) {
 			self.currentSubject(data);
-//			console.log(self.currentSubject().id);
+			//			console.log(self.currentSubject().id);
 			self.worksList.removeAll(); //先移除所有
 			page = 1; //还原为显示第一页
 			count = 0; //还原刷新次数

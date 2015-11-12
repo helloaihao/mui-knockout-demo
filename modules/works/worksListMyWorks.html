@@ -66,7 +66,6 @@
 				</div>
 			</div>
 		</script>
-
 		<div id="popSubjects" class="mui-popover">
 			<div id="subject-scroll" class="mui-scroll-wrapper wrapper-margin">
 				<div class="mui-scroll">
@@ -82,32 +81,31 @@
 			</div>
 		</div>
 
-		<div id="popType" class="mui-popover">
-			<div id="subject-scroll" class="mui-scroll-wrapper wrapper-margin">
+		<div id="popType" class="mui-popover popover-height">
+			<div class="mui-scroll-wrapper wrapper-margin">
 				<div class="mui-scroll">
-					<li class="mui-table-view-cell mui-collapse" data-bind="visible: UserType() == common.gDictUserType.teacher">
-						<a class="mui-navigate-right navigate-font">老师作品类型</a>
-						<div class="mui-collapse-content" data-bind="foreach: {data:common.gJsonWorkTypeTeacher}">
-							<!--<span data-bind="text:text, event: {'tap': selectSubject}, visible: (subject.subjectClass() == class1.subjectClass), css:{'table-current': (typeof currentSubject().id === 'function' && subject.id() == currentSubject().id() && subject.subjectClass() == currentSubject().subjectClass())}"></span>-->
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell navigate-font" data-bind="visible: UserType() == common.gDictUserType.teacher,foreach: {data:common.gJsonWorkTypeTeacher}">
 							<span data-bind="text:text,event:{'tap':selectWorksType}"></span>
-						</div>
-					</li>
-					<li class="mui-table-view-cell mui-collapse" data-bind="visible:UserType() == common.gDictUserType.student">
-						<a class="mui-navigate-right navigate-font">学生作品类型</a>
-						<div class="mui-collapse-content" data-bind="foreach:{data:common.gJsonWorkTypeStudent}">
+						</li>
+						<li class="mui-table-view-cell mui-collapse navigate-font" data-bind="visible:UserType() == common.gDictUserType.student,foreach:{data:common.gJsonWorkTypeStudent}">
 							<span data-bind="text:text,event:{'tap':selectWorksType}"></span>
-						</div>
-					</li>
+						</li>
+					</ul>
 				</div>
 			</div>
 		</div>
 
 		<div id="popSort" class="mui-popover popover-height">
-			<ul id="sortMyWorksList" class="mui-table-view">
-				<li class="mui-table-view-cell navigate-font" data-bind="foreach:{data:common.gJsonWorkSort}">
-				<span data-bind="text:text,event:{'tap':sortWorks}"></span>
-				</li>
-			</ul>
+			<div class="mui-scroll-wrapper wrapper-margin">
+				<div class="mui-scroll">
+					<ul id="sortMyWorksList" class="mui-table-view">
+						<li class="mui-table-view-cell navigate-font" data-bind="foreach:{data:common.gJsonWorkSort}">
+							<span data-bind="text:text,event:{'tap':sortWorks}"></span>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</div>
 		<script src="../../script/mui/mui.min.js"></script>
 		<script src="../../script/mui/mui.picker.min.js"></script>
@@ -117,21 +115,6 @@
 		<script src="../../script/common/upload.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/templateSubjects.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/works/workListMy.js" type="text/javascript" charset="utf-8"></script>
-		<script>
-			mui.init({
-				pullRefresh: {
-					container: '#pullrefreshMy',
-					up: {
-						contentrefresh: '正在加载...',
-						callback: pullupRefresh
-					},
-					down: {
-						contentrefresh: '正在刷新',
-						callback: pulldownRefresh
-					}
-				}
-			});
-		</script>
 	</body>
 
 </html>

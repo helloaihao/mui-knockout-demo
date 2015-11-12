@@ -15,7 +15,7 @@ li {
 .mui-input-group .mui-input-row:after {
 	background: #C8C7CC!important;
 }
-.reg-mui-input-row input[type=text], 
+.reg-mui-input-row input[type=text],
 input[type=password],
 input[type=number],
 textarea {
@@ -24,7 +24,7 @@ textarea {
 	font-size: 16px!important;
 	font-family: Microsoft YaHei, Tahoma, Arial, sans-serif!important;
 }
-.font-size{
+.font-size {
 	font-size: 14px!important;
 	margin-left: 15px;
 }
@@ -60,7 +60,6 @@ textarea {
 	display: inline-block;
 	text-align: right;
 }
-
 .mui-bar-nav em {
 	right: 5px!important;
 }
@@ -267,7 +266,7 @@ textarea {
 	top: 6px;
 	border-radius: 5px;
 	color: #fff;
-	font-size:14px;
+	font-size: 14px;
 }
 .reg-mui-input-row label {
 	font-size: 1.02rem;
@@ -283,7 +282,7 @@ textarea {
 	font-size: 14px;
 	position: relative;
 }
-.reg-protocol em{
+.reg-protocol em {
 	color: #036FB8;
 }
 .reg-protocol img {
@@ -460,7 +459,7 @@ textarea {
 	color: #666;
 }
 .index-content-ctn em {
-	width:100%;
+	width: 100%;
 	height: 13.995rem;
 	display: inline-block;
 	background: #ccc;
@@ -489,8 +488,8 @@ textarea {
 	height: 26px;
 	overflow: hidden;
 	font-size: 14px;
-	text-overflow:ellipsis;
-	white-space:nowrap;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 .index-tel {
 	height: 44px;
@@ -703,8 +702,8 @@ textarea {
 	height: 15px;
 	width: 100%;
 }
-.work-p-content{
-	padding:0 15px 15px 15px;
+.work-p-content {
+	padding: 0 15px 15px 15px;
 	line-height: 26px;
 	font-size: 14px;
 	color: #666;
@@ -791,34 +790,33 @@ textarea {
 	font-size: 14px;
 	display: inline-block;
 }
-.works-icon{
+.works-icon {
 	font-size: 20px;
 }
-	.works-date{
-				height: 38px;
-				line-height: 38px;
-				width: 100%;
-				padding: 0 10px;
-				box-sizing: border-box;
-			}
-			.works-date ul{
-				width: 100%;
-				height: 100%;
-				display: table;
-				
-			}
-			.works-date ul li{
-				height: 100%;
-				font-size: 12px;
-				width: 20%;
-				float: left;
-				line-height: 30px;
-				text-align: center;
-				display: table-cell;
-			}	
-			.works-date ul li.week{
-				width: 30%;
-			}
+.works-date {
+	height: 38px;
+	line-height: 38px;
+	width: 100%;
+	padding: 0 10px;
+	box-sizing: border-box;
+}
+.works-date ul {
+	width: 100%;
+	height: 100%;
+	display: table;
+}
+.works-date ul li {
+	height: 100%;
+	font-size: 12px;
+	width: 20%;
+	float: left;
+	line-height: 30px;
+	text-align: center;
+	display: table-cell;
+}
+.works-date ul li.week {
+	width: 30%;
+}
 /*.works-content-up ul li:nth-of-type(2) i {
 	font-size: 20px;
 }
@@ -828,6 +826,7 @@ textarea {
 .works-content-up ul li:nth-of-type(6) i {
 	font-size: 20px;
 }*/
+
 .works-label {
 	position: absolute;
 	left: 15px;
@@ -899,7 +898,6 @@ textarea {
 }
 .works-consult-title i {
 	font-size: 20px;
-
 }
 .works-consult-title em {
 	color: #999;
@@ -923,7 +921,7 @@ textarea {
 	box-sizing: border-box;
 	margin-top: 5px;
 }
-.question{
+.question {
 	color: #666;
 	font-size: 14px;
 	padding: 5px 15px;
@@ -932,13 +930,13 @@ textarea {
 	height: auto;
 	box-sizing: border-box;
 }
-
-.question i,.answer i{
+.question i,
+.answer i {
 	width: 5%;
 	float: left;
 	display: inline-block;
 }
-.question span{
+.question span {
 	width: 75%;
 	float: left;
 	line-height: 25px!important;
@@ -949,20 +947,21 @@ textarea {
 	/*position: absolute;
 	right: 0px;
 	top: 7px;*/
+	
 	float: right;
 	color: #036fb8;
 	font-weight: 500;
 	font-size: 16px;
-	width:20%;
+	width: 20%;
 	text-align: center;
 	display: inline-block;
 }
-.answer{
+.answer {
 	color: #666;
 	font-size: 14px;
 	padding: 0px 20px 15px 30px;
 }
-.answer span{
+.answer span {
 	width: 92%;
 	line-height: 20px!important;
 	color: #666!important;
@@ -1143,7 +1142,7 @@ textarea {
 	margin: 30px 0 12px 0;
 }
 .works-list-img em {
-	width:100%;
+	width: 100%;
 	height: 12.88rem;
 	display: inline-block;
 	background: #ccc;
@@ -1158,7 +1157,7 @@ textarea {
 }
 .works-list-img i:nth-of-type(1) {
 	height: 34px;
-	width:120px;
+	width: 120px;
 	padding: 0 10px;
 	background-color: rgb(255, 255, 255);
 	opacity: 0.502;
@@ -1176,7 +1175,8 @@ textarea {
 	color: #666;
 	font-size: 15px;
 	text-indent: 2em;
-/*	margin-left: -20px;*/
+	/*	margin-left: -20px;*/
+	
 	margin-bottom: -10px;
 	padding: 0 15px;
 }
@@ -1507,7 +1507,8 @@ textarea {
 	font-size: 0.8rem;
 	margin-top: 3px;
 }
-.checked-font input[type=checkbox]:before, .mui-radio input[type=radio]:before{
+.checked-font input[type=checkbox]:before,
+.mui-radio input[type=radio]:before {
 	font-size: 22px!important;
 }
 .commentList-center {
@@ -1530,14 +1531,13 @@ textarea {
 	padding: 0 12px 0 0;
 	font-size: 16px;
 }
-.commentList-ctn ol li.dp-teacher{
+.commentList-ctn ol li.dp-teacher {
 	width: 80%!important;
 }
-.commentList-ctn ol li.flesh{
+.commentList-ctn ol li.flesh {
 	width: 20%!important;
 	text-align: center;
 	font-size: 16px!important;
-	
 }
 .commentList-ctn ol li em {
 	height: 2rem;
@@ -1552,6 +1552,7 @@ textarea {
 	text-align: center;
 }
 /*------老师详情-------*/
+
 .p-header-div {
 	position: relative;
 	background: url(../../images/my-bg.png) no-repeat;
@@ -1570,26 +1571,22 @@ textarea {
 }
 @media only screen and (min-width: 376px) and (max-width: 414px) {
 	.p-header-div {
-	position: relative;
-	background: url(../../images/my-bg.png) no-repeat;
-	height: 335px;
-	width: 100%;
-	overflow: hidden;
-	background-size: 100% auto;
-	background-size: auto 100%;
+		position: relative;
+		background: url(../../images/my-bg.png) no-repeat;
+		height: 335px;
+		width: 100%;
+		overflow: hidden;
+		background-size: 100% auto;
+		background-size: auto 100%;
+	}
+	.p-footer-btn {
+		width: 100%;
+		height: 34px;
+		position: absolute;
+		left: 0;
+		bottom: 20px;
+	}
 }
-.p-footer-btn {
-	width: 100%;
-	height: 34px;
-	position: absolute;
-	left: 0;
-	bottom: 20px;
-}
-
-}
-
-
-
 /*------公共头像背景-------*/
 
 .p-header-div a {
@@ -1680,7 +1677,6 @@ textarea {
 	top: 12rem;
 	font-size: 16px;
 }
-
 .p-footer-btn ul {
 	width: 100%;
 	height: 34px;
@@ -1824,7 +1820,7 @@ textarea {
 	padding-bottom: 8px;
 	text-align: left
 }
-.teacherList-resolve-content ul li img{
+.teacherList-resolve-content ul li img {
 	height: 100%;
 	width: 100%;
 	overflow: hidden;
@@ -1966,7 +1962,7 @@ textarea {
 	overflow: hidden;
 }
 .messageNotification-title {
-	height:50px;
+	height: 50px;
 	border-bottom: 1px solid #C8C7CC;
 	padding: 0 15px;
 	box-sizing: border-box;
@@ -2333,6 +2329,7 @@ textarea {
 	height: 2rem;
 	margin: 70px 0 10px 0;
 	/*padding-left: 10rem;*/
+	
 	box-sizing: border-box;
 }
 .openedCoursesList-btn i {
@@ -2352,7 +2349,7 @@ textarea {
 	box-sizing: border-box;
 	display: inline-block;
 }
-.openedCoursesList-start{
+.openedCoursesList-start {
 	width: 100%;
 	float: left;
 	text-align: left;
@@ -2363,7 +2360,7 @@ textarea {
 	padding-left: 15px;
 	box-sizing: border-box;
 }
-.openedCoursesList-ban{
+.openedCoursesList-ban {
 	width: 70%;
 	float: left;
 	text-align: left;
@@ -2375,7 +2372,7 @@ textarea {
 	box-sizing: border-box;
 	margin-bottom: 2px;
 }
-.openedCoursesList-total{
+.openedCoursesList-total {
 	width: 25%!important;
 	float: right;
 	font-size: 14px;
@@ -2385,9 +2382,8 @@ textarea {
 	color: #999!important;
 	text-align: right;
 	margin-bottom: 2px;
-	
 }
-.openedCoursesList-right{
+.openedCoursesList-right {
 	text-align: right;
 	padding-right: 15px;
 	float: right!important;
@@ -2501,7 +2497,7 @@ textarea {
 	font-size: 16px;
 	text-align: center;
 }
-.teacherList-content ol li.CommentPrice{
+.teacherList-content ol li.CommentPrice {
 	color: #f17103;
 	font-size: 14px;
 	text-align: right!important;
@@ -2527,8 +2523,7 @@ textarea {
 .addCourse-mui-input {
 	border-bottom: 1px solid #C8C7CC;
 }
-.addCourse-left
- {
+.addCourse-left {
 	margin-left: 15px;
 }
 .addCourse-class {
@@ -2541,7 +2536,7 @@ textarea {
 	font-size: 16px;
 	color: #666;
 }
-.comment-bg{
+.comment-bg {
 	background: #f1f1f1;
 }
 .addCourse textarea {
@@ -2681,7 +2676,7 @@ textarea {
 	width: 100%;
 	border-bottom: 1px solid #C8C7CC;
 	padding: 0 15px;
-	line-height:44px;
+	line-height: 44px;
 	color: #666;
 	font-size: 16px;
 	text-align: center;
@@ -2853,10 +2848,10 @@ textarea {
 	margin: 0!important;
 	text-align: center;
 }
-.works-content-dow .t-comment{
+.works-content-dow .t-comment {
 	color: #d2000a!important;
 }
-.comment-top{
+.comment-top {
 	margin-top: 0px!important;
 }
 /*----我的账号----*/
@@ -2964,6 +2959,7 @@ textarea {
 }
 .myAttention-table {
 	/*top: 3.5rem!important;*/
+	
 	top: 56px!important;
 	width: 200px!important;
 }
@@ -3151,36 +3147,37 @@ textarea {
 	font-size: 16px;
 	border: none!important;
 }
-.course-z{
+.course-z {
 	height: 22px;
 	width: 100%;
 	margin-top: 10px;
 	position: relative;
 	padding-left: 50px;
 	box-sizing: border-box;
-	}
-.course-z em{
+}
+.course-z em {
 	width: 16px;
 	display: inline-block;
 	height: 16px;
 	margin-right: 5px;
-}	
-.course-z span{
+}
+.course-z span {
 	font-size: 12px;
 	color: #666;
 	top: -1px;
 	position: absolute;
 	margin-left: 5px;
 }
-.normaltime-font{
-	left:70px;	
-	}
-.availableTime-table .freetime,.availableTime-table .normaltime {
+.normaltime-font {
+	left: 70px;
+}
+.availableTime-table .freetime,
+.availableTime-table .normaltime {
 	background: #00abeb;
 	color: #fff;
 	font-size: 0.8rem;
 }
-.course-z .finishedtime{
+.course-z .finishedtime {
 	width: 16px;
 }
 .availableTime-table .finishedtime {
@@ -3188,10 +3185,10 @@ textarea {
 	color: #fff;
 	font-size: 0.8rem;
 }
-.course-z .finishedtime{
+.course-z .finishedtime {
 	margin-left: 40px;
 }
-.finishedtime-font{
+.finishedtime-font {
 	left: 135px;
 }
 .availableTime-table .busytime {
@@ -3199,15 +3196,14 @@ textarea {
 	color: #fff;
 	font-size: 0.8rem;
 }
-.availableTime-table .fontadjusting{
+.availableTime-table .fontadjusting {
 	background: #00abeb;
-	}
-.course-z .fontadjusting{
-
+}
+.course-z .fontadjusting {
 	width: 50px!important;
 	margin-left: 35px;
 }
-.fontadjusting-font{
+.fontadjusting-font {
 	color: greenyellow !important;
 	left: 250px;
 }
@@ -3215,12 +3211,11 @@ textarea {
 	background: darkred;
 	color: #fff;
 	font-size: 0.8rem;
-	}
+}
 .course-z .overtime {
-	
 	margin-left: 50px;
 }
-.overtime-font{
+.overtime-font {
 	left: 210px;
 }
 .availableTime-table a {
@@ -3271,7 +3266,7 @@ textarea {
 	float: right;
 	margin-right: 15px;
 	text-align: center;
-	line-height:34px;
+	line-height: 34px;
 	margin-top: 10px;
 	background: #036FB8;
 	border-radius: 5px;
@@ -3282,6 +3277,7 @@ textarea {
 	height: 2.2rem!important;
 	width: 100%!important;
 	/*padding-left: 14.8%;*/
+	
 	box-sizing: border-box;
 }
 .time-up-add {
@@ -3597,7 +3593,6 @@ textarea {
 	bottom: 9px;
 	z-index: 100;
 	border-radius: 50%;
-
 }
 .checkIcon i {
 	color: #fd7700;
@@ -3825,8 +3820,8 @@ textarea {
 	display: inline-block;
 	color: #fff;
 }
-
 /*筛选弹窗*/
+
 .ah-scroll>.mui-navigate-right:after,
 .ah-scroll>.mui-push-right:after {
 	content: "\e61c"!important;
@@ -3844,7 +3839,6 @@ textarea {
 .ah-scroll.mui-active>.mui-navigate-right {
 	color: #036FB8!important;
 }
-
 #popSubjects span {
 	border: 1px solid #FFFFFF;
 	text-align: center;
@@ -3866,12 +3860,12 @@ textarea {
 .table-current {
 	border: 1px solid #036FB8 !important;
 	border-radius: 5px;
-	font-size:14px;
+	font-size: 14px;
 	color: #036FB8;
 	line-height: 100%;
 	margin: 0 auto;
 }
-.mask{
+.mask {
 	position: absolute;
 	left: 0;
 	top: 0;
@@ -3884,104 +3878,101 @@ textarea {
 	line-height: 100%;
 	vertical-align: middle;
 }
-
-
 /*---分享---*/
+
 .shareTeacher-pic {
-				height: 7.5rem;
-				width: 100%;
-				border-bottom: 1px solid #C8C7CC;
-				overflow: hidden;
-				padding: 10px 0;
-				box-sizing: border-box;
-			}
-			.shareTeacher-pic ul li {
-				width: 33.33333333%;
-				height: 100%;
-				float: left;
-				text-align: center;
-				position: relative;
-			}
-			.shareTeacher-pic ul li img {
-				height: 3.6rem;
-				width: 3.6rem;
-			}
-			.shareTeacher-pic ul li span {
-				height: 1.8rem;
-				width: 100%;
-				display: inline-block;
-				position: absolute;
-				left: 0;
-				bottom: -28px;
-				color: #666;
-				line-height: 1.8rem;
-				text-align: center;
-				font-size: 16px;
-			}
-			.shareTeacher-qx {
-				height: 40px;
-				width: 100%;
-				text-align: center;
-				line-height: 45px;
-				color: #666;
-				font-size: 18px;
-			}
+	height: 7.5rem;
+	width: 100%;
+	border-bottom: 1px solid #C8C7CC;
+	overflow: hidden;
+	padding: 10px 0;
+	box-sizing: border-box;
+}
+.shareTeacher-pic ul li {
+	width: 33.33333333%;
+	height: 100%;
+	float: left;
+	text-align: center;
+	position: relative;
+}
+.shareTeacher-pic ul li img {
+	height: 3.6rem;
+	width: 3.6rem;
+}
+.shareTeacher-pic ul li span {
+	height: 1.8rem;
+	width: 100%;
+	display: inline-block;
+	position: absolute;
+	left: 0;
+	bottom: -28px;
+	color: #666;
+	line-height: 1.8rem;
+	text-align: center;
+	font-size: 16px;
+}
+.shareTeacher-qx {
+	height: 40px;
+	width: 100%;
+	text-align: center;
+	line-height: 45px;
+	color: #666;
+	font-size: 18px;
+}
 .share-height.mui-active {
-				top: 50%!important;
-				margin-top: -5.5rem!important;
-				left: 0!important;				
-				min-height: 11rem!important;
-			}
+	top: 50%!important;
+	margin-top: -5.5rem!important;
+	left: 0!important;
+	min-height: 11rem!important;
+}
 @media only screen and (min-width: 375px) and (max-width: 414px) {
 	.shareTeacher-pic {
-				height: 6.8rem;
-				width: 100%;
-				border-bottom: 1px solid #C8C7CC;
-				overflow: hidden;
-				padding: 20px 0;
-				box-sizing: border-box;
-			}
-			.shareTeacher-pic ul li {
-				width: 33.33333333%;
-				height: 100%;
-				float: left;
-				text-align: center;
-				position: relative;
-			}
-			.shareTeacher-pic ul li img {
-				height: 3.6rem;
-				width: 3.6rem;
-			}
-			.shareTeacher-pic ul li span {
-				height: 2rem;
-				width: 100%;
-				display: inline-block;
-				position: absolute;
-				left: 0;
-				bottom: -28px;
-				color: #666;
-				line-height: 2rem;
-				text-align: center;
-				font-size: 16px;
-			}
-			.shareTeacher-qx {
-				height: 50px;
-				width: 100%;
-				text-align: center;
-				line-height:55px;
-				color: #666;
-				font-size: 18px!important;
-			}
-			.share-height.mui-active {
-				top: 50%!important;
-				margin-top: -5rem!important;
-				left: 0!important;				
-				min-height: 10rem!important;
-			}
-
+		height: 6.8rem;
+		width: 100%;
+		border-bottom: 1px solid #C8C7CC;
+		overflow: hidden;
+		padding: 20px 0;
+		box-sizing: border-box;
+	}
+	.shareTeacher-pic ul li {
+		width: 33.33333333%;
+		height: 100%;
+		float: left;
+		text-align: center;
+		position: relative;
+	}
+	.shareTeacher-pic ul li img {
+		height: 3.6rem;
+		width: 3.6rem;
+	}
+	.shareTeacher-pic ul li span {
+		height: 2rem;
+		width: 100%;
+		display: inline-block;
+		position: absolute;
+		left: 0;
+		bottom: -28px;
+		color: #666;
+		line-height: 2rem;
+		text-align: center;
+		font-size: 16px;
+	}
+	.shareTeacher-qx {
+		height: 50px;
+		width: 100%;
+		text-align: center;
+		line-height: 55px;
+		color: #666;
+		font-size: 18px!important;
+	}
+	.share-height.mui-active {
+		top: 50%!important;
+		margin-top: -5rem!important;
+		left: 0!important;
+		min-height: 10rem!important;
+	}
 }
-
-.allTitle{
+.allTitle {
 	height: 44px;
 	width: 100%;
 	padding: 0 15px;
@@ -3990,7 +3981,7 @@ textarea {
 	font-size: 16px;
 	color: #036FB8;
 }
-.allSubject{
+.allSubject {
 	height: auto;
 	width: 100%;
 	padding: 15px;
@@ -3998,39 +3989,98 @@ textarea {
 	background: #fff!important;
 	overflow: hidden;
 }
-.allSubject ol{
+.allSubject ol {
 	width: 100%;
 	height: auto;
 	overflow: hidden;
 }
-.allSubject ol li{
+.allSubject ol li {
 	height: 90px;
 	width: 25%!important;
 	text-align: center;
 	color: #333;
 	font-size: 14px;
 	float: left;
-	margin: 3px 0;	
+	margin: 3px 0;
 }
-.allSubject ol li img{
+.allSubject ol li img {
 	height: 56px;
 	width: 56px;
 	vertical-align: middle;
 }
-.allSubject ol li span{
+.allSubject ol li span {
 	height: 30px;
 	margin-top: 7px;
 	text-align: center;
 	width: 100%;
 	display: inline-block;
 }
-
-.allSubject-last{
+.allSubject-last {
 	font-size: 12px;
 }
+/*------管理报名------*/
 
-
-
-
-
-
+.card-bg {
+	background: #fff;
+	margin-bottom: 15px;
+}
+.card-right {
+	width: 85%;
+	float: right;
+}
+.card-row {
+	height: 100px!important;
+	padding: 10px;
+	box-sizing: border-box;
+}
+.card-row input {
+	line-height: 88px!important;
+}
+.card-row img {
+	height: 80px;
+	width: 80px;
+	border-radius: 50%;
+	float: left;
+}
+.card-row-left{
+	width: 14%;
+	float: left;
+	height: 100%;
+}
+.card-row-right {
+	height: 30px;
+	width: 64%;
+	float: right;
+	line-height: 30px;
+	margin-top: 10px;
+}
+.card-row-dow {
+	height: 20px!important;
+	margin-top: 0px!important;
+}
+.card-row-right span {
+	color: #666;
+	font-size: 16px;
+}
+.card-row-right u {
+	color: #999;
+	font-size: 14px!important;
+	text-decoration: none;
+}
+.u-font-right {
+	float: right;
+}
+.select-all {
+	width: 100%!important;
+	background: #FFF;
+}
+.select-all input[type='checkbox'] {
+	top: 12px!important;
+}
+.select-all label {
+	line-height: 32px!important;
+}
+.card-row input[type=checkbox]:before,
+.select-all input[type=checkbox]:before {
+	font-size: 26px!important;
+}

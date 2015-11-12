@@ -137,9 +137,13 @@ var handleResult = function(result) {
 							removeLocalItem("UserName");
 							removeLocalItem("UserID");
 							removeLocalItem("Token");
-							
 							mui.toast('帐号已在其它设备登录，当前设备将退出。');
-							var myInfo=view
+							//var myInfo=viewModelIndex.MyHref;
+							//mui.toast(viewModelIndex().MyHref());
+							var myherf=plus.webview.getWebviewById("modules/my/myInfoStudent.html") || plus.webview.getWebviewById("modules/my/myInfoTeacher.html");  
+							if(myherf!=""){
+								myherf.reload(true);
+							}
 						}
 						//common.transfer("../../modules/account/login.html");
 						break;

@@ -322,6 +322,9 @@
 		text: '女'
 	}],
 	gJsonWorkTypeTeacher: [{
+		value: 0,
+		text: "全部"
+	}, {
 		value: 1,
 		text: "分解教程"
 	}, {
@@ -332,6 +335,9 @@
 		text: "演出作品"
 	}],
 	gJsonWorkTypeStudent: [{
+		value: 0,
+		text: "全部"
+	}, {
 		value: 104,
 		text: "学生作品"
 	}, {
@@ -416,7 +422,7 @@
 
 	gVarLocalUploadTask: 'global.UploadTasks',
 	gVarLocalAllSubjects: 'global.AllSubjects',
-	gAuthImgage:[{
+	gAuthImgage: [{
 			value: 0,
 			text: '图片预览'
 		}, {
