@@ -6,7 +6,10 @@ var my_teacher = function() {
 	self.FavCount = ko.observable(0);
 	self.UserID = ko.observable(getLocalItem('UserID'));
 	self.UserType = ko.observable(getLocalItem('UserType'));
-
+	
+	self.goMyUserAttented = function() {
+		common.transfer('../teacher/myUserAttented.html', true, {}, true);
+	}
 	self.goMyinfo = function() {
 		common.transfer('myInfo.html', true, {}, true);
 	}
@@ -28,12 +31,10 @@ var my_teacher = function() {
 	self.goMyAlbum = function() {
 		common.transfer('myAlbum.html', true);
 	}
-	self.goHelp = function(){
+	self.goHelp = function() {
 		//reloadThis();
 		mui.toast("点击了帮助");
 	}
-	
-
 	if (self.UserID() > 0) {
 		self.getStudent = function() {
 			var ajaxUrl = common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID() + "&usertype=" + self.UserType();

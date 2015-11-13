@@ -335,9 +335,6 @@
 		text: "演出作品"
 	}],
 	gJsonWorkTypeStudent: [{
-		value: 0,
-		text: "全部"
-	}, {
 		value: 104,
 		text: "学生作品"
 	}, {

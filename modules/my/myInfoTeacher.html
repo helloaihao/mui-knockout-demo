@@ -43,7 +43,7 @@
 						</button>
 					</li>
 					<li>
-						<button data-bind="visible:ID() > 0">
+						<button data-bind="visible:ID() > 0,event:{click:goMyUserAttented}">
 							关注
 							<!--ko text:FavCount-->
 							<!--/ko-->

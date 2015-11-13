@@ -17,17 +17,16 @@
 			.mui-content {
 				background: #f1f1f1!important;
 			}
-			.works-list-mui-active1{
+			.works-list-mui-active1 {
 				border-radius: 35px 0 0 38px;
 			}
-			.works-list-mui-active2{
-				border-radius:0 35px 38px 0;
+			.works-list-mui-active2 {
+				border-radius: 0 35px 38px 0;
 			}
 			.works-list-mui-active .mui-active {
 				color: #fff!important;
 				background: #036FB8!important;
 				border: 1px solid #036FB8!important;
-				
 			}
 			.mui-segmented-control .mui-control-item.mui-active {
 				color: #fff!important;
@@ -54,7 +53,6 @@
 			.mui-active {
 				color: #666!important;
 			}
-			
 		</style>
 
 	</head>
@@ -95,36 +93,23 @@
 						</ul>
 					</div>
 				</script>
-				<div id="item2" class="mui-control-content myAttention-wrapper" data-bind="template: {name:'usersTemplate', foreach: FavUsers}">
-					<!--<div class="myAttention-list-content">
-						<span>老师</span>
-						<span>周文涛</span>
-						<span>5年教龄</span>
-						<div class="works-list-img">
-							<img src="../../images/22.jpg" />
-						</div>
-						<span>2015-6-19</span>
-						<span>
-		                	<i class="iconfont">&#xe63c;</i>
-		                	广州市天河区体育中心
-		                </span>
-					</div>-->
+				<div id="item2" class="mui-control-content myAttention-wrapper" data-bind="template: {name:'attentionTemple', foreach: FavUsers}">
 				</div>
 				<!--收藏用户模板页-->
-				<script type="text/html" id="usersTemplate">
-					<div class="myAttention-list-content">
-						<span data-bind='text: UserType == common.gDictUserType.teacher ? "老师" : "学生"'></span>
-						<span data-bind='text: DisplayName'></span>
-						<span data-bind='text: UserType == common.gDictUserType.teacher ? TeachAge + "年教龄" : Birthday'></span>
-						<div class="works-list-img">
-							<img src="../../images/22.jpg" />
+				<script type="text/html" id="attentionTemple">
+					<div class="card-row">
+						<div class="card-right card-width">
+							<img data-bind="attr:{'src':common.getPhotoUrl(Photo)}" />
+							<div class="card-row-right">
+								<span data-bind="text:DisplayName"></span><u>(<!--ko text:common.gJsonGenderType[Gender].text--><!--/ko-->)</u>
+								<u class="u-font-right" data-bind='text: UserType == common.gDictUserType.teacher ? TeachAge + " 年教龄 " : TheAge'></u>
+							</div>
+							<div class="card-row-right card-row-dow">
+								<u data-bind="text:Province + City + District"></u>
+							</div>
 						</div>
-						<span>
-		                	<i class="iconfont">&#xe63c;</i>
-		                	<!--ko text: Province + City + District-->
-							<!--/ko-->
-		                </span>
 					</div>
+					<div class="pin-blank"></div>
 				</script>
 			</div>
 		</div>

@@ -2009,14 +2009,12 @@ textarea {
 	text-align: center;
 	margin-right: 15px;
 	font-size: 0.88rem;
+	background: #dcdcdc;
+	color: #999;
 }
 .messageNotification-content .m-active {
 	background: #ef8100;
 	color: #fff;
-}
-.messageNotification-content em {
-	background: #dcdcdc;
-	color: #999;
 }
 /*----意见反馈-----*/
 
@@ -3224,27 +3222,27 @@ textarea {
 }
 .availableTime-input {
 	background: #f1f1f1;
-	height: 3.52rem;
+	height: 50px;
 	width: 100%;
-	margin-bottom: 60px;
+	/*margin-bottom: 60px;*/
 }
 .availableTime-input label {
 	width: 20%;
 	float: left;
-	line-height: 3.52rem;
+	line-height: 50px;
 	text-align: center;
 	color: #666;
-	font-size: 1.02rem;
+	font-size: 16px;
 }
 .availableTime-input input {
 	width: 80%;
 	float: left;
 	text-align: left;
 	color: #999;
-	font-size: 0.96rem;
+	font-size: 14px;
 	background: #F1F1F1;
-	height: 3.52rem;
-	line-height: 3.52rem;
+	height: 50px;
+	line-height: 50px;
 	border: none;
 }
 .screenCenter {
@@ -4084,3 +4082,20 @@ textarea {
 .select-all input[type=checkbox]:before {
 	font-size: 26px!important;
 }
+.card-width{
+	width: 100%!important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

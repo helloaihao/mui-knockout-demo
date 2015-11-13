@@ -12,6 +12,7 @@ var workListAll = function() {
 	var workTypeID;
 	var page = 1;
 	var count = 0; //上拉刷新检测次数
+	self.sortList = ko.observableArray([]);
 	//var contentnomore = "上拉显示更多"
 	var ppSubject, ppSort;
 	self.works = ko.observableArray([]);
@@ -110,7 +111,7 @@ var workListAll = function() {
 				});
 
 			};
-		},1500);
+		}, 1500);
 	};
 	if (mui.os.plus) {
 		mui.plusReady(function() {
@@ -166,9 +167,16 @@ var workListAll = function() {
 			works: data
 		})
 	}
-	function stopPullup(){
-		
+
+	Array.prototype.removeArray=function(dx) {
+		for (var i = 0, n = 0; i < this.length; i++) {
+			if (this[i] != this[dx]) {
+				this[n++] = this[i]
+			}
+		}
+		this.length -= 1
 	}
+	
 	mui.plusReady(function() {
 		self.getWorks();
 		var subjectvm = new subjectsViewModel();
@@ -178,6 +186,7 @@ var workListAll = function() {
 			self.currentSubject(self.tmplSubjects()[0]);
 		}
 	});
+
 
 	mui.back = function() {
 		common.confirmQuit();
