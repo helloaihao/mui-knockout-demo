@@ -20,9 +20,10 @@ var workListMy = function() {
 	self.worksList = ko.observableArray([]);
 	self.tmplSubjects = ko.observableArray([]);
 	self.tmplSubjectClasses = ko.observableArray([]);
-
 	self.currentSubject = ko.observable({}); //当前选中的科目
 	self.currentWorkTypes = ko.observable({});
+	common.gJsonWorkTypeTeacher.unshift({value:0,text: "全部"});
+	common.gJsonWorkTypeStudent.unshift({value:0,text: "全部"});
 	/*var counter = 0;*/
 	mui.init({
 		pullRefresh: {
@@ -46,7 +47,7 @@ var workListMy = function() {
 					item.IsFinish(true);
 					//更换缩略图
 					item.VideoThumbnail('');
-					console.log(item.works.VideoThumbnail);
+					//console.log(item.works.VideoThumbnail);
 					item.VideoThumbnail(item.works.VideoThumbnail);
 
 					//从本地缓存中删除
@@ -138,7 +139,7 @@ var workListMy = function() {
 				if (!teacherID) {
 					return;
 				}
-				var curl = useridUrl + teacherID + pageUrl + "1";
+				var curl = useridUrl + teacherID + pageUrl + 1;
 				if (typeof self.currentSubject().id === "function") {
 					curl += subjectUrl + self.currentSubject().id();
 					curl += subjectClassUrl + self.currentSubject().subjectClass();
@@ -234,7 +235,7 @@ var workListMy = function() {
 		//作品排序
 	self.sortWorks = function() {
 			self.worksList.removeAll();
-			workTypeID = this.value;
+			sortID = this.value;
 			page = 1; //还原为显示第一页
 			count = 0; //还原刷新次数
 			mui('#pullrefreshMy').pullRefresh().refresh(true);
@@ -258,9 +259,6 @@ var workListMy = function() {
 		mui('#popType').popover('toggle');
 		//console.log(this.value);
 	}
-
-
-
 	mui.plusReady(function() {
 		var web = plus.webview.currentWebview();
 		if (typeof(web.teacherID) !== "undefined") {
@@ -270,14 +268,21 @@ var workListMy = function() {
 			teacherID = getLocalItem("UserID"); //获取自己的作品
 		}
 		self.getWorks();
-		var subjectvm = new subjectsViewModel();
-		self.tmplSubjectClasses(subjectvm.getSubjectClasses());
-		self.tmplSubjects(subjectvm.getSubjects());
+		self.tmplSubjectClasses(common.getAllSubjectClasses());
+		self.tmplSubjects(common.getAllSubjects());
 		if (self.tmplSubjects().length > 0) {
 			self.currentSubject(self.tmplSubjects()[0]);
 		}
 	});
-
+	//添加作品
+	self.gotoAddWorks = function() {
+		common.transfer('../../modules/works/addWorks.html', true);
+	};
+	//跳转到登录
+	self.goLogin = function() {
+		common.transfer('../../modules/account/login.html', true);
+	};
+	//退出按钮
 	mui.back = function() {
 		common.confirmQuit();
 	}

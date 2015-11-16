@@ -21,9 +21,11 @@
 			.mui-input-group {
 				background: #f1f1f1!important;
 			}
+			
 			.mui-content-padded {
 				margin: 10px 0 0 0!important;
 			}
+			
 			.mui-popover {
 				min-height: 255px;
 				position: fixed;
@@ -33,6 +35,17 @@
 	</head>
 
 	<body style="background:#f1f1f1;">
+		<div class="openedCourses-ys" data-bind="visible:worksList().length<=0">
+			<i>
+					<img src="../../images/logo-pic.png" />
+				</i>
+			<span data-bind="visible:getLocalItem('UserID')>0 && worksList().length<=0">还没有作品呢，快来上传吧！</span>
+			<span data-bind="visible:getLocalItem('UserID')<=0">还没登录呢，快去登录吧！</span>
+			<div class="mui-content-padded">
+				<button type="button" class="mui-btn mui-btn-primary mui-btn-block p-btn-padding" data-bind="visible:getLocalItem('UserID')>0 && worksList().length<=0,click: gotoAddWorks">上传作品</button>
+				<button type="button" class="mui-btn mui-btn-primary mui-btn-block p-btn-padding" data-bind="visible:getLocalItem('UserID')<=0,click: goLogin">马上登录</button>
+			</div>
+		</div>
 		<div id="pullrefreshMy" class="mui-content mui-scroll-wrapper">
 			<div class="mui-scroll">
 				<!--数据列表-->
@@ -73,35 +86,33 @@
 						<li class="mui-table-view-cell mui-collapse ah-scroll">
 							<a class="mui-navigate-right navigate-font" href="#" data-bind="text: subjectClassName"></a>
 							<div class="mui-collapse-content" data-bind="foreach: {data: tmplSubjects, as: 'subject'}">
-								<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass() == class1.subjectClass), css:{'table-current': (typeof currentSubject().id === 'function' && subject.id() == currentSubject().id() && subject.subjectClass() == currentSubject().subjectClass())}"></span>
+								<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass == class1.subjectClass), css:{'table-current': (subject.id == currentSubject().id && subject.subjectClass == currentSubject().subjectClass)}"></span>
 							</div>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-
 		<div id="popType" class="mui-popover popover-height">
 			<div class="mui-scroll-wrapper wrapper-margin">
-				<div class="mui-scroll">
-					<ul class="mui-table-view">
-						<li class="mui-table-view-cell navigate-font" data-bind="visible: UserType() == common.gDictUserType.teacher,foreach: {data:common.gJsonWorkTypeTeacher}">
-							<span data-bind="text:text,event:{'tap':selectWorksType}"></span>
-						</li>
-						<li class="mui-table-view-cell mui-collapse navigate-font" data-bind="visible:UserType() == common.gDictUserType.student,foreach:{data:common.gJsonWorkTypeStudent}">
-							<span data-bind="text:text,event:{'tap':selectWorksType}"></span>
-						</li>
-					</ul>
-				</div>
+				<ul class="mui-table-view" data-bind="visible:(UserType()==common.gDictUserType.teacher),foreach: {data:common.gJsonWorkTypeTeacher}">
+					<li class="mui-table-view-cell  navigate-font" data-bind="event:{'tap':selectWorksType}">
+						<span data-bind="text:text"></span>
+					</li>
+				</ul>
+				<ul class="mui-table-view" data-bind="visible:(UserType()==common.gDictUserType.student),foreach: {data:common.gJsonWorkTypeStudent}">
+					<li class="mui-table-view-cell  navigate-font" data-bind="event:{'tap':selectWorksType}">
+						<span data-bind="text:text"></span>
+					</li>
+				</ul>
 			</div>
 		</div>
-
 		<div id="popSort" class="mui-popover popover-height">
 			<div class="mui-scroll-wrapper wrapper-margin">
 				<div class="mui-scroll">
-					<ul id="sortMyWorksList" class="mui-table-view">
-						<li class="mui-table-view-cell navigate-font" data-bind="foreach:{data:common.gJsonWorkSort}">
-							<span data-bind="text:text,event:{'tap':sortWorks}"></span>
+					<ul id="sortMyWorksList" class="mui-table-view" data-bind="foreach:{data:common.gJsonWorkSort}">
+						<li class="mui-table-view-cell navigate-font" data-bind="event:{'tap':sortWorks}">
+							<span data-bind="text:text"></span>
 						</li>
 					</ul>
 				</div>

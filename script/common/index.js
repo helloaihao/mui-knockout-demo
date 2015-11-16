@@ -22,7 +22,7 @@ var viewModelIndex = function() {
 	}
 
 	mui.plusReady(function() {
-		common.getAllSubjects();
+		common.getAllSubjectsStr();
 	})
 };
 ko.applyBindings(viewModelIndex);

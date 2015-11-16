@@ -187,9 +187,8 @@ var viewModel = function() {
 		}
 		self.getTeacherList();
 
-		var subjectvm = new subjectsViewModel();
-		self.tmplSubjectClasses(subjectvm.getSubjectClasses());
-		self.tmplSubjects(subjectvm.getSubjects());
+		self.tmplSubjectClasses(common.getAllSubjectClasses());
+		self.tmplSubjects(common.getAllSubjects());
 		if (self.tmplSubjects().length > 0) {
 			self.currentSubject(self.tmplSubjects()[0]);
 		}

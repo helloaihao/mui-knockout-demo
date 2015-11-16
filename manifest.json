@@ -172,9 +172,9 @@
 			"splashscreen": {
 				"ios": {
 					"iphone": {
-						"default": "C:/Users/dell/Desktop/启动界面/iphone3.png", /*iPhone3启动图片选，分辨率：320x480*/
-						"retina35": "C:/Users/dell/Desktop/启动界面/iphone4s.png",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
-						"retina40": "C:/Users/dell/Desktop/启动界面/iphone5s.png","retina55":"C:/Users/dell/Desktop/启动界面/iphone6Plus.png","retina47":"C:/Users/dell/Desktop/启动界面/iphone6.png"
+						"default": "images/iphone3.png", /*iPhone3启动图片选，分辨率：320x480*/
+						"retina35": "images/iphone4s.png",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
+						"retina40": "images/iphone5s.png","retina55":"images/iphone6Plus.png","retina47":"images/iphone6.png"
 					},
 					"ipad": {
 						"portrait": "", /*iPad竖屏启动图片，分辨率：768x1004*/
@@ -188,11 +188,11 @@
 					}
 				},
 				"android": {
-					"mdpi": "C:/Users/dell/Desktop/启动界面/a240.png", /*普通屏启动图片，分辨率：240x282*/
-					"ldpi": "C:/Users/dell/Desktop/启动界面/a320.png", /*大屏启动图片，分辨率：320x442*/
-					"hdpi": "C:/Users/dell/Desktop/启动界面/a480.png", /*高分屏启动图片，分辨率：480x762*/
-					"xhdpi": "C:/Users/dell/Desktop/启动界面/a720.png", /*720P高分屏启动图片，分辨率：720x1242*/
-					"xxhdpi": "C:/Users/dell/Desktop/启动界面/a1080.png"
+					"mdpi": "images/a240.png", /*普通屏启动图片，分辨率：240x282*/
+					"ldpi": "images/a320.png", /*大屏启动图片，分辨率：320x442*/
+					"hdpi": "images/a480.png", /*高分屏启动图片，分辨率：480x762*/
+					"xhdpi": "images/a720.png", /*720P高分屏启动图片，分辨率：720x1242*/
+					"xxhdpi": "images/a1080.png"
 				}
 			},
 			"debug": true

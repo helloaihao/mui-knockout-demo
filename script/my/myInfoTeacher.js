@@ -34,6 +34,7 @@ var my_teacher = function() {
 	self.goHelp = function() {
 		//reloadThis();
 		mui.toast("点击了帮助");
+		common.transfer('../teacher/managementRegistration.html',true);
 	}
 	if (self.UserID() > 0) {
 		self.getStudent = function() {

@@ -162,6 +162,7 @@ var worksDetails = function() {
 					var videoPos = document.getElementById('videoPos');
 //					var vwidth = window.screen.width;
 //					var vheight = vwidth * 3 / 4;common.gVideoServerUrl + obj.VideoUrl
+					//console.log(common.gVideoServerUrl + obj.VideoUrl);
 					videoPos.innerHTML = '<div class="video-js-box" style="margin:5px auto"><video controls width="' + 320 +'px" height="' + 240 + 'px" class="video-js" poster: ' + Works().imgUrl + ' data-setup="{}"><source src="' + common.gVideoServerUrl + obj.VideoUrl + '" type="video/mp4" /></video></div>'
 					VideoJS.setupAllWhenReady();
 				}

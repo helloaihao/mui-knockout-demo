@@ -27,14 +27,13 @@ var commentList = function() {
 
 	mui.plusReady(function() {
 		self.getMyComments();
-		var subjectvm = new subjectsViewModel();
-		self.tmplSubjectClasses(subjectvm.getSubjectClasses());
-		self.tmplSubjects(subjectvm.getSubjects());
+		self.tmplSubjectClasses(common.getAllSubjectClasses());
+		self.tmplSubjects(common.getAllSubjects());
 		if (self.tmplSubjects().length > 0) {
 			self.currentSubject(self.tmplSubjects()[0]);
 		}
 	});
-	
+
 	mui.back = function() {
 		common.confirmQuit();
 	}
@@ -70,13 +69,23 @@ var commentList = function() {
 
 	//选择科目
 	self.selectSubject = function(data) {
-		self.currentSubject(data);
+			self.currentSubject(data);
+			self.comments.removeAll(); //先移除所有
+			pageNum = 1; //还原为显示第一页
+			count = 0; //还原刷新次数
+			mui('#pullrefreshMy').pullRefresh().refresh(true);
+			self.getMyComments();
+			mui('#popSubjects').popover('toggle');
+		}
+		//点评排序
+	self.commentSort = function() {
 		self.comments.removeAll(); //先移除所有
-		pageNum = 1; //还原为显示第一页
+		sortID = this.value;
 		count = 0; //还原刷新次数
-		mui('#pullrefreshMy').pullRefresh().refresh(true);
+		pageNum = 1; //还原为显示第一页
+		mui('#pullrefresh').pullRefresh().refresh(true);
 		self.getMyComments();
-		mui('#popSubjects').popover('toggle');
+		mui('#popSort').popover('toggle');
 	}
 
 	//跳转至点评详情
@@ -88,11 +97,11 @@ var commentList = function() {
 		//下拉加载
 
 	function pulldownRefresh() {
-			setTimeout(function() {
-				mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
-			}, 1500);
-		}
-		//刷新
+		setTimeout(function() {
+			mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+		}, 1500);
+	}
+	//刷新
 
 
 	function pullupRefresh() {
@@ -119,34 +128,7 @@ var commentList = function() {
 			}
 		});
 	}
-	//点评排序
-	var ul = document.getElementById('sortCommentList');
-	var lis = ul.getElementsByTagName("li");
-	for (var i = 0; i < lis.length; i++) {
-		lis[i].onclick = function() {
-			if (this.id == "statusSort") {
-				//状态排序
-				self.comments.removeAll(); //先移除所有
-				sortID = 8;
-				count = 0; //还原刷新次数
-				pageNum = 1; //还原为显示第一页
-				mui('#pullrefreshMy').pullRefresh().refresh(true);
-				self.getMyComments();
-				mui('#middlePopover2').popover('toggle');
-			} else if (this.id == "dateSort") {
-				//日期排序
-				self.comments.removeAll(); //先移除所有
-				sortID = 9;
-				count = 0; //还原刷新次数
-				pageNum = 1; //还原为显示第一页
-				mui('#pullrefreshMy').pullRefresh().refresh(true);
-				self.getMyComments();
-				mui('#middlePopover2').popover('toggle');
 
-			}
-
-		}
-	}
 	//日期转化为数字
 	function dateNum(item) {
 		var arr = [];
@@ -154,6 +136,16 @@ var commentList = function() {
 		var str = arr.join("");
 		return Number(str);
 	}
+	//跳转到点评界面
+	self.gotoAddComment = function() {
+			common.transfer('../works/worksList.html', true, {
+				displayCheck: true
+			});
+		}
+		//跳转到登录
+	self.goLogin = function() {
+		common.transfer('../../modules/account/login.html', true);
+	};
 
 
 }

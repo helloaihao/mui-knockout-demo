@@ -141,7 +141,7 @@ var viewModel = function() {
 		//获取点评标准评语
 		if(common.StrIsNull(self.comment().CommentToRules) == ''){
 			//未点评，需获取标准
-			mui.ajax(common.gServerUrl + 'API/Comment/GetRules?subjectId='+data.works.SubjectID,{
+			mui.ajax(common.gServerUrl + 'API/Comment/GetRules?subjectId='+self.works().SubjectID,{
 				type: 'GET',
 				success: function(respText){
 					//console.log('response:'+respText);

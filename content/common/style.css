@@ -1,5 +1,10 @@
 ﻿/*-----输入框-----*/
-
+.mui-bar-nav .iconfont:active{
+	color: #efa900!important;
+}
+.works-list-mui-bar-nav i:active{
+	color: #efa900!important;
+}
 li {
 	list-style: none;
 }
@@ -1008,7 +1013,7 @@ textarea {
 	border-left: 1px solid #fff!important;
 }
 .works-list-select {
-	height: 34px;
+	height: 40px;
 	width: 100%;
 	border-bottom: 1px solid #c8c7cc;
 	background: #fff;
@@ -1023,7 +1028,7 @@ textarea {
 	float: left;
 	height: 100%;
 	border-right: 1px solid #c8c7cc;
-	line-height: 34px;
+	line-height: 40px;
 	position: relative;
 	font-size: 14px;
 }
@@ -1041,7 +1046,7 @@ textarea {
 	font-family: "iconfont" !important;
 	position: absolute;
 	right: 36%;
-	top: 18px;
+	top: 20px;
 	font-size: 16px;
 }
 .mui-table-view-cell.mui-collapse.mui-active > .mui-navigate-right:after,
@@ -1176,7 +1181,9 @@ textarea {
 	font-size: 15px;
 	text-indent: 2em;
 	/*	margin-left: -20px;*/
-	
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow:ellipsis;
 	margin-bottom: -10px;
 	padding: 0 15px;
 }
@@ -1472,7 +1479,7 @@ textarea {
 /*-----点评列表页面-----*/
 
 .commentList-select {
-	height: 34px;
+	height: 40px;
 	width: 100%;
 	border-bottom: 1px solid #c8c7cc;
 	background: #fff;
@@ -1487,7 +1494,7 @@ textarea {
 	float: left;
 	height: 100%;
 	border-right: 1px solid #c8c7cc;
-	line-height: 34px;
+	line-height: 40px;
 	position: relative;
 	font-size: 14px;
 }
@@ -2480,11 +2487,12 @@ textarea {
 	margin-top: 20px;
 }
 .teacherList-content ol li {
-	width: 25%;
+	width: 33.33333%;
 	float: left;
 	color: #999;
 	font-size: 14px;
 	box-sizing: border-box;
+	line-height: 100%;
 }
 .teacherList-content ol li:nth-of-type(1),
 .teacherList-content ol li:nth-of-type(2) {
@@ -2492,8 +2500,13 @@ textarea {
 }
 .teacherList-content ol li:nth-of-type(3) {
 	color: #f17103;
-	font-size: 16px;
-	text-align: center;
+	font-size: 14px;
+	text-align: right;
+}
+.teacherList-content ol li:nth-of-type(3) em {
+	color: #999;
+	font-size: 14px;
+	padding: 0 10px 0 15px;
 }
 .teacherList-content ol li.CommentPrice {
 	color: #f17103;

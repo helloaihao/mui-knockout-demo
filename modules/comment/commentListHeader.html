@@ -55,7 +55,7 @@
 					url: 'commentList.html',
 					id: 'commentListID',
 					styles: {
-						top: '78px',
+						top: '84px',
 						bottom: '0px'
 					}
 				}]
@@ -71,7 +71,7 @@
 				if (contentWebview == null) {
 					contentWebview = plus.webview.currentWebview().children()[0];
 				}
-				contentWebview.evalJS("mui('#middlePopover2').popover('toggle')");
+				contentWebview.evalJS("mui('#popSort').popover('toggle')");
 			});
 			var CommentListHeader = function() {
 				var self = this;

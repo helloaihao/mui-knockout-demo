@@ -134,16 +134,93 @@
 
 		return ret;
 	},
+	
+	//初始化科目及类别的下拉数据源
+	initSubjectsTemplate: function(){
+		var allSubjectStr = getLocalItem(common.gVarLocalAllSubjectsStr);
+		if(common.StrIsNull(allSubjectStr) == '') return;	//若未取值，则无需初始化
+		
+		var subjects = JSON.parse(allSubjectStr);
+		var previousClass = 0;
+		
+		var allSubjectClasses = [], allSubjects = [];
+		//增加“全部分类”
+		allSubjectClasses.push({
+			subjectClass: 0,
+			subjectClassName: '全部分类'
+		});
+		
+		//增加“全部”
+		allSubjects.push({
+			id: 0,
+			subjectName: '全部',
+			subjectClass: 0,
+			subjectClassName: '分类',
+			subjectType: '类型',
+			selected: true				//默认选中
+		});
+		
+		if(subjects.length > 0){
+			subjects.forEach(function(item){
+				if(item.SubjectClass != previousClass){
+					allSubjectClasses.push({
+						subjectClass: item.SubjectClass,
+						subjectClassName: item.SubjectClassName
+					});
+					
+					//增加每一类“全部”
+					allSubjects.push({
+						id: 0,
+						subjectName: '全部',
+						subjectClass: item.SubjectClass,
+						subjectClassName: item.SubjectClassName,
+						subjectType: '类型',
+						selected: false
+					});
+			
+					previousClass = item.SubjectClass;
+				}
+				
+				allSubjects.push({
+					id: item.ID,
+					subjectName: item.SubjectName,
+					subjectClass: item.SubjectClass,
+					subjectClassName: item.SubjectClassName,
+					subjectType: item.subjectType,
+					selected: false
+				});
+			})
+		}
+		
+		setLocalItem(common.gVarLocalAllSubjectClassesJson, JSON.stringify(allSubjectClasses));
+		setLocalItem(common.gVarLocalAllSubjectsJson, JSON.stringify(allSubjects));
+	},
 
-	//获取所有科目
-	getAllSubjects: function() {
+	//从服务器获取所有科目
+	getAllSubjectsStr: function() {
 		var ajaxUrl = common.gServerUrl + 'Common/Subject/Get';
 		mui.ajax(ajaxUrl, {
 			type: 'GET',
 			success: function(responseText) {
-				plus.storage.setItem(common.gVarLocalAllSubjects, responseText);
+				//plus.storage.setItem(common.gVarLocalAllSubjects, responseText);
+				setLocalItem(common.gVarLocalAllSubjectsStr, responseText);
+				common.initSubjectsTemplate();
 			}
 		})
+	},
+	
+	//获取科目类别数组
+	getAllSubjectClasses: function(){
+		var allSubjectClasses = getLocalItem(common.gVarLocalAllSubjectClassesJson);
+		
+		return JSON.parse(allSubjectClasses);
+	},
+
+	//获取科目数组
+	getAllSubjects: function(){
+		var allSubjects = getLocalItem(common.gVarLocalAllSubjectsJson);
+		
+		return JSON.parse(allSubjects);
 	},
 
 	//根据起始时间和结束时间返回类似“9月20日 15:00~16:00”
@@ -234,9 +311,9 @@
 	},
 
 	//Web API地址
-	gServerUrl: "http://172.16.30.90:8090/", //"http://172.16.30.90:8090/", //"http://172.16.6.190:8090/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/",
+	gServerUrl: "http://172.16.30.90:8090/",//"http://192.168.1.66:8090/", //"http://cloud.linkeol.com/", //"http://172.16.30.90:8090/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/",
 	//Video地址
-	gVideoServerUrl: "http://172.16.30.90:8099/", //"http://172.16.30.90:8099/", //"http://172.16.6.190:8099/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/",
+	gVideoServerUrl: "http://172.16.30.90:8090/", //"http://video.linkeol.com/", //"http://172.16.30.90:8099/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/",
 
 
 	//用户类型枚举
@@ -322,9 +399,6 @@
 		text: '女'
 	}],
 	gJsonWorkTypeTeacher: [{
-		value: 0,
-		text: "全部"
-	}, {
 		value: 1,
 		text: "分解教程"
 	}, {
@@ -390,6 +464,14 @@
 		value: 3,
 		text: "点赞降序"
 	}],
+	//点评排序
+	gJsonCommentSort: [{
+		value: 8,
+		text: "状态"
+	}, {
+		value: 9,
+		text: "日期"
+	}],
 	//作品权限类型JSON
 	gJsonWorkPublicType: [{
 		value: 0,
@@ -418,7 +500,9 @@
 	}],
 
 	gVarLocalUploadTask: 'global.UploadTasks',
-	gVarLocalAllSubjects: 'global.AllSubjects',
+	gVarLocalAllSubjectsStr: 'global.AllSubjectsStr',
+	gVarLocalAllSubjectClassesJson: 'global.AllSubjectClassesJson',
+	gVarLocalAllSubjectsJson: 'global.AllSubjectsJson',
 	gAuthImgage: [{
 			value: 0,
 			text: '图片预览'

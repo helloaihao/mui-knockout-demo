@@ -20,9 +20,9 @@ var register = function() {
 	self.Birthday = ko.observable('请选择生日'); //生日
 	self.Gender = ko.observable(0); //性别
 	self.GenderText = ko.observable('请选择性别'); //性别文本
-	self.Province = ko.observable("广东省"); //默认广东省
-	self.City = ko.observable("广州市"); //默认广州市
-	self.District = ko.observable("天河区"); //默认天河区
+	self.Province = ko.observable("请选择地址"); //默认广东省
+	self.City = ko.observable(""); //默认广州市
+	self.District = ko.observable(""); //默认天河区
 	self.Place = ko.computed(function() { //位置
 		return self.Province() + ' ' + self.City() + ' ' + self.District();
 	});
@@ -72,10 +72,6 @@ var register = function() {
 								self.CheckTime();
 							}
 						})
-					},
-					error: function(responseText) {
-						mui.toast('手机号已注册');
-						//return false;
 					}
 				})
 			}
@@ -165,7 +161,6 @@ var register = function() {
 		//地址获取
 	self.address = function() {
 			mui.ready(function() {
-				console.log("点击了位置获取");
 				self.places.show(function(items) {
 					cityValueMon = (items[0] || {}).text + " " + common.StrIsNull((items[1] || {}).text) + " " + common.StrIsNull((items[2] || {}).text);
 					self.Province(cityValueMon.split(" ")[0]);
@@ -221,6 +216,7 @@ var register = function() {
 					return;
 				}
 			}
+			
 			var data = {
 				UserName: self.UserName(),
 				DisplayName: self.DisplayName(),
@@ -228,14 +224,13 @@ var register = function() {
 				UserType: self.UserType(),
 				VerifyCode: self.CheckNum(),
 				Gender: self.Gender(),
-				Province: self.Province(),
-				City: self.City(),
-				District: self.District(),
+				Province: decodeURI(self.Province()),
+				City: decodeURI(self.City()),
+				District: decodeURI(self.District()),
 				Birthday: self.Birthday(),
 				SubjectID: self.SubjectID(),
 				TeachAge: self.TeachAge(),
 				Introduce: self.Introduce()
-
 			};
 			if (self.Base64() != '') {
 				data.PhotoBase64 = self.Base64();

@@ -10,6 +10,7 @@ var uploadVideoUrl = common.gVideoServerUrl + 'API/Video/Upload';
  */
 upload.uploadVideo = function(path, workid, callback) {
 	var url = uploadVideoUrl + '?workId=' + workid;
+	//console.log(url);
 	var uploadTmp = plus.uploader.createUpload(url, {
 		method: "POST",
 		blocksize: 102400

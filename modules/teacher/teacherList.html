@@ -86,11 +86,12 @@
 									<sapn data-bind="text: TeachAge"></sapn>年教龄</li>
 								<li data-bind="text: Score"></li>
 								<li>
-									<em class="iconfont" data-bind="text: Star > 0 ? common.gJsonTeacherLever[Star].text : ''"></em>
-								</li>
-								<li>
+									<em data-bind="css: 'star'+Star"></em>
 									<em class="CommentPrice" data-bind="text: CommentPrice > 0 ? '￥' + CommentPrice : '免费'"></em>
 								</li>
+								<!--<li>
+									
+								</li>-->
 							</ol>
 						</div>
 					</script>
@@ -105,7 +106,7 @@
 								<a class="mui-navigate-right navigate-font" href="#" data-bind="text: subjectClassName"></a>
 								
 								<div class="mui-collapse-content" data-bind="foreach: {data: tmplSubjects, as: 'subject'}">
-									<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass() == class1.subjectClass), css:{'table-current': (typeof currentSubject().id === 'function' && subject.id() == currentSubject().id() && subject.subjectClass() == currentSubject().subjectClass())}"></span>
+									<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass == class1.subjectClass), css:{'table-current': (subject.id == currentSubject().id && subject.subjectClass == currentSubject().subjectClass)}"></span>
 								</div>
 							</li>
 						</ul>

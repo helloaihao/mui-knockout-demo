@@ -74,6 +74,7 @@ var getAuth = function() {
 };
 
 var handleResult = function(result) {
+	//console.log(result);
 	var strReturn = '操作失败';
 	if (result.indexOf('{') >= 0 && result.indexOf('}') >= 0) {
 		var tmp = eval("(" + result + ")");
@@ -83,7 +84,8 @@ var handleResult = function(result) {
 			strReturn = tmp;
 		}
 	} else {
-		strReturn = result;
+		if(common.StrIsNull(result) != '')
+			strReturn = result;
 	}
 
 	return strReturn;
@@ -123,7 +125,7 @@ var handleResult = function(result) {
 					}
 					plus.nativeUI.closeWaiting();
 				});
-//				console.log('request return error:'+JSON.stringify(XMLHttpRequest));
+				console.log('request return error:'+JSON.stringify(XMLHttpRequest));
 				var status;
 				if(XMLHttpRequest.statusCode){
 					status = XMLHttpRequest.statusCode;

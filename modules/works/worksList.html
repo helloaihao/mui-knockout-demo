@@ -78,8 +78,6 @@
 			<h1 id="title" class="mui-title">选择作品</h1>
 		</header>
 		
-		
-		
 		<div class="mui-content">
 			<div id="popSubjects" class="mui-popover">
 				<div id="subject-scroll" class="mui-scroll-wrapper wrapper-margin">
@@ -88,7 +86,7 @@
 							<li class="mui-table-view-cell mui-collapse ah-scroll">
 								<a class="mui-navigate-right navigate-font" href="#" data-bind="text: subjectClassName"></a>
 								<div class="mui-collapse-content" data-bind="foreach: {data: tmplSubjects, as: 'subject'}">
-									<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass() == class1.subjectClass), css:{'table-current': (typeof currentSubject().id === 'function' && subject.id() == currentSubject().id() && subject.subjectClass() == currentSubject().subjectClass())}"></span>
+									<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass == class1.subjectClass), css:{'table-current': (subject.id == currentSubject().id && subject.subjectClass == currentSubject().subjectClass)}"></span>
 								</div>
 							</li>
 						</ul>

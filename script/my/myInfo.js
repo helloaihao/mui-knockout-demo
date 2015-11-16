@@ -130,9 +130,7 @@ var myInfo = function() {
 				}
 			}
 		})
-
 	})
-
 	self.initData = function(result) {
 		//self.UserName(result.UserName);
 		self.DisplayName(result.DisplayName);
@@ -154,7 +152,6 @@ var myInfo = function() {
 		self.Province(common.StrIsNull(result.Province));
 		self.City(common.StrIsNull(result.City));
 		self.District(common.StrIsNull(result.District));
-
 		self.Introduce(common.StrIsNull(result.Introduce));
 	}
 

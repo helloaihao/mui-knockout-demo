@@ -13,6 +13,7 @@ var workListAll = function() {
 	var page = 1;
 	var count = 0; //上拉刷新检测次数
 	self.sortList = ko.observableArray([]);
+	common.gJsonWorkTypeTeacher.unshift({value:0,text: "全部"});
 	//var contentnomore = "上拉显示更多"
 	var ppSubject, ppSort;
 	self.works = ko.observableArray([]);
@@ -51,6 +52,7 @@ var workListAll = function() {
 			}
 		});
 		//mui('#pullrefresh').pullRefresh().refresh(true);
+		//console.log(self.works());
 	};
 
 	//下拉加载
@@ -58,7 +60,7 @@ var workListAll = function() {
 		setTimeout(function() {
 			mui('#pullrefreshAll').pullRefresh().endPulldownToRefresh(); //refresh completed
 			setTimeout(function() {
-				var curl = pageUrl + "1";
+				var curl = pageUrl + 1;
 				if (typeof self.currentSubject().id === "function") {
 					curl += subjectUrl + self.currentSubject().id();
 					curl += subjectClassUrl + self.currentSubject().subjectClass();
@@ -73,7 +75,7 @@ var workListAll = function() {
 						type: 'GET',
 						success: function(responseText) {
 							var result = eval("(" + responseText + ")");
-							self.works(self.works().concat(result));
+							self.works(result);
 						}
 					});
 				}
@@ -121,14 +123,6 @@ var workListAll = function() {
 		});
 	}
 
-	/*	//预加载详情页面
-		var worksDetails = mui.preload({
-			url: 'WorksDetails.html',
-			extras: {
-				WorkID: works.ID,
-				AuthorID: works.AuthorID
-			}
-		});*/
 	//选择科目
 	self.selectSubject = function(data) {
 			self.currentSubject(data);
@@ -154,7 +148,7 @@ var workListAll = function() {
 		//作品排序
 	self.sortWorks = function() {
 			self.works.removeAll();
-			workTypeID = this.value;
+			sortID= this.value;
 			page = 1; //还原为显示第一页
 			count = 0; //还原刷新次数
 			mui('#pullrefreshAll').pullRefresh().refresh(true);
@@ -167,21 +161,10 @@ var workListAll = function() {
 			works: data
 		})
 	}
-
-	Array.prototype.removeArray=function(dx) {
-		for (var i = 0, n = 0; i < this.length; i++) {
-			if (this[i] != this[dx]) {
-				this[n++] = this[i]
-			}
-		}
-		this.length -= 1
-	}
-	
 	mui.plusReady(function() {
 		self.getWorks();
-		var subjectvm = new subjectsViewModel();
-		self.tmplSubjectClasses(subjectvm.getSubjectClasses());
-		self.tmplSubjects(subjectvm.getSubjects());
+		self.tmplSubjectClasses(common.getAllSubjectClasses());
+		self.tmplSubjects(common.getAllSubjects());
 		if (self.tmplSubjects().length > 0) {
 			self.currentSubject(self.tmplSubjects()[0]);
 		}

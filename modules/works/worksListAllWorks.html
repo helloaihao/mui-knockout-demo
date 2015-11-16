@@ -24,6 +24,7 @@
 			.mui-content-padded {
 				margin: 10px 0 0 0!important;
 			}
+			
 			.mui-popover {
 				min-height: 255px;
 				position: fixed;
@@ -69,7 +70,7 @@
 						<li class="mui-table-view-cell mui-collapse ah-scroll">
 							<a class="mui-navigate-right navigate-font" href="#" data-bind="text: subjectClassName"></a>
 							<div class="mui-collapse-content" data-bind="foreach: {data: tmplSubjects, as: 'subject'}">
-								<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass() == class1.subjectClass), css:{'table-current': (typeof currentSubject().id === 'function' && subject.id() == currentSubject().id() && subject.subjectClass() == currentSubject().subjectClass())}"></span>
+								<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass == class1.subjectClass), css:{'table-current': (subject.id == currentSubject().id && subject.subjectClass == currentSubject().subjectClass)}"></span>
 							</div>
 						</li>
 					</ul>
@@ -79,24 +80,20 @@
 
 		<div id="popType" class="mui-popover popover-height">
 			<div class="mui-scroll-wrapper wrapper-margin">
-				<div class="mui-scroll">
-					<ul class="mui-table-view">
-						<li class="mui-table-view-cell mui-collapse navigate-font" data-bind="foreach:{data:common.gJsonWorkTypeTeacher.concat(common.gJsonWorkTypeStudent)}">
-							<span data-bind="text:text,event:{'tap':selectWorksType}"></span>
-						</li>
-					</ul>
-				</div>
+				<ul class="mui-table-view" data-bind="foreach:{data:common.gJsonWorkTypeTeacher.concat(common.gJsonWorkTypeStudent)}">
+					<li class="mui-table-view-cell navigate-font" data-bind="event:{'tap':selectWorksType}">
+						<span data-bind="text:text"></span>
+					</li>
+				</ul>
 			</div>
 		</div>
 		<div id="popSort" class="mui-popover popover-height">
 			<div class="mui-scroll-wrapper wrapper-margin">
-				<div class="mui-scroll">
-					<ul id="sortAllWorksList" class="mui-table-view">
-						<li class="mui-table-view-cell navigate-font" data-bind="foreach:{data:common.gJsonWorkSort}">
-							<span data-bind="text:text,event:{'tap':sortWorks}"></span>
-						</li>
-					</ul>
-				</div>
+				<ul id="sortAllWorksList" class="mui-table-view" data-bind="foreach:{data:common.gJsonWorkSort}">
+					<li class="mui-table-view-cell navigate-font" data-bind="event:{'tap':sortWorks}">
+						<span data-bind="text:text"></span>
+					</li>
+				</ul>
 			</div>
 		</div>
 		<script src="../../script/mui/mui.min.js"></script>
