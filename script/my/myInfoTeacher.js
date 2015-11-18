@@ -20,7 +20,7 @@ var my_teacher = function() {
 		common.transfer('teacherAuth.html', true);
 	}
 	self.goMyAccount = function() {
-		common.transfer('myAccountMain.html', true);
+		common.transfer('myAccount.html', true);
 	}
 	self.goMessageList = function() {
 		common.transfer('messageList.html', true);

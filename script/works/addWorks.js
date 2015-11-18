@@ -85,7 +85,6 @@ var viewModel = function() {
 			}
 		});
 	}
-
 	//上传
 	self.upload = function() {
 		if (self.titleText() == "") {

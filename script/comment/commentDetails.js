@@ -6,6 +6,7 @@ var viewModel = function() {
 	self.comment = ko.observable();
 	self.totalComment = ko.observable('');		//总评语
 	self.isCommenter = ko.observable(false);	//是否点评老师
+	self.hasCommented = ko.observable(false);	//是否已点评
 	self.commentToRules = ko.observableArray([]);	//点评标准
 	
 	//点评标准构造函数
@@ -125,9 +126,6 @@ var viewModel = function() {
 			success: function(responseText) {
 				var data = JSON.parse(responseText);
 
-				if(data.works){
-					self.works(data.works);
-				}
 				if(data.teacher){
 					self.teacher(data.teacher);
 					self.isCommenter(data.teacher.UserID == getLocalItem("UserID"));
@@ -135,26 +133,33 @@ var viewModel = function() {
 				if(data.feedbacks){
 					self.feedbacks(data.feedbacks);
 				}
+				//console.log(JSON.stringify(data.works));
+				if(data.works){
+					self.works(data.works);
+					
+					//获取点评标准评语
+					if(common.StrIsNull(self.comment().CommentToRules) == ''){
+						//console.log(self.works().SubjectID);
+						//未点评，需获取标准
+						mui.ajax(common.gServerUrl + 'API/Comment/GetRules?subjectId='+self.works().SubjectID,{
+							type: 'GET',
+							success: function(respText){
+								//console.log('response:'+respText);
+								var arr = JSON.parse(respText);
+								if(arr.length > 0){
+									arr.forEach(function(item){
+										self.commentToRules.push(new ruleItem(item));
+									})
+								}
+							}
+						})
+					}
+				}
 			}
 		});
 		
 		//获取点评标准评语
-		if(common.StrIsNull(self.comment().CommentToRules) == ''){
-			//未点评，需获取标准
-			mui.ajax(common.gServerUrl + 'API/Comment/GetRules?subjectId='+self.works().SubjectID,{
-				type: 'GET',
-				success: function(respText){
-					//console.log('response:'+respText);
-					var arr = JSON.parse(respText);
-					if(arr.length > 0){
-						arr.forEach(function(item){
-							self.commentToRules.push(new ruleItem(item));
-						})
-					}
-				}
-			})
-		}
-		else{
+		if(common.StrIsNull(self.comment().CommentToRules) != ''){
 			var arr = JSON.parse(self.comment().CommentToRules);
 			if(arr.length > 0){
 				arr.forEach(function(item){
@@ -169,6 +174,9 @@ var viewModel = function() {
 		
 		if (typeof(web.comment) != "undefined") {
 			self.comment(web.comment);
+			if(common.StrIsNull(self.comment().CommentToRules) != ''){
+				self.hasCommented(true);
+			}
 			self.totalComment(comment.TotalComment);
 			self.getCommentData(self.comment().ID);
 		}

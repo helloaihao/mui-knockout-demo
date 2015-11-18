@@ -87,7 +87,7 @@
 								<li data-bind="text: Score"></li>
 								<li>
 									<em data-bind="css: 'star'+Star"></em>
-									<em class="CommentPrice" data-bind="text: CommentPrice > 0 ? '￥' + CommentPrice : '免费'"></em>
+									<em class="CommentPrice" data-bind="visible: displayCheck, text: CommentPrice > 0 ? '￥' + CommentPrice : '免费'"></em>
 								</li>
 								<!--<li>
 									
@@ -162,8 +162,6 @@
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/teacher/teacherList.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../script/common/templateSubjects.js" type="text/javascript" charset="utf-8"></script>
-
 	</body>
 
 </html>

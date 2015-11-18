@@ -2,7 +2,6 @@ var worksDetails = function() {
 	var self = this;
 
 	self.UserID = getLocalItem("UserID"); //当前用户UserID
-
 	//作品的元素绑定
 	self.Works = ko.observable({}); //作品实例
 	self.mv = ko.observable();
@@ -154,16 +153,16 @@ var worksDetails = function() {
 
 	//获取视频
 	self.getVideo = function(workId) {
-//			console.log(workId);
+			//			console.log(workId);
 			mui.ajax(common.gServerUrl + "API/Video/GetVideoUrl/?workId=" + workId, {
 				type: 'GET',
 				success: function(responseText) {
 					var obj = JSON.parse(responseText);
 					var videoPos = document.getElementById('videoPos');
-//					var vwidth = window.screen.width;
-//					var vheight = vwidth * 3 / 4;common.gVideoServerUrl + obj.VideoUrl
+					//					var vwidth = window.screen.width;
+					//					var vheight = vwidth * 3 / 4;common.gVideoServerUrl + obj.VideoUrl
 					//console.log(common.gVideoServerUrl + obj.VideoUrl);
-					videoPos.innerHTML = '<div class="video-js-box" style="margin:5px auto"><video controls width="' + 320 +'px" height="' + 240 + 'px" class="video-js" poster: ' + Works().imgUrl + ' data-setup="{}"><source src="' + common.gVideoServerUrl + obj.VideoUrl + '" type="video/mp4" /></video></div>'
+					videoPos.innerHTML = '<div class="video-js-box" style="margin:5px auto"><video controls width="' + 320 + 'px" height="' + 240 + 'px" class="video-js" poster: ' + Works().imgUrl + ' data-setup="{}"><source src="' + common.gVideoServerUrl + obj.VideoUrl + '" type="video/mp4" /></video></div>'
 					VideoJS.setupAllWhenReady();
 				}
 			});
@@ -181,11 +180,11 @@ var worksDetails = function() {
     req.setRequestHeader("Authorization", getAuth());
     req.send(null);*/
 
-	
+
 	//获取上级页面的数据
-	var workobj;
+	var workobj,workVaule;
 	mui.plusReady(function() {
-		var workVaule = plus.webview.currentWebview();
+		workVaule = plus.webview.currentWebview();
 		if (workVaule) {
 			workobj = workVaule.works;
 			obj = new self.initWorksValue(workVaule.works);
@@ -218,6 +217,10 @@ var worksDetails = function() {
 						type: 'DELETE',
 						success: function(responseText) {
 							mui.toast("删除成功");
+							var workparent=workVaule.opener();//获取当前页面的创建者
+							console.log(workparent);
+							workparent.evalJS("resetWorks()");
+							mui.back();
 						},
 						error: function(responseText) {
 							mui.toast(responseText);
@@ -233,29 +236,29 @@ var worksDetails = function() {
 
 	//点评的模型
 	function Comment(model) {
-			var obj = {};
-			obj.ID = model ? model.ID : 0;
-			obj.AuthoID = model ? model.AuthoID : 0;
-			obj.AuthorName = model ? model.AuthorName : '';
-			obj.CommenterID = model ? model.CommenterID : 0;
-			obj.CommenterName = model ? model.CommenterName : '';
-			obj.TotalComment = model ? model.TotalComment : '';
-			var ctr = [];
-			if (model && model.CommentToRules) {
-				var arr = JSON.parse(model.CommentToRules);
-				ctr = arr;
-			}
-			obj.CommentToRules = ko.observableArray(ctr);
-			var feedbacks = [];
-			if (model && model.CommentFeedbacks) {
-				var arr = JSON.parse(model.CommentFeedbacks);
-				feedbacks = arr;
-			}
-			obj.CommentFeedbacks = ko.observableArray(feedbacks);
-
-			return obj;
+		var obj = {};
+		obj.ID = model ? model.ID : 0;
+		obj.AuthoID = model ? model.AuthoID : 0;
+		obj.AuthorName = model ? model.AuthorName : '';
+		obj.CommenterID = model ? model.CommenterID : 0;
+		obj.CommenterName = model ? model.CommenterName : '';
+		obj.TotalComment = model ? model.TotalComment : '';
+		var ctr = [];
+		if (model && model.CommentToRules) {
+			var arr = JSON.parse(model.CommentToRules);
+			ctr = arr;
 		}
-		//添加咨询
+		obj.CommentToRules = ko.observableArray(ctr);
+		var feedbacks = [];
+		if (model && model.CommentFeedbacks) {
+			var arr = JSON.parse(model.CommentFeedbacks);
+			feedbacks = arr;
+		}
+		obj.CommentFeedbacks = ko.observableArray(feedbacks);
+
+		return obj;
+	}
+	//添加咨询
 	self.addfeedbacks = function() {
 			/*var oldComment = this;
 			var theComment = {};
@@ -294,10 +297,10 @@ var worksDetails = function() {
 		//找老师点评
 	self.getTeacherComment = function() {
 			common.transfer('../../modules/teacher/teacherListHeader.html', true, {
-					works: workobj,
-					displayCheck: true
+				works: workobj,
+				displayCheck: true
 			});
-			
+
 		}
 		//设置作品是否公开
 	self.setPublic = function() {

@@ -15,14 +15,17 @@
 			.mui-content {
 				background: #f1f1f1!important;
 			}
+			
 			.mui-bar-nav~.mui-content {
 				padding-top: 0px;
 			}
+			
 			.mui-input-group:after,
 			.mui-input-group:before,
 			.mui-input-group {
 				background: #f1f1f1!important;
 			}
+			
 			.mui-bar-tab .ah-mui-tab-item {
 				display: table-cell;
 				overflow: hidden;
@@ -33,37 +36,44 @@
 				white-space: nowrap;
 				text-overflow: ellipsis;
 			}
+			
 			.mui-segmented-control .mui-control-item {
 				border-left: none!important;
 			}
+			
 			.mui-segmented-control {
 				border-radius: 50px!important;
 				display: block;
 				height: 30px;
 			}
+			
 			.mui-control-item1 {
 				vertical-align: top;
 				border-radius: 60px 0 0 60px;
 				line-height: 28px!important;
 			}
+			
 			.mui-control-item2 {
 				vertical-align: top;
 				border-radius: 0 60px 60px 0;
 				line-height: 28px!important;
 			}
+			
 			.mui-radio.mui-left input[type='radio'] {
 				left: 10px;
 			}
+			
 			.mui-navigate-right:after {
 				right: 20%;
 			}
+			
 			.mui-bar-nav ~ .mui-content .mui-pull-top-pocket {
 				top: 78px !important;
 			}
-			.works-list-select ul li{
-				width:33.333%!important
+			
+			.works-list-select ul li {
+				width: 33.333%!important
 			}
-		
 		</style>
 	</head>
 
@@ -71,10 +81,10 @@
 		<header class="mui-bar mui-bar-nav works-list-mui-bar-nav">
 			<em class="iconfont" data-bind="event:{tap: gotoAddWorks}">&#xe633;</em>
 			<div id="segmentedControl" class="mui-segmented-control works-list-mui">
-				<a class="mui-control-item mui-control-item1 mui-active" href="worksListMyWorks.html" id="myworks">
+				<a class="mui-control-item mui-control-item1 " href="worksListMyWorks.html" id="myworks">
                 我的作品
             </a>
-				<a class="mui-control-item mui-control-item2" href="worksListAllWorks.html" id="allworks">
+				<a class="mui-control-item mui-control-item2 mui-active" href="worksListAllWorks.html" id="allworks">
                 所有作品
             </a>
 			</div>
@@ -101,31 +111,38 @@
 		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/works/workListHeader.js" type="text/javascript" charset="utf-8"></script>
 		<script>
-			 //mui.init();
+			//mui.init();
 			var subpages = ['worksListMyWorks.html', 'worksListAllWorks.html'];
 			var subpage_style = {
 				top: '84px',
 				bottom: '0px'
 			};
 			var aniShow = {};
-			 //创建子页面，首个选项卡页面显示，其它均隐藏；
+			var activeTab; //当前激活
+			//创建子页面，首个选项卡页面显示，其它均隐藏；
 			mui.plusReady(function() {
 				var current = plus.webview.currentWebview();
 				for (var i = 0; i < subpages.length; i++) {
 					var temp = {};
 					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
-					if (i == 0) {
+					if (i == 1) {
 						temp[subpages[i]] = "true";
 						mui.extend(aniShow, temp);
+						activeTab=subpages[1];
 					} else {
 						sub.hide();
 					}
 					current.append(sub);
 				}
+				if (getLocalItem('UserID') > 0) {
+					allworks.setAttribute('class', 'mui-control-item mui-control-item2');
+					myworks.setAttribute('class', 'mui-control-item mui-control-item1 mui-active');
+					plus.webview.hide(subpages[1]);
+					plus.webview.show(subpages[0]);
+					activeTab=subpages[0];
+				}
 			});
-			 //当前激活选项
-			var activeTab = subpages[0];
-			 //选项卡点击事件
+			//选项卡点击事件
 			mui('#segmentedControl').on('tap', 'a', function(e) {
 				var targetTab = this.getAttribute('href');
 				if (targetTab == activeTab) {

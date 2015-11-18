@@ -13,7 +13,10 @@ var workListAll = function() {
 	var page = 1;
 	var count = 0; //上拉刷新检测次数
 	self.sortList = ko.observableArray([]);
-	common.gJsonWorkTypeTeacher.unshift({value:0,text: "全部"});
+	common.gJsonWorkTypeTeacher.unshift({
+		value: 0,
+		text: "全部"
+	});
 	//var contentnomore = "上拉显示更多"
 	var ppSubject, ppSort;
 	self.works = ko.observableArray([]);
@@ -44,6 +47,9 @@ var workListAll = function() {
 		if (typeof(sortID) === "number" && sortID > 0) {
 			curl += sortUrl + sortID;
 		}
+		if (typeof(workTypeID) === "number" && workTypeID > 0) {
+			curl += workTypeUrl + workTypeID;
+		}
 		mui.ajax(thisUrl + curl, {
 			type: 'GET',
 			success: function(responseText) {
@@ -51,6 +57,7 @@ var workListAll = function() {
 				self.works(result);
 			}
 		});
+		console.log(thisUrl + curl);
 		//mui('#pullrefresh').pullRefresh().refresh(true);
 		//console.log(self.works());
 	};
@@ -59,28 +66,31 @@ var workListAll = function() {
 	function pulldownRefresh() {
 		setTimeout(function() {
 			mui('#pullrefreshAll').pullRefresh().endPulldownToRefresh(); //refresh completed
-			setTimeout(function() {
-				var curl = pageUrl + 1;
-				if (typeof self.currentSubject().id === "function") {
-					curl += subjectUrl + self.currentSubject().id();
-					curl += subjectClassUrl + self.currentSubject().subjectClass();
-				}
-				if (typeof(sortID) === "number" && sortID > 0) {
-					curl += sortUrl + sortID;
-				}
-
-				if (plus.networkinfo.getCurrentType() > 1) {
-					//contentnomore = "上拉显示更多";
-					mui.ajax(thisUrl + curl, {
-						type: 'GET',
-						success: function(responseText) {
-							var result = eval("(" + responseText + ")");
-							self.works(result);
-						}
-					});
-				}
-			}, 1500);
+			var curl = pageUrl + 1;
+			if (typeof self.currentSubject().id === "function") {
+				curl += subjectUrl + self.currentSubject().id();
+				curl += subjectClassUrl + self.currentSubject().subjectClass();
+			}
+			if (typeof(sortID) === "number" && sortID > 0) {
+				curl += sortUrl + sortID;
+			}
+			if (typeof(workTypeID) === "number" && workTypeID > 0) {
+				curl += workTypeUrl + workTypeID;
+			}
+			console.log(thisUrl + curl);
+			if (plus.networkinfo.getCurrentType() > 1) {
+				//contentnomore = "上拉显示更多";
+				mui.ajax(thisUrl + curl, {
+					type: 'GET',
+					success: function(responseText) {
+						self.works.removeAll(); //先移除所有,防止视频已删除还保留
+						var result = eval("(" + responseText + ")");
+						self.works(result);
+					}
+				});
+			}
 		}, 1500);
+
 	}
 
 	//上拉刷新pullupRefresh
@@ -99,20 +109,26 @@ var workListAll = function() {
 			if (typeof(workTypeID) === "number" && workTypeID > 0) {
 				curl += workTypeUrl + workTypeID;
 			}
-
-
+			console.log(thisUrl + curl);
 			if (plus.networkinfo.getCurrentType() > 1) {
 				//contentnomore = "上拉显示更多";
-				mui('#pullrefreshAll').pullRefresh().endPullupToRefresh((++count > 2));
 				mui.ajax(thisUrl + curl, {
 					type: 'GET',
 					success: function(responseText) {
+						console.log(page);
+						mui('#pullrefreshAll').pullRefresh().endPullupToRefresh((++count > 2));
 						var result = eval("(" + responseText + ")");
 						self.works(self.works().concat(result));
+						if (self.works().length <= 2) {
+							mui('#pullrefreshAll').pullRefresh().disablePullupToRefresh();
+						} else {
+							mui('#pullrefreshAll').pullRefresh().enablePullupToRefresh();
+						}
 					}
 				});
 
 			};
+
 		}, 1500);
 	};
 	if (mui.os.plus) {
@@ -143,16 +159,16 @@ var workListAll = function() {
 			self.getWorks();
 			mui('#popType').popover('toggle');
 			//console.log(this.value);
-
 		}
 		//作品排序
 	self.sortWorks = function() {
 			self.works.removeAll();
-			sortID= this.value;
+			sortID = this.value;
 			page = 1; //还原为显示第一页
 			count = 0; //还原刷新次数
 			mui('#pullrefreshAll').pullRefresh().refresh(true);
 			self.getWorks();
+			console.log(sortID);
 			mui('#popSort').popover('toggle');
 		}
 		//跳转到作品详情页面
@@ -169,8 +185,6 @@ var workListAll = function() {
 			self.currentSubject(self.tmplSubjects()[0]);
 		}
 	});
-
-
 	mui.back = function() {
 		common.confirmQuit();
 	}

@@ -140,7 +140,7 @@ picture.CropConfirm = function(localPath) {
 	if(_returnPics.length >= 2 || _returnPics.length <= 0) return;		//多选时不允许裁剪
 	
 	var self = this;
-	console.log(localPath);
+	//console.log(localPath);
 	//转换cropper选中区域的对象，以符合plus.zip中压缩图片option要求
 	var chosen = self.cropper.getData();
 	var clip = {

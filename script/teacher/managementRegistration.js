@@ -1,8 +1,7 @@
 var manageRegistration = function() {
 	var self = this;
 	self.manageRegList = ko.observableArray([]); //管理报名者数组列表
-	self.checkedAllStatus = ko.observable(false); //全选按钮状态
-	self.checkedChildStatus = ko.observable();
+	var checkAll = document.getElementById('checkId');
 
 	mui.ready(function() {
 		var ajaxUrl = common.gServerUrl + "API/Action/GetFavoritedUserList?userId=" + getLocalItem("UserID");
@@ -16,17 +15,23 @@ var manageRegistration = function() {
 		})
 
 	})
-	self.checkedEvent = function() {
-		if (checkedAllStatus) {
-			self.checkedChildStatus(true);
-		} else {
-			self.checkedChildStatus(false);
+	checkAll.addEventListener('tap', function() {
+		var checkboxArray = document.body.querySelectorAll('input[type="checkbox"]');
+		if (checkAll.checked) {
+			checkboxArray.forEach(function(box) {
+				box.checked = true;
+			})
+		}else{
+			checkboxArray.forEach(function(box) {
+				box.checked = false;
+			})
 		}
+
+	});
+	self.ensure=function(){
+		mui.toast('点击确定按钮');
 	}
-	self.checkedAll=function(){
-		var chechAll=document.getElementById("checkId");
-		chechAll.checked=true;
-	}
+
 
 }
 ko.applyBindings(manageRegistration);

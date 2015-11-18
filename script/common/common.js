@@ -311,9 +311,9 @@
 	},
 
 	//Web API地址
-	gServerUrl: "http://172.16.30.90:8090/",//"http://192.168.1.66:8090/", //"http://cloud.linkeol.com/", //"http://172.16.30.90:8090/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/",
+	gServerUrl: "http://172.16.30.90:8090/",//"http://cloud.linkeol.com/", //"http://172.16.30.90:8090/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/",
 	//Video地址
-	gVideoServerUrl: "http://172.16.30.90:8090/", //"http://video.linkeol.com/", //"http://172.16.30.90:8099/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/",
+	gVideoServerUrl: "http://172.16.30.90:8099/",//"http://video.linkeol.com/", //"http://172.16.30.90:8099/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/",
 
 
 	//用户类型枚举
@@ -455,13 +455,13 @@
 	}],
 	//作品排序
 	gJsonWorkSort: [{
-		value: 1,
+		value: 5,
 		text: "日期降序"
 	}, {
-		value: 2,
+		value: 6,
 		text: "浏览降序"
 	}, {
-		value: 3,
+		value: 7,
 		text: "点赞降序"
 	}],
 	//点评排序

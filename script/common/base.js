@@ -69,7 +69,6 @@ var removeLocalItem = function(key) {
 
 var getAuth = function() {
 	var str = "Basic " + this.getLocalItem("UserName") + ':' + this.getLocalItem("Token") + ':' + this.getLocalItem("UUID");
-
 	return str;
 };
 

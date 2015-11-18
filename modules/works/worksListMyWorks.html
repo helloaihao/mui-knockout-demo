@@ -46,7 +46,7 @@
 				<button type="button" class="mui-btn mui-btn-primary mui-btn-block p-btn-padding" data-bind="visible:getLocalItem('UserID')<=0,click: goLogin">马上登录</button>
 			</div>
 		</div>
-		<div id="pullrefreshMy" class="mui-content mui-scroll-wrapper">
+		<div id="pullrefreshMy" class="mui-content mui-scroll-wrapper" data-bind="visible:worksList().length>0">
 			<div class="mui-scroll">
 				<!--数据列表-->
 				<ul class="mui-input-group">
@@ -124,7 +124,6 @@
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/upload.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../script/common/templateSubjects.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/works/workListMy.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 

@@ -14,7 +14,6 @@
 			.mui-content {
 				background: #f1f1f1!important;
 			}
-
 			.mui-popover {
 				min-height: 255px;
 				position: fixed;
@@ -30,6 +29,7 @@
 				margin-top: 0!important;
 				font-size: 16px;
 			}
+			
 		</style>
 	</head>
 	<body>
@@ -67,14 +67,14 @@
 			</div>
 		</div>
 
-		<div id="pullrefresh" class="mui-content mui-scroll-wrapper">
+		<div id="pullrefresh" class="mui-content mui-scroll-wrapper" data-bind="visible:comments().length>0">
 			<div class="mui-scroll">
 				<!--点评列表-->
 				<div data-bind="template:{name:'commentTemplate', foreach:comments}">
 				</div>							
 				<!--点评模板-->
 				<script type="text/html" id="commentTemplate">
-					<div class="works-center commentList-ctn" data-bind="click: goCommentDetail">
+					<div class="works-center commentList-ctn" data-bind="event:{tap: goCommentDetail}">
 						<span data-bind="text: WorkTitle ? WorkTitle : ''"></span>
 						<i class="mui-input-row mui-checkbox mui-left commentList-mui-left" data-bind="text: SubjectName"></i>
 						<div class="works-list-img">

@@ -28,8 +28,9 @@ if (window.plus) {
 function checkVersion() {
 		mui.ajax(common.gServerUrl + "API/Common/GetLatestVersion", {
 			type: "GET",
-			success: function(responseTest) {
-				var result = eval("(" + responseTest + ")");
+			success: function(responseText) {
+				//console.log(responseText);
+				var result = eval("(" + responseText + ")");
 				ServerVersion = result.Version;
 				downloadUrl = common.gServerUrl + result.Url;
 				//mui.toast("ServerVersion:"+ServerVersion+",downloadUrl:"+downloadUrl);
@@ -49,7 +50,7 @@ function checkUpdate() {
 				//decideUpdate();
 				downloadWgt();
 			} else {
-				console.log("已是最新版本");
+				//console.log("已是最新版本");
 				mui.toast("已是最新版本");
 			}
 		} else {
@@ -86,9 +87,9 @@ function downloadWgt() {
 			plus.nativeUI.closeWaiting();
 			installWgt(d.filename); // 安装wgt包
 		} else {
-			console.log("下载失败！");
+			//console.log("下载失败！");
 			plus.nativeUI.closeWaiting();
-			alert("下载失败！");
+			mui.toast("下载失败！");
 		}
 	}).start();
 }
@@ -103,7 +104,7 @@ function installWgt(path) {
 			}
 		});
 		plus.runtime.install(path, {}, function() {
-			console.log("安装wgt文件成功！");
+			//console.log("安装wgt文件成功！");
 			//mui.toast("安装wgt文件成功！");
 			plus.nativeUI.closeWaiting();
 			plus.nativeUI.alert("应用资源更新完成！", function() {
@@ -117,8 +118,8 @@ function installWgt(path) {
 			}, "更新提醒", "确定");
 		}, function(e) {
 			plus.nativeUI.closeWaiting();
-			console.log("更新失败[" + e.code + "]：" + e.message);
-			alert("更新失败[" + e.code + "]：" + e.message);
+			//console.log("更新失败[" + e.code + "]：" + e.message);
+			mui.toast("更新失败[" + e.code + "]：" + e.message);
 		});
 	}
 	//版本号字符串转化为数字

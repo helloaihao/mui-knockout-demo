@@ -443,11 +443,21 @@ textarea {
 	width: 100%;
 	border-bottom: 1px solid #e5e5e5;
 	border-top: 1px solid #e5e5e5;
-	padding: 0 1.5rem;
 	box-sizing: border-box;
-	line-height: 54px;
-	color: #036fb8;
+	padding: 0 15px;
 	font-size: 18px;
+	box-sizing: border-box;
+}
+.index-teacher{
+	float: left;
+	color: #036fb8;
+	line-height: 52px;
+}
+.index-more{
+	float: right;
+	color: #999;
+	font-size: 16px;
+	line-height: 52px;
 }
 .index-content-bg {
 	background: #e5e5e5;
@@ -857,6 +867,7 @@ textarea {
 	width: 100%;
 	background: #999;
 }
+
 .works-content-up p,
 .works-content-dow p {
 	color: #666;
@@ -2398,26 +2409,28 @@ textarea {
 .openedCourses-ys {
 	height: auto;
 	width: 100%;
+	overflow: hidden;
 }
 .openedCourses-ys i {
 	text-align: center;
 	color: #999;
 	font-size: 80px;
-	margin-top: 15%;
-	margin-bottom: 20px;
-	height: 80px;
-	line-height: 80px;
+	margin-top: 10%;
+	height:160px;
+	line-height: 160px;
 	width: 100%;
 	display: inline-block;
 }
+
 .openedCourses-ys span {
 	width: 100%;
-	height: 40px;
+	height: 46px;
 	display: inline-block;
 	text-align: center;
 	font-size: 16px;
 	color: #666;
-	line-height: 40px;
+	margin-top: 20px;
+	line-height: 46px;
 }
 .openedCourses-button {
 	margin: 10px auto!important;
@@ -2487,32 +2500,29 @@ textarea {
 	margin-top: 20px;
 }
 .teacherList-content ol li {
-	width: 33.33333%;
 	float: left;
 	color: #999;
-	font-size: 14px;
+	display: block;
 	box-sizing: border-box;
-	line-height: 100%;
+	font-size: 12px;
+	/*line-height: 100%;*/
 }
 .teacherList-content ol li:nth-of-type(1),
 .teacherList-content ol li:nth-of-type(2) {
+	width: 25%;
 	padding-left: 15px;
 }
 .teacherList-content ol li:nth-of-type(3) {
+	width: 50%;
 	color: #f17103;
-	font-size: 14px;
 	text-align: right;
 }
 .teacherList-content ol li:nth-of-type(3) em {
-	color: #999;
-	font-size: 14px;
-	padding: 0 10px 0 15px;
+	padding-right: 15px;
 }
 .teacherList-content ol li.CommentPrice {
-	color: #f17103;
-	font-size: 14px;
+	color: #999;
 	text-align: right!important;
-	padding-right: 15px;
 }
 .works-list-img i:nth-of-type(2) {
 	height: 2rem;
@@ -4026,9 +4036,7 @@ textarea {
 	width: 100%;
 	display: inline-block;
 }
-.allSubject-last {
-	font-size: 12px;
-}
+
 /*------管理报名------*/
 
 .card-bg {
@@ -4098,7 +4106,12 @@ textarea {
 .card-width{
 	width: 100%!important;
 }
-
+.no-comment{
+	color: #999;
+	margin-left: 25px;
+	font-size: 14px;
+	margin-top: 10px;
+}
 
 
 

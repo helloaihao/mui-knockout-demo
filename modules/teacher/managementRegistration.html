@@ -53,7 +53,7 @@
 							</div>
 						</div>
 						<div class="card-row-left">
-							<input name="checkbox" value="Item 1" type="checkbox" data-bind="checked:checkedChildStatus">
+							<input name="checkbox" value="Item 1" type="checkbox">
 						</div>
 					</div>
 					<div class="pin-blank"></div>
@@ -63,10 +63,10 @@
 			<nav class="mui-bar mui-bar-tab">
 				<!--<a class="ah-mui-tab-item mui-active works-list-mui-tab-label" href="#tabbar"></a>-->
 				<div class="mui-input-row mui-checkbox mui-left select-all">
-					<label data-bind="click:checkedEvent">全选</label>
-					<input name="checkbox" value="Item 1" type="checkbox" id="checkId" data-bind="event:{tap:checkedAll}">
+					<label>全选</label>
+					<input name="checkbox" value="Item 1" type="checkbox" id="checkId">
 				</div>
-				<a class="ah-mui-tab-item works-list-mui-tab-btn">
+				<a class="ah-mui-tab-item works-list-mui-tab-btn" data-bind="event:{ensure}">
 					<span class="mui-tab-label works-list-mui-btn">确定</span>
 				</a>
 			</nav>

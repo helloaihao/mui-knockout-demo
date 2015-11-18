@@ -8,6 +8,14 @@ var authProTitle = function() {
 	self.Base64 = ko.observable(''); //所选图片的base64字符串
 	self.Path = ko.observable(''); //图片路径
 
+
+	mui.init({
+		beforeback: function() {
+			var teacherAuth = plus.webview.currentWebview().opener();
+			teacherAuth.reload(true);
+		}
+	});
+
 	var ppProTitle, setPic;
 	mui.ready(function() {
 		setPic = new mui.PopPicker();
