@@ -21,7 +21,9 @@ var workListMy = function() {
 	self.tmplSubjects = ko.observableArray([]);
 	self.tmplSubjectClasses = ko.observableArray([]);
 	self.currentSubject = ko.observable({}); //当前选中的科目
-	self.currentWorkTypes = ko.observable({});
+	self.currentWorkTypes = ko.observable(0);
+	self.currentSort = ko.observable(5);
+	
 	common.gJsonWorkTypeTeacher.unshift({
 		value: 0,
 		text: "全部"
@@ -110,10 +112,10 @@ var workListMy = function() {
 		if (!authorID || authorID <= 0) {
 			return;
 		}
-		var curl = useridUrl + authorID + pageUrl + page;
-		if (typeof self.currentSubject().id === "function") {
-			curl += subjectUrl + self.currentSubject().id();
-			curl += subjectClassUrl + self.currentSubject().subjectClass();
+		var curl = useridUrl + authorID + pageUrl + 1;
+		if (typeof self.currentSubject().id === "number") {
+			curl += subjectUrl + self.currentSubject().id;
+			curl += subjectClassUrl + self.currentSubject().subjectClass;
 		}
 		if (typeof(sortID) === "number" && sortID > 0) {
 			curl += sortUrl + sortID;
@@ -155,9 +157,9 @@ var workListMy = function() {
 			}
 			page++;
 			var curl = useridUrl + authorID + pageUrl + page;
-			if (typeof self.currentSubject().id === "function") {
-				curl += subjectUrl + self.currentSubject().id();
-				curl += subjectClassUrl + self.currentSubject().subjectClass();
+			if (typeof self.currentSubject().id === "number") {
+				curl += subjectUrl + self.currentSubject().id;
+				curl += subjectClassUrl + self.currentSubject().subjectClass;
 			}
 			if (typeof(sortID) === "number" && sortID > 0) {
 				curl += sortUrl + sortID;
@@ -181,7 +183,7 @@ var workListMy = function() {
 						} else {
 							mui('#pullrefreshMy').pullRefresh().enablePullupToRefresh();
 						}
-						mui('#pullrefreshMy').pullRefresh().endPullupToRefresh((++count > 2));
+						//mui('#pullrefreshMy').pullRefresh().endPullupToRefresh((++count > 2));
 					}
 
 				});
@@ -218,8 +220,9 @@ var workListMy = function() {
 			mui('#popSubjects').popover('toggle');
 		}
 		//作品排序
-	self.sortWorks = function() {
+	self.sortWorks = function(data) {
 			self.worksList.removeAll();
+			self.currentSort(data.value);
 			sortID = this.value;
 			page = 1; //还原为显示第一页
 			count = 0; //还原刷新次数
@@ -231,11 +234,12 @@ var workListMy = function() {
 	self.goWorksDetails = function(data) {
 			common.transfer("../works/WorksDetails.html", false, {
 				works: data.works
-			})
+			}, false, false)
 		}
 		//作品类型筛选
-	self.selectWorksType = function() {
+	self.selectWorksType = function(data) {
 		self.worksList.removeAll();
+		self.currentWorkTypes(data.value);
 		workTypeID = this.value;
 		page = 1; //还原为显示第一页
 		count = 0; //还原刷新次数

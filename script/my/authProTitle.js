@@ -2,17 +2,20 @@ var authProTitle = function() {
 	var self = this;
 	self.Auth = ko.observable({});
 	self.Editable = ko.observable(true); //是否可编辑并提交认证
-	self.AuthStatus = ko.observable("确认信息正确后，请提交审核"); //身份认证状态（显示）
+	self.AuthProStatus = ko.observable("确认信息正确后，请提交审核"); //身份认证状态（显示）
 	self.ProTitleTypeText = ko.observable('请选择职称'); //职称类型名称
 	self.ProTitleType = ko.observable(0); //职称类型
 	self.Base64 = ko.observable(''); //所选图片的base64字符串
 	self.Path = ko.observable(''); //图片路径
 
-
 	mui.init({
 		beforeback: function() {
 			var teacherAuth = plus.webview.currentWebview().opener();
-			teacherAuth.reload(true);
+			console.log(self.AuthProStatus());
+			mui.fire(teacherAuth,'refreshPro',{
+				ProAuthStatus:self.AuthProStatus()
+			});
+			return true;
 		}
 	});
 
@@ -78,9 +81,9 @@ var authProTitle = function() {
 				self.Path(common.getPhotoUrl(auth.PicPath));
 				self.ProTitleType(auth.ProTitleType);
 				self.ProTitleTypeText(self.initProTitleText(auth.ProTitleType));
-				self.AuthStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
+				self.AuthProStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
 				if (auth.Approved == common.gDictAuthStatusType.Rejected) {
-					self.AuthStatus(self.AuthStatus() + '：' + auth.RejectReason);
+					self.AuthProStatus(self.AuthStatus() + '：' + auth.RejectReason);
 				}
 				self.Editable(auth.Approved == common.gDictAuthStatusType.NotAuth && common.StrIsNull(auth.PicPath) == '');
 			}
@@ -118,7 +121,7 @@ var authProTitle = function() {
 					console.log(auth.PicPath);
 					self.Auth(auth);
 					self.Path(common.getPhotoUrl(auth.PicPath));
-					self.AuthStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
+					self.AuthProStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
 					self.Editable(auth.Approved == common.gDictAuthStatusType.NotAuth && common.StrIsNull(auth.PicPath) == '');
 				}
 

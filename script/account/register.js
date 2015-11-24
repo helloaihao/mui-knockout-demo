@@ -9,7 +9,6 @@ var register = function() {
 	self.RemainTime = ko.observable(0); //验证码剩余等待时间
 	self.Agreed = ko.observable(true); //同意协议
 	self.registerTitle = ko.observable('注册');
-	self.WaitTime = 60; //验证码默认等待时间
 
 	/*
 	 * registerInfo 相关绑定
@@ -68,7 +67,7 @@ var register = function() {
 							success: function(responseText) {
 								//var result = eval("(" + responseText + ")");
 								mui.toast(responseText);
-								self.RemainTime(self.WaitTime);
+								self.RemainTime(common.gVarWaitingSeconds);
 								self.CheckTime();
 							}
 						})
@@ -173,8 +172,8 @@ var register = function() {
 	self.getSubject = function() {
 			mui.ready(function() {
 				self.subjects.show(function(items) {
-					self.SubjectName(items[0].text);
-					self.SubjectID(items[0].value);
+					self.SubjectName(items[1].text);
+					self.SubjectID(items[1].value);
 				});
 			});
 		}
@@ -264,7 +263,8 @@ var register = function() {
 				}
 			});
 		}
-		//预加载数据
+	
+	//预加载数据
 	var userType, genders, places, subjects;
 	mui.ready(function() {
 		userType = new mui.PopPicker();
@@ -282,14 +282,10 @@ var register = function() {
 			layer: 3
 		});
 		self.places.setData(cityData3);
-		mui.ajax(common.gServerUrl + 'Common/Subject/Get', {
-			type: 'GET',
-			success: function(responseText) {
-				self.subjects = new mui.PopPicker();
-				var arr = common.JsonConvert(responseText, 'ID', 'SubjectName');
-				self.subjects.setData(arr);
-			}
-		})
+		self.subjects = new mui.PopPicker({
+			layer: 2
+		});
+		self.subjects.setData(common.getAllSubjectsBoth());
 	});
 }
 ko.applyBindings(register);

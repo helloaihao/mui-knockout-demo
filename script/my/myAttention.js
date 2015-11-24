@@ -25,5 +25,11 @@ var myAttention = function() {
 			}
 		})
 	})
+	
+	self.gotoTeacherInfo = function() {
+		common.transfer('../../modules/teacher/teacherInfo.html', false, {
+			teacherID: this.ID
+		}, false, false);
+	}
 }
 ko.applyBindings(myAttention);

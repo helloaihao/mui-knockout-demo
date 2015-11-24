@@ -7,7 +7,6 @@ var moreInfo = function() {
 	var UserName = getLocalItem('UserName'); //手机号
 	var UserID = getLocalItem('UserID'); //用户id
 	self.RemainTime = ko.observable(0); //验证码剩余等待时间
-	var WaitTime = 15; //验证码默认等待时间
 	self.feedBackText = ko.observable(""); //意见反馈文本
 	/*更多页面 js
 	 */
@@ -35,6 +34,10 @@ var moreInfo = function() {
 				removeLocalItem('UserName');
 				removeLocalItem('Token');
 				removeLocalItem('UserType');
+				plus.storage.removeItem(common.getPageName() + '.SubjectName');
+				plus.storage.removeItem(common.getPageName() + '.SubjectID');
+				plus.storage.removeItem(common.getPageName() + '.WorkTypeName');
+				plus.storage.removeItem(common.getPageName() + '.WorkTypeID');
 
 				mui.toast("注销成功");
 				mui.openWindow({
@@ -52,9 +55,8 @@ var moreInfo = function() {
 				});
 			}
 		}
-		/*修改密码 js
-		 */
-
+		
+	//获取验证码
 	self.getVerifyCode = function() {
 		//获取验证码
 		mui.ajax(common.gServerUrl + "Common/GetVerifyCode?mobile=" + UserName, {
@@ -63,7 +65,7 @@ var moreInfo = function() {
 			success: function(responseText) {
 				//var result = eval("(" + responseText + ")");
 				mui.toast(responseText);
-				self.RemainTime(WaitTime);
+				self.RemainTime(common.gVarWaitingSeconds);
 				self.CheckTime();
 			},
 			error: function(responseText) {

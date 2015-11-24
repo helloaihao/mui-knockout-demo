@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评+</title>
+		<link href="../../content/mui/mui.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/Tf_global.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<style>
+			body,
+			.mui-content {
+				background: #f1f1f1;
+			}
+			.mui-bar-tab .ah-mui-tab-item {
+				display: table-cell;
+				overflow: hidden;
+				width: 200px;
+				height: 50px;
+				text-align: center;
+				vertical-align: middle;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				color: #929292;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<i class="iconfont mui-action-back" style="width:40px; height:40px; display: inline-block;">&#xe602;</i>
+			<h1 class="mui-title">关注者列表</h1>
+		</header>
+		<div class="mui-content">
+			<div class="card-bg">
+				<form class="mui-input-group" data-bind="template:{name:'attentionTemplate',foreach:AttentionList}">
+				</form>
+			</div>
+		</div>
+		<!--关注者模板-->
+		<script type="text/html" id="attentionTemplate">
+			<div class="card-row">
+				<div class="card-right card-width">
+					<img data-bind="attr:{'src':common.getPhotoUrl(Photo)}" onerror="this.src='../../images/my-default.png';"/>
+					<div class="card-row-right">
+						<span data-bind="text:DisplayName"></span><u>(<!--ko text:common.gJsonGenderType[Gender].text--><!--/ko-->)</u>
+						<u class="u-font-right" data-bind='text: UserType == common.gDictUserType.teacher ? TeachAge + " 年教龄 " : TheAge'></u>
+					</div>
+					<div class="card-row-right card-row-dow">
+						<u data-bind="text:Province + City + District"></u>
+					</div>
+				</div>
+			</div>
+			<div class="pin-blank"></div>
+		</script>
+		<script src="../../script/mui/mui.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/my/myAttended.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

@@ -97,7 +97,7 @@
 				</div>
 				<!--收藏用户模板页-->
 				<script type="text/html" id="attentionTemple">
-					<div class="card-row">
+					<div class="card-row" data-bind="event:{tap: gotoTeacherInfo}">
 						<div class="card-right card-width">
 							<img data-bind="attr:{'src':common.getPhotoUrl(Photo)}" />
 							<div class="card-row-right">

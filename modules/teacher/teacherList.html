@@ -10,7 +10,6 @@
 		<link href="../../content/common/global.css" rel="stylesheet" />
 		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
 		<link href="../../content/common/Tf_global.css" rel="stylesheet" />
-		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
 		<style>
 			.mui-input-group,
 			.mui-content {
@@ -114,39 +113,24 @@
 				</div>
 			</div>
 
-			<!--<div id="popStar" class="mui-popover popover-height">
-				<ul id="list2" class="mui-table-view">
-					<li class="mui-table-view-cell navigate-font">
-						<a href="#">默认</a>
-					</li>
-					<li class="mui-table-view-cell navigate-font">
-						<a href="#">日期</a>
-					</li>
-					<li class="mui-table-view-cell navigate-font">
-						<a href="#">名称</a>
+			<div id="popStar" class="mui-popover popover-height">
+				<ul id="list1" class="mui-table-view" data-bind="foreach:{data: stars, as: 'ss'}">
+					<li class="mui-table-view-cell navigate-font current-flag" data-bind="event: {'tap': selectStar}">
+						<a href="#"><i data-bind="text: ss.ctext"></i><span class="iconfont" data-bind="visible: ss.value == currentStar()">&#xe64e;</span></a>
 					</li>
 				</ul>
-			</div>-->
+			</div>
 
 			<div id="popSort" class="mui-popover popover-height">
-				<ul id="list2" class="mui-table-view">
-					<li class="mui-table-view-cell navigate-font">
-						<a href="#">评分</a>
-					</li>
-					<li class="mui-table-view-cell navigate-font">
-						<a href="#">教龄</a>
-					</li>
-					<li class="mui-table-view-cell navigate-font">
-						<a href="#">价位升序</a>
-					</li>
-					<li class="mui-table-view-cell navigate-font">
-						<a href="#">价位降序</a>
+				<ul id="list2" class="mui-table-view" data-bind="foreach:{data: sorts, as: 'ss'}">
+					<li class="mui-table-view-cell navigate-font current-flag" data-bind="event: {'tap': selectSort}">
+						<a href="#"><i data-bind="text: ss.text"></i><span class="iconfont" data-bind="visible: ss.value == currentSort()">&#xe64e;</span></a>
 					</li>
 				</ul>
 			</div>
 
 			<nav class="mui-bar mui-bar-tab" data-bind="visible: displayCheck">
-				<a class="ah-mui-tab-item mui-active works-list-mui-tab-label" href="#tabbar">
+				<a class="ah-mui-tab-item mui-active works-list-mui-tab-label mui-action-back">
 					<span class="mui-tab-label ">取消</span>
 				</a>
 
@@ -157,7 +141,6 @@
 		</div>
 
 		<script src="../../script/mui/mui.js"></script>
-		<script src="../../script/mui/mui.picker.min.js"></script>
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>

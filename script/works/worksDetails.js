@@ -191,6 +191,7 @@ var worksDetails = function() {
 			self.Works(obj);
 			self.getVideo(obj.WorkID());
 		}
+		common.showCurrentWebview();
 		self.getComment();
 	});
 
@@ -219,7 +220,7 @@ var worksDetails = function() {
 							mui.toast("删除成功");
 							var workparent=workVaule.opener();//获取当前页面的创建者
 							console.log(workparent);
-							workparent.evalJS("resetWorks()");
+							//workparent.evalJS("resetWorks()");
 							mui.back();
 						},
 						error: function(responseText) {
@@ -324,7 +325,7 @@ var worksDetails = function() {
 
 		var ret = common.postAction(common.gDictActionType.Like, common.gDictActionTargetType.Works, self.Works().WorkID());
 		if (ret) {
-			self.LikeCount(self.LikeCount() + 1);
+			self.Works().LikeCount(self.Works().LikeCount() + 1);
 			mui.toast('感谢您的赞许');
 		}
 	}
@@ -335,7 +336,7 @@ var worksDetails = function() {
 
 			var ret = common.postAction(common.gDictActionType.Favorite, common.gDictActionTargetType.Works, self.Works().WorkID());
 			if (ret) {
-				self.FavCount(self.FavCount() + 1);
+				self.Works().FavCount(self.Works().FavCount() + 1);
 				mui.toast('收藏成功');
 			}
 		}

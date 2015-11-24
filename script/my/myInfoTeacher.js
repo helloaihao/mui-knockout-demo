@@ -6,12 +6,13 @@ var my_teacher = function() {
 	self.FavCount = ko.observable(0);
 	self.UserID = ko.observable(getLocalItem('UserID'));
 	self.UserType = ko.observable(getLocalItem('UserType'));
+	self.Score=ko.observable(0);//老师得分
 	
 	self.goMyUserAttented = function() {
-		common.transfer('../teacher/myUserAttented.html', true, {}, true);
+		common.transfer('myAttended.html', true, {}, true);
 	}
 	self.goMyinfo = function() {
-		common.transfer('myInfo.html', true, {}, true);
+		common.transfer('myInfo.html', true, {}, true, false);
 	}
 	self.goMoreInfo = function() {
 		common.transfer('moreInfo.html', true, {}, true);
@@ -34,7 +35,7 @@ var my_teacher = function() {
 	self.goHelp = function() {
 		//reloadThis();
 		mui.toast("点击了帮助");
-		common.transfer('../teacher/managementRegistration.html',true);
+		//common.transfer('../teacher/managementRegistration.html',true);
 	}
 	if (self.UserID() > 0) {
 		self.getStudent = function() {
@@ -49,6 +50,8 @@ var my_teacher = function() {
 					if (responseText.Photo)
 						self.Photo(common.getPhotoUrl(responseText.Photo));
 					self.FavCount(responseText.FavCount);
+					if(responseText.Score)
+						self.Score(responseText.Score);
 					//self.UserID(responseText.UserID);
 					if (self.DisplayName() == "请登录") {
 						mui.alert('还没完善信息哦，点击头像完善信息，马上就去~', '信息不完整', self.goMyinfo());
@@ -58,6 +61,20 @@ var my_teacher = function() {
 
 		}();
 	}
+	window.addEventListener('refreshAttend',function(event){
+		self.FavCount(event.detail.myAttendNum);
+	});
+	window.addEventListener('refreshMyinfo',function(event){
+		if(event.detail.userScore!=""){
+			self.Score(event.detail.userScore);
+		}
+		if(event.detail.displayName!=""){
+			self.DisplayName(event.detail.displayName);
+		}
+		if(event.detail.imgPath!=""){
+			self.Photo(event.detail.imgPath);
+		}
+	});
 	mui.back = function() {
 		common.confirmQuit();
 	}

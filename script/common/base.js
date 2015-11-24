@@ -124,7 +124,7 @@ var handleResult = function(result) {
 					}
 					plus.nativeUI.closeWaiting();
 				});
-				console.log('request return error:'+JSON.stringify(XMLHttpRequest));
+				//console.log('request return error:'+JSON.stringify(XMLHttpRequest));
 				var status;
 				if(XMLHttpRequest.statusCode){
 					status = XMLHttpRequest.statusCode;
@@ -138,6 +138,10 @@ var handleResult = function(result) {
 							removeLocalItem("UserName");
 							removeLocalItem("UserID");
 							removeLocalItem("Token");
+							plus.storage.removeItem(common.getPageName()+'.SubjectName');
+							plus.storage.removeItem(common.getPageName()+'.SubjectID');
+							plus.storage.removeItem(common.getPageName()+'.WorkTypeName');
+							plus.storage.removeItem(common.getPageName()+'.WorkTypeID');
 							mui.toast('帐号已在其它设备登录，当前设备将退出。');
 							//var myInfo=viewModelIndex.MyHref;
 							//mui.toast(viewModelIndex().MyHref());
@@ -160,9 +164,9 @@ var handleResult = function(result) {
 			},
 			success: function(data, textStatus) {
 //				console.log('request return success:'+JSON.stringify(data));
-				mui.plusReady(function() {
-					plus.nativeUI.closeWaiting();
-				});
+//				mui.plusReady(function() {
+//					plus.nativeUI.closeWaiting();
+//				});
 				//成功回调方法增强处理  
 				fn.success(data, textStatus);
 			}

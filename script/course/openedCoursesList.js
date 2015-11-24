@@ -2,6 +2,7 @@ var viewModel = function() {
 	var self = this;
 
 	self.courses = ko.observableArray([]);
+	self.classtimes = ko.observableArray([]);
 	self.active = ko.observable(true);
 	self.getCourse = function() {
 		mui.ajax(common.gServerUrl + "API/Course/GetAllCourseByUserID?userId=" + getLocalItem("UserID"), {
@@ -9,9 +10,7 @@ var viewModel = function() {
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
 				self.courses(result);
-			},
-			error: function() {
-				mui.toast("error");
+				//if(self.courses())
 			}
 		});
 	}();
@@ -67,14 +66,33 @@ var viewModel = function() {
 			}
 		});
 	}
+	window.addEventListener('refreshCourses', function(event) {
+		self.courses().forEach(function(item){
+			if(item.ID == event.detail.courseId){
+				item.subjectName=event.detail.SubjectName;
+				item.CourseName=event.detail.CourseName;
+				item.CourseType=event.detail.CourseType;
+				item.Introduce=event.detail.Introduce;
+				item.MaxStudent=event.detail.MaxStudent;
+				item.BeginTime=event.detail.BeginTime;
+				item.LessonCount=event.detail.LessonCount;
+				item.ClasstimeJson=event.detail.ClasstimeJson;
+				item.SubjectID=event.detail.SubjectID;
+			}
+		});
+	})
 
 	self.gotoEditCourse = function() {
 		//window.location = "../../modules/course/addCourse.html?course="+encodeURI(JSON.stringify(this));
-		common.transfer("../../modules/course/addCourse.html", true, {course: this});
+		common.transfer("../../modules/course/addCourse.html", true, {
+			course: this
+		}, false, false);
 	};
 
 	self.gotoRegistered = function() {
-		common.transfer("../../modules/course/registeredList.html", true, {course: this});
+		common.transfer("../../modules/course/registeredList.html", true, {
+			course: this
+		});
 	};
 
 	self.gotoAddCourse = function() {

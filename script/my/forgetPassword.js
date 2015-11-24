@@ -3,7 +3,6 @@ var forgotPassword = function() {
 	self.UserName = ko.observable(""); //注册的手机号
 	self.VerifyCode = ko.observable(""); //验证码
 	self.RemainTime = ko.observable(0); //验证码剩余等待时间
-	self.WaitTime = 15; //验证码默认等待时间
 	self.NewPassword = ko.observable(""); //新密码
 	self.CheckPassword = ko.observable(""); //重复新密码
 
@@ -31,7 +30,7 @@ var forgotPassword = function() {
 							success: function(responseText) {
 								//var result = eval("(" + responseText + ")");
 								mui.toast(responseText);
-								self.RemainTime(self.WaitTime);
+								self.RemainTime(common.gVarWaitingSeconds);
 								self.CheckTime();
 							},
 							error: function(responseText) {

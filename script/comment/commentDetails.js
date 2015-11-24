@@ -111,7 +111,7 @@ var viewModel = function() {
 	self.goWorksDetails = function(data) {
 		common.transfer("../works/WorksDetails.html", false, {
 			works: self.works()
-		})
+		}, false, false)
 	}
 	
 	/**
@@ -155,6 +155,7 @@ var viewModel = function() {
 						})
 					}
 				}
+				common.showCurrentWebview();
 			}
 		});
 		

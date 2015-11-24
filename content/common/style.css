@@ -4113,7 +4113,12 @@ textarea {
 	margin-top: 10px;
 }
 
-
+.current-flag span{
+	float: right;
+	display: inline;
+	color: #4CD964;
+	font-size: 48px;
+}
 
 
 

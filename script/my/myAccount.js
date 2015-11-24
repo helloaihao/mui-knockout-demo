@@ -1,6 +1,6 @@
 var myAccount = function() {
 	var self = this;
-	self.DisplayName=ko.observable("");         //用户名
+	self.DisplayName = ko.observable(""); //用户名
 	self.Balance = ko.observable(0); //我的余额
 	self.DetailsNotFinish = ko.observableArray([]); //未完成明细
 	self.DetailsFinished = ko.observableArray([]); //已完成明细
@@ -11,29 +11,29 @@ var myAccount = function() {
 
 	mui.ready(function() {
 			var self = this;
-			mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + getLocalItem("UserID") + "&usertype=" + getLocalItem('UserType'),{
+			mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + getLocalItem("UserID") + "&usertype=" + getLocalItem('UserType'), {
 				type: 'GET',
 				success: function(responseText) {
-				var result = eval("(" + responseText + ")");
-				self.DisplayName(result.DisplayName);
-			},
-			error: function(responseText) {
-				mui.toast("获取信息失败");
-			}
+					var result = eval("(" + responseText + ")");
+					self.DisplayName(result.DisplayName);
+				},
+				error: function(responseText) {
+					mui.toast("获取信息失败");
+				}
 			});
 			var ajaxUrl = common.gServerUrl + 'API/Account/GetBalance?userid=' + getLocalItem('UserID') + '&usertype=' + getLocalItem('UserType');
 			mui.ajax(ajaxUrl, {
-					type: 'GET',
-					success: function(responseText) {
-						var balance = JSON.parse(responseText);
-						self.Balance(balance);
-					}
-				})
-				self.SumNotFinish();
+				type: 'GET',
+				success: function(responseText) {
+					var balance = JSON.parse(responseText);
+					self.Balance(balance);
+				}
+			})
+			self.SumNotFinish();
 		})
-	//未完成
-	self.SumNotFinish=function(){
-		var ajaxUrl = common.gServerUrl + 'API/Account/GetAccountDetails?userid=' + getLocalItem('UserID') + '&usertype=' + getLocalItem('UserType') + '&accountDetailType=';
+		//未完成
+	self.SumNotFinish = function() {
+			var ajaxUrl = common.gServerUrl + 'API/Account/GetAccountDetails?userid=' + getLocalItem('UserID') + '&usertype=' + getLocalItem('UserType') + '&accountDetailType=';
 			//common.gDictAccountDetailType.NotFinish;
 			mui.ajax(ajaxUrl + common.gDictAccountDetailType.NotFinish, {
 				type: 'GET',
@@ -43,7 +43,7 @@ var myAccount = function() {
 					self.SumAccount(common.getArraySum(self.DetailsNotFinish(), 'Amount'));
 				}
 			})
-	}
+		}
 		//已完成
 	self.SumFinish = function() {
 		var ajaxUrl = common.gServerUrl + 'API/Account/GetAccountDetails?userid=' + getLocalItem('UserID') + '&usertype=' + getLocalItem('UserType') + '&accountDetailType=';
@@ -59,23 +59,28 @@ var myAccount = function() {
 
 	//已到账
 	self.SumTrasfered = function() {
-		var ajaxUrl = common.gServerUrl + 'API/Account/GetAccountDetails?userid=' + getLocalItem('UserID') + '&usertype=' + getLocalItem('UserType') + '&accountDetailType=';
-		mui.ajax(ajaxUrl + common.gDictAccountDetailType.Transfered, {
-			type: 'GET',
-			success: function(responseText) {
-				var detailsTrasfered = JSON.parse(responseText);
-				self.DetailsTrasfered(detailsTrasfered);
-				self.SumAccount(common.getArraySum(self.DetailsTrasfered(), 'Amount'));
-			}
-		})
-	}
-	//提现
-	self.Withdraw =function(){
+			var ajaxUrl = common.gServerUrl + 'API/Account/GetAccountDetails?userid=' + getLocalItem('UserID') + '&usertype=' + getLocalItem('UserType') + '&accountDetailType=';
+			mui.ajax(ajaxUrl + common.gDictAccountDetailType.Transfered, {
+				type: 'GET',
+				success: function(responseText) {
+					var detailsTrasfered = JSON.parse(responseText);
+					self.DetailsTrasfered(detailsTrasfered);
+					self.SumAccount(common.getArraySum(self.DetailsTrasfered(), 'Amount'));
+				}
+			})
+		}
+		//提现
+	self.Withdraw = function() {
 		mui.toast("你点击了提现按钮");
 		//common.transfer('MyAccountMain.html');
 		//plus.webview.open('../../my/MyAccountMain.html','MyAccountMain.html');
 		plus.webview.open('MyAccountMain.html')
-		
+
 	}
+	window.addEventListener('refeshBalance', function(event) {
+		if (event.detail.newBalance) {
+			self.Balance(event.detail.newBalance);
+		}
+	});
 }
 ko.applyBindings(myAccount);

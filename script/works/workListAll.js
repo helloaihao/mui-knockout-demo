@@ -23,7 +23,9 @@ var workListAll = function() {
 	self.tmplSubjects = ko.observableArray([]);
 	self.tmplSubjectClasses = ko.observableArray([]);
 	self.currentSubject = ko.observable({}); //当前选中的科目
-
+	self.currentWorkTypes = ko.observable(0);
+	self.currentSort = ko.observable(5);
+	
 	//刷新界面
 	mui.init({
 		pullRefresh: {
@@ -40,9 +42,9 @@ var workListAll = function() {
 	//加载作品
 	self.getWorks = function() {
 		var curl = pageUrl + page;
-		if (typeof self.currentSubject().id === "function") {
-			curl += subjectUrl + self.currentSubject().id();
-			curl += subjectClassUrl + self.currentSubject().subjectClass();
+		if (typeof self.currentSubject().id === "number") {
+			curl += subjectUrl + self.currentSubject().id;
+			curl += subjectClassUrl + self.currentSubject().subjectClass;
 		}
 		if (typeof(sortID) === "number" && sortID > 0) {
 			curl += sortUrl + sortID;
@@ -57,19 +59,20 @@ var workListAll = function() {
 				self.works(result);
 			}
 		});
-		console.log(thisUrl + curl);
+		//console.log(thisUrl + curl);
 		//mui('#pullrefresh').pullRefresh().refresh(true);
 		//console.log(self.works());
 	};
 
 	//下拉加载
 	function pulldownRefresh() {
+		//console.log('上拉');
 		setTimeout(function() {
 			mui('#pullrefreshAll').pullRefresh().endPulldownToRefresh(); //refresh completed
 			var curl = pageUrl + 1;
-			if (typeof self.currentSubject().id === "function") {
-				curl += subjectUrl + self.currentSubject().id();
-				curl += subjectClassUrl + self.currentSubject().subjectClass();
+			if (typeof self.currentSubject().id === "number") {
+				curl += subjectUrl + self.currentSubject().id;
+				curl += subjectClassUrl + self.currentSubject().subjectClass;
 			}
 			if (typeof(sortID) === "number" && sortID > 0) {
 				curl += sortUrl + sortID;
@@ -99,9 +102,9 @@ var workListAll = function() {
 			//this.endPullUpToRefresh((++count > 2));
 			page++;
 			var curl = pageUrl + page;
-			if (typeof self.currentSubject().id === "function") {
-				curl += subjectUrl + self.currentSubject().id();
-				curl += subjectClassUrl + self.currentSubject().subjectClass();
+			if (typeof self.currentSubject().id === "number") {
+				curl += subjectUrl + self.currentSubject().id;
+				curl += subjectClassUrl + self.currentSubject().subjectClass;
 			}
 			if (typeof(sortID) === "number" && sortID > 0) {
 				curl += sortUrl + sortID;
@@ -109,13 +112,13 @@ var workListAll = function() {
 			if (typeof(workTypeID) === "number" && workTypeID > 0) {
 				curl += workTypeUrl + workTypeID;
 			}
-			console.log(thisUrl + curl);
+			//console.log(thisUrl + curl);
 			if (plus.networkinfo.getCurrentType() > 1) {
 				//contentnomore = "上拉显示更多";
 				mui.ajax(thisUrl + curl, {
 					type: 'GET',
 					success: function(responseText) {
-						console.log(page);
+						//console.log(page);
 						mui('#pullrefreshAll').pullRefresh().endPullupToRefresh((++count > 2));
 						var result = eval("(" + responseText + ")");
 						self.works(self.works().concat(result));
@@ -151,6 +154,7 @@ var workListAll = function() {
 		}
 		//选择类别
 	self.selectWorksType = function() {
+			self.currentWorkTypes(this.value);
 			self.works.removeAll();
 			workTypeID = this.value;
 			page = 1; //还原为显示第一页
@@ -158,10 +162,11 @@ var workListAll = function() {
 			mui('#pullrefreshAll').pullRefresh().refresh(true);
 			self.getWorks();
 			mui('#popType').popover('toggle');
-			//console.log(this.value);
+			
 		}
 		//作品排序
 	self.sortWorks = function() {
+			self.currentSort(this.value);
 			self.works.removeAll();
 			sortID = this.value;
 			page = 1; //还原为显示第一页
@@ -175,7 +180,7 @@ var workListAll = function() {
 	self.goWorksDetails = function(data) {
 		common.transfer("WorksDetails.html", false, {
 			works: data
-		})
+		}, false, false)
 	}
 	mui.plusReady(function() {
 		self.getWorks();

@@ -1,7 +1,7 @@
 ﻿var teacherInfo = function() {
 	var self = this;
-	
-	self.teacherInfo = ko.observable();		//老师详情对象
+
+	self.teacherInfo = ko.observable(); //老师详情对象
 	self.workResolve = ko.observableArray([]); //分解视频  数组
 	self.workFull = ko.observableArray([]); //完整视频  数组
 	self.workShow = ko.observableArray([]); //演出作品  数组
@@ -35,7 +35,7 @@
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
 				self.teacherInfo(result);
-				
+
 				if (common.StrIsNull(result.Photo) != '')
 					self.Photo(common.getPhotoUrl(result.Photo));
 				self.DisplayName(result.DisplayName);
@@ -49,7 +49,7 @@
 				self.Star(result.Star);
 				self.Introduce(result.Introduce);
 
-				
+				common.showCurrentWebview();
 			},
 			error: function(responseText) {
 				mui.toast("获取信息失败");
@@ -57,28 +57,31 @@
 		});
 	};
 	self.openWork = function() {
-			common.transfer('../works/worksList.html', false, {
-				workType: 1
-			});
-		}
-		//查看作品详情
-	self.goWorksDetail = function(data) {
-			common.transfer("../works/WorksDetails.html", false, {
-				works: data
-			})
-		}
-		//获取分解视频
-	self.getworkResolve = function() {
-			mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkTypeTeacher[0].value + "&pageSize=" + pageSize, {
-				type: "GET",
-				success: function(responseText) {
-					var result = eval("(" + responseText + ")");
+		common.transfer('../works/worksList.html', false, {
+			workType: 1
+		});
+	}
 
-					self.workResolve(result);
-				}
-			})
-		}
-		//获取完整教程
+	//查看作品详情
+	self.goWorksDetail = function(data) {
+		common.transfer("../works/WorksDetails.html", false, {
+			works: data
+		}, false, false)
+	}
+
+	//获取分解视频
+	self.getworkResolve = function() {
+		mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkTypeTeacher[0].value + "&pageSize=" + pageSize, {
+			type: "GET",
+			success: function(responseText) {
+				var result = eval("(" + responseText + ")");
+
+				self.workResolve(result);
+			}
+		})
+	}
+
+	//获取完整教程
 	self.getworkFull = function() {
 		mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkTypeTeacher[1].value + "&pageSize=" + pageSize, {
 			type: "GET",
@@ -88,6 +91,7 @@
 			}
 		})
 	};
+
 	//获取演出作品
 	self.getwork = function() {
 		mui.ajax(common.gServerUrl + "API/Work?userID=" + TUserID + "&workType=" + common.gJsonWorkTypeTeacher[2].value + "&pageSize=" + pageSize, {
@@ -102,56 +106,67 @@
 
 	//老师课程
 	self.getlesson = function() {
-			mui.ajax(common.gServerUrl + "API/Course/GetCourseByUserID?userId=" + TUserID, {
-				type: 'GET',
-				success: function(responseText) {
-					var result = eval("(" + responseText + ")");
-					self.Courses(result);
-				},
-				error: function(responseText) {
-					mui.toast("获取课程失败");
-				}
-
-			})
-		}
-		//帮我点评
-	self.gotoComment = function() {
-			common.transfer('../works/worksList.html', true, {
-				teacher: self.teacherInfo(),
-				displayCheck: true
-			});
-		}
-		//预约上课
-	self.appiontLesson = function() {
-			common.transfer('../student/aboutLesson.html', true, {
-				teacherName: self.DisplayName(),
-				teacherPhoto: self.Photo(),
-				userID: TUserID,
-				courses: self.Courses()
-			});
-		}
-		//关注
-	self.Fav = function() {
-			var ret = common.postAction(common.gDictActionType.Favorite, common.gDictActionTargetType.User, TUserID);
-			if (ret) {
-				self.FavCount(self.FavCount() + 1);
-
-				mui.toast('收藏成功');
+		mui.ajax(common.gServerUrl + "API/Course/GetCourseByUserID?userId=" + TUserID, {
+			type: 'GET',
+			success: function(responseText) {
+				var result = eval("(" + responseText + ")");
+				self.Courses(result);
+			},
+			error: function(responseText) {
+				mui.toast("获取课程失败");
 			}
+
+		})
+	}
+
+	//帮我点评
+	self.gotoComment = function() {
+		common.transfer('../works/worksList.html', true, {
+			teacher: self.teacherInfo(),
+			displayCheck: true
+		});
+	}
+
+	//预约上课
+	self.appiontLesson = function() {
+		common.transfer('../student/aboutLesson.html', true, {
+			teacherName: self.DisplayName(),
+			teacherPhoto: self.Photo(),
+			userID: TUserID,
+			courses: self.Courses()
+		});
+	}
+
+	//关注
+	self.Fav = function() {
+		var ret = common.postAction(common.gDictActionType.Favorite, common.gDictActionTargetType.User, TUserID);
+		if (ret) {
+			self.FavCount(self.FavCount() + 1);
+
+			mui.toast('收藏成功');
 		}
-		//关闭分享窗口
+	}
+
+	//关闭分享窗口
 	self.closeShare = function() {
-			mui('#middlePopover').popover('toggle');
-		}
-		//浏览老师相册
+		mui('#middlePopover').popover('toggle');
+	}
+
+	//浏览老师相册
 	self.goTeacherAlbum = function() {
 		common.transfer("../../modules/my/myAlbum.html", false, {
 			userID: TUserID
 		})
 	}
 
+	self.showTeacherImage = function() {
+		var pv = new mui.previewImage();
+		var ti = document.getElementById('teacherImage');
+		pv.open(ti);
+	}
+
 	mui.plusReady(function() {
-		//plus.nativeUI.showWaiting();
+
 		var web = plus.webview.currentWebview();
 		if (typeof(web.teacherID) !== "undefined") {
 			TUserID = web.teacherID;

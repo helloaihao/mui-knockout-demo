@@ -17,6 +17,7 @@
 }
 .icon-maikefeng:before { content: "\e614"; }
 .icon-shouye:before { content: "\e627"; }
+.icon-uploading:before { content: "\e64b"; }
 .icon-guanbi:before { content: "\e63f"; }
 .icon-gengduo:before { content: "\e60c"; }
 .icon-yuanquan:before { content: "\e634"; }
@@ -62,6 +63,7 @@
 .icon-shipin:before { content: "\e61d"; }
 .icon-chakankebiao:before { content: "\e61f"; }
 .icon-iconfontttpodicon:before { content: "\e618"; }
+.icon-gou:before { content: "\e64e"; }
 .icon-tables:before { content: "\e616"; }
 .icon-jinlingyingcaiwangtubiao02:before { content: "\e619"; }
 .icon-danxuan:before { content: "\e636"; }
@@ -90,3 +92,4 @@
 .icon-shaixuan1:before { content: "\e647"; }
 .icon-shaixuan2:before { content: "\e645"; }
 .icon-xiangce:before { content: "\e642"; }
+.icon-touxiang:before { content: "\e64c"; }

@@ -13,15 +13,11 @@ var viewModel = function() {
 	var workTypeID, subjectID, publicID = 1;
 
 	mui.plusReady(function() {
-		subjectName = new mui.PopPicker();
-		mui.ajax(common.gServerUrl + "Common/Subject/Get", {
-			dataType: 'json',
-			type: "GET",
-			success: function(responseText) {
-				var arr = common.JsonConvert(responseText, 'ID', 'SubjectName');
-				subjectName.setData(arr);
-			}
+		subjectName = new mui.PopPicker({
+			layer: 2
 		});
+		subjectName.setData(common.getAllSubjectsBoth());
+
 		workTypeName = new mui.PopPicker();
 		if(getLocalItem("UserType") == common.gDictUserType.teacher.toString()){
 			workTypeName.setData(common.gJsonWorkTypeTeacher);
@@ -34,10 +30,8 @@ var viewModel = function() {
 		
 		//从本地缓存读取之前所选的科目
 		var cacheSubjectName = plus.storage.getItem(common.getPageName()+'.SubjectName');
-		
 		if(cacheSubjectName && cacheSubjectName != '') self.subjectText(cacheSubjectName);
 		var cacheSubjectID = plus.storage.getItem(common.getPageName()+'.SubjectID');
-		
 		if(cacheSubjectID && cacheSubjectID != '') subjectID = cacheSubjectID;
 		//从本地缓存读取之前所选的类型
 		var cacheWorkTypeName = plus.storage.getItem(common.getPageName()+'.WorkTypeName');
@@ -49,8 +43,8 @@ var viewModel = function() {
 	//科目选择
 	self.setSubject = function() {
 		subjectName.show(function(items) {
-			self.subjectText(items[0].text);
-			subjectID = items[0].value;
+			self.subjectText(items[1].text);
+			subjectID = items[1].value;
 			//保存所选科目到本地缓存
 			plus.storage.setItem(common.getPageName()+'.SubjectName', self.subjectText());
 			plus.storage.setItem(common.getPageName()+'.SubjectID', subjectID.toString());

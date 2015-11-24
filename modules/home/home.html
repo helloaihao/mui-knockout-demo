@@ -124,36 +124,14 @@
 			<!--科目-->
 			<div class="index-subject">
 				<ul>
-					<li onclick="gotoTeachers()">
-						<img src="../../images/index1.png" />
-						<span>钢琴</span>
-					</li>
-					<li onclick="gotoTeachers()">
-						<img src="../../images/index2.png" />
-						<span>小提琴</span>
-					</li>
-					<li onclick="gotoTeachers()">
-						<img src="../../images/index3.png" />
-						<span>笛子</span>
-					</li>
-					<li onclick="gotoTeachers()">
-						<img src="../../images/index4.png" />
-						<span>古筝</span>
-					</li>
-					<li onclick="gotoTeachers()">
-						<img src="../../images/index5.png" />
-						<span>二胡</span>
-					</li>
-					<li onclick="gotoTeachers()">
-						<img src="../../images/index6.png" />
-						<span>琵琶</span>
-					</li>
-					<li onclick="gotoTeachers()">
-						<img src="../../images/index7.png" />
-						<span>萨克斯</span>
-					</li>
+					<div data-bind="foreach:{data: indexSubject, as: 'indexS'}">
+						<li data-bind="click: gotoTeachers">
+							<img data-bind="attr:{src: '../../images/subject_'+indexS.id+'.png'}" />
+							<span data-bind="text: indexS.subjectName"></span>
+						</li>
+					</div>
 					<li onclick="gotoMore()">
-						<img src="../../images/index8.png" />
+						<img src="../../images/subject_more.png" />
 						<span>更多</span>
 					</li>
 				</ul>
@@ -161,9 +139,9 @@
 			</div>
 
 			<div class="index-th-div">
-				<!--<img src="../../images/index-1.png" />--> 
+				<!--<img src="../../images/index-1.png" />-->
 				<span class="index-teacher">名师介绍</span>
-				<span class="index-more">查看更多<i class="iconfont">&#xe618;</i>
+				<span class="index-more" onclick="gotoTeachers()">查看更多<i class="iconfont">&#xe618;</i>
 				</span>
 			</div>
 
@@ -202,12 +180,6 @@
 			document.getElementById('addWorks').addEventListener('click', function() {
 				common.transfer('../works/addWorks.html', true);
 			});
-
-			function gotoTeachers() {
-				common.transfer('../teacher/teacherListHeader.html', false, {
-					search: true
-				});
-			}
 		</script>
 	</body>
 

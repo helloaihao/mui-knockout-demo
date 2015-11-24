@@ -3,8 +3,11 @@ var home = function() {
 	self.Teachers = ko.observableArray([]);
 	self.count = 3;
 	self.UnreadCount = ko.observable("0");
+	self.indexSubject = ko.observableArray([]);
+
 	self.getTeachers = function() {
 		self.getUnreadCount;
+
 		mui.ajax(common.gServerUrl + "API/Teacher/GetIndexTeachers?count=" + self.count, {
 			dataType: 'json',
 			type: "GET",
@@ -14,10 +17,12 @@ var home = function() {
 		});
 	}();
 
+	self.indexSubject(common.getAllSubjectsIndex());
+
 	self.gotoTeacher = function() {
 		common.transfer('../../modules/teacher/teacherInfo.html', false, {
 			teacherID: this.UserID
-		});
+		}, false, false);
 	}
 	self.gotoMore = function() {
 		common.transfer('../../modules/home/allSubject.html');
@@ -33,10 +38,19 @@ var home = function() {
 		common.getUnreadCount(self.UnreadCount());
 	}
 
-	/*mui.plusReady(function() {
-		common.confirmQuit;
+	self.gotoTeachers = function(indexS) {
+		var udata;
+		if (indexS) {
+			udata = {
+				id: indexS.id,
+				subjectClass: indexS.subjectClass
+			}
+		}
+		common.transfer('../../modules/teacher/teacherListHeader.html', false, {
+			data: udata
+		});
+	}
 
-	});*/
 	mui.back = function() {
 		/*var btnArray = ['确认', '取消'];
 		mui.confirm('确认退出乐评+？', '退出提示', btnArray, function(e) {

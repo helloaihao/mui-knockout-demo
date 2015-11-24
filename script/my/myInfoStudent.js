@@ -6,15 +6,18 @@ var my_student = function() {
 	self.FavCount = ko.observable(0);
 	self.UserID = ko.observable(getLocalItem('UserID'));
 	self.UserType = ko.observable(getLocalItem('UserType'));
-
+	
+	self.goMyUserAttented = function() {
+		common.transfer('myAttended.html', true, {},true);
+	}
 	self.goMyinfo = function() {
-		common.transfer('myInfo.html',true,{},true);
+		common.transfer('myInfo.html',true,{},true, false);
 	}
 	self.goMoreInfo=function(){
 		common.transfer('moreInfo.html',true,{},true);
 	}
 	self.goMyOrders = function(){
-		common.transfer('myOrderMain.html', true);
+		common.transfer('myOrders.html', true);
 	}
 	self.goMessageList = function(){
 		common.transfer('messageList.html', true);
@@ -46,6 +49,9 @@ var my_student = function() {
 			})
 		}();
 	}
+	window.addEventListener('refreshAttend',function(event){
+		self.FavCount(event.detail.myAttendNum);
+	});
 	mui.back = function() {
 		common.confirmQuit();
 	}

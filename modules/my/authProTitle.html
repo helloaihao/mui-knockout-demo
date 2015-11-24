@@ -99,13 +99,13 @@
 						<u  data-bind="text:ProTitleTypeText, event:{click:chooseAuthPro}, enable: Editable">选择职称</u>
 					</a></li>
 			</ul>
-			<p>请提交在有效期内的职称证件照片，需保证头像及文字清晰可见</p>
+			<p>请提交在有效期内的职称证件照片，需保证证件及文字清晰可见</p>
 			<div class="titleCertification-pic-div" data-bind="click:showPic">
 				<img id="imgUpload" data-bind="attr: {'src': Path}" />
 				<i class="iconfont">&#xe633;</i>
 				<em data-bind="visible: Editable">点击上传图片</em>
 			</div>
-			<u data-bind="text: AuthStatus"></u>
+			<u data-bind="text: AuthProStatus"></u>
 			<div class="mui-content-padded" data-bind="visible: Editable">
 				<button class="mui-btn mui-btn-block mui-btn-primary feedBack-mui-btn-block" data-bind="click:authProTitleSub">提交</button>
 			</div>

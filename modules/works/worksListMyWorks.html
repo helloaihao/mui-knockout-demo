@@ -94,29 +94,23 @@
 			</div>
 		</div>
 		<div id="popType" class="mui-popover popover-height">
-			<div class="mui-scroll-wrapper wrapper-margin">
-				<ul class="mui-table-view" data-bind="visible:(UserType()==common.gDictUserType.teacher),foreach: {data:common.gJsonWorkTypeTeacher}">
-					<li class="mui-table-view-cell  navigate-font" data-bind="event:{'tap':selectWorksType}">
-						<span data-bind="text:text"></span>
-					</li>
-				</ul>
-				<ul class="mui-table-view" data-bind="visible:(UserType()==common.gDictUserType.student),foreach: {data:common.gJsonWorkTypeStudent}">
-					<li class="mui-table-view-cell  navigate-font" data-bind="event:{'tap':selectWorksType}">
-						<span data-bind="text:text"></span>
-					</li>
-				</ul>
-			</div>
+			<ul  class="mui-table-view" data-bind="visible:(UserType()==common.gDictUserType.teacher),foreach:{data:common.gJsonWorkTypeTeacher}">
+				<li class="mui-table-view-cell navigate-font current-flag" data-bind="event:{tap:selectWorksType}">
+					<i data-bind="text:text"></i><span class="iconfont" data-bind="visible: value == currentWorkTypes()">&#xe64e;</span>
+				</li>
+			</ul>
+			<ul  class="mui-table-view" data-bind="visible:(UserType()==common.gDictUserType.student),foreach:{data:common.gJsonWorkTypeStudent}">
+				<li class="mui-table-view-cell navigate-font current-flag" data-bind="event:{tap:selectWorksType}">
+					<i data-bind="text:text"></i><span class="iconfont" data-bind="visible: value == currentWorkTypes()">&#xe64e;</span>
+				</li>
+			</ul>
 		</div>
 		<div id="popSort" class="mui-popover popover-height">
-			<div class="mui-scroll-wrapper wrapper-margin">
-				<div class="mui-scroll">
-					<ul id="sortMyWorksList" class="mui-table-view" data-bind="foreach:{data:common.gJsonWorkSort}">
-						<li class="mui-table-view-cell navigate-font" data-bind="event:{'tap':sortWorks}">
-							<span data-bind="text:text"></span>
-						</li>
-					</ul>
-				</div>
-			</div>
+			<ul id="sortCommentList" class="mui-table-view" data-bind="foreach:{data:common.gJsonWorkSort}">
+				<li class="mui-table-view-cell navigate-font current-flag" data-bind="event:{tap:sortWorks}">
+					<i data-bind="text:text"></i><span class="iconfont" data-bind="visible: value == currentSort()">&#xe64e;</span>
+				</li>
+			</ul>
 		</div>
 		<script src="../../script/mui/mui.min.js"></script>
 		<script src="../../script/mui/mui.picker.min.js"></script>

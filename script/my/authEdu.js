@@ -2,14 +2,17 @@ var authEdu = function() {
 	var self = this;
 	var setPic;
 	self.Auth = ko.observable({});
-	self.AuthStatus = ko.observable("确认信息正确后，请提交审核"); //身份认证状态（显示）
+	self.AuthEduStatus = ko.observable("确认信息正确后，请提交审核"); //身份认证状态（显示）
 	self.Editable = ko.observable(true); //是否可编辑并提交认证
 	self.Base64 = ko.observable(''); //所选图片的base64字符串
 	self.Path = ko.observable(''); //图片路径
 	mui.init({
 		beforeback: function() {
 			var teacherAuth = plus.webview.currentWebview().opener();
-			teacherAuth.reload(true);
+			mui.fire(teacherAuth,'refreshEdu',{
+				EduAuthStatus:self.AuthEduStatus()
+			});
+			return true;
 		}
 	});
 	mui.plusReady(function() {
@@ -21,9 +24,9 @@ var authEdu = function() {
 			if (auth && auth.AuthType) {
 				self.Auth(auth);
 				self.Path(common.getPhotoUrl(auth.PicPath));
-				self.AuthStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
+				self.AuthEduStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
 				if (auth.Approved == common.gDictAuthStatusType.Rejected) {
-					self.AuthStatus(self.AuthStatus() + '：' + auth.RejectReason);
+					self.AuthEduStatus(self.AuthEduStatus() + '：' + auth.RejectReason);
 				}
 				self.Editable(auth.Approved == common.gDictAuthStatusType.NotAuth && common.StrIsNull(auth.PicPath) == '');
 			}
@@ -82,7 +85,6 @@ var authEdu = function() {
 					self.AuthStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
 					self.Editable(auth.Approved == common.gDictAuthStatusType.NotAuth && common.StrIsNull(auth.PicPath) == '');
 				}
-
 				mui.toast('保存成功');
 			}
 		})

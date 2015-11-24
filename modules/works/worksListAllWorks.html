@@ -21,6 +21,7 @@
 			.mui-input-group {
 				background: #f1f1f1!important;
 			}
+			
 			.mui-content-padded {
 				margin: 10px 0 0 0!important;
 			}
@@ -57,7 +58,7 @@
 						<li data-bind="text:AddTime.split(' ')[0]"></li>
 						<li data-bind="text:ReadCount"></li>
 						<li data-bind="text:LikeCount"></li>
-						<li data-bind="text:WorkStatus"></li>
+						<!--<li data-bind="text:WorkStatus"></li>-->
 					</ul>
 				</div>
 			</div>
@@ -77,24 +78,19 @@
 				</div>
 			</div>
 		</div>
-
 		<div id="popType" class="mui-popover popover-height">
-			<div class="mui-scroll-wrapper wrapper-margin">
-				<ul class="mui-table-view" data-bind="foreach:{data:common.gJsonWorkTypeTeacher.concat(common.gJsonWorkTypeStudent)}">
-					<li class="mui-table-view-cell navigate-font" data-bind="event:{'tap':selectWorksType}">
-						<span data-bind="text:text"></span>
-					</li>
-				</ul>
-			</div>
+			<ul id="sortCommentList" class="mui-table-view" data-bind="foreach:{data:common.gJsonWorkTypeTeacher.concat(common.gJsonWorkTypeStudent)}">
+				<li class="mui-table-view-cell navigate-font current-flag" data-bind="event:{tap:selectWorksType}">
+					<i data-bind="text:text"></i><span class="iconfont" data-bind="visible: value == currentWorkTypes()">&#xe64e;</span>
+				</li>
+			</ul>
 		</div>
 		<div id="popSort" class="mui-popover popover-height">
-			<div class="mui-scroll-wrapper wrapper-margin">
-				<ul id="sortAllWorksList" class="mui-table-view" data-bind="foreach:{data:common.gJsonWorkSort}">
-					<li class="mui-table-view-cell navigate-font" data-bind="event:{'tap':sortWorks}">
-						<span data-bind="text:text"></span>
-					</li>
-				</ul>
-			</div>
+			<ul id="sortCommentList" class="mui-table-view" data-bind="foreach:{data:common.gJsonWorkSort}">
+				<li class="mui-table-view-cell navigate-font current-flag" data-bind="event:{tap:sortWorks}">
+					<i data-bind="text:text"></i><span class="iconfont" data-bind="visible: value == currentSort()">&#xe64e;</span>
+				</li>
+			</ul>
 		</div>
 		<script src="../../script/mui/mui.min.js"></script>
 		<script src="../../script/mui/mui.picker.min.js"></script>

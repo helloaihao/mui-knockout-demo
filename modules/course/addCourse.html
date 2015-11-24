@@ -74,7 +74,7 @@
 	<body>
 		<header class="mui-bar mui-bar-nav mui-action-back">
 			<i class="iconfont">&#xe602;</i>
-			<h1 class="mui-title">添加课程</h1>
+			<h1 class="mui-title" data-bind="text: course().ID() > 0 ? '修改课程' : '添加课程'">添加课程</h1>
 		</header>
 		<div class="mui-content">
 			<div id="page1">
@@ -133,21 +133,21 @@
 				</div>
 				<div class="aboutClass-class submitClass-mui-scroll aboutClass-time comment-top" data-bind="visible: course().CourseType() != common.gDictCourseType.One2One">
 					<ul class="about-lesson" data-bind="visible: classtimeCount() <= 0">
-						<a href="#popChooseTime">
-							<li class="fontcolor">
+						<!--<a href="#popChooseTime">-->
+							<li class="fontcolor" onclick="openPopChooseTime()">
 								请选择上课时间
 								<i class="iconfont">&#xe618;</i>
 							</li>
-						</a>
+						<!--</a>-->
 					</ul>
 					<ul class="about-lesson" data-bind="foreach: {data: ClasstimesText, as: 'timeText'}">
-						<a href='#popChooseTime'>
-							<li class="fontcolor">
+						<!--<a href='#popChooseTime'>-->
+							<li class="fontcolor" onclick="openPopChooseTime()">
 								<!--ko text: timeText-->
 								<!--/ko-->
 								<i class="iconfont">&#xe618;</i>
 							</li>
-						</a>
+						<!--</a>-->
 					</ul>
 				</div>
 				
@@ -194,16 +194,6 @@
 		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/dtPicker.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/course/addCourse.js" type="text/javascript" charset="utf-8"></script>
-		<script>
-			mui.init();
-			 //			var next = document.getElementById('next');
-			 //			var page1 = document.getElementById('page1');
-			 //			var page2 = document.getElementById('page2');
-			 //			next.addEventListener('tap', function() {
-			 //				page1.style.display = "none";
-			 //				page2.style.display = "block";
-			 //			});
-		</script>
 	</body>
 
 </html>

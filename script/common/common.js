@@ -18,8 +18,6 @@
 					'value': jsonSrc[i][ValueField],
 					'text': jsonSrc[i][TextField]
 				});
-				/*jsonDest[i].value = jsonSrc[i][ValueField];
-				jsonDest[i].text = jsonSrc[i][TextField];*/
 			}
 		}
 
@@ -47,19 +45,25 @@
 		return '';
 	},
 
-	transfer: function(targetUrl, checkLogin, extras, createNew) {
+	transfer: function(targetUrl, checkLogin, extras, createNew, autoShowWhileShow) {
 		var tmpUrl = targetUrl;
-		if (checkLogin && getLocalItem('UserID') <= 0) {
+		var localUserID = getLocalItem('UserID');
+		
+		if (checkLogin && (common.StrIsNull(localUserID) == '' || localUserID <= 0)) {
 			tmpUrl = '../account/login.html';
+			autoShowWhileShow = true;			//跳转至登录页面，强行设置自动打开页面
 		}
-
-		//console.log(targetUrl);
+		
+		if(typeof autoShowWhileShow == "undefined")
+			autoShowWhileShow = true;
+		
+		//console.log(autoShowWhileShow);
 		mui.openWindow({
 			url: tmpUrl,
 			extras: extras,
 			createNew: createNew,
 			show: {
-				autoShow: true,
+				autoShow: autoShowWhileShow,
 				aniShow: "slide-in-right",
 				duration: "100ms"
 			},
@@ -68,6 +72,15 @@
 			}
 		});
 	},
+	
+	showCurrentWebview: function(){
+		mui.plusReady(function() {
+			plus.nativeUI.closeWaiting();
+			var ws=plus.webview.currentWebview();
+			ws.show();
+		});
+	},
+	
 	confirmQuit: function() {
 		var btnArray = ['确认', '取消'];
 		mui.confirm('确认退出乐评+？', '退出提示', btnArray, function(e) {
@@ -134,22 +147,25 @@
 
 		return ret;
 	},
-	
+
 	//初始化科目及类别的下拉数据源
-	initSubjectsTemplate: function(){
+	initSubjectsTemplate: function() {
 		var allSubjectStr = getLocalItem(common.gVarLocalAllSubjectsStr);
-		if(common.StrIsNull(allSubjectStr) == '') return;	//若未取值，则无需初始化
-		
+		if (common.StrIsNull(allSubjectStr) == '') return; //若未取值，则无需初始化
+
 		var subjects = JSON.parse(allSubjectStr);
 		var previousClass = 0;
-		
-		var allSubjectClasses = [], allSubjects = [];
+
+		var allSubjectClasses = [],
+			allSubjects = [],
+			allSubjectsBoth = [],
+			allSubjectsIndex = [];
 		//增加“全部分类”
 		allSubjectClasses.push({
 			subjectClass: 0,
 			subjectClassName: '全部分类'
 		});
-		
+
 		//增加“全部”
 		allSubjects.push({
 			id: 0,
@@ -157,17 +173,23 @@
 			subjectClass: 0,
 			subjectClassName: '分类',
 			subjectType: '类型',
-			selected: true				//默认选中
+			selected: true //默认选中
 		});
-		
-		if(subjects.length > 0){
-			subjects.forEach(function(item){
-				if(item.SubjectClass != previousClass){
+
+		if (subjects.length > 0) {
+			subjects.forEach(function(item) {
+				if (item.SubjectClass != previousClass) {
 					allSubjectClasses.push({
 						subjectClass: item.SubjectClass,
 						subjectClassName: item.SubjectClassName
 					});
 					
+					allSubjectsBoth.push({
+						value: item.SubjectClass,
+						text: item.SubjectClassName,
+						children: []
+					})
+
 					//增加每一类“全部”
 					allSubjects.push({
 						id: 0,
@@ -177,10 +199,10 @@
 						subjectType: '类型',
 						selected: false
 					});
-			
+
 					previousClass = item.SubjectClass;
 				}
-				
+
 				allSubjects.push({
 					id: item.ID,
 					subjectName: item.SubjectName,
@@ -189,16 +211,39 @@
 					subjectType: item.subjectType,
 					selected: false
 				});
+				
+				allSubjectsBoth[allSubjectsBoth.length - 1].children.push({
+					value: item.ID,
+					text: item.SubjectName
+				});
+				
+				if(item.IsHome){
+					allSubjectsIndex.push({
+						id: item.ID,
+						subjectName: item.SubjectName,
+						subjectClass: item.SubjectClass,
+						dispOrderIndex: item.DispOrderIndex
+					})
+				}
 			})
 		}
 		
+		//首页显示的科目排序
+		if(allSubjectsIndex.length > 0){
+			allSubjectsIndex.sort(function(left, right) {
+            	return left.dispOrderIndex == right.dispOrderIndex ? 0 : (left.dispOrderIndex < right.dispOrderIndex ? -1 : 1);
+        	})
+		}
+
 		setLocalItem(common.gVarLocalAllSubjectClassesJson, JSON.stringify(allSubjectClasses));
 		setLocalItem(common.gVarLocalAllSubjectsJson, JSON.stringify(allSubjects));
+		setLocalItem(common.gVarLocalAllSubjectsBothJson, JSON.stringify(allSubjectsBoth));
+		setLocalItem(common.gVarLocalAllSubjectsIndexJson, JSON.stringify(allSubjectsIndex));
 	},
 
 	//从服务器获取所有科目
 	getAllSubjectsStr: function() {
-		var ajaxUrl = common.gServerUrl + 'Common/Subject/Get';
+		var ajaxUrl = common.gServerUrl + 'Common/Subject/GetList';
 		mui.ajax(ajaxUrl, {
 			type: 'GET',
 			success: function(responseText) {
@@ -208,19 +253,33 @@
 			}
 		})
 	},
-	
+
 	//获取科目类别数组
-	getAllSubjectClasses: function(){
+	getAllSubjectClasses: function() {
 		var allSubjectClasses = getLocalItem(common.gVarLocalAllSubjectClassesJson);
-		
+
 		return JSON.parse(allSubjectClasses);
 	},
 
 	//获取科目数组
-	getAllSubjects: function(){
+	getAllSubjects: function() {
 		var allSubjects = getLocalItem(common.gVarLocalAllSubjectsJson);
-		
+
 		return JSON.parse(allSubjects);
+	},
+
+	//获取科目及类别的二级数组
+	getAllSubjectsBoth: function() {
+		var allSubjectsBoth = getLocalItem(common.gVarLocalAllSubjectsBothJson);
+
+		return JSON.parse(allSubjectsBoth);
+	},
+
+	//获取首页显示科目的数组
+	getAllSubjectsIndex: function() {
+		var allSubjectsIndex = getLocalItem(common.gVarLocalAllSubjectsIndexJson);
+
+		return JSON.parse(allSubjectsIndex);
 	},
 
 	//根据起始时间和结束时间返回类似“9月20日 15:00~16:00”
@@ -311,11 +370,11 @@
 	},
 
 	//Web API地址
-	gServerUrl: "http://172.16.30.90:8090/",//"http://cloud.linkeol.com/", //"http://172.16.30.90:8090/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/",
+	gServerUrl: "http://192.168.1.66:8090/", //"http://cloud.linkeol.com/", //"http://192.168.1.66:8090/", ////"http://172.16.30.90:8090/",
 	//Video地址
-	gVideoServerUrl: "http://172.16.30.90:8099/",//"http://video.linkeol.com/", //"http://172.16.30.90:8099/", //"http://120.31.128.26/", //"http://192.168.1.88:8090/",
+	gVideoServerUrl: "http://172.16.30.90:8099/", //"http://video.linkeol.com/", //"http://192.168.1.66:8099/", ////"http://172.16.30.90:8099/",
 
-
+	gVarWaitingSeconds: 60,	//默认等待验证秒数
 	//用户类型枚举
 	gDictUserType: {
 		teacher: 32,
@@ -419,24 +478,32 @@
 	//老师评级
 	gJsonTeacherLever: [{
 		value: 0,
-		text: "不限",
-		ctext: "不限"
+		text: "全部",
+		ctext: "全部"
 	}, {
 		value: 1,
-		text: "★",
-		ctext: "一星"
+		text: "☆",
+		ctext: "无星级"
 	}, {
 		value: 2,
-		text: "★★",
-		ctext: "二星"
+		text: "★",
+		ctext: "一星级"
 	}, {
 		value: 3,
-		text: "★★★",
-		ctext: "三星"
+		text: "★★",
+		ctext: "二星级"
 	}, {
 		value: 4,
+		text: "★★★",
+		ctext: "三星级"
+	}, {
+		value: 5,
 		text: "★★★★",
-		ctext: "四星"
+		ctext: "四星级"
+	}, {
+		value: 6,
+		text: "★★★★★",
+		ctext: "五星级"
 	}],
 
 	//老师排序
@@ -451,7 +518,7 @@
 		text: "价位降序"
 	}, {
 		value: 4,
-		text: "教龄排序"
+		text: "教龄降序"
 	}],
 	//作品排序
 	gJsonWorkSort: [{
@@ -498,29 +565,34 @@
 		value: 2,
 		text: '大班课程'
 	}],
+	gAuthImgage: [{
+		value: 0,
+		text: '图片预览'
+	}, {
+		value: 1,
+		text: '选择图片'
+	}],
+
+	gArrayDayOfWeek: ['日', '一', '二', '三', '四', '五', '六'],
 
 	gVarLocalUploadTask: 'global.UploadTasks',
 	gVarLocalAllSubjectsStr: 'global.AllSubjectsStr',
-	gVarLocalAllSubjectClassesJson: 'global.AllSubjectClassesJson',
-	gVarLocalAllSubjectsJson: 'global.AllSubjectsJson',
-	gAuthImgage: [{
-			value: 0,
-			text: '图片预览'
-		}, {
-			value: 1,
-			text: '选择图片'
-		}]
-		/*获取网络状态值
-		 * CONNECTION_UNKNOW: 网络连接状态未知  固定值0
-		 * CONNECTION_NONE: 未连接网络  固定值1
-		 * CONNECTION_ETHERNET: 有线网络  固定值2
-		 * CONNECTION_WIFI: 无线WIFI网络  固定值3
-		 * CONNECTION_CELL2G: 蜂窝移动2G网络  固定值4
-		 * CONNECTION_CELL3G: 蜂窝移动3G网络  固定值5
-		 * CONNECTION_CELL4G: 蜂窝移动4G网络  固定值6
-		 * @description 获取网络状态的函数
-		 */
-		//gNetworkState: plus.networkinfo.getCurrentType(),
+	gVarLocalAllSubjectsBothJson: 'global.AllSubjectsBothJson',			//科目及科目类型的二级Json
+	gVarLocalAllSubjectClassesJson: 'global.AllSubjectClassesJson',		//所有科目类型的Json
+	gVarLocalAllSubjectsJson: 'global.AllSubjectsJson',					//所有科目的Json
+	gVarLocalAllSubjectsIndexJson: 'global.AllSubjectsIndexJson',		//所有首页显示科目的Json
+
+	/*获取网络状态值
+	 * CONNECTION_UNKNOW: 网络连接状态未知  固定值0
+	 * CONNECTION_NONE: 未连接网络  固定值1
+	 * CONNECTION_ETHERNET: 有线网络  固定值2
+	 * CONNECTION_WIFI: 无线WIFI网络  固定值3
+	 * CONNECTION_CELL2G: 蜂窝移动2G网络  固定值4
+	 * CONNECTION_CELL3G: 蜂窝移动3G网络  固定值5
+	 * CONNECTION_CELL4G: 蜂窝移动4G网络  固定值6
+	 * @description 获取网络状态的函数
+	 */
+	//gNetworkState: plus.networkinfo.getCurrentType(),
 
 
 }

@@ -10,7 +10,8 @@ var commentList = function() {
 	self.tmplSubjectClasses = ko.observableArray([]);
 
 	self.currentSubject = ko.observable({}); //当前选中的科目
-
+	self.currentSort = ko.observable(8);
+	
 	mui.init({
 		pullRefresh: {
 			container: '#pullrefresh',
@@ -27,6 +28,7 @@ var commentList = function() {
 
 	mui.plusReady(function() {
 		self.getMyComments();
+		//console.log(self.getMyComments());
 		self.tmplSubjectClasses(common.getAllSubjectClasses());
 		self.tmplSubjects(common.getAllSubjects());
 		if (self.tmplSubjects().length > 0) {
@@ -43,9 +45,9 @@ var commentList = function() {
 			var ajaxUrl = common.gServerUrl + "API/Comment/GetMyComments?userId=" + getLocalItem("UserID");
 			ajaxUrl += "&page=" + pageNum;
 
-			if (typeof self.currentSubject().id === "function") {
-				ajaxUrl += "&subject=" + self.currentSubject().id();
-				ajaxUrl += "&subjectClass=" + self.currentSubject().subjectClass();
+			if (typeof self.currentSubject().id === "number") {
+				ajaxUrl += "&subject=" + self.currentSubject().id;
+				ajaxUrl += "&subjectClass=" + self.currentSubject().subjectClass;
 			}
 			if (typeof(sortID) === "number" && sortID > 0) {
 				ajaxUrl += "&sortType=" + sortID;
@@ -79,6 +81,7 @@ var commentList = function() {
 		}
 		//点评排序
 	self.commentSort = function() {
+		self.currentSort(this.value);
 		self.comments.removeAll(); //先移除所有
 		sortID = this.value;
 		count = 0; //还原刷新次数
@@ -90,20 +93,19 @@ var commentList = function() {
 
 	//跳转至点评详情
 	self.goCommentDetail = function(data) {
-			common.transfer('commentDetails.html', true, {
-				comment: data
-			})
-		}
-		//下拉加载
+		common.transfer('commentDetails.html', true, {
+			comment: data
+		}, false, false)
+	}
 
+	//下拉加载
 	function pulldownRefresh() {
 		setTimeout(function() {
 			mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
 		}, 1500);
 	}
+
 	//刷新
-
-
 	function pullupRefresh() {
 		setTimeout(function() {
 			pageNum++;
@@ -111,10 +113,14 @@ var commentList = function() {
 			mui.ajax(self.getAjaxUrl(), {
 				type: 'GET',
 				success: function(responseText) {
-					mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
+					//mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
 					var result = eval("(" + responseText + ")");
-					//console.log(responseText);
-					self.comments(self.comments().concat(result));
+					if (result.length <= 0) {
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+					} else {
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+						self.comments(self.comments().concat(result));
+					}
 				},
 				error: function(responseText) {}
 			});

@@ -111,7 +111,7 @@
 		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/works/workListHeader.js" type="text/javascript" charset="utf-8"></script>
 		<script>
-			//mui.init();
+			mui.init();
 			var subpages = ['worksListMyWorks.html', 'worksListAllWorks.html'];
 			var subpage_style = {
 				top: '84px',
@@ -122,24 +122,35 @@
 			//创建子页面，首个选项卡页面显示，其它均隐藏；
 			mui.plusReady(function() {
 				var current = plus.webview.currentWebview();
+				var temp = {};
 				for (var i = 0; i < subpages.length; i++) {
-					var temp = {};
 					var sub = plus.webview.create(subpages[i], subpages[i], subpage_style);
-					if (i == 1) {
-						temp[subpages[i]] = "true";
-						mui.extend(aniShow, temp);
-						activeTab=subpages[1];
+					if (getLocalItem('UserID') > 0) {
+						if (i == 0) {
+							temp[subpages[i]] = "true";
+							mui.extend(aniShow, temp);
+							activeTab = subpages[0];
+						} else {
+							sub.hide();
+						}
 					} else {
-						sub.hide();
+						if (i == 1) {
+							temp[subpages[i]] = "true";
+							mui.extend(aniShow, temp);
+							activeTab = subpages[1];
+						} else {
+							sub.hide();
+						}
 					}
 					current.append(sub);
 				}
 				if (getLocalItem('UserID') > 0) {
 					allworks.setAttribute('class', 'mui-control-item mui-control-item2');
 					myworks.setAttribute('class', 'mui-control-item mui-control-item1 mui-active');
-					plus.webview.hide(subpages[1]);
-					plus.webview.show(subpages[0]);
-					activeTab=subpages[0];
+					temp[subpages[0]] = "true";
+					temp[subpages[1]] = "false";
+					mui.extend(aniShow, temp);
+					activeTab = subpages[0];
 				}
 			});
 			//选项卡点击事件

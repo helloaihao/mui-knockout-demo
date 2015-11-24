@@ -50,8 +50,8 @@
 
 		<div id="popSort" class="mui-popover popover-height">
 			<ul id="sortCommentList" class="mui-table-view" data-bind="foreach:{data:common.gJsonCommentSort}">
-				<li class="mui-table-view-cell navigate-font" data-bind="event:{tap:commentSort}">
-					<span data-bind="text:text"></span>
+				<li class="mui-table-view-cell navigate-font current-flag" data-bind="event:{tap:commentSort}">
+					<i data-bind="text:text"></i><span class="iconfont" data-bind="visible: value == currentSort()">&#xe64e;</span>
 				</li>
 			</ul>
 		</div>

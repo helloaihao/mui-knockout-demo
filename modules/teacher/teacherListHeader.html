@@ -94,11 +94,12 @@
 				});
 				
 				var web = plus.webview.currentWebview(); //页面间传值
-				var work, display;
+				var work, display, udata;
 				if (typeof(web.displayCheck) !== "undefined") {
 					work = web.works;
 					display = web.displayCheck;
 				}
+				udata = web.data;
 				mui.init({
 				subpages: [{
 					url: 'teacherList.html',
@@ -109,7 +110,8 @@
 					},
 					extras:{
 						displayCheck: display,
-						works: work
+						works: work,
+						data: udata
 					}
 				}]
 			});

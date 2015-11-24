@@ -8,40 +8,47 @@ var viewModel = function() {
 	var starUrl = "&star=";
 	var sortUrl = "&sortType=";
 	var refreshFlag = true;
-	var ppSubject, ppStar, ppSort; //选择器
+	//接收属性
+	var works;
+	
 	self.teacherList = ko.observableArray([]); //选项文字
 	self.dbStar = ko.observable("星级");
 	self.dbSort = ko.observable("排序");
 	self.SubjectID = ko.observable(0); //上一个页面传递过来的科目ID
-	//接收属性
-	var starID, sortID;
-	var works;
+	
 	self.displayCheck = ko.observable(false); //是否显示选择
+	
 	self.tmplSubjects = ko.observableArray([]);
 	self.tmplSubjectClasses = ko.observableArray([]);
-
 	self.currentSubject = ko.observable({}); //当前选中的科目
+	
+	self.stars = ko.observableArray([]);
+	self.currentStar = ko.observable(0);
+	
+	self.sorts = ko.observableArray([]);
+	self.currentSort = ko.observable(1);
 	//获取老师列表
 	self.getTeacherList = function() {
 		var curl = pageUrl + pageID;
-		refreshFlag = true;
+		
+		//console.log(typeof self.currentSubject().id);
+		if (typeof self.currentSubject().id === "number") {
+			curl += subjectUrl + self.currentSubject().id;
+			curl += subjectClassUrl + self.currentSubject().subjectClass;
+		}
+		if (typeof(self.currentStar()) === "number" && self.currentStar() > 0) {
+			curl += starUrl + (self.currentStar() - 1);
+		}
+		if (typeof(self.currentSort()) === "number" && self.currentSort() > 0) {
+			curl += sortUrl + self.currentSort();
+		}
 
-		if (typeof self.currentSubject().id === "function") {
-			curl += subjectUrl + self.currentSubject().id();
-			curl += subjectClassUrl + self.currentSubject().subjectClass();
-		}
-		if (typeof(starID) === "number" && starID > 0) {
-			curl += starUrl + starID;
-		}
-		if (typeof(sortID) === "number" && sortID > 0) {
-			curl += sortUrl + sortID;
-		}
-
-//		console.log(thisUrl + curl);
+		//console.log(thisUrl + curl);
 		mui.ajax(thisUrl + curl, {
 			type: 'GET',
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
+				
 				self.teacherList(result);
 			}
 		});
@@ -51,11 +58,13 @@ var viewModel = function() {
 		pullRefresh: {
 			container: '#pullrefresh',
 			down: {
-				callback: pulldownRefresh
+				callback: pulldownRefresh,
+				
 			},
 			up: {
 				contentrefresh: '正在加载...',
-				callback: pullupRefresh
+				callback: pullupRefresh,
+				
 			}
 		}
 	});
@@ -64,15 +73,15 @@ var viewModel = function() {
 		setTimeout(function() {
 			pageID++;
 			var curl = pageUrl + pageID;
-			if (typeof self.currentSubject().id === "function") {
-				curl += subjectUrl + self.currentSubject().id();
-				curl += subjectClassUrl + self.currentSubject().subjectClass();
+			if (typeof self.currentSubject().id === "number") {
+				curl += subjectUrl + self.currentSubject().id;
+				curl += subjectClassUrl + self.currentSubject().subjectClass;
 			}
-			if (typeof(starID) === "number") {
-				curl += starUrl + starID;
+			if (typeof(self.currentStar()) === "number") {
+				curl += starUrl + self.currentStar();
 			}
-			if (typeof(sortID) === "number") {
-				curl += sortUrl + sortID;
+			if (typeof(self.currentSort()) === "number") {
+				curl += sortUrl + self.currentSort();
 			}
 			mui.ajax(thisUrl + curl, {
 				type: 'GET',
@@ -89,27 +98,33 @@ var viewModel = function() {
 	}
 
 	var count = 0;
-
 	function pullupRefresh() {
 		setTimeout(function() {
-			mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
+			//mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
 			pageID++;
 			var curl = pageUrl + pageID;
-			if (typeof self.currentSubject().id === "function") {
-				curl += subjectUrl + self.currentSubject().id();
-				curl += subjectClassUrl + self.currentSubject().subjectClass();
+			if (typeof self.currentSubject().id === "number") {
+				curl += subjectUrl + self.currentSubject().id;
+				curl += subjectClassUrl + self.currentSubject().subjectClass;
 			}
-			if (typeof(starID) === "number") {
-				curl += starUrl + starID;
+			if (typeof(self.currentStar()) === "number") {
+				curl += starUrl + self.currentStar();
 			}
-			if (typeof(sortID) === "number") {
-				curl += sortUrl + sortID;
+			if (typeof(self.currentSort()) === "number") {
+				curl += sortUrl + self.currentSort();
 			}
+			
 			mui.ajax(thisUrl + curl, {
 				type: 'GET',
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
-					self.teacherList(self.teacherList().concat(result));
+					if(result.length <= 0){
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+					}
+					else{
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+						self.teacherList(self.teacherList().concat(result));
+					}
 				}
 			});
 		}, 1500);
@@ -117,16 +132,9 @@ var viewModel = function() {
 
 	if (mui.os.plus) {
 		mui.plusReady(function() {
-			setTimeout(function() {
-				mui('#pullrefresh').pullRefresh().pullupLoading();
-			}, 1000);
 			if (plus.os.vendor == 'Apple') {
 				mui('.mui-scroll-wrapper').scroll();
 			}
-		});
-	} else {
-		mui.ready(function() {
-			mui('#pullrefresh').pullRefresh().pullupLoading();
 		});
 	}
 
@@ -141,21 +149,19 @@ var viewModel = function() {
 		self.getTeacherList();
 		mui('#popSubjects').popover('toggle');
 	}
-
-	self.setStar = function() {
-		ppStar.show(function(items) {
-			self.dbStar(items[0].ctext);
-			starID = items[0].value;
-			self.getTeacherList();
-		});
-	};
-
-	self.setSort = function() {
-		ppSort.show(function(items) {
-			self.dbSort(items[0].text);
-			sortID = items[0].value;
-			self.getTeacherList();
-		});
+	
+	//选择星级
+	self.selectStar = function(ss) {
+		self.currentStar(ss.value);
+		self.getTeacherList();
+		mui('#popStar').popover('toggle');
+	}
+	
+	//选择排序
+	self.selectSort = function(ss) {
+		self.currentSort(ss.value);
+		self.getTeacherList();
+		mui('#popSort').popover('toggle');
 	}
 
 	self.gotoTeacherInfo = function() {
@@ -178,6 +184,7 @@ var viewModel = function() {
 			teacher: self.teacherList()[pos]
 		});
 	};
+	//mui('#popSort').popover('toggle');
 	mui.plusReady(function() {
 		var web = plus.webview.currentWebview(); //页面间传值
 
@@ -185,13 +192,22 @@ var viewModel = function() {
 			self.displayCheck(web.displayCheck);
 			self.works = web.works;
 		}
-		self.getTeacherList();
-
+		
+		//科目
 		self.tmplSubjectClasses(common.getAllSubjectClasses());
 		self.tmplSubjects(common.getAllSubjects());
-		if (self.tmplSubjects().length > 0) {
-			self.currentSubject(self.tmplSubjects()[0]);
+		if (typeof(web.data) !== "undefined") {
+			self.currentSubject(web.data);
+		}else {
+			if (self.tmplSubjects().length > 0) {
+				self.currentSubject(self.tmplSubjects()[0]);
+			}
 		}
+		
+		//星级、排序
+		self.stars(common.gJsonTeacherLever);
+		self.sorts(common.gJsonTeacherSort);
+		self.getTeacherList();
 	});
 };
 

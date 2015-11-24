@@ -20,10 +20,10 @@ var viewModel = function() {
 		AgeMin: ko.observable(null),
 		AgeMax: ko.observable(null),
 		BeginTime: ko.observable(new Date().format('yyyy-MM-dd')),
-		LessonCount: ko.observable(1),
+		LessonCount: ko.observable(null),
 		Introduce: ko.observable(''),
 		ClasstimeJson: ko.observable(''),
-		MaxStudent: ko.observable(1),
+		MaxStudent: ko.observable(null),
 		Locations: Locations
 	});
 
@@ -145,6 +145,12 @@ var viewModel = function() {
 			mui('#popChooseTime').popover('toggle');
 		}
 	}
+	
+	//开启选择课时弹窗
+	self.openPopChooseTime = function(){
+		document.body.scrollTop = 0;
+		mui('#popChooseTime').popover('show');
+	}
 
 	//关闭选择课时弹窗
 	self.closePopChooseTime = function() {
@@ -153,16 +159,11 @@ var viewModel = function() {
 	//=====上课时间设定end=====
 
 	mui.plusReady(function() {
-		//mui.ready(function() {
-		ppSubject = new mui.PopPicker();
-		mui.ajax(common.gServerUrl + "Common/Subject/Get", {
-			dataType: 'json',
-			type: "GET",
-			success: function(responseText) {
-				var arr = common.JsonConvert(responseText, 'ID', 'SubjectName');
-				ppSubject.setData(arr);
-			}
+		ppSubject = new mui.PopPicker({
+			layer: 2
 		});
+		ppSubject.setData(common.getAllSubjectsBoth());
+
 		ppCourseType = new mui.PopPicker();
 		ppCourseType.setData(common.gJsonCourseType);
 
@@ -208,6 +209,8 @@ var viewModel = function() {
 					})
 				})
 			}
+			
+			common.showCurrentWebview();
 		}
 	});
 
@@ -257,8 +260,8 @@ var viewModel = function() {
 
 	self.setSubject = function() {
 		ppSubject.show(function(items) {
-			self.course().SubjectName(items[0].text);
-			self.course().SubjectID(items[0].value);
+			self.course().SubjectName(items[1].text);
+			self.course().SubjectID(items[1].value);
 		});
 	};
 
@@ -294,6 +297,7 @@ var viewModel = function() {
 			mui.toast('课程名称不能为空');
 			return;
 		}
+		//console.log(self.course().CourseType());
 		//判断是否有课程名称
 		if (self.course().CourseType() <= 0) {
 			mui.toast('请选择课程类型');
@@ -358,6 +362,7 @@ var viewModel = function() {
 				SubjectID: self.course().SubjectID(),
 				AgeMin: self.course().AgeMin(),
 				AgeMax: self.course().AgeMax(),
+				//SubjectName:self.course().SubjectName(),
 				ClasstimeJson: JSON.stringify(self.Classtimes()),
 				IsEnabled: true
 			},
@@ -367,6 +372,26 @@ var viewModel = function() {
 			}
 		});
 	};
+	mui.init({
+		beforeback: function() {
+			var myCourses = plus.webview.currentWebview().opener();
+			mui.fire(myCourses,'refreshCourses',{
+				courseId:self.course().ID(), 
+				CourseName: self.course().CourseName(),
+				CourseType: self.course().CourseType(),
+				BeginTime: self.course().BeginTime(),
+				LessonCount: self.course().LessonCount(),
+				Introduce: self.course().Introduce(),
+				MaxStudent: self.course().MaxStudent(),
+				SubjectID: self.course().SubjectID(),
+				AgeMin: self.course().AgeMin(),
+				AgeMax: self.course().AgeMax(),
+				SubjectName:self.course().SubjectName(),
+				ClasstimeJson: JSON.stringify(self.Classtimes()),
+			});
+			return true;
+		}
+	})
 };
 
 ko.applyBindings(viewModel);

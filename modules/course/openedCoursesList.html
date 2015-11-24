@@ -78,19 +78,24 @@
 						<i class="iconfont" data-bind='click: removeCourse'>&#xe61b;</i>
 					</div>
 					<span class="openedCoursesList-span" data-bind="text: SubjectName">钢琴</span>
-					<span class="openedCoursesList-span openedCoursesList-right">一对一</span>
+					<span class="openedCoursesList-span openedCoursesList-right" data-bind="text: common.getTextByValue(common.gJsonCourseType, CourseType)">一对一</span>
 					<p data-bind="text: Introduce">2015年8月26日上午10:00广州市少年宫的钢琴课调到2015年8月26日下午14:00。</p>
 					<b>￥<span data-bind="text: Price">130</span>起</b>
 					<u>限<span data-bind="text: MaxStudent">1</span>人</u>
-					<div class="openedCoursesList-ban">2015-11-12 开课</div>
-					<div class="openedCoursesList-total">共20课时</div>
-					<div class="openedCoursesList-start">星期四 18:00~19:00</div>
-					<div class="openedCoursesList-start">星期五 18:00~19:00</div>
-										
+					<div class="openedCoursesList-ban" data-bind="text: common.StrIsNull(BeginTime) == '' ? '' : BeginTime.split(' ')[0]+'开课', visible: CourseType == common.gDictCourseType.One2More">2015-11-12 开课</div>
+					<div class="openedCoursesList-total" data-bind="text: '共'+LessonCount+'课时', visible: CourseType == common.gDictCourseType.One2More">共20课时</div>
+					<!--ko foreach: {data: ko.observable(JSON.parse(ClasstimeJson)), as: 'classtime'}-->
+						<!--ko foreach: {data: ko.observable(Time), as: 'thetime'}-->
+						<div class="openedCoursesList-start" data-bind="text: '星期' + common.gArrayDayOfWeek[classtime.DayOfWeek] + ' ' + thetime + ':00~' + (thetime + 1) + ':00'"></div>
+						<!--/ko-->
+					<!--/ko-->
+					
+					<!--<div class="openedCoursesList-start">星期五 18:00~19:00</div>-->
+
 					<div class="openedCoursesList-start opened-gl">
 						<i class="iconfont" data-bind="click: gotoEditCourse">&#xe63e;</i>修改
 						<!--<i class="iconfont" data-bind="click: gotoRegistered">&#xe63e;管理报名</i>-->
-						<em class="gl-em" data-bind="click: gotoRegistered">管理报名</em>
+						<em class="gl-em" data-bind="click: gotoRegistered, visible: CourseType == common.gDictCourseType.One2More">管理报名</em>
 						<em class="q-em" id="btn-enabled" data-bind="css: {'m-active': !IsEnabled}, click: setEnabled ">启用</em>
 						<em class="t-em" id="btn-enabled" data-bind="css: {'m-active': IsEnabled}, click: setDisabled ">停用</em>
 					</div>

@@ -5,18 +5,11 @@ var viewModel = function() {
 	var subjectName, starName;
 	var Subject, starID;
 	mui.ready(function() {
-		subjectName = new mui.PopPicker();
-		mui.ajax(common.gServerUrl + "Common/Subject/Get", {
-			dataType: 'json',
-			type: "GET",
-			success: function(responseText) {
-				var arr = common.JsonConvert(responseText, 'ID', 'SubjectName');
-				subjectName.setData(arr);
-				self.subjectText(arr[0].text);
-				self.Subject = arr[0].value;
-			}
+		subjectName = new mui.PopPicker({
+			layer: 2
 		});
-		
+		subjectName.setData(common.getAllSubjectsBoth());
+
 		starName = new mui.PopPicker();
 		starName.setData(common.gJsonTeacherLever);
 		self.starText(common.gJsonTeacherLever[0].text);
@@ -25,8 +18,8 @@ var viewModel = function() {
 	//科目获取
 	self.setSubject = function() {
 		subjectName.show(function(items) {
-			self.subjectText(items[0].text);
-			Subject = items[0];
+			self.subjectText(items[1].text);
+			Subject = items[1];
 		});
 	};
 	self.setStar = function() {

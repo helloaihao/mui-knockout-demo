@@ -11,6 +11,7 @@ var tempPath = '_doc/temp/';
  * @param {Int32} len 返回图片的长度
  * @return {Object} 该图片对象
  */
+
 picture.returnPicVM = function(srcPath, dstPath, imgbase64, len) {
 	var self = this;
 	self.srcPath = srcPath;

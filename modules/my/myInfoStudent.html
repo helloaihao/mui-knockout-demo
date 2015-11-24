@@ -39,7 +39,7 @@
 					<!--<li>
 						<button>得分	</button>
 					</li>-->
-					<li data-bind="visible: ID() > 0">
+					<li data-bind="visible: ID() > 0,event:{tap:goMyUserAttented}">
 						<button>
 							关注
 							<!--ko text:FavCount-->

@@ -112,7 +112,7 @@ var viewModel = function() {
 			type: 'POST',
 			data: self.ViewOrder() ? self.Order() : comment,
 			success: function(responseText) {	//responseText为微信支付所需的json
-				console.log(responseText);
+				//console.log(responseText);
 				var ret = JSON.parse(responseText);
 				var orderID = ret.orderID;
 				if(ret.requestJson == ''){		//无需网上支付，预约点评成功

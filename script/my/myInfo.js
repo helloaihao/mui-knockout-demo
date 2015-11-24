@@ -25,13 +25,9 @@ var myInfo = function() {
 	self.SubjectID = ko.observable(0); //所属科目
 	self.TeachAge = ko.observable(0); //教龄
 	self.Introduce = ko.observable(''); //简介
-	self.Password = ko.observable(""); //密码
-	self.NewUserName = ko.observable(""); //新的手机号
-	self.VerifyCode = ko.observable(""); //验证码
-	self.RemainTime = ko.observable(0); //验证码剩余等待时间
-	self.WaitTime = 15; //验证码默认等待时间
 	self.Path = ko.observable('../../images/my-default.png'); //图片路径
 	self.Base64 = ko.observable(''); //图片的base64字符串
+	self.Score = ko.observable(''); //老师得分
 
 	self.selectPic = function() {
 		//		mui.ready(function() {
@@ -54,41 +50,44 @@ var myInfo = function() {
 
 	//生日获取
 	self.getBirthday = function() {
-			console.log(self.Birthday());
-			var now = new Date();
-			var year = 1900 + now.getYear();
-			if (self.Birthday() == '') {
-				self.Birthday('2005-01-01');
-			}
+		console.log(self.Birthday());
+		var now = new Date();
+		var year = 1900 + now.getYear();
+		if (self.Birthday() == '') {
+			self.Birthday('2005-01-01');
+		}
 
-			dtPicker.PopupDtPicker({
-					'type': 'date',
-					'beginYear': 1980,
-					'endYear': year
-				},
-				self.Birthday(), function(value) {
-					//self.Birthday(value.format('yyyy-MM-dd'));
-					self.Birthday(value.split(' ')[0]);
-				});
-		}
-		//地址获取
+		dtPicker.PopupDtPicker({
+				'type': 'date',
+				'beginYear': 1980,
+				'endYear': year
+			},
+			self.Birthday(),
+			function(value) {
+				//self.Birthday(value.format('yyyy-MM-dd'));
+				self.Birthday(value.split(' ')[0]);
+			});
+	}
+
+	//地址获取
 	self.address = function() {
-			mui.ready(function() {
-				console.log("点击了位置获取");
-				self.places.show(function(items) {
-					cityValueMon = (items[0] || {}).text + " " + common.StrIsNull((items[1] || {}).text) + " " + common.StrIsNull((items[2] || {}).text);
-					self.Province(cityValueMon.split(" ")[0]);
-					self.City(cityValueMon.split(" ")[1]);
-					self.District(cityValueMon.split(" ")[2]);
-				});
-			})
-		}
-		//科目获取
+		mui.ready(function() {
+			console.log("点击了位置获取");
+			self.places.show(function(items) {
+				cityValueMon = (items[0] || {}).text + " " + common.StrIsNull((items[1] || {}).text) + " " + common.StrIsNull((items[2] || {}).text);
+				self.Province(cityValueMon.split(" ")[0]);
+				self.City(cityValueMon.split(" ")[1]);
+				self.District(cityValueMon.split(" ")[2]);
+			});
+		})
+	}
+
+	//科目获取
 	self.getSubject = function() {
 		mui.ready(function() {
 			self.subjects.show(function(items) {
-				self.SubjectName(items[0].text);
-				self.SubjectID(items[0].value);
+				self.SubjectName(items[1].text);
+				self.SubjectID(items[1].value);
 			});
 		});
 	}
@@ -110,23 +109,20 @@ var myInfo = function() {
 
 		}
 
-		mui.ajax(common.gServerUrl + 'Common/Subject/Get', {
-			type: 'GET',
-			success: function(responseText) {
-				self.subjects = new mui.PopPicker();
-				var arr = common.JsonConvert(responseText, 'ID', 'SubjectName');
-				self.subjects.setData(arr);
-			}
-		})
+		self.subjects = new mui.PopPicker({
+			layer: 2
+		});
+		self.subjects.setData(common.getAllSubjectsBoth());
 
 		mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID() + "&usertype=" + self.UserType(), {
 			type: 'GET',
 			success: function(responseText) {
-				console.log(responseText);
+				//console.log(responseText);
 				if (responseText != "") {
 					var result = eval("(" + responseText + ")");
 					//self.UserID = responseText.ID;
 					self.initData(result);
+					common.showCurrentWebview();
 				}
 			}
 		})
@@ -148,7 +144,8 @@ var myInfo = function() {
 		}
 		if (result.TeachAge)
 			self.TeachAge(result.TeachAge);
-
+		if (result.Score)
+			self.Score(result.Score);
 		self.Province(common.StrIsNull(result.Province));
 		self.City(common.StrIsNull(result.City));
 		self.District(common.StrIsNull(result.District));
@@ -156,7 +153,7 @@ var myInfo = function() {
 	}
 
 	self.changeUserName = function() {
-		common.transfer('modifyPhoneNumber.html', true);
+		common.transfer('modifyPhone.html', true);
 	}
 
 	//提交修改
@@ -232,78 +229,18 @@ var myInfo = function() {
 		})
 	}
 
-	self.getVerifyCode = function() {
-		if (self.RemainTime() > 0) {
-			mui.toast("不可频繁操作");
-			return;
+	mui.init({
+		beforeback: function() {
+			var myinfo = plus.webview.currentWebview().opener();
+			mui.fire(myinfo, 'refreshMyinfo', {
+				imgPath: self.Path(),
+				displayName: self.DisplayName(),
+				userScore: self.Score()
+			});
 		}
-		if (self.NewUserName() == "") {
-			mui.toast('手机号不能为空');
-		} else if (!(/^1[3|4|5|7|8][0-9]\d{4,8}$/.test(self.NewUserName()))) {
-			mui.toast("手机号码不合法")
-		} else {
-			//账号是否存在,此处不存在success
-			mui.ajax(common.gServerUrl + "API/Account/CheckAccount?userName=" + self.NewUserName() + "&exists=false", {
-				type: 'GET',
-				success: function(responseText) {
-					mui.ajax(common.gServerUrl + "Common/GetVerifyCode?mobile=" + self.NewUserName(), {
-						//dataType:'json',
-						type: 'GET',
-						success: function(responseText) {
-							//var result = eval("(" + responseText + ")");
-							mui.toast(responseText);
-							self.RemainTime(self.WaitTime);
-							self.CheckTime();
-						},
-						error: function(responseText) {
-							mui.toast(responseText);
-						}
-					})
-				},
-				error: function(responseText) {
-					mui.toast('手机号已注册');
-					//return false;
-				}
-			})
-		}
-	}
-	self.CheckTime = function() {
-		//验证码计时器
-		if (self.RemainTime() == 0) {
-			return;
-		} else {
-			self.RemainTime(self.RemainTime() - 1);
-			setTimeout(function() {
-				self.CheckTime()
-			}, 1000);
-		}
-	}
-	self.saveUserNeme = function() {
-		//保存修改手机号
-		if (self.NewUserName() == "") {
-			mui.toast('新手机号不能为空');
-		}
-		if (self.VerifyCode() == "") {
-			mui.toast('验证码不能为空');
-			return;
-		}
-		if (self.Password() == "") {
-			mui.toast('密码不能为空');
-			return;
-		}
-		mui.ajax(common.gServerUrl + "API/Account/SetAccount", {
-			type: 'POST',
-			data: {
-				ID: self.UserID(),
-				UserName: self.NewUserName(),
-				Password: self.Password(),
-				VerifyCode: self.VerifyCode()
-			},
-			success: function(responseText) {
-				var result = eval("(" + responseText + ")");
-				setLocalItem("UserName", result.UserName);
-			}
-		});
-	}
+	})
+	window.addEventListener('refreshUserName', function(event) {
+		self.UserName(getLocalItem('UserName'));
+	})
 }
 ko.applyBindings(myInfo);
