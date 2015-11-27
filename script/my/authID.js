@@ -47,27 +47,24 @@ var authID = function() {
 		})
 	}
 	self.showPic = function() {
-		mui.ready(function() {
-			setPic.show(function(items) {
-				if (items[0].value == 0) {
-					//图片预览
-					if (self.Base64() == "") {
-						mui.toast("还没选中照片");
-					} else {
-						mui.toast(self.Base64());
+		if (self.Base64() == "") {
+			self.selectPic();
+		} else {
+			mui.ready(function() {
+				setPic.show(function(items) {
+					if (items[0].value == 0) {
 						var imgUpload = document.getElementById('imgUpload');
 						imgUpload.setAttribute("data-preview-src", "");
 						var previewImg = new mui.previewImage();
 						previewImg.open(imgUpload);
 						imgUpload.removeAttribute("data-preview-src");
+					} else if (items[0].value == 1) {
+						//图片选择
+						self.selectPic();
 					}
-
-				} else if (items[0].value == 1) {
-					//图片选择
-					self.selectPic();
-				}
-			});
-		})
+				});
+			})
+		}
 	}
 
 	self.authIDSub = function() {
@@ -101,6 +98,7 @@ var authID = function() {
 				}
 
 				mui.toast('保存成功');
+				mui.back();
 			}
 		})
 	}

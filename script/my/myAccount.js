@@ -16,9 +16,6 @@ var myAccount = function() {
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
 					self.DisplayName(result.DisplayName);
-				},
-				error: function(responseText) {
-					mui.toast("获取信息失败");
 				}
 			});
 			var ajaxUrl = common.gServerUrl + 'API/Account/GetBalance?userid=' + getLocalItem('UserID') + '&usertype=' + getLocalItem('UserType');

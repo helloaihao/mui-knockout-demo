@@ -20,6 +20,12 @@
 	self.photoimgurl = ko.observable("../../images/video-default.png"); //视频显示的图片
 	self.title = ko.observable("成人钢琴教程 视频 钢琴 左手 分解 和炫"); //视频标题
 
+	//分享的参数
+	var shareTitle = "";
+	var shareContent = "这个老师相当优秀";
+	var shareUrl = "www.linkeol.com";
+	var shareImg = "";
+
 	var TUserID; //老师UserId，由上级页面传此参数
 	self.UserType = 32; //getLocalItem('UserType');
 	self.Courses = ko.observableArray([]); //课程数组
@@ -49,10 +55,9 @@
 				self.Star(result.Star);
 				self.Introduce(result.Introduce);
 
+				shareTitle = "我在乐评+上分享了" + self.DisplayName() + "老师";
+				shareImg = self.Photo();
 				common.showCurrentWebview();
-			},
-			error: function(responseText) {
-				mui.toast("获取信息失败");
 			}
 		});
 	};
@@ -111,9 +116,6 @@
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
 				self.Courses(result);
-			},
-			error: function(responseText) {
-				mui.toast("获取课程失败");
 			}
 
 		})
@@ -147,11 +149,6 @@
 		}
 	}
 
-	//关闭分享窗口
-	self.closeShare = function() {
-		mui('#middlePopover').popover('toggle');
-	}
-
 	//浏览老师相册
 	self.goTeacherAlbum = function() {
 		common.transfer("../../modules/my/myAlbum.html", false, {
@@ -160,13 +157,26 @@
 	}
 
 	self.showTeacherImage = function() {
-		var pv = new mui.previewImage();
-		var ti = document.getElementById('teacherImage');
-		pv.open(ti);
+			var pv = new mui.previewImage();
+			var ti = document.getElementById('teacherImage');
+			pv.open(ti);
+		}
+		//分享老师
+	var ul = document.getElementById("sharePopover");
+	var lis = ul.getElementsByTagName("li");
+	for (var i = 0; i < lis.length; i++) {
+		lis[i].onclick = function() {
+			//mui.toast(this.id);
+			Share.sendShare(this.id, shareTitle, shareContent, shareUrl, shareImg);
+			mui('#sharePopover').popover('toggle');
+		};
+	}
+	self.closeShare = function() { //关闭分享窗口
+		mui('#sharePopover').popover('toggle');
 	}
 
-	mui.plusReady(function() {
 
+	mui.plusReady(function() {
 		var web = plus.webview.currentWebview();
 		if (typeof(web.teacherID) !== "undefined") {
 			TUserID = web.teacherID;
@@ -176,6 +186,7 @@
 		self.getworkFull();
 		self.getwork();
 		self.getlesson();
+		Share.updateSerivces();
 	});
 }
 ko.applyBindings(teacherInfo);

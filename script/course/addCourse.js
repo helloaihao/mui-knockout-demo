@@ -1,6 +1,6 @@
 var viewModel = function() {
 	var self = this;
-
+	var courseNew;
 	var ppSubject, ppCourseType;
 	self.Locations = ko.observableArray([{
 		LocationType: ko.observable(1), //学生上门
@@ -16,7 +16,7 @@ var viewModel = function() {
 		CourseType: ko.observable(1),
 		CourseTypeName: ko.observable(common.getTextByValue(common.gJsonCourseType, common.gDictCourseType.One2One)),
 		SubjectID: ko.observable(0),
-		SubjectName: ko.observable('请选择科目'),
+		SubjectName: ko.observable(''),
 		AgeMin: ko.observable(null),
 		AgeMax: ko.observable(null),
 		BeginTime: ko.observable(new Date().format('yyyy-MM-dd')),
@@ -24,7 +24,8 @@ var viewModel = function() {
 		Introduce: ko.observable(''),
 		ClasstimeJson: ko.observable(''),
 		MaxStudent: ko.observable(null),
-		Locations: Locations
+		Locations: Locations,
+		SubjectName: ko.observable(null)
 	});
 
 	//=====上课时间设定begin=====
@@ -49,7 +50,7 @@ var viewModel = function() {
 			free: false
 		};
 
-		if(self.Classtimes()){
+		if (self.Classtimes()) {
 			self.Classtimes().forEach(function(freetime) {
 				if (dayofweek == freetime.DayOfWeek && freetime.Time.indexOf(hour) >= 0) {
 					//console.log('true');
@@ -133,7 +134,7 @@ var viewModel = function() {
 			mui.toast('请选择至少一个课时');
 		} else {
 			self.ClasstimesText.removeAll();
-			self.Classtimes.sort(function(left, right){
+			self.Classtimes.sort(function(left, right) {
 				return left.DayOfWeek == right.DayOfWeek ? 0 : (left.DayOfWeek < right.DayOfWeek ? -1 : 1);
 			})
 			self.Classtimes().forEach(function(item) {
@@ -145,18 +146,18 @@ var viewModel = function() {
 			mui('#popChooseTime').popover('toggle');
 		}
 	}
-	
+
 	//开启选择课时弹窗
-	self.openPopChooseTime = function(){
+	self.openPopChooseTime = function() {
 		document.body.scrollTop = 0;
 		mui('#popChooseTime').popover('show');
 	}
 
 	//关闭选择课时弹窗
 	self.closePopChooseTime = function() {
-		mui('#popChooseTime').popover('hide');
-	}
-	//=====上课时间设定end=====
+			mui('#popChooseTime').popover('hide');
+		}
+		//=====上课时间设定end=====
 
 	mui.plusReady(function() {
 		ppSubject = new mui.PopPicker({
@@ -189,7 +190,7 @@ var viewModel = function() {
 			self.course().ClasstimeJson(c.ClasstimeJson);
 			self.Classtimes(JSON.parse(c.ClasstimeJson));
 			var counter = 0;
-			if(self.Classtimes()){
+			if (self.Classtimes()) {
 				self.Classtimes().forEach(function(item) {
 					counter += item.Time.length;
 					item.Time.forEach(function(item2) {
@@ -200,7 +201,7 @@ var viewModel = function() {
 			}
 			self.classtimeCount(counter);
 			var locations = JSON.parse(c.LocationJson);
-			if(locations){
+			if (locations) {
 				locations.forEach(function(item) {
 					self.Locations().forEach(function(item2) {
 						if (item.LocationType == item2.LocationType()) {
@@ -209,7 +210,7 @@ var viewModel = function() {
 					})
 				})
 			}
-			
+
 			common.showCurrentWebview();
 		}
 	});
@@ -281,13 +282,14 @@ var viewModel = function() {
 		}
 
 		dtPicker.PopupDtPicker({
-			'type': 'date',
-			'beginYear': year,
-			'endYear': year + 1
-		},
-		self.course().BeginTime(), function(value) {
-			self.course().BeginTime(value.split(' ')[0]);
-		});
+				'type': 'date',
+				'beginYear': year,
+				'endYear': year + 1
+			},
+			self.course().BeginTime(),
+			function(value) {
+				self.course().BeginTime(value.split(' ')[0]);
+			});
 	}
 
 	//保存
@@ -367,7 +369,9 @@ var viewModel = function() {
 				IsEnabled: true
 			},
 			success: function(responseText) {
+				courseNew=eval("(" + responseText + ")");
 				mui.toast("保存成功");
+				mui.back();
 				//ToDo：此处应该跳转至开设课程列表，并刷新列表
 			}
 		});
@@ -375,21 +379,28 @@ var viewModel = function() {
 	mui.init({
 		beforeback: function() {
 			var myCourses = plus.webview.currentWebview().opener();
-			mui.fire(myCourses,'refreshCourses',{
-				courseId:self.course().ID(), 
-				CourseName: self.course().CourseName(),
-				CourseType: self.course().CourseType(),
-				BeginTime: self.course().BeginTime(),
-				LessonCount: self.course().LessonCount(),
-				Introduce: self.course().Introduce(),
-				MaxStudent: self.course().MaxStudent(),
-				SubjectID: self.course().SubjectID(),
-				AgeMin: self.course().AgeMin(),
-				AgeMax: self.course().AgeMax(),
-				SubjectName:self.course().SubjectName(),
-				ClasstimeJson: JSON.stringify(self.Classtimes()),
-			});
-			return true;
+			if (self.course().ID() > 0) { //此时为修改页面传递参数
+				mui.fire(myCourses, 'refreshCourses', {
+					courseId: self.course().ID(),
+					CourseName: self.course().CourseName(),
+					CourseType: self.course().CourseType(),
+					BeginTime: self.course().BeginTime(),
+					LessonCount: self.course().LessonCount(),
+					Introduce: self.course().Introduce(),
+					MaxStudent: self.course().MaxStudent(),
+					SubjectID: self.course().SubjectID(),
+					AgeMin: self.course().AgeMin(),
+					AgeMax: self.course().AgeMax(),
+					SubjectName: self.course().SubjectName(),
+					ClasstimeJson: JSON.stringify(self.Classtimes())
+				});
+				return true;
+			} else {
+				mui.fire(myCourses, 'refreshCourseList', {
+					course: courseNew
+				});
+				return true;
+			}
 		}
 	})
 };

@@ -9,8 +9,8 @@ var authEdu = function() {
 	mui.init({
 		beforeback: function() {
 			var teacherAuth = plus.webview.currentWebview().opener();
-			mui.fire(teacherAuth,'refreshEdu',{
-				EduAuthStatus:self.AuthEduStatus()
+			mui.fire(teacherAuth, 'refreshEdu', {
+				EduAuthStatus: self.AuthEduStatus()
 			});
 			return true;
 		}
@@ -42,27 +42,26 @@ var authEdu = function() {
 			}); //不需要裁剪，单选
 		})
 	}
+	//点击图片响应事件
 	self.showPic = function() {
-		mui.ready(function() {
-			setPic.show(function(items) {
-				if (items[0].value == 0) {
-					//图片预览
-					if (self.Base64() == "") {
-						mui.toast("还没选中照片");
-					} else {
+		if (self.Base64() == "") {
+			self.selectPic();
+		} else {
+			mui.ready(function() {
+				setPic.show(function(items) {
+					if (items[0].value == 0) {
 						var imgUpload = document.getElementById('imgUpload');
 						imgUpload.setAttribute("data-preview-src", "");
 						var previewImg = new mui.previewImage();
 						previewImg.open(imgUpload);
 						imgUpload.removeAttribute("data-preview-src");
+					} else if (items[0].value == 1) {
+						//图片选择
+						self.selectPic();
 					}
-
-				} else if (items[0].value == 1) {
-					//图片选择
-					self.selectPic();
-				}
-			});
-		})
+				});
+			})
+		}
 	}
 
 	self.authEduSub = function() {
@@ -82,10 +81,11 @@ var authEdu = function() {
 				if (auth && auth.AuthType) {
 					self.Auth(auth);
 					self.Path(common.getPhotoUrl(auth.PicPath));
-					self.AuthStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
+					self.AuthEduStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
 					self.Editable(auth.Approved == common.gDictAuthStatusType.NotAuth && common.StrIsNull(auth.PicPath) == '');
 				}
 				mui.toast('保存成功');
+				mui.back();
 			}
 		})
 	}

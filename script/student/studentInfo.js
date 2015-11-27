@@ -32,9 +32,6 @@ var studentInfo = function() {
 				self.Score(result.Score);
 				self.FavCount(result.FavCount);
 				setTimeout(self.loadWork, 1500);
-			},
-			error: function(responseText) {
-				mui.toast("获取资料失败了");
 			}
 		})
 	}()

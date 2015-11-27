@@ -117,12 +117,8 @@ var register = function() {
 				success: function() {
 					//setLocalItem('Usertype',);
 					document.getElementById('registerInfo').className = "pin-mui-content";
-					//document.getElementById('registerFirst').style = "display:none";
 					document.getElementById('registerFirst').setAttribute("class", "hideDiv");
 					self.registerTitle("完善信息");
-				},
-				error: function() {
-					mui.toast("账号已注册，请返回登录~");
 				}
 			})
 		}
@@ -138,7 +134,6 @@ var register = function() {
 		//生日获取
 	self.getBirthday = function() {
 			mui.ready(function() {
-				console.log("点击了生日获取");
 				//console.log(self.Birthday());
 				var now = new Date();
 				var year = 1900 + now.getYear();

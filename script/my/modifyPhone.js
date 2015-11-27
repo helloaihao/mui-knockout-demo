@@ -28,15 +28,8 @@ var modifyPhone = function() {
 							mui.toast(responseText);
 							self.RemainTime(common.gVarWaitingSeconds);
 							self.CheckTime();
-						},
-						error: function(responseText) {
-							mui.toast(responseText);
 						}
 					})
-				},
-				error: function(responseText) {
-					mui.toast('手机号已注册');
-					//return false;
 				}
 			})
 		}

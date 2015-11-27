@@ -3,11 +3,9 @@ var recommendFriends = function() {
 		bhref = false;
 	var shareID = "";
 	var shardEX = "";
-	var shareUrl = "www.baidu.com"; //分享附上的链接，为公司主页，后期填补
+	var shareUrl = "www.linkeol.com"; //分享附上的链接，为公司主页，后期填补
 	var shareTitle = "90%的人不知道的音乐App" //分享内容的标题
-	var shareContent = "我敢说，你绝对不知道有这么好用的app"; //分享的内容
-
-
+	var shareContent = "我敢说，你绝对不知 道有这么好用的app"; //分享的内容
 
 	var ul = document.getElementById("recommendArray");
 	var lis = ul.getElementsByTagName("li");

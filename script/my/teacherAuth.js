@@ -53,21 +53,21 @@ var teacherAuth = function() {
 		});
 	}
 	window.addEventListener('refreshEdu', function(event) {
-		if (event.detail.EduAuthStatus == "undefined" || event.detail.EduAuthStatus=="确认信息正确后，请提交审核") {
+		if (typeof event.detail.EduAuthStatus == "undefined" || event.detail.EduAuthStatus=="确认信息正确后，请提交审核") {
 			self.EduAuthStatus("未认证");
 		} else{
 			self.EduAuthStatus(event.detail.EduAuthStatus);
 		}
 	})
 	window.addEventListener('refreshID', function(event) {
-		if (event.detail.IDAuthStatus == "undefined" || event.detail.IDAuthStatus=="确认信息正确后，请提交审核") {
+		if (typeof event.detail.IDAuthStatus == "undefined" || event.detail.IDAuthStatus=="确认信息正确后，请提交审核") {
 			self.IDAuthStatus("未认证");
 		} else{
 			self.IDAuthStatus(event.detail.IDAuthStatus);
 		}
 	})
 	window.addEventListener('refreshPro', function(event) {
-		if (event.detail.ProAuthStatus == "undefined" || event.detail.IDAuthStatus=="确认信息正确后，请提交审核") {
+		if (typeof event.detail.ProAuthStatus == "undefined" || event.detail.ProAuthStatus=="确认信息正确后，请提交审核") {
 			self.ProTitleAuthStatus("未认证");
 		}else{
 			self.ProTitleAuthStatus(event.detail.ProAuthStatus);

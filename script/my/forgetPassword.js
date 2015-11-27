@@ -19,22 +19,15 @@ var forgotPassword = function() {
 				//账号是否存在，此处为存在，exists默认为true
 				mui.ajax(common.gServerUrl + "API/Account/CheckAccount?userName=" + self.UserName(), {
 					type: 'GET',
-					error: function(responseText) {
-						mui.toast('手机号未注册');
-						//return false;
-					},
 					success: function(responseText) {
 						mui.ajax(common.gServerUrl + "Common/GetVerifyCode?mobile=" + self.UserName(), {
 							//dataType:'json',
 							type: 'GET',
 							success: function(responseText) {
+								console.log(responseText);
 								//var result = eval("(" + responseText + ")");
-								mui.toast(responseText);
 								self.RemainTime(common.gVarWaitingSeconds);
 								self.CheckTime();
-							},
-							error: function(responseText) {
-								mui.toast(responseText);
 							}
 						})
 					}
@@ -93,10 +86,6 @@ var forgotPassword = function() {
 						autoShow: false
 					}
 				});
-			},
-			error: function(responseText) {
-				mui.toast(responseText);
-				
 			}
 		});
 

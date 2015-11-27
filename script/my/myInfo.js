@@ -1,6 +1,6 @@
 var myInfo = function() {
 	var self = this;
-
+	var bValue = false;
 	self.UserID = ko.observable(getLocalItem('UserID'));
 	self.UserType = ko.observable('');
 	self.UserType(getLocalItem('UserType'));
@@ -30,12 +30,11 @@ var myInfo = function() {
 	self.Score = ko.observable(''); //老师得分
 
 	self.selectPic = function() {
-		//		mui.ready(function() {
 		picture.SelectPicture(true, false, function(retValue) {
 			self.Base64(retValue[0].Base64);
 			self.Path(self.Base64());
 		}); //需要裁剪
-		//		});
+
 	}
 
 	//性别获取
@@ -50,7 +49,6 @@ var myInfo = function() {
 
 	//生日获取
 	self.getBirthday = function() {
-		console.log(self.Birthday());
 		var now = new Date();
 		var year = 1900 + now.getYear();
 		if (self.Birthday() == '') {
@@ -72,7 +70,6 @@ var myInfo = function() {
 	//地址获取
 	self.address = function() {
 		mui.ready(function() {
-			console.log("点击了位置获取");
 			self.places.show(function(items) {
 				cityValueMon = (items[0] || {}).text + " " + common.StrIsNull((items[1] || {}).text) + " " + common.StrIsNull((items[2] || {}).text);
 				self.Province(cityValueMon.split(" ")[0]);
@@ -102,13 +99,6 @@ var myInfo = function() {
 			layer: 3
 		});
 		self.places.setData(cityData3);
-
-		var web = plus.webview.currentWebview();
-		if (typeof(web.isRegister) !== "undefined") {
-			self.IsRegister(true); //注册的第二步
-
-		}
-
 		self.subjects = new mui.PopPicker({
 			layer: 2
 		});
@@ -210,33 +200,23 @@ var myInfo = function() {
 			data: data,
 			success: function(responseText) {
 				mui.toast("修改成功");
-				var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID'); //获取首页Webview对象
-				plus.webview.close(index); //关闭首页
-				mui.openWindow({
-					id: 'indexID',
-					url: "../../index.html",
-					show: {
-						autoShow: true,
-						aniShow: "slide-in-right",
-						duration: "100ms"
-					},
-					waiting: {
-						autoShow: false
-					},
-					createNew: true
-				})
+				bValue = true;
+				mui.back();
 			}
 		})
 	}
 
 	mui.init({
 		beforeback: function() {
-			var myinfo = plus.webview.currentWebview().opener();
-			mui.fire(myinfo, 'refreshMyinfo', {
-				imgPath: self.Path(),
-				displayName: self.DisplayName(),
-				userScore: self.Score()
-			});
+			if (bValue) {
+				var myinfo = plus.webview.currentWebview().opener();
+				mui.fire(myinfo, 'refreshMyinfo', {
+					imgPath: self.Path(),
+					displayName: self.DisplayName(),
+					userScore: self.Score()
+				});
+			}
+
 		}
 	})
 	window.addEventListener('refreshUserName', function(event) {

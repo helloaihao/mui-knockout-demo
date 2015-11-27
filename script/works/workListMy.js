@@ -16,6 +16,7 @@ var workListMy = function() {
 	var uploadingWorks;
 	var videoPath;
 	var contentnomore = "上拉显示更多";
+	self.workDes=ko.observable("作业");
 	self.UserType = ko.observable(getLocalItem('UserType'));
 	self.worksList = ko.observableArray([]);
 	self.tmplSubjects = ko.observableArray([]);
@@ -211,7 +212,7 @@ var workListMy = function() {
 	//选择科目
 	self.selectSubject = function(data) {
 			self.currentSubject(data);
-			//			console.log(self.currentSubject().id);
+			//console.log(self.currentSubject().id);
 			self.worksList.removeAll(); //先移除所有
 			page = 1; //还原为显示第一页
 			count = 0; //还原刷新次数
@@ -261,6 +262,9 @@ var workListMy = function() {
 		self.tmplSubjects(common.getAllSubjects());
 		if (self.tmplSubjects().length > 0) {
 			self.currentSubject(self.tmplSubjects()[0]);
+		}
+		if(getLocalItem('UserType')==common.gDictUserType.teacher){
+			self.workDes("作品");
 		}
 	});
 	//添加作品

@@ -1,6 +1,6 @@
 var myOrders = function() {
 	var self = this;
-	self.DisplayName=ko.observable("");         //用户名
+	self.DisplayName = ko.observable(""); //用户名
 	self.Balance = ko.observable(0); //我的余额
 	self.OrdersNotPay = ko.observableArray([]); //未支付订单
 	self.OrdersPayed = ko.observableArray([]); //已支付订单
@@ -8,29 +8,26 @@ var myOrders = function() {
 	self.Sum = ko.observable('0'); //小计
 
 	mui.ready(function() {
-		var self = this;
-		mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + getLocalItem("UserID") + "&usertype=" + getLocalItem('UserType'),{
-			type: 'GET',
-			success: function(responseText) {
-			var result = eval("(" + responseText + ")");
-			self.DisplayName(result.DisplayName);
-		},
-		error: function(responseText) {
-			mui.toast("获取信息失败");
-		}
-		});
-		var ajaxUrl = common.gServerUrl + 'API/Account/GetBalance?userid=' + getLocalItem('UserID') + '&usertype=' + getLocalItem('UserType');
-		mui.ajax(ajaxUrl, {
-			type: 'GET',
-			success: function(responseText) {
-				var balance = JSON.parse(responseText);
-				self.Balance(balance);
-			}
+			var self = this;
+			mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + getLocalItem("UserID") + "&usertype=" + getLocalItem('UserType'), {
+				type: 'GET',
+				success: function(responseText) {
+					var result = eval("(" + responseText + ")");
+					self.DisplayName(result.DisplayName);
+				}
+			});
+			var ajaxUrl = common.gServerUrl + 'API/Account/GetBalance?userid=' + getLocalItem('UserID') + '&usertype=' + getLocalItem('UserType');
+			mui.ajax(ajaxUrl, {
+					type: 'GET',
+					success: function(responseText) {
+						var balance = JSON.parse(responseText);
+						self.Balance(balance);
+					}
+				})
+				//self.GetNotPay();
 		})
-		//self.GetNotPay();
-	})
-	//未支付
-	self.GetNotPay=function(){
+		//未支付
+	self.GetNotPay = function() {
 		var ajaxUrl = common.gServerUrl + 'API/Order/GetOrdersByType?userId=' + getLocalItem('UserID') + '&orderStatus=';
 		//common.gDictAccountDetailType.NotFinish;
 		mui.ajax(ajaxUrl + common.gDictOrderStatus.NotPay, {
@@ -41,7 +38,7 @@ var myOrders = function() {
 			}
 		})
 	}
-	
+
 	//已支付
 	self.GetPayed = function() {
 		var ajaxUrl = common.gServerUrl + 'API/Order/GetOrdersByType?userId=' + getLocalItem('UserID') + '&orderStatus=';
@@ -65,10 +62,10 @@ var myOrders = function() {
 			}
 		})
 	}
-	
-	self.goDetail = function(order){
+
+	self.goDetail = function(order) {
 		var url = '';
-		switch (order.TargetType){
+		switch (order.TargetType) {
 			case common.gDictOrderTargetType.Comment:
 				url = '../../modules/student/submitComment.html';
 				break;
@@ -85,15 +82,15 @@ var myOrders = function() {
 			order: order
 		});
 	}
-	
+
 	//提现
-	self.Withdraw =function(){
+	self.Withdraw = function() {
 		mui.toast("你点击了提现按钮");
 		common.transfer('myOrderMain.html');
 	}
 	var count = 0;
-	self.pullupRefresh=function(){
-		this.endPullUpToRefresh((++count>2));
+	self.pullupRefresh = function() {
+		this.endPullUpToRefresh((++count > 2));
 	}
 }
 ko.applyBindings(myOrders);

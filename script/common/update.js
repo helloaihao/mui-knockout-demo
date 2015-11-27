@@ -14,8 +14,6 @@ function plusReady() {
 	if (plus.webview.currentWebview().id != 'moreInfo.html') {
 		checkVersion();
 	}
-
-
 }
 if (window.plus) {
 	plusReady();
@@ -54,7 +52,7 @@ function checkUpdate() {
 				mui.toast("已是最新版本");
 			}
 		} else {
-			mui.toast("获取不到最新版本号，请检查错误");
+			mui.toast("获取不到最新版本号，请检查~~");
 		}
 
 	}

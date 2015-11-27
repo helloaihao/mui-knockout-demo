@@ -67,9 +67,6 @@ var moreInfo = function() {
 				mui.toast(responseText);
 				self.RemainTime(common.gVarWaitingSeconds);
 				self.CheckTime();
-			},
-			error: function(responseText) {
-				mui.toast(responseText);
 			}
 		})
 	}
@@ -114,9 +111,6 @@ var moreInfo = function() {
 				success: function(responseText) {
 					mui.toast("修改成功，正在返回...");
 					common.transfer('moreInfo.html');
-				},
-				error: function(responseText) {
-					mui.toast("修改失败，请确认原密码是否正确");
 				}
 			});
 		}
@@ -135,9 +129,7 @@ var moreInfo = function() {
 				},
 				success: function(responseText) {
 					mui.toast("提交成功，感谢你的宝贵建议，祝您天天开心");
-				},
-				error: function(responseText) {
-					mui.toast("提交失败");
+					mui.back();
 				}
 			})
 		}

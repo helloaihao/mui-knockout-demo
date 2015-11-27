@@ -17,7 +17,7 @@ var worksDetails = function() {
 		self.IsPublic = ko.observable(works.IsPublic); //作品是否公开
 		self.IsPublicText = ko.computed(function() {
 			return common.getTextByValue(common.gJsonWorkPublicType, self.IsPublic());
-		}); //作品是否公开的文字
+		}); //作品是否公开的文字143135
 		self.IsPublicOppositeText = ko.computed(function() {
 			return common.getTextByValue(common.gJsonWorkPublicType, !self.IsPublic());
 		}); //作品是否公开的相反文字
@@ -43,127 +43,39 @@ var worksDetails = function() {
 	//评论的相关元素绑定
 	self.teacherComment = ko.observableArray([]); //各个老师评论数组
 	//分享的参数
-	var shares = null,
-		bhref = false;
-	var shareID = "";
-	var shardEX = "";
-	var shareUrl = ""; //分享附上的链接，链接到作品
-	//var shareTitle=""//分享内容的标题
-	//var shareContent="";//分享的内容
+	var shareTitle = "";
+	var shareContent = "这个作品相当精彩";
+	var shareUrl = "";
+	var shareImg = "";
 
 	//分享功能
 	var ull = document.getElementById("recommendArray");
 	var lis = ull.getElementsByTagName("li");
 	for (var i = 0; i < lis.length; i++) {
 		lis[i].onclick = function() {
-			mui.toast(this.id);
-			if (this.id == "weichatFriend") {
-				//微信好友
-				shareID = "weixin";
-				shardEX = "WXSceneSession";
-			} else if (this.id == "weichatMoments") {
-				//微信朋友圈
-				shareID = "weixin";
-				shardEX = "WXSceneTimeline";
-			} else if (this.id == "weichatMoments") {
-				shareID = "qq";
-			}
-			self.shareAction(shareID, shardEX);
+			Share.sendShare(this.id, shareTitle, shareContent, shareUrl, shareImg);
+			mui('#middlePopover').popover('toggle');
 		}
 	}
-	/**
-	 * 分享操作
-	 * @param {String} id
-	 */
-	self.shareAction = function(id, ex) {
-			var s = null;
-			if (!id || !(s = shares[id])) {
-				mui.toast("无效的分享服务！");
-				return;
-			}
-			if (s.authenticated) {
-				mui.toast("---已授权---");
-				self.shareMessage(s, ex);
-			} else {
-				mui.toast("---未授权---");
-				s.authorize(function() {
-					self.shareMessage(s, ex);
-				}, function(e) {
-					mui.toast("认证授权失败：" + e.code + " - " + e.message);
-				});
-			}
+	self.closeShare = function() { //关闭分享窗口
+			mui('#middlePopover').popover('toggle');
 		}
-		/**
-		 * 发送分享消息
-		 * @param {plus.share.ShareService} s
-		 */
-	self.shareMessage = function(s, ex) {
-		var msg = {
-			content: self.ContentText(),
-			extra: {
-				scene: ex
-			}
-		};
-		if (bhref) {
-			msg.href = shareUrl;
-			msg.title = self.Title();
-			msg.content = self.ContentText();
-			msg.thumbs = ["_www/images/my-photo.jpg"];
-			msg.pictures = ["_www/images/my-photo.jpg"];
-		}
-
-		s.send(msg, function() {
-			mui.toast("分享到\"" + s.description + "\"成功！ ");
-		}, function(e) {
-			mui.toast("分享到\"" + s.description + "\"失败: " + e.code + " - " + e.message);
-		});
-	}
-
-	// H5 plus事件处理
-	function plusReady() {
-		updateSerivces();
-		if (plus.os.name == "Android") {
-			Intent = plus.android.importClass("android.content.Intent");
-			File = plus.android.importClass("java.io.File");
-			Uri = plus.android.importClass("android.net.Uri");
-			main = plus.android.runtimeMainActivity();
-		}
-	}
-	if (window.plus) {
-		plusReady();
-	} else {
-		document.addEventListener("plusready", plusReady, false);
-	}
-	/**
-	 * 更新分享服务
-	 */
-	function updateSerivces() {
-		plus.share.getServices(function(s) {
-			shares = {};
-			for (var i in s) {
-				var t = s[i];
-				shares[t.id] = t;
-			}
-		}, function(e) {
-			outSet("获取分享服务列表失败：" + e.message);
-		});
-	}
-
-
-
-	//获取视频
+		//获取视频
 	self.getVideo = function(workId) {
 			//			console.log(workId);
 			mui.ajax(common.gServerUrl + "API/Video/GetVideoUrl/?workId=" + workId, {
 				type: 'GET',
 				success: function(responseText) {
 					var obj = JSON.parse(responseText);
+					//console.log(responseText);
 					var videoPos = document.getElementById('videoPos');
 					//					var vwidth = window.screen.width;
 					//					var vheight = vwidth * 3 / 4;common.gVideoServerUrl + obj.VideoUrl
 					//console.log(common.gVideoServerUrl + obj.VideoUrl);
 					videoPos.innerHTML = '<div class="video-js-box" style="margin:5px auto"><video controls width="' + 320 + 'px" height="' + 240 + 'px" class="video-js" poster: ' + Works().imgUrl + ' data-setup="{}"><source src="' + common.gVideoServerUrl + obj.VideoUrl + '" type="video/mp4" /></video></div>'
 					VideoJS.setupAllWhenReady();
+					shareUrl=common.gVideoServerUrl + obj.VideoUrl;
+					shareImg=Works().imgUrl;
 				}
 			});
 		}
@@ -182,14 +94,16 @@ var worksDetails = function() {
 
 
 	//获取上级页面的数据
-	var workobj,workVaule;
+	var workobj, workVaule;
 	mui.plusReady(function() {
+		Share.updateSerivces();
 		workVaule = plus.webview.currentWebview();
 		if (workVaule) {
 			workobj = workVaule.works;
 			obj = new self.initWorksValue(workVaule.works);
 			self.Works(obj);
 			self.getVideo(obj.WorkID());
+			shareTitle="我在乐评+上分享了"+self.Works().Title()+"的视频";
 		}
 		common.showCurrentWebview();
 		self.getComment();
@@ -218,13 +132,10 @@ var worksDetails = function() {
 						type: 'DELETE',
 						success: function(responseText) {
 							mui.toast("删除成功");
-							var workparent=workVaule.opener();//获取当前页面的创建者
+							var workparent = workVaule.opener(); //获取当前页面的创建者
 							console.log(workparent);
 							//workparent.evalJS("resetWorks()");
 							mui.back();
-						},
-						error: function(responseText) {
-							mui.toast(responseText);
 						}
 					});
 				}
@@ -332,17 +243,26 @@ var worksDetails = function() {
 
 	//收藏
 	self.Fav = function() {
-			if (self.IsAuthor()) return; //作者本人不允许收藏
+		if (self.IsAuthor()) return; //作者本人不允许收藏
 
-			var ret = common.postAction(common.gDictActionType.Favorite, common.gDictActionTargetType.Works, self.Works().WorkID());
-			if (ret) {
-				self.Works().FavCount(self.Works().FavCount() + 1);
-				mui.toast('收藏成功');
-			}
+		var ret = common.postAction(common.gDictActionType.Favorite, common.gDictActionTargetType.Works, self.Works().WorkID());
+		if (ret) {
+			self.Works().FavCount(self.Works().FavCount() + 1);
+			mui.toast('收藏成功');
 		}
-		//关闭分享窗口
-	self.closeShare = function() {
-		mui('#middlePopover').popover('toggle');
 	}
+	mui.init({
+		beforeback: function() {
+			var workParent = plus.webview.currentWebview().opener();
+			if (workParent.id == 'worksListAllWorks.html') {
+				mui.fire(workParent, 'refreshwoks', {
+					LikeCount: self.Works().LikeCount(),
+					worksId: self.Works().WorkID(),
+				});
+			}
+
+		}
+	});
+
 }
 ko.applyBindings(worksDetails);

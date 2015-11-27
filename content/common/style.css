@@ -1522,8 +1522,9 @@ textarea {
 }
 .commentList-mui-left {
 	color: #036fb8;
-	font-size: 0.8rem;
+	font-size: 16px;
 	margin-top: 3px;
+	margin-right: 15px;
 }
 .checked-font input[type=checkbox]:before,
 .mui-radio input[type=radio]:before {
@@ -1555,13 +1556,13 @@ textarea {
 .commentList-ctn ol li.flesh {
 	width: 20%!important;
 	text-align: center;
-	font-size: 16px!important;
+	font-size: 15px!important;
 }
 .commentList-ctn ol li em {
 	height: 2rem;
 	width: 4.2rem;
 	background: #f40;
-	color: #fff;
+	color: #fff;   accelerator: false;
 	border-radius: 5px;
 	display: inline-block;
 	margin-top: 0.4rem;
@@ -4120,7 +4121,13 @@ textarea {
 	font-size: 48px;
 }
 
-
+.help-title{
+	color: #036FB8;
+	font-size: 18px;
+	line-height: 46px;
+	background: #F1F1F1;
+	padding-left: 5px;
+}
 
 
 

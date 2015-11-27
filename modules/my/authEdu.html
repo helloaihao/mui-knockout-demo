@@ -52,7 +52,7 @@
 
 			<div class="titleCertification-pic-div" data-bind="click:showPic">
 				<div class="uploadbar"><img id="imgUpload" data-bind="attr: {'src': Path}" /></div>
-				<i class="iconfont">&#xe633;</i>
+				<i class="iconfont" data-bind="visible: Base64()!=''">&#xe633;</i>
 				<em data-bind="visible: Editable">点击上传图片</em>
 			</div>
 			<u data-bind="text:AuthEduStatus"></u>

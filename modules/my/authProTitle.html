@@ -102,7 +102,7 @@
 			<p>请提交在有效期内的职称证件照片，需保证证件及文字清晰可见</p>
 			<div class="titleCertification-pic-div" data-bind="click:showPic">
 				<img id="imgUpload" data-bind="attr: {'src': Path}" />
-				<i class="iconfont">&#xe633;</i>
+				<i class="iconfont" data-bind="visible: Base64()!=''">&#xe633;</i>
 				<em data-bind="visible: Editable">点击上传图片</em>
 			</div>
 			<u data-bind="text: AuthProStatus"></u>

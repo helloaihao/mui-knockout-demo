@@ -48,15 +48,15 @@
 	transfer: function(targetUrl, checkLogin, extras, createNew, autoShowWhileShow) {
 		var tmpUrl = targetUrl;
 		var localUserID = getLocalItem('UserID');
-		
+
 		if (checkLogin && (common.StrIsNull(localUserID) == '' || localUserID <= 0)) {
 			tmpUrl = '../account/login.html';
-			autoShowWhileShow = true;			//跳转至登录页面，强行设置自动打开页面
+			autoShowWhileShow = true; //跳转至登录页面，强行设置自动打开页面
 		}
-		
-		if(typeof autoShowWhileShow == "undefined")
+
+		if (typeof autoShowWhileShow == "undefined")
 			autoShowWhileShow = true;
-		
+
 		//console.log(autoShowWhileShow);
 		mui.openWindow({
 			url: tmpUrl,
@@ -72,15 +72,15 @@
 			}
 		});
 	},
-	
-	showCurrentWebview: function(){
+
+	showCurrentWebview: function() {
 		mui.plusReady(function() {
 			plus.nativeUI.closeWaiting();
-			var ws=plus.webview.currentWebview();
+			var ws = plus.webview.currentWebview();
 			ws.show();
 		});
 	},
-	
+
 	confirmQuit: function() {
 		var btnArray = ['确认', '取消'];
 		mui.confirm('确认退出乐评+？', '退出提示', btnArray, function(e) {
@@ -147,9 +147,33 @@
 
 		return ret;
 	},
+	//对象克隆
+	clone: function(obj) {
+		var o;
+		if (typeof obj == "object") {
+			if (obj === null) {
+				o = null;
+			} else {
+				if (obj instanceof Array) {
+					o = [];
+					for (var i = 0, len = obj.length; i < len; i++) {
+						o.push(common.clone(obj[i]));
+					}
+				} else {
+					o = {};
+					for (var k in obj) {
+						o[k] = common.clone(obj[k]);
+					}
+				}
+			}
+		} else {
+			o = obj;
+		}
+		return o;
+	},
 
 	//初始化科目及类别的下拉数据源
-	initSubjectsTemplate: function() {
+		initSubjectsTemplate: function() {
 		var allSubjectStr = getLocalItem(common.gVarLocalAllSubjectsStr);
 		if (common.StrIsNull(allSubjectStr) == '') return; //若未取值，则无需初始化
 
@@ -183,7 +207,7 @@
 						subjectClass: item.SubjectClass,
 						subjectClassName: item.SubjectClassName
 					});
-					
+
 					allSubjectsBoth.push({
 						value: item.SubjectClass,
 						text: item.SubjectClassName,
@@ -211,13 +235,13 @@
 					subjectType: item.subjectType,
 					selected: false
 				});
-				
+
 				allSubjectsBoth[allSubjectsBoth.length - 1].children.push({
 					value: item.ID,
 					text: item.SubjectName
 				});
-				
-				if(item.IsHome){
+
+				if (item.IsHome) {
 					allSubjectsIndex.push({
 						id: item.ID,
 						subjectName: item.SubjectName,
@@ -227,12 +251,12 @@
 				}
 			})
 		}
-		
+
 		//首页显示的科目排序
-		if(allSubjectsIndex.length > 0){
+		if (allSubjectsIndex.length > 0) {
 			allSubjectsIndex.sort(function(left, right) {
-            	return left.dispOrderIndex == right.dispOrderIndex ? 0 : (left.dispOrderIndex < right.dispOrderIndex ? -1 : 1);
-        	})
+				return left.dispOrderIndex == right.dispOrderIndex ? 0 : (left.dispOrderIndex < right.dispOrderIndex ? -1 : 1);
+			})
 		}
 
 		setLocalItem(common.gVarLocalAllSubjectClassesJson, JSON.stringify(allSubjectClasses));
@@ -349,7 +373,7 @@
 	 * @param {String} photo 图片名
 	 */
 	getPhotoUrl: function(photo) {
-		return common.gServerUrl + 'Common/GetImage?url=' + photo;
+		return common.gServerUrl + 'Images/' + photo;
 	},
 
 	/**
@@ -370,11 +394,11 @@
 	},
 
 	//Web API地址
-	gServerUrl: "http://192.168.1.66:8090/", //"http://cloud.linkeol.com/", //"http://192.168.1.66:8090/", ////"http://172.16.30.90:8090/",
+	gServerUrl: "http://cloud.linkeol.com/", //"http://cloud.linkeol.com/", //"http://192.168.1.66:8090/", ////"http://172.16.30.90:8090/",
 	//Video地址
-	gVideoServerUrl: "http://172.16.30.90:8099/", //"http://video.linkeol.com/", //"http://192.168.1.66:8099/", ////"http://172.16.30.90:8099/",
+	gVideoServerUrl: "http://video.linkeol.com/", //"http://video.linkeol.com/", //"http://192.168.1.66:8099/", ////"http://172.16.30.90:8099/",
 
-	gVarWaitingSeconds: 60,	//默认等待验证秒数
+	gVarWaitingSeconds: 60, //默认等待验证秒数
 	//用户类型枚举
 	gDictUserType: {
 		teacher: 32,
@@ -577,10 +601,10 @@
 
 	gVarLocalUploadTask: 'global.UploadTasks',
 	gVarLocalAllSubjectsStr: 'global.AllSubjectsStr',
-	gVarLocalAllSubjectsBothJson: 'global.AllSubjectsBothJson',			//科目及科目类型的二级Json
-	gVarLocalAllSubjectClassesJson: 'global.AllSubjectClassesJson',		//所有科目类型的Json
-	gVarLocalAllSubjectsJson: 'global.AllSubjectsJson',					//所有科目的Json
-	gVarLocalAllSubjectsIndexJson: 'global.AllSubjectsIndexJson',		//所有首页显示科目的Json
+	gVarLocalAllSubjectsBothJson: 'global.AllSubjectsBothJson', //科目及科目类型的二级Json
+	gVarLocalAllSubjectClassesJson: 'global.AllSubjectClassesJson', //所有科目类型的Json
+	gVarLocalAllSubjectsJson: 'global.AllSubjectsJson', //所有科目的Json
+	gVarLocalAllSubjectsIndexJson: 'global.AllSubjectsIndexJson', //所有首页显示科目的Json
 
 	/*获取网络状态值
 	 * CONNECTION_UNKNOW: 网络连接状态未知  固定值0
@@ -593,6 +617,7 @@
 	 * @description 获取网络状态的函数
 	 */
 	//gNetworkState: plus.networkinfo.getCurrentType(),
+
 
 
 }

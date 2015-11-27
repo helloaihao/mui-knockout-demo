@@ -93,7 +93,7 @@
 					<!--<div class="openedCoursesList-start">星期五 18:00~19:00</div>-->
 
 					<div class="openedCoursesList-start opened-gl">
-						<i class="iconfont" data-bind="click: gotoEditCourse">&#xe63e;</i>修改
+						<i class="iconfont" data-bind="click: gotoEditCourse">&#xe63e;修改</i>
 						<!--<i class="iconfont" data-bind="click: gotoRegistered">&#xe63e;管理报名</i>-->
 						<em class="gl-em" data-bind="click: gotoRegistered, visible: CourseType == common.gDictCourseType.One2More">管理报名</em>
 						<em class="q-em" id="btn-enabled" data-bind="css: {'m-active': !IsEnabled}, click: setEnabled ">启用</em>
@@ -130,6 +130,9 @@
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/course/openedCoursesList.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.init();
+		</script>
 	</body>
 
 </html>

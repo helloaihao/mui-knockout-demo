@@ -8,10 +8,10 @@ var commentList = function() {
 	self.comments = ko.observableArray([]);
 	self.tmplSubjects = ko.observableArray([]);
 	self.tmplSubjectClasses = ko.observableArray([]);
-
+	self.commentDes = ko.observable("还没有点评呢，快让老师帮忙点评吧！");
 	self.currentSubject = ko.observable({}); //当前选中的科目
 	self.currentSort = ko.observable(8);
-	
+
 	mui.init({
 		pullRefresh: {
 			container: '#pullrefresh',
@@ -33,6 +33,9 @@ var commentList = function() {
 		self.tmplSubjects(common.getAllSubjects());
 		if (self.tmplSubjects().length > 0) {
 			self.currentSubject(self.tmplSubjects()[0]);
+		}
+		if(getLocalItem('UserType')==common.gDictUserType.teacher){
+			self.commentDes("还没有点评过作品呢~~ ");
 		}
 	});
 
@@ -121,8 +124,7 @@ var commentList = function() {
 						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
 						self.comments(self.comments().concat(result));
 					}
-				},
-				error: function(responseText) {}
+				}
 			});
 		}, 1500);
 	}

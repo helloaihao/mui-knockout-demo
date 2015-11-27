@@ -25,7 +25,7 @@ var workListAll = function() {
 	self.currentSubject = ko.observable({}); //当前选中的科目
 	self.currentWorkTypes = ko.observable(0);
 	self.currentSort = ko.observable(5);
-	
+
 	//刷新界面
 	mui.init({
 		pullRefresh: {
@@ -59,10 +59,7 @@ var workListAll = function() {
 				self.works(result);
 			}
 		});
-		//console.log(thisUrl + curl);
-		//mui('#pullrefresh').pullRefresh().refresh(true);
-		//console.log(self.works());
-	};
+	}
 
 	//下拉加载
 	function pulldownRefresh() {
@@ -80,7 +77,6 @@ var workListAll = function() {
 			if (typeof(workTypeID) === "number" && workTypeID > 0) {
 				curl += workTypeUrl + workTypeID;
 			}
-			console.log(thisUrl + curl);
 			if (plus.networkinfo.getCurrentType() > 1) {
 				//contentnomore = "上拉显示更多";
 				mui.ajax(thisUrl + curl, {
@@ -162,7 +158,7 @@ var workListAll = function() {
 			mui('#pullrefreshAll').pullRefresh().refresh(true);
 			self.getWorks();
 			mui('#popType').popover('toggle');
-			
+
 		}
 		//作品排序
 	self.sortWorks = function() {
@@ -178,9 +174,31 @@ var workListAll = function() {
 		}
 		//跳转到作品详情页面
 	self.goWorksDetails = function(data) {
-		common.transfer("WorksDetails.html", false, {
-			works: data
-		}, false, false)
+			common.transfer("WorksDetails.html", false, {
+				works: data
+			}, false, false)
+		}
+		/*	self.IsAuthor = ko.computed(function() {
+					if (self.UserID == this.AuthorID())
+						return true;
+					else
+						return false;
+				})*/
+		//赞
+	self.Like = function() {
+		var tmp = common.clone(this);
+		//mui.toast(this.LikeCount);
+		if (this.AuthorID == self.UserID) {
+			mui.toast("作者本人不允许赞");
+			return
+		} else {
+			var ret = common.postAction(common.gDictActionType.Like, common.gDictActionTargetType.Works, this.ID);
+			if (ret) {
+				tmp.LikeCount = tmp.LikeCount + 1;
+				self.works.replace(this, tmp);
+				mui.toast('感谢您的赞许');
+			}
+		}
 	}
 	mui.plusReady(function() {
 		self.getWorks();
@@ -190,6 +208,16 @@ var workListAll = function() {
 			self.currentSubject(self.tmplSubjects()[0]);
 		}
 	});
+	window.addEventListener('refreshwoks', function(event) {
+		self.works().forEach(function(item) {
+			var tmp = common.clone(item);
+			if (item.ID == event.detail.worksId) {
+				tmp.LikeCount = event.detail.LikeCount;
+				self.works.replace(item, tmp);
+			}
+		});
+	});
+
 	mui.back = function() {
 		common.confirmQuit();
 	}

@@ -67,26 +67,37 @@ var viewModel = function() {
 		});
 	}
 	window.addEventListener('refreshCourses', function(event) {
-		self.courses().forEach(function(item){
-			if(item.ID == event.detail.courseId){
-				item.subjectName=event.detail.SubjectName;
-				item.CourseName=event.detail.CourseName;
-				item.CourseType=event.detail.CourseType;
-				item.Introduce=event.detail.Introduce;
-				item.MaxStudent=event.detail.MaxStudent;
-				item.BeginTime=event.detail.BeginTime;
-				item.LessonCount=event.detail.LessonCount;
-				item.ClasstimeJson=event.detail.ClasstimeJson;
-				item.SubjectID=event.detail.SubjectID;
+		self.courses().forEach(function(item) {
+			if (item.ID == event.detail.courseId) {
+				var tmp = common.clone(item);
+				tmp.CourseName = event.detail.CourseName;
+				tmp.SubjectName = event.detail.SubjectName;
+				tmp.CourseType = event.detail.CourseType;
+				tmp.Introduce = event.detail.Introduce;
+				tmp.MaxStudent = event.detail.MaxStudent;
+				tmp.BeginTime = event.detail.BeginTime;
+				tmp.LessonCount = event.detail.LessonCount;
+				tmp.ClasstimeJson = event.detail.ClasstimeJson;
+				tmp.SubjectID = event.detail.SubjectID;
+				//console.log(typeof tmp);
+				self.courses.replace(item, tmp);
+				//console.log(JSON.stringify(self.courses()));
 			}
 		});
-	})
+	});
+	window.addEventListener('refreshCourseList', function(event) {
+		console.log(event.detail.course);
+		if (event.detail.course!="" ||typeof event.detail.course!="undefined") {
+			//self.courses().concat(event.detail.course);
+			self.courses(self.courses().concat(event.detail.course));
+		}
+	});
 
 	self.gotoEditCourse = function() {
 		//window.location = "../../modules/course/addCourse.html?course="+encodeURI(JSON.stringify(this));
 		common.transfer("../../modules/course/addCourse.html", true, {
 			course: this
-		}, false, false);
+		});
 	};
 
 	self.gotoRegistered = function() {
