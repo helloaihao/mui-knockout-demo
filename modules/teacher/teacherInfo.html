@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title>乐评+</title>
+		<title>乐评家</title>
 		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
 		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
 		<link href="../../content/common/global.css" rel="stylesheet" />
@@ -36,6 +36,7 @@
 			    color: #929292;
 			    background: #fff;
 }
+			
 			.mui-tab-item,.ah-mui-tab-item{
 				color: #036FB8!important;
 			}
@@ -200,6 +201,7 @@
 				-webkit-transition: -webkit-transform 0.5s ease, opacity 0.5s ease;
 				transition: transform 0.5s ease, opacity 0.5s ease;
 			}
+			
 			@-webkit-keyframes fadeIn {
 				0% {
 					opacity: 0;
@@ -236,6 +238,9 @@
 				max-width: 100%;
 				height: auto;
 			}
+			.mui-bar-tab a:active{
+				background: #f1f1f1;
+			}
 		</style>
 	</head>
 
@@ -246,7 +251,8 @@
 			<div class="photo" data-bind="click: showTeacherImage">
 				<img id="teacherImage" data-bind="attr: {src: Photo}"  data-preview-src="" data-preview-group="1" />
 			</div>
-			<span class="userName" data-bind="text:DisplayName()+'('+TeachAge()+'年教龄)'"></span>
+			<!--+'('+TeachAge()+'年教龄)'-->
+			<span class="userName" data-bind="text:DisplayName()"></span>
 			<!--科目|教龄-->
 			<span class="message"><!--ko text:SubjectName--><!--/ko--> | <!--ko text:Score--><!--/ko--> |
 				<i data-bind="css: 'star'+Star()"></i>
@@ -288,7 +294,7 @@
 								<img src="../../images/share-qq.png" />
 								<span>QQ好友</span>
 							</li>
-						</ul>
+						</ul>			
 					</div>
 					<div class="shareTeacher-qx" data-bind="click:closeShare">取消</div>
 				</div>
@@ -312,7 +318,7 @@
 					<p data-bind="text:Title"></p>
 				</li>
 			</script>
-			<li class="mui-table-view-cell" data-bind="click:openWork">
+			<li class="mui-table-view-cell" data-bind="click:openWork(1)">
 				<a class="my-mui-navigate-right">
 					<span class="mui-badge my-mui-badge iconfont">&#xe618;</span> 分解教程
 				</a>
@@ -324,7 +330,7 @@
 			<div class="teacherList-blank-bgColor"></div>
 
 			<!--完整教程-->
-			<li class="mui-table-view-cell" data-bind="click:openWork">
+			<li class="mui-table-view-cell" data-bind="click:openWork(2)">
 				<a class="my-mui-navigate-right">
 					<span class="mui-badge my-mui-badge iconfont">&#xe618;</span> 完整教程
 				</a>
@@ -336,7 +342,7 @@
 			<div class="teacherList-blank-bgColor"></div>
 
 			<!--演出作品-->
-			<li class="mui-table-view-cell" data-bind="click:openWork">
+			<li class="mui-table-view-cell" data-bind="click:openWork(3)">
 				<a class="my-mui-navigate-right">
 					<span class="mui-badge my-mui-badge iconfont">&#xe618;</span> 演出作品
 				</a>
@@ -349,11 +355,11 @@
 			<div class="teacherList-blank-bgColor "></div>
 			
 			<!--<div class="teacherList-resolve-title">课程</div>-->
-			<li class="mui-table-view-cell info-kc">			
+			<!--<li class="mui-table-view-cell info-kc">			
 					 课程
 			</li>
 			<div data-bind="template:{name:'classTemplate',foreach:Courses}">
-			</div>
+			</div>-->
 			<!--以下为模板文件-->
 			<script type="text/html" id="classTemplate">
 				<div class="teacherList-class-content ">
@@ -377,10 +383,11 @@
 					<i class="iconfont">&#xe62d;</i>
 					<span class="mui-tab-label ">帮我点评</span>
 				</a>
-				<a class="mui-tab-item teacherList-mui-bar-tab" data-bind="event:{tap: appiontLesson}">
+			
+				<!--<a class="mui-tab-item teacherList-mui-bar-tab" data-bind="event:{tap: appiontLesson}">
 					<i class="iconfont">&#xe63b;</i>
 					<span class="mui-tab-label">预约上课</span>
-				</a>
+				</a>-->
 			</nav>
 		</div>
 	</body>

@@ -217,9 +217,5 @@ var workListAll = function() {
 			}
 		});
 	});
-
-	mui.back = function() {
-		common.confirmQuit();
-	}
 }
 ko.applyBindings(workListAll);

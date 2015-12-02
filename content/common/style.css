@@ -362,7 +362,7 @@ textarea {
 	line-height: 44px;
 }
 .index-banner {
-	height: 200px;
+	height: auto;
 	width: 100%;
 	overflow: hidden;
 }
@@ -1280,17 +1280,28 @@ textarea {
 	font-size: 17px!important;
 }
 .addWorks-textarea-div {
-	border-bottom: 1px solid #c8c7cc;
-	min-height: 110px;
-	padding: 14px 15px;
+	min-height: 94px;
 	box-sizing: border-box;
+	padding: 10px 0px;
+	border-bottom: 1px solid #C8C7CC;
 }
-.addWorks-textarea-div textarea {
-	color: #666;
-	font-size: 1.02rem;
+.addWorks-textarea-div label{
+	font-size: 16px;
+	padding-left: 15px;
+	width: 28%;
+	float: left;
+	line-height: 1.6!important;
+}
+.addWorks-textarea-div textarea{
+	line-height: 1.6!important;
+	width: 71%;
+	float: right;
+	min-height: 94px;
 }
 .addWorks-add {
-	height: 7.2rem;
+	min-height:106px;
+	overflow: hidden;
+	padding: 0px 15px 10px 15px;
 	width: 100%;
 	box-sizing: border-box;
 	border-bottom: 1px solid #c8c7cc;
@@ -1302,25 +1313,24 @@ textarea {
 	border-style: dashed;
 	position: absolute;
 	left: 15px;
-	top: 50%;
-	margin-top: -1.96rem;
-	width: 3.92rem;
-	height: 3.92rem;
+	top: 1px;
+	width: 64px;
+	height: 64px;
 	display: inline-block;
-	line-height: 3.92rem;
 	text-align: center;
 }
 .addWorks-add em i {
-	font-size: 2.6rem;
+	font-size:32px;
 	color: rgb(191, 191, 191);
+	line-height: 55px;
+	text-align: center;
 }
 .addWorks-add span {
 	color: #b3b3b3;
-	font-size: 1.12rem;
+	font-size: 16px;
 	position: absolute;
-	left: 5.5rem;
-	top: 50%;
-	margin-top: -0.6rem;
+	left: 15px;
+	top: 85px;
 }
 .pin-mui-btn-block {
 	font-size: 17px!important;
@@ -1643,6 +1653,15 @@ textarea {
 	color: #fff;
 	position: absolute;
 	left: 0;
+}
+
+.p-header-div span a i{
+	font-size: 28px;
+	color: #fff;
+	position: absolute;
+	left: 60%;
+	margin-left: 10px;
+	margin-top: -35px;
 }
 .star0:after {
 	color: #fe5400;
@@ -2889,14 +2908,14 @@ textarea {
 }
 .myAccount-header i {
 	color: #fff;
-	font-size: 1.4rem;
+	font-size: 18px;
 	position: absolute;
 	left: 15px;
 	top: 15px;
 }
 .myAccount-header span {
 	color: #fff;
-	font-size: 1.02rem;
+	font-size: 16px;
 	position: absolute;
 	right: 15px;
 	top: 15px;
@@ -2962,10 +2981,21 @@ textarea {
 	position: absolute;
 	top: 40px;
 	right: 20px;
-	color: #E03F00;
+	color: #f0ad4e;
+}
+.myAccount-cell span:nth-of-type(5) {
+	position: absolute;
+	top: 76px;
+	right: 120px;
+	color: #f0ad4e;
+}
+.myAccount-sure{
+	float: right;
+	margin-right:5px;
+	margin-top: 60px;
 }
 .myAccount-mui-tab-label {
-	color: #E03F00!important;
+	color: #f0ad4e!important;
 	font-size: 1.12rem;
 	font-weight: 500;
 }
@@ -3242,12 +3272,13 @@ textarea {
 }
 .availableTime-table a {
 	color: #fff;
-	//font-size: 0.8rem;
+	font-size: 0.8rem;
 }
 .availableTime-input {
 	background: #f1f1f1;
 	height: 50px;
 	width: 100%;
+	margin-bottom: 50px;
 	/*margin-bottom: 60px;*/
 }
 .availableTime-input label {
@@ -3266,7 +3297,7 @@ textarea {
 	font-size: 14px;
 	background: #F1F1F1;
 	height: 50px;
-	line-height: 50px;
+	line-height: 55px;
 	border: none;
 }
 .screenCenter {
@@ -3429,7 +3460,7 @@ textarea {
 	height: 2rem;
 	position: absolute;
 	bottom: 10px;
-	right: 95px;
+	right: 120px;
 }
 .myCourse-btn button:nth-of-type(3) i {
 	position: absolute;
@@ -3447,6 +3478,7 @@ textarea {
 	float: right;
 	margin-top: 30px;
 	margin-right: 20px;
+	font-size: 0.96rem;
 }
 .myCourse-btn-cancel {
 	border: 1px solid #036FB8;
@@ -3458,13 +3490,15 @@ textarea {
 	float: right;
 	margin-top: 30px;
 	margin-right: 15px;
+	font-size: 0.96rem;
 }
 .myCourse-btn-colse {
 	color: #f08000;
 	border: 1px solid #F08000;
 	position: absolute;
-	bottom: 10px;
+	bottom: 0px;
 	right: 5px;
+	font-size: 0.96rem;
 }
 /*----我的（老师版）---*/
 
@@ -3720,17 +3754,21 @@ textarea {
 	background: #f1f1f1;
 }
 .aboutUs-content p {
-	padding: 5px 15px 0 15px;
+	padding: 5px 12px 0 12px;
 	line-height: 24px;
 	color: #999;
-	font-size: 0.96rem;
+	font-size: 14px;
 	text-indent: 2em;
+}
+.span-left{
+	margin-left: 40px;
 }
 .aboutUs-tel {
 	color: #666;
-	font-size: 1.02rem;
-	padding-top: 50px;
-	padding-left: 20px;
+	font-size: 14px;	
+	padding-top: 10px;
+	padding-left: 15px;
+	padding-right: 5px;
 	height: 30px;
 	width: 100%;
 	box-sizing: border-box;
@@ -3738,9 +3776,10 @@ textarea {
 }
 .aboutUs-address {
 	color: #666;
-	font-size: 1.02rem;
-	padding-top: 10px;
-	padding-left: 20px;
+	font-size: 14px;
+	padding-top: 50px;
+	padding-left: 15px;
+	padding-right: 15px;
 	height: 20px;
 	line-height: 20px;
 	width: 100%;
@@ -3941,6 +3980,15 @@ textarea {
 	color: #666;
 	font-size: 18px;
 }
+.myOrders-wc {
+	height: 40px;
+	width: 100%;
+	text-align: center;
+	line-height: 40px;
+	color: #666;
+	font-size: 18px;
+	border-top: 1px solid #ccc;
+}
 .share-height.mui-active {
 	top: 50%!important;
 	margin-top: -5.5rem!important;
@@ -4128,6 +4176,244 @@ textarea {
 	background: #F1F1F1;
 	padding-left: 5px;
 }
+.workIndex-banner{
+	width: 100%;
+	height: auto;
+}
+.workIndex-center{
+	padding: 15px;
+	height: auto;
+	width: 100%;
+	box-sizing: border-box;
+	
+}
+.workIndex-center-left{
+	float: left;
+	width: 66%;
+	height: 200px;
+}
+.workIndex-center-left ul li{
+	height: 160px;
+	width: 32%;
+	float: left;
+	color: #333;
+}
+.workIndex-center-left .li-1{
+	background: #ff26f2;
+	height: 95px;
+	width: 48%;
+	border-radius: 8px;	
+	text-align: center;
+	box-sizing: border-box;
+	font-size: 18px;
+	position: relative;
+	color: #fff;
+	padding-top: 12px;
+}
+
+.workIndex-center-left .li-2{
+	background: #00c968;
+	height: 95px;
+	width: 48%;
+	border-radius: 8px;	
+	text-align: center;
+	box-sizing: border-box;
+	font-size: 18px;
+	position: relative;
+	color: #fff;
+	padding-top: 12px;
+	margin-left: 4%;
+}
+.workIndex-center-left .li-3{
+	background: #f09e00;
+	height: 95px;
+	width: 48%;
+	border-radius: 8px;	
+	text-align: center;
+	box-sizing: border-box;
+	font-size: 18px;
+	position: relative;
+	color: #fff;
+	padding-top: 12px;
+	margin-top: 10px;
+}
+.workIndex-center-left .li-4,.workIndex-center-left .li-5{
+	background: #2577ff;
+	height: 95px;
+	width: 48%;
+	border-radius: 8px;	
+	text-align: center;
+	box-sizing: border-box;
+	font-size: 18px;
+	position: relative;
+	color: #fff;
+	padding-top: 12px;
+	margin-left: 4%;
+	margin-top: 10px;
+}
+.workIndex-center-left .li-1 i,.workIndex-center-left .li-2 i,.workIndex-center-left .li-3 i{
+	position: absolute;
+	left: 50%;
+	margin-left: -24px;
+	top: 54px;
+	font-size: 48px;
+}
+.workIndex-center-left .li-4 i{
+	position: absolute;
+	left: 50%;
+	top: 54px;
+	margin-left: -22px;
+	font-size: 44px;
+}
+.workIndex-center-left .li-5 i{
+	position: absolute;
+	left: 50%;
+	top: 56px;
+	margin-left: -22px;
+	font-size: 48px;
+}
+.workIndex-center-left .li-3 i{
+	position: absolute;
+	left: 50%;
+	top: 56px;
+	margin-left: -23px;
+	font-size: 46px;
+	font-weight: 700;
+}
+.workIndex-center-left .li-1:active{
+	background: #f402e6;
+}
+.workIndex-center-left .li-2:active{
+	background: #01b860;
+}
+.workIndex-center-left .li-3:active{
+	background: #de9302;
+}
+.workIndex-center-left .li-4:active{
+	background: #005ffd;
+}
+.workIndex-center-right{
+	float: right;
+	width: 31.5%;
+	height:200px;
+	background: #00d1bb;
+	border-radius: 8px;
+	color: #fff;
+	padding-top: 40px;
+	text-align: center;
+	box-sizing: border-box;
+	font-size: 18px;
+	position: relative;
+}
+.workIndex-center-right:active{
+	background: #01c2ae;
+}
+.workIndex-center-right i{
+	color: #fff;
+	position: absolute;
+	left: 50%;
+	margin-left: -43px;
+	top: 100px;
+	font-size: 86px;
+}
+.aboutUs-h2{
+	margin: 15px 0 10px 0;
+	padding-left: 5px;
+}
+.myOrders-pop{
+	min-height: 90px!important;
+	left: 0;
+	top: 50%;
+
+}
+.myOrders-pop.mui-active{
+
+	left: 0!important;
+}
+.star5-hui:after{
+				content:"\e653\e653\e653\e653\e653";
+				font-family: 'iconfont';
+				color: #999;
+				font-size: 16px;
+			}
+			
+.star5-hui:after:active{	
+				color: #f0ad4e;
+				font-size: 16px;
+			}
+
+.myOrders-t{
+	text-align: center;
+}
+.myInfoTeacher-red{
+				position: relative;
+			}
+.red-point{
+				height: 6px;
+				width: 6px;
+				background: #d80005;
+				border-radius: 50%;
+				display: inline-block;
+				position: absolute;
+				left: 126px;
+				top: 16px;
+			}
+.index-red{
+		height: 6px;
+		width: 6px;
+		background: #d80005;
+		border-radius: 50%;
+		display: inline-block;
+		position: absolute;
+		right: 1px;
+		top: 11px;
+}
+
+.teacherAuth-point{
+	left: 88px;
+	top: 11px;
+}			
+
+.mui-bar-nav .shao-teacher{
+	font-size: 20px!important;
+}
+
+.favUser-card{
+				background: #fff!important;
+			}
+			.favUser-div-btn{
+				margin-top: 100px;
+			}
+			.favUser-btn{
+				padding: 8px 0;				
+				font-size: 16px;
+			}
+
+.favUser-error{
+	background: #f1f1f1;
+	padding-top: 45%;
+	width: 100%;
+	height: auto;
+	text-align: center;
+	color: #666;	
+}
+.favUser-error i{
+	color: #999;
+	font-size: 60px;
+}
+.favUser-error span{
+	color:#999;
+	height: 30px;
+	width: 100%;
+	text-align: center;
+	font-size: 16px;
+	padding-top: 26px;
+	display: inline-block;
+}
+
+
+
+
 
 
 

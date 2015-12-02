@@ -5,7 +5,7 @@ var viewModelIndex = function() {
 	self.UserType = ko.observable(getLocalItem('UserType'));
 	self.UnreadCount = ko.observable(0);
 	self.MyHref = ko.observable('modules/my/myInfoStudent.html');
-	self.worksList = ko.observable('modules/works/worksListHeader.html');
+	//self.worksList = ko.observable('modules/works/worksListHeader.html');
 	self.worksText=ko.observable('作品');
 
 	if (self.UserType() == common.gDictUserType.teacher) {

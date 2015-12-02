@@ -12,8 +12,7 @@ var authID = function() {
 		beforeback: function() {
 			var teacherAuth = plus.webview.currentWebview().opener();
 			mui.fire(teacherAuth,'refreshID',{
-				//IDAuthStatus:self.AuthStatus()
-				IDAuthStatus:self.AuthIDStatus()
+				IDAuth: self.Auth()
 			});
 			return true
 		}
@@ -23,7 +22,7 @@ var authID = function() {
 		var web = plus.webview.currentWebview();
 		if (typeof(web.data) !== "undefined") {
 			var auth = web.data;
-
+			
 			if (auth && auth.AuthType) {
 				self.Auth(auth);
 				self.Path(common.getPhotoUrl(auth.PicPath));

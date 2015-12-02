@@ -123,6 +123,7 @@ var handleResult = function(result) {
 						mui.toast("未知网络错误")
 					}
 					plus.nativeUI.closeWaiting();
+					plus.navigator.closeSplashscreen(); //关闭启动界面
 				});
 				//console.log('request return error:'+JSON.stringify(XMLHttpRequest));
 				var status;
@@ -138,10 +139,7 @@ var handleResult = function(result) {
 							removeLocalItem("UserName");
 							removeLocalItem("UserID");
 							removeLocalItem("Token");
-							plus.storage.removeItem(common.getPageName()+'.SubjectName');
-							plus.storage.removeItem(common.getPageName()+'.SubjectID');
-							plus.storage.removeItem(common.getPageName()+'.WorkTypeName');
-							plus.storage.removeItem(common.getPageName()+'.WorkTypeID');
+							removeLocalItem("DisplayName");
 							mui.toast('帐号已在其它设备登录，当前设备将退出。');
 							//var myInfo=viewModelIndex.MyHref;
 							//mui.toast(viewModelIndex().MyHref());

@@ -238,6 +238,7 @@ var register = function() {
 					setLocalItem("UserName", result.UserName);
 					setLocalItem("Token", result.Token);
 					setLocalItem("UserType", result.UserType);
+					setLocalItem('DisplayName', result.DisplayName);
 					//plus.webview.close(index); //关闭首页webview
 					mui.toast("注册成功，正在返回...");
 					var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID'); //获取首页Webview对象

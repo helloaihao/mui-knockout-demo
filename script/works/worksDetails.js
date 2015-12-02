@@ -1,6 +1,6 @@
 var worksDetails = function() {
 	var self = this;
-
+	var workIsDel=false;
 	self.UserID = getLocalItem("UserID"); //当前用户UserID
 	//作品的元素绑定
 	self.Works = ko.observable({}); //作品实例
@@ -96,14 +96,14 @@ var worksDetails = function() {
 	//获取上级页面的数据
 	var workobj, workVaule;
 	mui.plusReady(function() {
-		Share.updateSerivces();
+		Share.updateSerivces();//初始化分享
 		workVaule = plus.webview.currentWebview();
 		if (workVaule) {
 			workobj = workVaule.works;
 			obj = new self.initWorksValue(workVaule.works);
 			self.Works(obj);
 			self.getVideo(obj.WorkID());
-			shareTitle="我在乐评+上分享了"+self.Works().Title()+"的视频";
+			shareTitle="我在乐评家上分享了"+self.Works().Title()+"的视频";
 		}
 		common.showCurrentWebview();
 		self.getComment();
@@ -131,10 +131,8 @@ var worksDetails = function() {
 					mui.ajax(common.gServerUrl + "Common/Work/" + self.Works().WorkID(), {
 						type: 'DELETE',
 						success: function(responseText) {
+							workIsDel=true;
 							mui.toast("删除成功");
-							var workparent = workVaule.opener(); //获取当前页面的创建者
-							console.log(workparent);
-							//workparent.evalJS("resetWorks()");
 							mui.back();
 						}
 					});
@@ -253,12 +251,18 @@ var worksDetails = function() {
 	}
 	mui.init({
 		beforeback: function() {
-			var workParent = plus.webview.currentWebview().opener();
+			var workParent = workVaule.opener();
 			if (workParent.id == 'worksListAllWorks.html') {
 				mui.fire(workParent, 'refreshwoks', {
 					LikeCount: self.Works().LikeCount(),
 					worksId: self.Works().WorkID(),
 				});
+				return true;
+			}else if(workParent.id == 'worksListMyWorks.html'){
+				mui.fire(workParent,'refreshMyworks',{
+					worksId:self.Works().WorkID(),
+					worksStatus:workIsDel
+				})
 			}
 
 		}

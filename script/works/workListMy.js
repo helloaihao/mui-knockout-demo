@@ -1,23 +1,15 @@
 var workListMy = function() {
 	var self = this;
+	
 	var authorID; //作品拥有者
-	var thisUrl = common.gServerUrl + "API/Work"; //接口url
-	var useridUrl = "?userID=";
-	var pageUrl = "&page=";
-	var subjectUrl = "&subject=";
-	var subjectClassUrl = "&subjectClass=";
-	var sortUrl = "&sortType=";
 	var sortID;
 	var page = 1;
 	var count = 0; //刷新检测值
-	var workTypeUrl = "&workType=";
-	var workTypeID;
+	var workTypeID;		//作品类型的取值（学生用户有效，老师用户则无需分类）
 	var pullupValue = 1;
 	var uploadingWorks;
 	var videoPath;
-	var contentnomore = "上拉显示更多";
-	self.workDes=ko.observable("作业");
-	self.UserType = ko.observable(getLocalItem('UserType'));
+	self.workDes = ko.observable("作业");
 	self.worksList = ko.observableArray([]);
 	self.tmplSubjects = ko.observableArray([]);
 	self.tmplSubjectClasses = ko.observableArray([]);
@@ -25,15 +17,6 @@ var workListMy = function() {
 	self.currentWorkTypes = ko.observable(0);
 	self.currentSort = ko.observable(5);
 	
-	common.gJsonWorkTypeTeacher.unshift({
-		value: 0,
-		text: "全部"
-	});
-	common.gJsonWorkTypeStudent.unshift({
-		value: 0,
-		text: "全部"
-	});
-	/*var counter = 0;*/
 	mui.init({
 		pullRefresh: {
 			container: '#pullrefreshMy',
@@ -107,28 +90,31 @@ var workListMy = function() {
 		self.LastUploadedSize = ko.observable(0);	//上一次记录时所上传的文件大小
 		self.Speed = ko.observable('0 K/s');	//上传速率*/
 	}
+	
+	self.getAjaxUrl = function(){
+		var curl = "?userID=" + authorID + "&page=" + page;
+		if (typeof self.currentSubject().id === "number") {
+			curl += "&subject=" + self.currentSubject().id;
+			curl += "&subjectClass=" + self.currentSubject().subjectClass;
+		}
+		if (typeof(sortID) === "number" && sortID > 0) {
+			curl += "&sortType=" + sortID;
+		}
+		if (typeof(workTypeID) === "number" && workTypeID > 0) {
+			curl += "&workType=" + workTypeID;
+		}
+		
+		return common.gServerUrl + "API/Work" + curl;
+	}
 
 	//加载作品
 	self.getWorks = function() {
-		if (!authorID || authorID <= 0) {
-			return;
-		}
-		var curl = useridUrl + authorID + pageUrl + 1;
-		if (typeof self.currentSubject().id === "number") {
-			curl += subjectUrl + self.currentSubject().id;
-			curl += subjectClassUrl + self.currentSubject().subjectClass;
-		}
-		if (typeof(sortID) === "number" && sortID > 0) {
-			curl += sortUrl + sortID;
-		}
-		if (typeof(workTypeID) === "number" && workTypeID > 0) {
-			curl += workTypeUrl + workTypeID;
-		}
-
-		mui.ajax(thisUrl + curl, {
+		mui.ajax(self.getAjaxUrl(), {
 			type: 'GET',
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
+				
+				self.worksList.removeAll(); //先移除所有
 				if (result && result.length > 0) {
 					result.forEach(function(item) {
 						var obj = new worksItem(item);
@@ -136,40 +122,31 @@ var workListMy = function() {
 						//console.log(obj.VideoThumbnail());
 					})
 					upload.initTasks(refreshUploadState);
+					
+					common.showCurrentWebview();
+				}
+				else{
+					common.showCurrentWebview();
 				}
 			}
 		});
 	};
+	
 	//下拉刷新
 	function pulldownRefresh() {
 		setTimeout(function() {
 			mui('#pullrefreshMy').pullRefresh().endPulldownToRefresh(); //refresh completed
-			self.worksList.removeAll(); //先移除所有
+			page = 1;					//重新加载第1页
 			self.getWorks();
 		}, 1500);
-
 	}
+	
 	//上拉加载
-
 	function pullupRefresh(pullrefreshId, worksArray) {
 		setTimeout(function() {
-			if (!authorID) {
-				return;
-			}
 			page++;
-			var curl = useridUrl + authorID + pageUrl + page;
-			if (typeof self.currentSubject().id === "number") {
-				curl += subjectUrl + self.currentSubject().id;
-				curl += subjectClassUrl + self.currentSubject().subjectClass;
-			}
-			if (typeof(sortID) === "number" && sortID > 0) {
-				curl += sortUrl + sortID;
-			}
-			if (typeof(workTypeID) === "number" && workTypeID > 0) {
-				curl += workTypeUrl + workTypeID;
-			}
 			if (plus.networkinfo.getCurrentType() > 1) {
-				mui.ajax(thisUrl + curl, {
+				mui.ajax(self.getAjaxUrl(), {
 					type: 'GET',
 					success: function(responseText) {
 						var result = eval("(" + responseText + ")");
@@ -186,11 +163,8 @@ var workListMy = function() {
 						}
 						//mui('#pullrefreshMy').pullRefresh().endPullupToRefresh((++count > 2));
 					}
-
 				});
 			}
-
-
 		}, 1500)
 	};
 	if (mui.os.plus) {
@@ -200,55 +174,14 @@ var workListMy = function() {
 			}
 		});
 	}
-	/*	//预加载详情页面
-		var worksDetails = mui.preload({
-			url: 'WorksDetails.html',
-			extras: {
-				WorkID: works.ID,
-				AuthorID: works.AuthorID
-			}
-		});*/
-
-	//选择科目
-	self.selectSubject = function(data) {
-			self.currentSubject(data);
-			//console.log(self.currentSubject().id);
-			self.worksList.removeAll(); //先移除所有
-			page = 1; //还原为显示第一页
-			count = 0; //还原刷新次数
-			mui('#pullrefreshMy').pullRefresh().refresh(true);
-			self.getWorks();
-			mui('#popSubjects').popover('toggle');
-		}
-		//作品排序
-	self.sortWorks = function(data) {
-			self.worksList.removeAll();
-			self.currentSort(data.value);
-			sortID = this.value;
-			page = 1; //还原为显示第一页
-			count = 0; //还原刷新次数
-			mui('#pullrefreshMy').pullRefresh().refresh(true);
-			self.getWorks();
-			mui('#popSort').popover('toggle');
-		}
-		//跳转到作品详情页面
+	
+	//跳转到作品详情页面
 	self.goWorksDetails = function(data) {
-			common.transfer("../works/WorksDetails.html", false, {
-				works: data.works
-			}, false, false)
-		}
-		//作品类型筛选
-	self.selectWorksType = function(data) {
-		self.worksList.removeAll();
-		self.currentWorkTypes(data.value);
-		workTypeID = this.value;
-		page = 1; //还原为显示第一页
-		count = 0; //还原刷新次数
-		mui('#pullrefreshMy').pullRefresh().refresh(true);
-		self.getWorks();
-		mui('#popType').popover('toggle');
-		//console.log(this.value);
+		common.transfer("../works/WorksDetails.html", false, {
+			works: data.works
+		}, false, false)
 	}
+	
 	mui.plusReady(function() {
 		var web = plus.webview.currentWebview();
 		if (typeof(web.teacherID) !== "undefined") {
@@ -257,31 +190,44 @@ var workListMy = function() {
 		} else {
 			authorID = getLocalItem("UserID"); //获取自己的作品
 		}
+		if (getLocalItem("workTypeID") != "undefined") {
+			workTypeID = getLocalItem("workTypeID");
+			if (workTypeID == common.gJsonWorkTypeStudent[0].value) {
+				self.workDes("作品");
+			}
+		}
+		if( getLocalItem("teacherID") != "undefined") {
+			authorID = getLocalItem("teacherID");
+		}
 		self.getWorks();
 		self.tmplSubjectClasses(common.getAllSubjectClasses());
 		self.tmplSubjects(common.getAllSubjects());
 		if (self.tmplSubjects().length > 0) {
 			self.currentSubject(self.tmplSubjects()[0]);
 		}
-		if(getLocalItem('UserType')==common.gDictUserType.teacher){
-			self.workDes("作品");
-		}
 	});
+	
 	//添加作品
 	self.gotoAddWorks = function() {
-		common.transfer('../../modules/works/addWorks.html', true);
+		//console.log(common.gJsonWorkTypeStudent[0].value);
+		common.transfer("addWorks.html",true,common.extrasUp());
 	};
-	//移除作品数组里的数组，作品详情页调用
-	self.resetWorks = function() {
-			pulldownRefresh();
+
+	/*mui.init({
+		beforeback: function() {
+			common.transfer('../../index.html');
+			return false;
 		}
-		//跳转到登录
-	self.goLogin = function() {
-		common.transfer('../../modules/account/login.html', true);
-	};
-	//退出按钮
-	mui.back = function() {
-		common.confirmQuit();
-	}
+	})*/
+	
+	window.addEventListener("refreshMyworks", function(event) {
+		if (event.detail.worksStatus) {
+			self.worksList().forEach(function(item) {
+				if (item.works.ID == event.detail.worksId) {
+					self.worksList.remove(item);
+				}
+			});
+		}
+	});
 }
 ko.applyBindings(workListMy);

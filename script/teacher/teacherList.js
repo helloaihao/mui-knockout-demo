@@ -153,6 +153,7 @@ var viewModel = function() {
 	//选择星级
 	self.selectStar = function(ss) {
 		self.currentStar(ss.value);
+		pageID = 1; //还原为显示第一页
 		self.getTeacherList();
 		mui('#popStar').popover('toggle');
 	}
@@ -160,6 +161,7 @@ var viewModel = function() {
 	//选择排序
 	self.selectSort = function(ss) {
 		self.currentSort(ss.value);
+		pageID = 1; //还原为显示第一页
 		self.getTeacherList();
 		mui('#popSort').popover('toggle');
 	}

@@ -31,5 +31,11 @@ var myAttention = function() {
 			teacherID: this.ID
 		}, false, false);
 	}
+	
+	self.gotoWorkInfo = function() {
+		common.transfer("../works/WorksDetails.html", false, {
+			works: this
+		}, false, false);
+	}
 }
 ko.applyBindings(myAttention);

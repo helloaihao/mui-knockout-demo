@@ -18,44 +18,50 @@ var moreInfo = function() {
 		//跳转到意见反馈页面
 		common.transfer('feedBack.html')
 	}
+	self.goAboutUs = function() {
+		//跳转到关于我们页面
+		common.transfer('aboutUs.html')
+	}
 	self.goRecommendFriends = function() {
 		//跳转到推荐好友页面
 		common.transfer('recommendFriends.html');
 	}
 	self.quitLogin = function() {
-			//退出登录
-			if (getLocalItem('UserID') < 0 || getLocalItem('UserID') == "") {
-				mui.toast("没有登录哦");
-			} else {
-				var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');
-				plus.webview.close(index);
-				//console.log(index);
-				removeLocalItem('UserID');
-				removeLocalItem('UserName');
-				removeLocalItem('Token');
-				removeLocalItem('UserType');
-				plus.storage.removeItem(common.getPageName() + '.SubjectName');
-				plus.storage.removeItem(common.getPageName() + '.SubjectID');
-				plus.storage.removeItem(common.getPageName() + '.WorkTypeName');
-				plus.storage.removeItem(common.getPageName() + '.WorkTypeID');
+		//退出登录
+		if (getLocalItem('UserID') < 0 || getLocalItem('UserID') == "") {
+			mui.toast("没有登录哦");
+		} else {
+			var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');
+			plus.webview.close(index);
+			//console.log(index);
+			removeLocalItem('UserID');
+			removeLocalItem('UserName');
+			removeLocalItem('Token');
+			removeLocalItem('UserType');
+			removeLocalItem('DisplayName');
+			plus.storage.removeItem(common.getPageName() + '.SubjectName');
+			plus.storage.removeItem(common.getPageName() + '.SubjectID');
+			plus.storage.removeItem(common.getPageName() + '.WorkTypeName');
+			plus.storage.removeItem(common.getPageName() + '.WorkTypeID');
+			plus.storage.removeItem(common.getPageName() + '.DisplayName');
 
-				mui.toast("注销成功");
-				mui.openWindow({
-					id: 'indexID',
-					url: "../../index.html",
-					show: {
-						autoShow: true,
-						aniShow: "slide-in-right",
-						duration: "100ms"
-					},
-					waiting: {
-						autoShow: false
-					},
-					createNew: true
-				});
-			}
+			mui.toast("注销成功, 正在返回...");
+			mui.openWindow({
+				id: 'indexID',
+				url: "../../index.html",
+				show: {
+					autoShow: false,
+					aniShow: "slide-in-right",
+					duration: "100ms"
+				},
+				waiting: {
+					autoShow: true
+				},
+				createNew: true
+			});
 		}
-		
+	}
+
 	//获取验证码
 	self.getVerifyCode = function() {
 		//获取验证码
@@ -82,42 +88,43 @@ var moreInfo = function() {
 		}
 	}
 
+	//保存密码
 	self.saveNewPassword = function() {
-			//保存密码
-			if (self.VerifyCode() == "") {
-				mui.toast('验证码不能为空');
-				return;
-			}
-			if (self.Password() == "") {
-				mui.toast('原密码不能为空');
-				return;
-			}
-			if (self.newPassword() == "") {
-				mui.toast('新密码不能为空');
-				return;
-			}
-			if (self.newPassword() != self.ConPassword()) {
-				mui.toast('请输入一致密码');
-				return;
-			}
-			mui.ajax(common.gServerUrl + "Common/Account/SetPassword", {
-				type: 'POST',
-				data: {
-					ID: self.UserID,
-					Password: self.Password(),
-					NewPassword: self.newPassword(),
-					VerifyCode: self.VerifyCode()
-				},
-				success: function(responseText) {
-					mui.toast("修改成功，正在返回...");
-					common.transfer('moreInfo.html');
-				}
-			});
+		if (self.VerifyCode() == "") {
+			mui.toast('验证码不能为空');
+			return;
 		}
-		/*意见反馈js
-		 */
+		if (self.Password() == "") {
+			mui.toast('原密码不能为空');
+			return;
+		}
+		if (self.newPassword() == "") {
+			mui.toast('新密码不能为空');
+			return;
+		}
+		if (self.newPassword() != self.ConPassword()) {
+			mui.toast('请输入一致密码');
+			return;
+		}
+		mui.ajax(common.gServerUrl + "Common/Account/SetPassword", {
+			type: 'POST',
+			data: {
+				ID: UserID,
+				Password: self.Password(),
+				NewPassword: self.newPassword(),
+				VerifyCode: self.VerifyCode()
+			},
+			success: function(responseText) {
+				var result = eval("(" + responseText + ")");
+				setLocalItem("Token", result.Token);
+				mui.toast("修改成功");
+				common.transfer('moreInfo.html');
+			}
+		});
+	}
+
+	//意见反馈
 	self.feedBackSub = function() {
-		//意见提交
 		if (self.feedBackText() == "") {
 			mui.toast("请您先写下对我们的宝贵建议~~");
 		} else {

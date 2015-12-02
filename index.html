@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title>乐评+</title>
+		<title>乐评家</title>
 		<link href="content/mui/mui.min.css" rel="stylesheet" />
 		<link href="content/fonts/iconfont.css" rel="stylesheet" />
 		<link href="content/common/global.css" rel="stylesheet" />
@@ -13,7 +13,7 @@
 
 	<body>
 		<!--<header class="mui-bar mui-bar-nav">
-			<h1 id="title" class="mui-title">乐评+</h1>
+			<h1 id="title" class="mui-title">乐评家</h1>
 			<em class="iconfont" data-bind="click:goMessageList">&#xe628;</em><span class="mui-badge mui-badge-warning" data-bind="text: UnreadCount, visible: UnreadCount() > 0"></span>
 		</header>--> 
 		<nav class="mui-bar mui-bar-tab">
@@ -21,19 +21,19 @@
 				<span class="mui-icon iconfont">&#xe627;</span>
 				<span class="mui-tab-label">首页</span>
 			</a>
-			<a id="Tab2" class="mui-tab-item" href="modules/comment/commentListHeader.html">
+			<!--<a id="Tab2" class="mui-tab-item" href="modules/comment/commentListHeader.html">
 				<span class="mui-icon iconfont">&#xe62d;</span>
 				<span class="mui-tab-label">点评</span>
-			</a>
-			<a id="Tab3" class="mui-tab-item" href="modules/course/myCourse.html">
+			</a>-->
+			<a id="Tab2" class="mui-tab-item" href="modules/course/myCourse.html">
 				<span class="mui-icon iconfont">&#xe641;</span>
 				<span class="mui-tab-label">课程</span>
 			</a>
-			<a id="Tab4" class="mui-tab-item" data-bind="attr: {'href': self.worksList}">
+			<a id="Tab3" class="mui-tab-item" href="modules/works/workIndex.html">
 				<span class="mui-icon iconfont">&#xe646;</span>
 				<span class="mui-tab-label" data-bind="text:worksText"></span>
 			</a>
-			<a id="Tab5" class="mui-tab-item" data-bind="attr: {'href': MyHref}">
+			<a id="Tab4" class="mui-tab-item" data-bind="attr: {'href': MyHref}">
 				<span class="mui-icon iconfont">&#xe60b;</span>
 				<span class="mui-tab-label">我</span>
 			</a>
@@ -47,15 +47,14 @@
 		<script type="text/javascript" charset="utf-8">
 			 //mui初始化
 			mui.init();
-			 //var subpages = [self.MyHref()];
-			var subpages = ['modules/home/home.html','modules/comment/commentListHeader.html',  'modules/course/myCourse.html', self.worksList(), self.MyHref()];
+			//var subpages = ['modules/home/home.html','modules/comment/commentListHeader.html',  'modules/course/myCourse.html', "modules/works/workIndex.html", self.MyHref()];
+			var subpages = ['modules/home/home.html', 'modules/course/myCourse.html', "modules/works/workIndex.html", self.MyHref()];
 			var subpage_style = {
 				top: '0px',
 				bottom: '50px'
 			};
 			var aniShow = {};
 			var dfPage = 0;
-
 			 //创建子页面，首个选项卡页面显示，其它均隐藏；
 			mui.plusReady(function() {
 				var web = plus.webview.currentWebview();
@@ -72,7 +71,6 @@
 					if (i == dfPage) {
 						temp[subpages[i]] = "true";
 						mui.extend(aniShow, temp);
-						
 					} else {
 						sub.hide();
 					}
@@ -81,8 +79,6 @@
 				var defaultTab = document.getElementById("Tab"+(dfPage+1));
 				defaultTab.classList.add('mui-active');
 			});
-			
-
 			
 			 //当前激活选项
 			var activeTab = subpages[dfPage];

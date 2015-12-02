@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title>乐评+</title>
+		<title>乐评家</title>
 		<link href="../../content/mui/mui.css" rel="stylesheet" />
 		<link href="../../content/common/style.css" rel="stylesheet" />
 		<link href="../../content/common/global.css" rel="stylesheet" />
@@ -38,12 +38,12 @@
 		</header>
 		<div class="mui-content">
 			<div class="card-bg">
-				<form class="mui-input-group" data-bind="template:{name:'manageRegTemplate',foreach:manageRegList}">
+				<form class="mui-input-group" data-bind="template:{name:'regTemplate',foreach: dispList}">
 				</form>
-				<script type="text/html" id="manageRegTemplate">
+				<script type="text/html" id="regTemplate">
 					<div class="mui-input-row mui-checkbox mui-left card-row">
 						<div class="card-right">
-							<img data-bind="attr:{'src':common.getPhotoUrl(Photo)}" />
+							<img data-bind="attr:{'src':common.getPhotoUrl(Photo)}"  onerror="this.src='../../images/my-default.png';"/>
 							<div class="card-row-right">
 								<span data-bind="text:DisplayName"></span><u>(<!--ko text:common.gJsonGenderType[Gender].text--><!--/ko-->)</u>
 								<u class="u-font-right" data-bind="text:TheAge"></u>
@@ -53,7 +53,7 @@
 							</div>
 						</div>
 						<div class="card-row-left">
-							<input name="checkbox" value="Item 1" type="checkbox">
+							<input name="checkbox" type="checkbox" data-bind="value: ID, checked: Checked">
 						</div>
 					</div>
 					<div class="pin-blank"></div>
@@ -64,7 +64,7 @@
 				<!--<a class="ah-mui-tab-item mui-active works-list-mui-tab-label" href="#tabbar"></a>-->
 				<div class="mui-input-row mui-checkbox mui-left select-all">
 					<label>全选</label>
-					<input name="checkbox" value="Item 1" type="checkbox" id="checkId">
+					<input name="checkbox" value="all" type="checkbox" id="checkId" data-bind="event:{tap: checkAll}">
 				</div>
 				<a class="ah-mui-tab-item works-list-mui-tab-btn" data-bind="event:{tap:ensure}">
 					<span class="mui-tab-label works-list-mui-btn">确定</span>
@@ -75,7 +75,7 @@
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../../script/teacher/managementRegistration.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/course/registeredList.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 
 </html>

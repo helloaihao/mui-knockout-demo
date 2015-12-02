@@ -13,7 +13,7 @@ var authProTitle = function() {
 			var teacherAuth = plus.webview.currentWebview().opener();
 			//console.log(self.AuthProStatus());
 			mui.fire(teacherAuth,'refreshPro',{
-				ProAuthStatus:self.AuthProStatus()
+				ProAuth:self.Auth()
 			});
 			return true;
 		}
@@ -116,7 +116,6 @@ var authProTitle = function() {
 			success: function(responseText) {
 				var auth = JSON.parse(responseText);
 				if (auth && auth.AuthType) {
-					console.log(auth.PicPath);
 					self.Auth(auth);
 					self.Path(common.getPhotoUrl(auth.PicPath));
 					self.AuthProStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));

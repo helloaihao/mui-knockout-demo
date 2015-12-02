@@ -21,8 +21,10 @@ var login = function() {
 				},
 				success: function(responseText) {
 					var result = responseText;
+					//console.log(JSON.stringify(result));
 					setLocalItem("UserID", result.UserID);
 					setLocalItem("UserName", result.UserName);
+					setLocalItem("DisplayName", result.DisplayName);
 					setLocalItem("Token", result.Token);
 					setLocalItem("UserType", result.UserType);
 					var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');
@@ -32,12 +34,12 @@ var login = function() {
 							id: 'indexID',
 							url: "../../index.html",
 							show: {
-								autoShow: true,
+								autoShow: false,
 								aniShow: "slide-in-right",
 								duration: "100ms"
 							},
 							waiting: {
-								autoShow: false
+								autoShow: true
 							},
 							createNew: true
 						})

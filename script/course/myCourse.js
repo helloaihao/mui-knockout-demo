@@ -120,13 +120,16 @@ var myCourse = function() {
 			paraCourseid = self.FilteredCourseID();
 		var ajaxUrl = common.gServerUrl + 'API/Lesson/GetLessons?userid=' + getLocalItem('UserID')
 			+ '&weekindex=' + self.WeekIndex() + '&courseid='+paraCourseid;
-		//plus.nativeUI.showWaiting();
+		plus.nativeUI.showWaiting();
 		mui.ajax(ajaxUrl, {
 			type: 'GET',
 			success: function(responseText) {
 				var lessons = JSON.parse(responseText);
 				self.Lessons(lessons);
-				//plus.nativeUI.closeWaiting();
+				plus.nativeUI.closeWaiting();
+			},
+			error: function(responseText){
+				plus.nativeUI.closeWaiting();
 			}
 		})
 	}
@@ -266,6 +269,11 @@ var myCourse = function() {
 	};
 	
 	//点击课程列表
+	self.gotoAddCourses = function() {
+		common.transfer('addCourse.html', true);
+	};
+	
+	//点击课程过滤
 	self.filterCourses = function(data) {
 		if(self.FilteredCourseID() != data.ID){
 			self.FilteredCourseID(data.ID);
@@ -309,7 +317,8 @@ var myCourse = function() {
 				else{
 					var endtime = newDate(value.EndTime);
 					if(endtime < new Date()){
-						element.className = 'overtime';
+						//element.className = 'overtime';
+						element.className = 'finishedtime';
 					}
 				}
 				if(value.FeedbackStatus == common.gDictLessonFeedbackStatus.Handling){

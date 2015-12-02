@@ -118,12 +118,9 @@ var viewModel = function() {
 				if(ret.requestJson == ''){		//无需网上支付，预约点评成功
 					mui.toast("已成功提交");
 					//跳转至点评（暂时未打开）
-					/*common.transfer("../../modules/comment/commentListHeader.html", true, {
-						comment: comment
-					});*/
 					var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');	//获取首页Webview对象
 					plus.webview.close(index);	//关闭首页
-					common.transfer('../../index.html', true, {page: 1}, true);
+					common.transfer('../../index.html', true, {page: 2}, true);
 					plus.nativeUI.closeWaiting();
 				}
 				else{
@@ -142,7 +139,7 @@ var viewModel = function() {
 								});*/
 								var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');	//获取首页Webview对象
 								plus.webview.close(index);	//关闭首页
-								common.transfer('../../index.html', true, {page: 1}, true);
+								common.transfer('../../index.html', true, {page: 2}, true);
 								plus.nativeUI.closeWaiting();
 							}
 						})

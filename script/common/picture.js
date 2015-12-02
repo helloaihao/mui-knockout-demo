@@ -233,7 +233,7 @@ picture.ZoomImageToBase64 = function(clip) {
 		}
 		plus.zip.compressImage(option,
 			function() {
-				console.log("Zoom success!");
+				//console.log("Zoom success!");
 				
 				item.FinishZoom = true;
 				counter++;
@@ -263,7 +263,7 @@ picture.ConvertToBase64 = function() {
 						entry.file(function(file) {
 								reader = new plus.io.FileReader();
 								reader.onloadend = function(e) {
-									console.log("Read success");
+									//console.log("Read success");
 
 									item.FinishConvert = true;
 									item.Base64 = e.target.result;	//返回后，显示及上传，均依赖于base64

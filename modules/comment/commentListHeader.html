@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title>乐评+</title>
+		<title>乐评家</title>
 		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
 		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
 		<link href="../../content/common/global.css" rel="stylesheet" />
@@ -17,6 +17,7 @@
 				height: 100%;
 				padding: 0 30%;
 			}
+			
 			.mui-bar-nav ~ .mui-content .mui-pull-top-pocket {
 				top: 78px !important;
 			}
@@ -25,9 +26,9 @@
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<!--<i class="font-size" data-bind="click:goMessageList">新增</i>-->
-			<h1 id="title" class="mui-title">点评</h1>
-			<em class="iconfont" data-bind="click: goWorksList" >&#xe621;</em>
+			<i class="iconfont mui-action-back">&#xe602;</i>
+			<h1 id="title" class="mui-title" data-bind="text: pageTitle">我的点评</h1>
+			<!--<em class="iconfont" data-bind="click: goWorksList" >&#xe621;</em>-->
 		</header>
 		<div class="mui-content">
 			<div class="commentList-select">
@@ -50,16 +51,7 @@
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			mui.init({
-				subpages: [{
-					url: 'commentList.html',
-					id: 'commentListID',
-					styles: {
-						top: '84px',
-						bottom: '0px'
-					}
-				}]
-			});
+			mui.init();
 			var contentWebview = null;
 			document.querySelector('#select1').addEventListener('tap', function() {
 				if (contentWebview == null) {
@@ -75,6 +67,7 @@
 			});
 			var CommentListHeader = function() {
 				var self = this;
+				self.pageTitle = ko.observable("我的点评");
 				self.UnreadCount = ko.observable("0");
 				//跳转至消息页面
 				self.goMessageList = function() {
@@ -89,6 +82,22 @@
 						displayCheck: true
 					});
 				}
+				mui.plusReady(function() {
+					var workIndex = plus.webview.currentWebview();
+					var pageComment = mui.preload({
+						url: 'commentList.html',
+						id: 'commentListID',
+						styles: {
+							top: '84px',
+							bottom: '0px'
+						}
+					});
+					workIndex.append(pageComment);
+					var workType = getLocalItem('comment.workType');
+					if (typeof workType != "undefined" && workType == common.gJsonWorkTypeStudent[1].value) {
+						self.pageTitle('学生作业');
+					}
+				})
 			}
 			ko.applyBindings(CommentListHeader);
 		</script>

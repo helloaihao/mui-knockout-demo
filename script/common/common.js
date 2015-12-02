@@ -60,6 +60,7 @@
 		//console.log(autoShowWhileShow);
 		mui.openWindow({
 			url: tmpUrl,
+			id: tmpUrl,
 			extras: extras,
 			createNew: createNew,
 			show: {
@@ -77,14 +78,18 @@
 		mui.plusReady(function() {
 			plus.nativeUI.closeWaiting();
 			var ws = plus.webview.currentWebview();
-			ws.show();
+			if(ws.parent())
+				ws.parent().show();
+			else
+				ws.show();
 		});
 	},
 
 	confirmQuit: function() {
 		var btnArray = ['确认', '取消'];
-		mui.confirm('确认退出乐评+？', '退出提示', btnArray, function(e) {
+		mui.confirm('确认退出乐评家？', '退出提示', btnArray, function(e) {
 			if (e.index == 0) {
+				removeLocalItem("workTypeID");
 				plus.runtime.quit();
 			}
 		});
@@ -107,8 +112,11 @@
 	},
 
 	//根据QueryString参数名称获取值
-	getQueryStringByName: function(name) {
-		var result = location.search.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
+	getQueryStringByName: function(name, url) {
+		if(url == 'undefined'){
+			url = location.search;
+		}
+		var result = url.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
 
 		if (result == null || result.length < 1) {
 			return "";
@@ -173,7 +181,7 @@
 	},
 
 	//初始化科目及类别的下拉数据源
-		initSubjectsTemplate: function() {
+	initSubjectsTemplate: function() {
 		var allSubjectStr = getLocalItem(common.gVarLocalAllSubjectsStr);
 		if (common.StrIsNull(allSubjectStr) == '') return; //若未取值，则无需初始化
 
@@ -367,6 +375,25 @@
 			}
 		});
 	},
+	//传递作品参数的方法
+	extrasUp: function(item) {
+		var upExtras;
+		if (common.gDictUserType.teacher == getLocalItem("UserType")) {
+			upExtras = {
+				workTypeID: 0,	//老师，无需作品类型传递
+				workTitle: item == 0 ? '我的作品' : '学生作业'
+			}
+		} else {
+			var userTypeDes = common.gJsonWorkTypeStudent; //默认设置为学生作品类型
+			if (item < userTypeDes.length) {
+				upExtras = {
+					workTypeID: userTypeDes[item].value,
+					workTitle: item == 0 ? '我的作品' : '我的作业'
+				}
+			}
+		}
+		return upExtras;
+	},
 
 	/**
 	 * 根据图片名获取其图片
@@ -394,9 +421,9 @@
 	},
 
 	//Web API地址
-	gServerUrl: "http://cloud.linkeol.com/", //"http://cloud.linkeol.com/", //"http://192.168.1.66:8090/", ////"http://172.16.30.90:8090/",
+	gServerUrl: "http://172.16.30.90:8090/", //"http://cloud.linkeol.com/", ////"http://172.16.30.90:8090/",
 	//Video地址
-	gVideoServerUrl: "http://video.linkeol.com/", //"http://video.linkeol.com/", //"http://192.168.1.66:8099/", ////"http://172.16.30.90:8099/",
+	gVideoServerUrl: "http://172.16.30.90:8099/", //"http://video.linkeol.com/", ////"http://172.16.30.90:8099/",
 
 	gVarWaitingSeconds: 60, //默认等待验证秒数
 	//用户类型枚举
@@ -462,8 +489,13 @@
 	},
 	//课程类型
 	gDictCourseType: {
-		One2One: 1, //一对一
-		One2More: 2 //大班（一对多）
+		One2One: 1, //可约课程
+		One2More: 2 //已有课程
+	},
+	//作品来源类型
+	gDictWorkSourceType: {
+		Teacher: 1,	//老师
+		Activity: 2	//活动
 	},
 	//是否类型JSON
 	gJsonYesorNoType: [{
@@ -584,10 +616,10 @@
 	//课程类型
 	gJsonCourseType: [{
 		value: 1,
-		text: '一对一课程'
+		text: '可约课程'
 	}, {
 		value: 2,
-		text: '大班课程'
+		text: '已有课程'
 	}],
 	gAuthImgage: [{
 		value: 0,

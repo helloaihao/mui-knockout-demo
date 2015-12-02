@@ -6,54 +6,77 @@ var my_student = function() {
 	self.FavCount = ko.observable(0);
 	self.UserID = ko.observable(getLocalItem('UserID'));
 	self.UserType = ko.observable(getLocalItem('UserType'));
-	
-	self.goMyUserAttented = function() {
-		common.transfer('myAttended.html', true, {},true);
+
+	self.goMyUserAttented = function() { //关注
+		common.transfer('myAttended.html', true, {}, true);
 	}
-	self.goMyinfo = function() {
-		common.transfer('myInfo.html',true,{},true, false);
+	self.goMyinfo = function() { //个人详细信息
+		common.transfer('myInfo.html', true, {}, true, false);
 	}
-	self.goMoreInfo=function(){
-		common.transfer('moreInfo.html',true,{},true);
+	self.goMoreInfo = function() { //更多
+		common.transfer('moreInfo.html', true, {}, true);
 	}
-	self.goMyOrders = function(){
+	self.goMyOrders = function() { //订单
 		common.transfer('myOrders.html', true);
 	}
-	self.goMessageList = function(){
+	self.goMessageList = function() { //消息
 		common.transfer('messageList.html', true);
 	}
-	self.goMyAttention = function(){
+	self.goMyAttention = function() { //收藏
 		common.transfer('myAttention.html', true);
 	}
-	self.goHelp = function(){
-		mui.toast("点击了帮助");
+	self.goHelp = function() { //帮助
+		common.transfer('../my/help.html', false);
 	}
-
-	if (self.UserID() > 0) {
-		self.getStudent = function() {
-			var ajaxUrl = common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID() + "&usertype=" + self.UserType();
-			
-			//console.log(ajaxUrl);
-			mui.ajax(ajaxUrl, {
-				dataType: 'json',
-				type: 'GET',
-				success: function(responseText) {
-					//console.log(responseText);
-					self.ID(responseText.ID);
-					self.DisplayName(responseText.DisplayName);
-					if (responseText.Photo)
-						self.Photo(common.getPhotoUrl(responseText.Photo));
-					self.FavCount(responseText.FavCount);
-					//self.UserID(responseText.UserID);
-				}
-			})
-		}();
+	self.qrcodeEvent = function() {
+		common.transfer("qrcode.html", false);
 	}
-	window.addEventListener('refreshAttend',function(event){
-		self.FavCount(event.detail.myAttendNum);
+	self.getStudent = function() { //获取资料
+		var ajaxUrl = common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID() + "&usertype=" + self.UserType();
+		mui.ajax(ajaxUrl, {
+			dataType: 'json',
+			type: 'GET',
+			success: function(responseText) {
+				//console.log(responseText);
+				self.ID(responseText.ID);
+				self.DisplayName(responseText.DisplayName);
+				if (responseText.Photo)
+					self.Photo(common.getPhotoUrl(responseText.Photo));
+				self.FavCount(responseText.FavCount);
+				//self.UserID(responseText.UserID);
+			}
+		})
+	};
+	mui.plusReady(function() {
+		if (self.UserID() > 0) {
+			self.getStudent();
+		}
+	});
+	window.addEventListener('refreshMyinfo', function(event) {
+		if (event.detail.userScore != "") {
+			self.Score(event.detail.userScore);
+		}
+		if (event.detail.displayName != "") {
+			self.DisplayName(event.detail.displayName);
+		}
+		if (event.detail.imgPath != "") {
+			self.Photo(event.detail.imgPath);
+		}
 	});
 	mui.back = function() {
-		common.confirmQuit();
+		var qrp = document.getElementById("qrcodePopover");
+		if (qrp.className.indexOf("mui-active") > 0) {
+			mui('#qrcodePopover').popover('toggle');
+		} else {
+			common.confirmQuit();
+		}
+		
 	}
 }
 ko.applyBindings(my_student);
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+	width: 200, //设置宽高
+	height: 200
+});
+
+qrcode.makeCode('http://www.linkeol.com/modules/student/studentInfo.html?id=' + self.UserID());

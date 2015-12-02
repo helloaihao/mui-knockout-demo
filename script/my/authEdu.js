@@ -10,7 +10,7 @@ var authEdu = function() {
 		beforeback: function() {
 			var teacherAuth = plus.webview.currentWebview().opener();
 			mui.fire(teacherAuth, 'refreshEdu', {
-				EduAuthStatus: self.AuthEduStatus()
+				EduAuth: self.Auth()
 			});
 			return true;
 		}
@@ -20,7 +20,6 @@ var authEdu = function() {
 		var web = plus.webview.currentWebview();
 		if (typeof(web.data) !== "undefined") {
 			var auth = web.data;
-
 			if (auth && auth.AuthType) {
 				self.Auth(auth);
 				self.Path(common.getPhotoUrl(auth.PicPath));

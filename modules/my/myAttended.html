@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title>乐评+</title>
+		<title>乐评家</title>
 		<link href="../../content/mui/mui.css" rel="stylesheet" />
 		<link href="../../content/common/style.css" rel="stylesheet" />
 		<link href="../../content/common/global.css" rel="stylesheet" />
@@ -36,6 +36,12 @@
 			<h1 class="mui-title">关注者列表</h1>
 		</header>
 		<div class="mui-content">
+			<div class="openedCourses-ys" data-bind="visible:AttentionList().length<=0">
+				<i>
+				<img src="../../images/logo-pic.png" />
+			</i>
+				<span data-bind="visible:AttentionList().length<=0">还没有人关注你呢~~</span>
+			</div>
 			<div class="card-bg">
 				<form class="mui-input-group" data-bind="template:{name:'attentionTemplate',foreach:AttentionList}">
 				</form>
@@ -45,10 +51,10 @@
 		<script type="text/html" id="attentionTemplate">
 			<div class="card-row">
 				<div class="card-right card-width">
-					<img data-bind="attr:{'src':common.getPhotoUrl(Photo)}" onerror="this.src='../../images/my-default.png';"/>
+					<img data-bind="attr:{'src':common.getPhotoUrl(Photo)}" onerror="this.src='../../images/my-default.png';" />
 					<div class="card-row-right">
 						<span data-bind="text:DisplayName"></span><u>(<!--ko text:common.gJsonGenderType[Gender].text--><!--/ko-->)</u>
-						<u class="u-font-right" data-bind='text: UserType == common.gDictUserType.teacher ? TeachAge + " 年教龄 " : TheAge'></u>
+						<!--<u class="u-font-right" data-bind='text: UserType == common.gDictUserType.teacher ? TeachAge + " 年教龄 " : TheAge'></u>-->
 					</div>
 					<div class="card-row-right card-row-dow">
 						<u data-bind="text:Province + City + District"></u>

@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title>乐评+</title>
+		<title>乐评家</title>
 		<link href="../../content/mui/mui.css" rel="stylesheet" />
 		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
 		<link href="../../content/common/global.css" rel="stylesheet" />
@@ -14,33 +14,44 @@
 			.mui-content {
 				background: #f1f1f1!important;
 			}
+			
 			.mui-control-item {
 				color: #666!important;
 				border-right: 1px solid #C8C7CC!important;
 			}
+			
 			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
 				color: #036FB8!important;
 			}
+			
 			.mui-segmented-control.mui-segmented-control-inverted ~ .mui-slider-progress-bar {
 				background: none!important;
 			}
+			
 			.mui-slider .mui-segmented-control.mui-segmented-control-inverted ~ .mui-slider-group .mui-slider-item {
 				border-bottom: none!important;
 				border-top: none!important;
 			}
+			
 			.mui-segmented-control.mui-segmented-control-inverted {
 				border-bottom: 1px solid #C8C7CC!important;
 			}
+			
 			.mui-control-content {
 				min-height: 350px;
 				overflow: hidden;
 			}
+			.mui-table-view-cell{
+				padding: 12px 15px;
+			}
 			.mui-control-content .mui-loading {
 				margin-top: 50px;
 			}
+			
 			.mui-active {
 				color: #666!important;
 			}
+			
 			.mui-slider .mui-slider-group .mui-slider-item .mui-table-view:before,
 			.mui-slider .mui-slider-group .mui-slider-item .mui-table-view:after {
 				height: 1px!important;
@@ -80,6 +91,7 @@
 							<div class="mui-scroll" data-bind="template: {name:'orderTemplate', foreach: OrdersNotPay }">
 
 							</div>
+							
 							<!--明细模板页-->
 							<script type="text/html" id="orderTemplate">
 								<ul class="mui-table-view" data-bind="click: goDetail($data)">
@@ -88,6 +100,12 @@
 										<span data-bind='text: TargetName'></span>
 										<span data-bind='text: OrderTime.split(" ")[0]'></span>
 										<span data-bind='text: "￥" + Amount'></span>
+										<span>评分：4.0</span>
+										<div class="mui-content-padded myAccount-sure">
+										<a href="#middlePopover" class="mui-btn mui-btn-warning mui-btn-outlined">
+												确认完成
+										</a>
+									</div>
 									</li>
 								</ul>
 							</script>
@@ -117,6 +135,7 @@
 						</div>
 
 					</div>
+
 				</div>
 			</div>
 			<nav class="mui-bar mui-bar-tab">
@@ -126,16 +145,25 @@
                 	</span>
 				</a>
 			</nav>
-		</div>
+			<div id="middlePopover" class="mui-popover myOrders-pop">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell myOrders-t"><a href="#">评分：<i class="star5-hui"></i></a>
+						</li>
+					</ul>
+					<div class="myOrders-wc">完成</div>
+				</div>
+		
 		<script src="../../script/mui/mui.js"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/my/myOrders.js" type="text/javascript" charset="utf-8"></script>
 		<script>
-			mui.init({
-				swipeBack: false
-			});
+			< script >
+				mui.init({
+					swipeBack: false
+				});
 			(function($) {
 				$('.mui-scroll-wrapper').scroll({
 					indicators: true //是否显示滚动条

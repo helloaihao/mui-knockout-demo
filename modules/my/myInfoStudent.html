@@ -3,7 +3,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title>乐评+</title>
+		<title>乐评家</title>
 		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
 		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
 		<link href="../../content/common/global.css" rel="stylesheet" />
@@ -23,17 +23,43 @@
 			.p-footer-btn ul li{
 				line-height:3.1rem!important;
 			}
+			
+			#qrcode img {
+				margin: 10px;
+				margin-top: 5px;
+			}
+			
+			#photo {
+				height: 50px;
+				width: 50px;
+				top: 80px;
+				left: 90px;
+				position: absolute;
+			}
+			
+			.mui-popover {
+				min-height: 220px;
+				width: 220px;
+				top: 50%!important;
+				left: 50%!important;
+				margin-left: -110px;
+				margin-top: -110px;
+			}
 		</style>
 	</head>
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<h1 id="title" class="mui-title">个人信息</h1>
+			<em class="iconfont shao-teacher" data-bind="click:qrcodeEvent">&#xe656;</em>
 		</header>
 		<div class="p-header-div">
 			<div class="photo" data-bind="click: goMyinfo">
 				<img data-bind="attr: {'src': Photo}" />
 			</div>
-			<span data-bind="text: DisplayName"></span>
+			<span>
+				<!--ko text: DisplayName--><!--/ko-->
+				<a href="#qrcodePopover" data-bind="visible: ID() > 0"><i class="iconfont">&#xe658;</i></a>
+			</span>
 			<div class="p-footer-btn">
 				<ul data-bind="visible: typeof(ID())==='Number'||ID() > 0 ">
 					<!--<li>
@@ -47,6 +73,15 @@
 						</button>
 					</li>				
 				</ul>
+			</div>
+		</div>
+		
+		<div id="qrcodePopover" class="mui-popover">
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<div id="qrcode"></div>
+					<img id="photo" data-bind="attr: {'src': Photo}" />
+				</div>
 			</div>
 		</div>
 
@@ -95,7 +130,9 @@
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/qrcode.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/my/myInfoStudent.js" type="text/javascript" charset="utf-8"></script>
+		
 	</body>
 
 </html>

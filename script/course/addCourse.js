@@ -13,7 +13,7 @@ var viewModel = function() {
 	self.course = ko.observable({ //当前新增或者修改的课程实例
 		ID: ko.observable(0),
 		CourseName: ko.observable(''),
-		CourseType: ko.observable(1),
+		CourseType: ko.observable(common.gDictCourseType.One2More),
 		CourseTypeName: ko.observable(common.getTextByValue(common.gJsonCourseType, common.gDictCourseType.One2One)),
 		SubjectID: ko.observable(0),
 		SubjectName: ko.observable(''),
@@ -23,9 +23,8 @@ var viewModel = function() {
 		LessonCount: ko.observable(null),
 		Introduce: ko.observable(''),
 		ClasstimeJson: ko.observable(''),
-		MaxStudent: ko.observable(null),
-		Locations: Locations,
-		SubjectName: ko.observable(null)
+		MaxStudent: ko.observable(1),
+		Locations: Locations
 	});
 
 	//=====上课时间设定begin=====
@@ -155,10 +154,10 @@ var viewModel = function() {
 
 	//关闭选择课时弹窗
 	self.closePopChooseTime = function() {
-			mui('#popChooseTime').popover('hide');
-		}
-		//=====上课时间设定end=====
+		mui('#popChooseTime').popover('hide');
+	}
 
+	//=====上课时间设定end=====
 	mui.plusReady(function() {
 		ppSubject = new mui.PopPicker({
 			layer: 2
@@ -210,9 +209,14 @@ var viewModel = function() {
 					})
 				})
 			}
-
-			common.showCurrentWebview();
 		}
+
+		if(self.course().SubjectID() <= 0){
+			self.course().SubjectID(getLocalItem('addCourse.SubjectID'));
+			self.course().SubjectName(getLocalItem('addCourse.SubjectName'));
+		}
+
+		common.showCurrentWebview();
 	});
 
 	var isNum = function(s) {
@@ -263,6 +267,8 @@ var viewModel = function() {
 		ppSubject.show(function(items) {
 			self.course().SubjectName(items[1].text);
 			self.course().SubjectID(items[1].value);
+			setLocalItem('addCourse.SubjectName', items[1].text);
+			setLocalItem('addCourse.SubjectID', items[1].value);
 		});
 	};
 
@@ -301,10 +307,10 @@ var viewModel = function() {
 		}
 		//console.log(self.course().CourseType());
 		//判断是否有课程名称
-		if (self.course().CourseType() <= 0) {
-			mui.toast('请选择课程类型');
-			return;
-		}
+//		if (self.course().CourseType() <= 0) {
+//			mui.toast('请选择课程类型');
+//			return;
+//		}
 		//判断是否已选科目
 		if (self.course().SubjectID() <= 0) {
 			mui.toast('请选择所属科目');
@@ -344,19 +350,20 @@ var viewModel = function() {
 			mui.toast('请选择上课时间');
 			return;
 		}
-
 		var type = 'POST';
 		var ajaxUrl = common.gServerUrl + "API/Course?locationJson=";
 		if (self.course().ID() > 0) { //此时为修改
 			type = 'PUT';
 			ajaxUrl = common.gServerUrl + "API/Course?id=" + self.course().ID() + "&locationJson=";
 		}
+		
 		mui.ajax(ajaxUrl + encodeURI(json), {
 			type: type,
 			data: {
 				UserID: getLocalItem("UserID"),
 				CourseName: self.course().CourseName(),
-				CourseType: self.course().CourseType(),
+				//CourseType: self.course().CourseType(),
+				CourseType: common.gDictCourseType.One2More,
 				BeginTime: self.course().BeginTime(),
 				LessonCount: self.course().LessonCount(),
 				Introduce: self.course().Introduce(),
@@ -369,10 +376,11 @@ var viewModel = function() {
 				IsEnabled: true
 			},
 			success: function(responseText) {
-				courseNew=eval("(" + responseText + ")");
+				if(responseText){
+					courseNew = eval("(" + responseText + ")");
+				}
 				mui.toast("保存成功");
 				mui.back();
-				//ToDo：此处应该跳转至开设课程列表，并刷新列表
 			}
 		});
 	};
@@ -395,7 +403,7 @@ var viewModel = function() {
 					ClasstimeJson: JSON.stringify(self.Classtimes())
 				});
 				return true;
-			} else {
+			} else {//新增课程参数
 				mui.fire(myCourses, 'refreshCourseList', {
 					course: courseNew
 				});

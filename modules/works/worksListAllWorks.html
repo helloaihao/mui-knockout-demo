@@ -4,18 +4,13 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title>乐评+</title>
+		<title>乐评家</title>
 		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
 		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
 		<link href="../../content/common/global.css" rel="stylesheet" />
 		<link href="../../content/common/style.css" rel="stylesheet" />
 		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
 		<style type="text/css">
-			/*跨webview需要手动指定位置*/
-			/*header.mui-bar {
-				display: none!important;
-			}*/
-			
 			.mui-input-group:after,
 			.mui-input-group:before,
 			.mui-input-group {
@@ -35,36 +30,34 @@
 	</head>
 
 	<body style="background:#f1f1f1;">
-		<div id="pullrefreshAll" class="mui-content mui-scroll-wrapper">
-			<div class="mui-scroll">
-				<!--数据列表-->
-				<ul class="mui-input-group">
-					<div data-bind="template:{name:'worksTemplate', foreach:works}">
-					</div>
-				</ul>
-			</div>
-		</div>
-		<!--作品模板页-->
-		<script type="text/html" id="worksTemplate">
-			<div id="gowork" class="mui-input-group works-list-mui-input-group">
-				<div class="works-center">
-					<span data-bind="text:Title"></span>
-					<div class="works-list-img" data-bind="event:{tap: goWorksDetails}">
-						<img data-bind="attr: {src: common.getThumbnail(VideoThumbnail)}" onerror="this.src='../../images/video-big-default.png';" />
-						<span class='subjectSpace'><i data-bind="text:SubjectName"></i></span>
-					</div>
-					<p data-bind="text:ContentText"></p>
-					<ul>
-						<li data-bind="text:AddTime.split(' ')[0]"></li>
-						<li data-bind="text:ReadCount"></li>
-						<li data-bind="text:LikeCount,event:{tap:Like}"></li>
-						<!--<li data-bind="text:WorkStatus"></li>-->
+			<div id="pullrefreshAll" class="mui-content mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<!--数据列表-->
+					<ul class="mui-input-group">
+						<div data-bind="template:{name:'worksTemplate', foreach:works}">
+						</div>
 					</ul>
 				</div>
 			</div>
-		</script>
-
-		<div id="popSubjects" class="mui-popover">
+			<!--作品模板页-->
+			<script type="text/html" id="worksTemplate">
+				<div id="gowork" class="mui-input-group works-list-mui-input-group">
+					<div class="works-center">
+						<span data-bind="text:Title"></span>
+						<div class="works-list-img" data-bind="event:{tap: goWorksDetails}">
+							<img data-bind="attr: {src: common.getThumbnail(VideoThumbnail)}" onerror="this.src='../../images/video-big-default.png';" />
+							<span class='subjectSpace'><i data-bind="text:SubjectName"></i></span>
+						</div>
+						<p data-bind="text:ContentText"></p>
+						<ul>
+							<li data-bind="text:AddTime.split(' ')[0]"></li>
+							<li data-bind="text:ReadCount"></li>
+							<li data-bind="text:LikeCount,event:{tap:Like}"></li>
+						</ul>
+					</div>
+				</div>
+			</script>
+			<div id="popSubjects" class="mui-popover">
 			<div id="subject-scroll" class="mui-scroll-wrapper wrapper-margin">
 				<div class="mui-scroll">
 					<ul class="mui-table-view" data-bind="foreach: {data: tmplSubjectClasses, as: 'class1'}">

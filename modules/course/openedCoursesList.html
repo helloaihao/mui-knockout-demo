@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title>乐评+</title>
+		<title>乐评家</title>
 		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
 		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
 		<link href="../../content/common/global.css" rel="stylesheet" />
@@ -50,8 +50,11 @@
 				margin-bottom: 10px;
 				font-size: 14px;
 			}
-			.opened-gl .gl-em{
+		
+			.t-em{
 				width:86px!important;
+				background: #f08000!important;
+				color: #fff!important;
 			}
 		</style>
 	</head>
@@ -71,6 +74,9 @@
             	描述：
             -->				
 			<!--作品模板页-->
+			
+			
+			
 			<script type="text/html" id="courseTemplate">
 				<div class="messageNotification-content openedCoursesList">
 					<div class="messageNotification-title openedCoursesList-first">
@@ -81,7 +87,7 @@
 					<span class="openedCoursesList-span openedCoursesList-right" data-bind="text: common.getTextByValue(common.gJsonCourseType, CourseType)">一对一</span>
 					<p data-bind="text: Introduce">2015年8月26日上午10:00广州市少年宫的钢琴课调到2015年8月26日下午14:00。</p>
 					<b>￥<span data-bind="text: Price">130</span>起</b>
-					<u>限<span data-bind="text: MaxStudent">1</span>人</u>
+					<u data-bind="visible: CourseType == common.gDictCourseType.One2More">限<span data-bind="text: MaxStudent">1</span>人</u>
 					<div class="openedCoursesList-ban" data-bind="text: common.StrIsNull(BeginTime) == '' ? '' : BeginTime.split(' ')[0]+'开课', visible: CourseType == common.gDictCourseType.One2More">2015-11-12 开课</div>
 					<div class="openedCoursesList-total" data-bind="text: '共'+LessonCount+'课时', visible: CourseType == common.gDictCourseType.One2More">共20课时</div>
 					<!--ko foreach: {data: ko.observable(JSON.parse(ClasstimeJson)), as: 'classtime'}-->
@@ -95,9 +101,9 @@
 					<div class="openedCoursesList-start opened-gl">
 						<i class="iconfont" data-bind="click: gotoEditCourse">&#xe63e;修改</i>
 						<!--<i class="iconfont" data-bind="click: gotoRegistered">&#xe63e;管理报名</i>-->
-						<em class="gl-em" data-bind="click: gotoRegistered, visible: CourseType == common.gDictCourseType.One2More">管理报名</em>
+						<em class="gl-em" id="btn-enabled" data-bind="css: {'m-active': IsEnabled}, click: setDisabled " data-bind="click: gotoRegistered, visible: CourseType == common.gDictCourseType.One2More">停用</em>
 						<em class="q-em" id="btn-enabled" data-bind="css: {'m-active': !IsEnabled}, click: setEnabled ">启用</em>
-						<em class="t-em" id="btn-enabled" data-bind="css: {'m-active': IsEnabled}, click: setDisabled ">停用</em>
+						<em class="t-em" data-bind="click: gotoRegistered, visible: CourseType == common.gDictCourseType.One2More">管理报名</em>
 					</div>
 				</div>
 			</script>
@@ -107,10 +113,10 @@
 					<i class="iconfont ">&#xe621;</i>
 					<span class="mui-tab-label" data-bind="click: gotoAddCourse">添加课程</span>
 				</a>
-				<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab " href="#">
+				<!--<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab " href="#">
 					<i class="iconfont ">&#xe622;</i>
 					<span class="mui-tab-label " data-bind="click: gotoTime">授课时间</span>
-				</a>
+				</a>-->
 			</nav>
 
 			<div class="openedCourses-ys" data-bind="visible: courses().length <= 0">

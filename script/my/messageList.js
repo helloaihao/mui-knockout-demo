@@ -14,23 +14,23 @@ var message_notification = function() {
 					setLocalItem("msgLastTime", responseText[responseText.length - 1].SendTime);
 			}
 		})
-	}();
+	}
 
 	self.removeMessages = function() {
-			var message = this;
-			var btnArray = ['是', '否'];
-			mui.confirm('确认删除吗', '您点击了删除', btnArray, function(e) {
-				if (e.index == 0) {
-					mui.ajax(common.gServerUrl + "API/Message/" + message.ID, {
-						type: 'DELETE',
-						success: function(responseText) {
-							this.messages.remove(message);
-						}
-					});
-				}
-			});
-		}
-	
+		var message = this;
+		var btnArray = ['是', '否'];
+		mui.confirm('确认删除吗', '您点击了删除', btnArray, function(e) {
+			if (e.index == 0) {
+				mui.ajax(common.gServerUrl + "API/Message/" + message.ID, {
+					type: 'DELETE',
+					success: function(responseText) {
+						this.messages.remove(message);
+					}
+				});
+			}
+		});
+	}
+
 	mui.init({
 		pullRefresh: {
 			container: '#pullrefresh',
@@ -43,30 +43,29 @@ var message_notification = function() {
 			}
 		}
 	});
-	
+
 	function pulldownRefresh() {
 		setTimeout(function() {
-			mui.ajax(common.gServerUrl + "API/Message/GetMyMessage?receiver=" + receiverId + "&page=" + pageNum, {
-				dataType: 'json',
-				type: 'GET',
-				success: function(responseText) {
-					self.messages(self.messages().concat(responseText));
-					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
-				}
-			});
+			mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+			pageNum = 1;					//重新加载第1页
+			self.getMessage();
 		}, 1500);
 	}
 
-	var count = 0;
-
+	//var count = 0;
 	function pullupRefresh() {
 		setTimeout(function() {
-			mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
+			pageNum++;
 			mui.ajax(common.gServerUrl + "API/Message/GetMyMessage?receiver=" + receiverId + "&page=" + pageNum, {
 				dataType: 'json',
 				type: 'GET',
 				success: function(responseText) {
 					self.messages(self.messages().concat(responseText));
+					if (self.responseText == null || self.responseText.length <= 4) {
+						mui('#pullrefresh').pullRefresh().disablePullupToRefresh();
+					} else {
+						mui('#pullrefresh').pullRefresh().enablePullupToRefresh();
+					}
 				}
 			});
 		}, 1500);
@@ -74,22 +73,14 @@ var message_notification = function() {
 
 	if (mui.os.plus) {
 		mui.plusReady(function() {
-			setTimeout(function() {
-				mui('#pullrefresh').pullRefresh().pullupLoading();
-			}, 1000);
-		});
-	} else {
-		mui.ready(function() {
-			mui('#pullrefresh').pullRefresh().pullupLoading();
+			if (plus.os.vendor == 'Apple') {
+				mui('.mui-scroll-wrapper').scroll();
+			}
 		});
 	}
 
-	mui.plusReady(function(){
-		plus.uploader.enumerate(function(uploads){
-			console.log('arr'+uploads.length);
-			mui.toast('arr'+uploads.length);
-			//self.tasks(uploads);
-		});
+	mui.plusReady(function() {
+		self.getMessage();
 	});
 }
 ko.applyBindings(message_notification);

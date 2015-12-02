@@ -55,16 +55,18 @@
 				self.Star(result.Star);
 				self.Introduce(result.Introduce);
 
-				shareTitle = "我在乐评+上分享了" + self.DisplayName() + "老师";
+				shareTitle = "我在乐评家上分享了" + self.DisplayName() + "老师";
 				shareImg = self.Photo();
 				common.showCurrentWebview();
 			}
 		});
 	};
-	self.openWork = function() {
-		common.transfer('../works/worksList.html', false, {
-			workType: 1
-		});
+	self.openWork = function(type) {
+		common.transfer('../works/worksListMyHeader.html', false, {
+			workTypeID: type,
+			ID: TUserID,
+			workTitle: self.DisplayName() + '的所有作品'
+		},false,false);
 	}
 
 	//查看作品详情

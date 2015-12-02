@@ -86,15 +86,12 @@ var viewModel = function() {
 		});
 	});
 	window.addEventListener('refreshCourseList', function(event) {
-		console.log(event.detail.course);
-		if (event.detail.course!="" ||typeof event.detail.course!="undefined") {
-			//self.courses().concat(event.detail.course);
+		if (event.detail.course!="" && typeof event.detail.course!="undefined") {
 			self.courses(self.courses().concat(event.detail.course));
 		}
 	});
 
 	self.gotoEditCourse = function() {
-		//window.location = "../../modules/course/addCourse.html?course="+encodeURI(JSON.stringify(this));
 		common.transfer("../../modules/course/addCourse.html", true, {
 			course: this
 		});

@@ -16,6 +16,7 @@ var forgotPassword = function() {
 			} else if (!(/^1[3|4|5|7|8][0-9]\d{4,8}$/.test(self.UserName()))) {
 				mui.toast("手机号码不合法")
 			} else {
+				//plus.nativeUI.showWaiting();
 				//账号是否存在，此处为存在，exists默认为true
 				mui.ajax(common.gServerUrl + "API/Account/CheckAccount?userName=" + self.UserName(), {
 					type: 'GET',

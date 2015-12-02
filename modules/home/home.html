@@ -54,8 +54,12 @@
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<h1 id="title" class="mui-title">乐评+</h1>
-			<em class="iconfont" data-bind="click:goMessageList">&#xe628;<span class="mui-badge mui-badge-warning" data-bind="text: UnreadCount, visible: UnreadCount() > 0"></span></em>
+			<h1 id="title" class="mui-title">乐评家</h1>
+			<em class="iconfont" data-bind="click:goMessageList">&#xe628;
+				<!--<span class="mui-badge mui-badge-warning" data-bind="text: UnreadCount, visible: UnreadCount() > 0">	
+				</span>-->
+			<i class="index-red" data-bind="visible: UnreadCount() == 0"></i>					
+			</em>
 		</header>
 		<div class="mui-content">
 			<!--banner-->
@@ -92,6 +96,7 @@
 								<img src="../../images/4.jpg">
 							</a>
 						</div>
+						
 						<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
 						<div class="mui-slider-item mui-slider-item-duplicate">
 							<a href="#">
@@ -104,6 +109,7 @@
 						<div class="mui-indicator"></div>
 						<div class="mui-indicator"></div>
 						<div class="mui-indicator"></div>
+						
 					</div>
 				</div>
 			</div>
@@ -154,7 +160,7 @@
 					<div class="index-content-ctn" data-bind="event:{tap:gotoTeacher}">
 						<em data-bind="style:{'background-image': 'url('+common.getPhotoUrl(Poster)+')', 'background-size': 'cover'}" onerror="this.backgroundImage='url(../../images/poster-default.png)';"></em>
 						<span data-bind="text: DisplayName"></span>
-						<i>(教龄<!--ko text:TeachAge--><!--/ko-->年)</i>
+						<!--<i>(教龄<!--ko text:TeachAge--><!--/ko年)</i>-->
 						<b><!--ko text:SubjectName--><!--/ko--></b>
 						<p data-bind="text: Introduce"></p>
 					</div>
@@ -171,14 +177,13 @@
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/home/home.js" type="text/javascript" charset="utf-8"></script>
-		<!--<script src="../../script/common/update.js" type="text/javascript" charset="utf-8"></script>-->
 		<script type="text/javascript">
 			mui.init();
 			mui('#slider').slider({
 				interval: 3000
 			});
 			document.getElementById('addWorks').addEventListener('click', function() {
-				common.transfer('../works/addWorks.html', true);
+				common.transfer('../works/addWorks.html', true,common.extrasUp(0),false,false);
 			});
 		</script>
 	</body>

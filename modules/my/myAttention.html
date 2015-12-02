@@ -4,7 +4,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title>乐评+</title>
+		<title>乐评家</title>
 		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
 		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
 		<link href="../../content/common/global.css" rel="stylesheet" />
@@ -79,10 +79,11 @@
 				</div>
 				<!--收藏作品模板页-->
 				<script type="text/html" id="worksTemplate">
-					<div class="works-center">
+					<div class="works-center" data-bind="event:{tap: gotoWorkInfo}">
 						<span data-bind='text: Title'></span>
 						<div class="works-list-img">
-							<img src="../../images/22.jpg" />
+							<img data-bind="attr: {src: common.getThumbnail(VideoThumbnail)}" onerror="this.src='../../images/video-big-default.png';" />
+							<!--<img src="../../images/22.jpg" />-->
 							<i data-bind='text: SubjectName'></i>
 						</div>
 						<p data-bind='text: ContentText'></p>
@@ -99,10 +100,10 @@
 				<script type="text/html" id="attentionTemple">
 					<div class="card-row" data-bind="event:{tap: gotoTeacherInfo}">
 						<div class="card-right card-width">
-							<img data-bind="attr:{'src':common.getPhotoUrl(Photo)}" />
+							<img data-bind="attr:{'src':common.getPhotoUrl(Photo)}" onerror="this.src='../../images/my-default.png';" />
 							<div class="card-row-right">
 								<span data-bind="text:DisplayName"></span><u>(<!--ko text:common.gJsonGenderType[Gender].text--><!--/ko-->)</u>
-								<u class="u-font-right" data-bind='text: UserType == common.gDictUserType.teacher ? TeachAge + " 年教龄 " : TheAge'></u>
+								<!--<u class="u-font-right" data-bind='text: UserType == common.gDictUserType.teacher ? TeachAge + " 年教龄 " : TheAge'></u>-->
 							</div>
 							<div class="card-row-right card-row-dow">
 								<u data-bind="text:Province + City + District"></u>

@@ -13,9 +13,11 @@ var home = function() {
 			type: "GET",
 			success: function(responseText) {
 				self.Teachers(responseText);
+				plus.navigator.closeSplashscreen(); //关闭启动界面
+				common.showCurrentWebview();
 			}
 		});
-	}();
+	};
 
 	self.indexSubject(common.getAllSubjectsIndex());
 
@@ -50,14 +52,11 @@ var home = function() {
 			data: udata
 		});
 	}
+	mui.plusReady(function() {
+		self.getTeachers();
+	});
 
 	mui.back = function() {
-		/*var btnArray = ['确认', '取消'];
-		mui.confirm('确认退出乐评+？', '退出提示', btnArray, function(e) {
-			if (e.index == 0) {
-				plus.runtime.quit();
-			}
-		});*/
 		common.confirmQuit();
 	}
 };

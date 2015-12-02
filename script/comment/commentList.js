@@ -1,5 +1,8 @@
 var commentList = function() {
 	var self = this;
+
+	var workType = common.gJsonWorkTypeStudent[0].value; //默认显示学生作品的点评请求
+	
 	var pageNum = 1;
 	var sortID;
 	var count = 0; //刷新检测次数
@@ -8,7 +11,8 @@ var commentList = function() {
 	self.comments = ko.observableArray([]);
 	self.tmplSubjects = ko.observableArray([]);
 	self.tmplSubjectClasses = ko.observableArray([]);
-	self.commentDes = ko.observable("还没有点评呢，快让老师帮忙点评吧！");
+	self.isTeacher = ko.observable(true);
+	self.commentDes = ko.observable("还没有点评过作品呢~");
 	self.currentSubject = ko.observable({}); //当前选中的科目
 	self.currentSort = ko.observable(8);
 
@@ -27,62 +31,73 @@ var commentList = function() {
 	});
 
 	mui.plusReady(function() {
+		self.isTeacher(getLocalItem("UserType") == common.gDictUserType.teacher);
+
+		var workTypeTmp = getLocalItem('comment.workType');
+		if (typeof workTypeTmp != "undefined" && workTypeTmp == common.gJsonWorkTypeStudent[1].value) {
+			workType = workTypeTmp;
+			if (self.isTeacher()) {
+				self.commentDes("还没有学生交过作业呢~");
+			}
+		}
+		if(!self.isTeacher()){
+			self.commentDes('还没有点评呢，快让老师帮忙点评吧！');
+		}
+		
 		self.getMyComments();
-		//console.log(self.getMyComments());
+		
 		self.tmplSubjectClasses(common.getAllSubjectClasses());
 		self.tmplSubjects(common.getAllSubjects());
 		if (self.tmplSubjects().length > 0) {
 			self.currentSubject(self.tmplSubjects()[0]);
 		}
-		if(getLocalItem('UserType')==common.gDictUserType.teacher){
-			self.commentDes("还没有点评过作品呢~~ ");
-		}
 	});
-
-	mui.back = function() {
-		common.confirmQuit();
-	}
 
 	//拼接请求Url
 	self.getAjaxUrl = function() {
-			var ajaxUrl = common.gServerUrl + "API/Comment/GetMyComments?userId=" + getLocalItem("UserID");
-			ajaxUrl += "&page=" + pageNum;
+		var ajaxUrl = common.gServerUrl + "API/Comment/GetMyComments?userId=" + getLocalItem("UserID");
+		ajaxUrl += "&page=" + pageNum;
 
-			if (typeof self.currentSubject().id === "number") {
-				ajaxUrl += "&subject=" + self.currentSubject().id;
-				ajaxUrl += "&subjectClass=" + self.currentSubject().subjectClass;
-			}
-			if (typeof(sortID) === "number" && sortID > 0) {
-				ajaxUrl += "&sortType=" + sortID;
-			}
-
-			return ajaxUrl;
+		if (typeof self.currentSubject().id === "number") {
+			ajaxUrl += "&subject=" + self.currentSubject().id;
+			ajaxUrl += "&subjectClass=" + self.currentSubject().subjectClass;
 		}
-		//加载点评
+		if (typeof(sortID) === "number" && sortID > 0) {
+			ajaxUrl += "&sortType=" + sortID;
+		}
+		
+		if (workType > 0) {
+			ajaxUrl += "&workType=" + workType;
+		}
+
+		return ajaxUrl;
+	}
+
+	//加载点评
 	self.getMyComments = function() {
 		if (!common.hasLogined()) return;
-
 		mui.ajax(self.getAjaxUrl(), {
 			type: 'GET',
 			success: function(responseText) {
-				//console.log(responseText);
 				var result = eval("(" + responseText + ")");
 				self.comments(result);
+				common.showCurrentWebview();
 			}
 		})
 	};
 
 	//选择科目
 	self.selectSubject = function(data) {
-			self.currentSubject(data);
-			self.comments.removeAll(); //先移除所有
-			pageNum = 1; //还原为显示第一页
-			count = 0; //还原刷新次数
-			mui('#pullrefreshMy').pullRefresh().refresh(true);
-			self.getMyComments();
-			mui('#popSubjects').popover('toggle');
-		}
-		//点评排序
+		self.currentSubject(data);
+		self.comments.removeAll(); //先移除所有
+		pageNum = 1; //还原为显示第一页
+		count = 0; //还原刷新次数
+		mui('#pullrefreshMy').pullRefresh().refresh(true);
+		self.getMyComments();
+		mui('#popSubjects').popover('toggle');
+	}
+
+	//点评排序
 	self.commentSort = function() {
 		self.currentSort(this.value);
 		self.comments.removeAll(); //先移除所有
@@ -144,17 +159,17 @@ var commentList = function() {
 		var str = arr.join("");
 		return Number(str);
 	}
+
 	//跳转到点评界面
 	self.gotoAddComment = function() {
-			common.transfer('../works/worksList.html', true, {
-				displayCheck: true
-			});
-		}
-		//跳转到登录
+		common.transfer('../works/worksList.html', true, {
+			displayCheck: true
+		});
+	}
+
+	//跳转到登录
 	self.goLogin = function() {
 		common.transfer('../../modules/account/login.html', true);
 	};
-
-
 }
 ko.applyBindings(commentList);
