@@ -23,7 +23,7 @@
 				height: 100%;
 				display: block;
 			}
-			.ah-select-list span {} .ah-mui-navigate-right:after {
+			.ah-select-list span,.ah-mui-navigate-right:after {
 				right: 9%;
 			}
 			.mui-bar-tab .ah-mui-tab-item {
@@ -76,7 +76,7 @@
 			                    </div>
             				</i>
 							<div class="works-list-img" data-bind="event:{tap: gotoTeacherInfo}">
-								<em data-bind="style:{'background-image': 'url('+common.getPhotoUrl(Poster)+')', 'background-size': 'cover'}" onerror="this.backgroundImage=url('../../images/poster-default.png');" />
+								<div class="works-list-img-div" data-bind="style:{'background-image': 'url('+common.getPhotoUrl(Poster)+')', 'background-size': 'cover'}" onerror="this.backgroundImage=url('../../images/poster-default.png');" ></div>
 								<i data-bind="text: SubjectName"></i>
 							</div>
 							<p data-bind="text: Introduce"></p>

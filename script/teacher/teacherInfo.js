@@ -168,9 +168,9 @@
 	var lis = ul.getElementsByTagName("li");
 	for (var i = 0; i < lis.length; i++) {
 		lis[i].onclick = function() {
-			//mui.toast(this.id);
-			Share.sendShare(this.id, shareTitle, shareContent, shareUrl, shareImg);
-			mui('#sharePopover').popover('toggle');
+			mui.toast("敬请期待");
+			/*Share.sendShare(this.id, shareTitle, shareContent, shareUrl, shareImg);
+			mui('#sharePopover').popover('toggle');*/
 		};
 	}
 	self.closeShare = function() { //关闭分享窗口

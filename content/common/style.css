@@ -423,7 +423,7 @@ textarea {
 	height: 90px;
 	padding: 10px 10px;
 	position: relative;
-	margin-bottom: 10px;
+	margin-bottom: 15px;
 	text-align: center;
 }
 .index-subject ul li img {
@@ -435,7 +435,7 @@ textarea {
 	text-align: center;
 	color: #333;
 	font-size: 15px;
-	margin-top: 6px;
+	margin-top: 8px;
 	display: inline-block;
 }
 .index-th-div {
@@ -822,7 +822,7 @@ textarea {
 }
 .works-date ul li {
 	height: 100%;
-	font-size: 12px;
+	font-size: 14px;
 	width: 20%;
 	float: left;
 	line-height: 30px;
@@ -1157,13 +1157,18 @@ textarea {
 	position: relative;
 	margin: 30px 0 12px 0;
 }
-.works-list-img em {
+.works-list-img-div{
 	width: 100%;
 	height: 12.88rem;
-	display: inline-block;
+	background-size: 100% auto; 
 	background: #ccc;
 	margin-bottom: 22px;
 }
+/*.works-list-img-div:before{
+	content: '';
+	padding-top:50%;
+	display: block;
+}*/
 .works-list-img img {
 	height: 12.88rem;
 	width: 100%;
@@ -2249,6 +2254,7 @@ textarea {
 	line-height: 36px;
 	font-size: 14px;
 }
+
 .content-right {
 	width: 70%;
 	float: right;
@@ -3438,6 +3444,7 @@ textarea {
 	text-align: center;
 	line-height: 2rem;
 	height: 2rem;
+	bottom: 10px;
 }
 .myCourse-btn button:nth-of-type(2) {
 	color: #f08000;
@@ -3448,6 +3455,7 @@ textarea {
 	text-align: center;
 	line-height: 2rem;
 	height: 2rem;
+	bottom: 10px;
 }
 .myCourse-btn button:nth-of-type(3) {
 	color: #036FB8;
@@ -3496,7 +3504,7 @@ textarea {
 	color: #f08000;
 	border: 1px solid #F08000;
 	position: absolute;
-	bottom: 0px;
+	bottom: 10px;
 	right: 5px;
 	font-size: 0.96rem;
 }
@@ -4411,15 +4419,214 @@ textarea {
 	display: inline-block;
 }
 
+.myCard-add{
+	height: 146px;
+	padding: 20px 20px;
+	box-sizing: border-box;
+	width: 90%;
+	margin: 0 auto;
+	background: #fa8801;
+	border-radius: 8px;
+	margin-top: 15px;
+	color: #fff;
+	position: relative;
+}
 
+.card-logo{
+	position: absolute;
+	left: 10%;
+	top: 30px;
+	font-size: 48px;
+}
+.bank-name{
+	font-size: 18px;
+	position: absolute;
+	left: 32%;
+	top: 24px;
+}
+.card-class{
+	position: absolute;
+	left: 32%;
+	top: 50px;
+	font-size: 14px;
+}
+.defeaut-right{
+	font-size: 24px;
+	position: absolute;
+	right: 10%;
+	top: 26px;
+}
 
+.card-number{
+	font-size: 20px;
+	position: absolute;
+	right: 10%;
+	top: 98px;
+	letter-spacing: 1px;
+}
+.defeaut-font{
+	color: #999;
+	font-size: 14px;
+	height: 22px;
+	width: 100%;
+	text-align: right;
+	padding:15px 15px 0 0;
+}
+.add-card{
+	background: #fff;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	height: 46px;
+	padding-left: 20px;
+	box-sizing: border-box;
+	width: 100%;
+	color: #666;
+	line-height: 46px;
+	margin-top: 40px;
+}
+.add-card i{
+	font-size: 20px;
+}
+.add-font{
+	font-size: 16px;
+	padding-left: 10px;
+}
 
+.add-card-form{
+	height: auto;
+	overflow: hidden;
+	width: 100%;
+	margin-top: 15px;
+}
 
+.add-card-input{
+	height: 46px;
+	width: 100%;
+	line-height: 46px;
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #ccc;
+	font-size: 16px;
+	background: #fff;
+	padding-left: 15px;
+	box-sizing: border-box;
+}
 
+.add-card-input label{
+	height: 100%;
+	width: 16%;
+	color: #666;
+	text-align: right;
+	display: inline-block;
+}
+.add-card-input input{
+	color: #999;
+	width: 68%;
+	text-align: left;
+	border: none;
+	font-family: "微软雅黑";
+	font-size: 16px;
+	padding-left: 15px;
+	box-sizing: border-box;
+}
+.get-bankName{
+	height: 30px;
+	line-height: 30px;
+	color: #9f9f9f;
+	padding-left:25px;
+	width: 100%;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+.get-bankName i{
+	font-size: 20px;
+}
+.add-card-name{
+	font-size: 16px;
+}
+.add-card-last{
+	border-top: none;
+}
 
+.add-card-btn{	
+	height: 44px;
+	width: 90%;
+	background: #ff6c05;
+	color: #fff;
+	font-size: 18px;
+	letter-spacing: 1px;
+	line-height: 44px;
+	text-align: center;
+	margin: 60px auto 0;
+	border-radius: 5px;
+}
 
+.add-card-btn:active{
+	background: #e15f04;
+}
 
-
+.video-bg{
+	position: absolute;
+	background: #424242;
+	width: 100%;
+	height: 246px;
+	left: 0;
+	top: 78px;
+}
+.video-bg span{
+	color: #f5f5f5;
+	position: absolute;
+	width: 100%;
+	left: 0;
+	text-align: center;
+	height: 30px;
+	font-size: 14px;
+	top: 65px;
+}
+.video-bg em{
+	height: 30px;
+	width: 80px;
+	border-radius: 3px;
+	background: #2ac700;
+	position: absolute;
+	left: 50%;
+	color: #fff;
+	line-height: 30px;
+	text-align: center;
+	margin-left: -40px;
+	top: 96px;
+	font-size: 14px;
+}
+.video-bg em:active{
+	background: #26b201;
+}
+.video-down{
+	height: 36px;
+	width: 320px;
+	margin: 0 auto;
+	background: #323131;
+}
+@media only screen and (min-width: 415px) and (max-width: 1025px) {
+	.content-left em {
+	position: absolute;
+	left: 0;
+	top: 5.5rem;
+	width: 160px;
+	height: 36px;
+	display: inline-block;
+	background: #ccc;
+	color: #999;
+	text-align: center;
+	line-height: 36px;
+	font-size: 14px;
+	}
+	.mui-navigate-right u{
+				line-height: 50px;				
+			}	
+	.mui-navigate-right span{
+		line-height: 42px;	
+	}
+	
+}
 
 
 

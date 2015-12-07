@@ -110,19 +110,22 @@ var workListAll = function() {
 			}
 			//console.log(thisUrl + curl);
 			if (plus.networkinfo.getCurrentType() > 1) {
-				//contentnomore = "上拉显示更多";
 				mui.ajax(thisUrl + curl, {
 					type: 'GET',
 					success: function(responseText) {
-						//console.log(page);
-						mui('#pullrefreshAll').pullRefresh().endPullupToRefresh((++count > 2));
 						var result = eval("(" + responseText + ")");
-						self.works(self.works().concat(result));
-						if (self.works().length <= 2) {
-							mui('#pullrefreshAll').pullRefresh().disablePullupToRefresh();
-						} else {
-							mui('#pullrefreshAll').pullRefresh().enablePullupToRefresh();
+						if (result.length > 0) {
+							mui('#pullrefreshAll').pullRefresh().endPullupToRefresh(false);
+							self.works(self.works().concat(result));
+							if (self.works().length <= 2) {
+								mui('#pullrefreshAll').pullRefresh().disablePullupToRefresh();
+							} else {
+								mui('#pullrefreshAll').pullRefresh().enablePullupToRefresh();
+							}
+						}else{
+							mui('#pullrefreshAll').pullRefresh().endPullupToRefresh(true);
 						}
+
 					}
 				});
 

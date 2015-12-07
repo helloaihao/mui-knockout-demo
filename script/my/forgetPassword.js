@@ -18,6 +18,7 @@ var forgotPassword = function() {
 			} else {
 				//plus.nativeUI.showWaiting();
 				//账号是否存在，此处为存在，exists默认为true
+				self.RemainTime(common.gVarWaitingSeconds);
 				mui.ajax(common.gServerUrl + "API/Account/CheckAccount?userName=" + self.UserName(), {
 					type: 'GET',
 					success: function(responseText) {
@@ -27,12 +28,18 @@ var forgotPassword = function() {
 							success: function(responseText) {
 								console.log(responseText);
 								//var result = eval("(" + responseText + ")");
-								self.RemainTime(common.gVarWaitingSeconds);
+
 								self.CheckTime();
+							},
+							error: function() {
+								self.RemainTime(0);
 							}
 						})
+					},
+					error: function() {
+						self.RemainTime(0);
 					}
-					
+
 				})
 			}
 		}

@@ -3,7 +3,7 @@
 	"id": "H506D8436",/*应用的标识，创建应用时自动生成，勿手动修改*/
 	"name": "乐评家",/*应用名称，程序桌面图标名称*/
 	"version": {
-		"name": "0.4.8",/*应用版本名称*/
+		"name": "1.0.2",/*应用版本名称*/
 		"code": "83"
 	},
 	"description": "",/*应用描述信息*/
@@ -14,7 +14,7 @@
 	"developer": {
 		"name": "",/*开发者名称*/
 		"email": "",/*开发者邮箱地址*/
-		"url": "http://www.dcloud.io"
+		"url": "http://www.linkeol.com"
 	},
 	"permissions": {
 		"Accelerometer": {
@@ -101,7 +101,7 @@
 	},
 	"plus": {
 		"splashscreen": {
-			"autoclose": false,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
+			"autoclose": true,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
 			"waiting": true,"delay":"0"
 		},
 		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
@@ -111,7 +111,7 @@
 				"share": {
 					"weixin": {
 						"appid": "wx142ee69041c3765a",
-						"appsecret": "ccc2e2f99e99b2f912f65a433e776252",
+						"appsecret": "1ccf661d050bea7a05ff4d5abbc3a865",
 						"description": "微信分享"
 					}
 				}
@@ -125,7 +125,7 @@
 				"frameworks": []
 			},
 			"google": {
-				"packagename": "io.dcloud.H506D8436",/*Android应用包名，如io.dcloud.HelloH5*/
+				"packagename": "com.linkeol.MusicCommenter",/*Android应用包名，如com.linkeol.MusicCommenter*/
 				"keystore": "",/*Android应用打包使用的密钥库文件*/
 				"password": "",/*Android应用打包使用密钥库中证书的密码*/
 				"aliasname": "",/*Android应用打包使用密钥库中证书的别名*/
@@ -197,5 +197,425 @@
 			},
 			"debug": true
 		}
-	},"fullscreen":false
+	},"fullscreen":false,
+	"dependencies": {
+		"pages": {
+			"index.html": {
+				"resources": [
+					"content/common/style.css",
+					"content/mui/mui.picker.min.css",
+					"script/mui/mui.min.js",
+					"content/common/global.css",
+					"modules/home/home.html",
+					"content/fonts/iconfont.css",
+					"modules/course/myCourse.html",
+					"script/common/common.js",
+					"script/common/base.js",
+					"script/common/update.js",
+					"modules/works/workIndex.html",
+					"script/common/index.js",
+					"content/mui/mui.min.css",
+					"content/fonts/iconfont.woff",
+					"modules/my/myInfoStudent.html",
+					"script/libs/knockout/knockout-3.3.0.min.js",
+					"modules/my/myInfoTeacher.html",
+					"content/fonts/iconfont.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"modules/works/workIndex.html": {
+				"resources": [
+					"script/common/common.js",
+					"script/mui/mui.min.js",
+					"images/1.jpg",
+					"script/libs/knockout/knockout-3.3.0.js",
+					"content/mui/mui.css",
+					"script/works/worksIndex.js",
+					"script/common/base.js",
+					"content/common/style.css",
+					"content/common/global.css",
+					"content/fonts/iconfont.css",
+					"content/fonts/iconfont.woff"
+				],
+				"refer": [
+					"modules/works/worksListAllHeader.html"
+				],
+				"priority": 0
+			},
+			"modules/home/home.html": {
+				"resources": [
+					"images/subject_31.png",
+					"images/subject_21.png",
+					"images/2.jpg",
+					"content/common/style.css",
+					"script/mui/mui.min.js",
+					"content/common/global.css",
+					"content/fonts/iconfont.css",
+					"images/3.jpg",
+					"images/4.jpg",
+					"script/common/common.js",
+					"script/home/home.js",
+					"images/subject_1.png",
+					"images/subject_more.png",
+					"script/common/base.js",
+					"images/subject_10.png",
+					"images/subject_12.png",
+					"images/subject_6.png",
+					"images/1.jpg",
+					"images/subject_26.png",
+					"content/fonts/iconfont.woff",
+					"content/mui/mui.min.css",
+					"script/libs/knockout/knockout-3.3.0.min.js"
+				],
+				"refer": [
+					"modules/teacher/teacherInfo.html"
+				],
+				"priority": 0
+			},
+			"modules/my/myInfoStudent.html": {
+				"resources": [
+					"script/common/common.js",
+					"script/common/base.js",
+					"script/mui/mui.js",
+					"script/my/myInfoStudent.js",
+					"content/common/style.css",
+					"images/my-bg.png",
+					"content/common/global.css",
+					"script/common/qrcode.js",
+					"script/libs/knockout/knockout-3.3.0.js",
+					"content/fonts/iconfont.css",
+					"content/fonts/iconfont.woff",
+					"content/mui/mui.min.css",
+					"images/my-default.png",
+					"content/fonts/iconfont.ttf"
+				],
+				"refer": [
+					"modules/account/login.html",
+					"modules/my/qrcode.html"
+				],
+				"priority": 0
+			},
+			"modules/course/myCourse.html": {
+				"resources": [
+					"script/course/myCourse.js",
+					"script/common/base.js",
+					"script/mui/mui.js",
+					"script/mui/mui.picker.min.js",
+					"content/mui/mui.picker.min.css",
+					"script/common/dtPicker.js",
+					"script/libs/knockout/knockout-3.3.0.min.js",
+					"script/common/common.js",
+					"content/common/style.css",
+					"content/common/global.css",
+					"content/fonts/iconfont.css",
+					"content/mui/mui.min.css",
+					"content/fonts/iconfont.woff",
+					"content/fonts/iconfont.ttf"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"modules/account/login.html": {
+				"resources": [
+					"script/common/common.js",
+					"script/common/base.js",
+					"content/common/style.css",
+					"images/logo.png",
+					"script/mui/mui.min.js",
+					"content/common/global.css",
+					"content/fonts/iconfont.css",
+					"content/fonts/iconfont.woff",
+					"script/account/login.js",
+					"content/mui/mui.min.css",
+					"script/libs/knockout/knockout-3.3.0.min.js",
+					"content/fonts/mui.ttf"
+				],
+				"refer": [
+					"index.html"
+				],
+				"priority": 0
+			},
+			"modules/my/qrcode.html": {
+				"resources": [
+					"script/common/common.js",
+					"script/common/base.js",
+					"content/common/style.css",
+					"script/my/qrcodeEvent.js",
+					"script/mui/mui.min.js",
+					"content/common/global.css",
+					"script/libs/knockout/knockout-3.3.0.js",
+					"content/fonts/iconfont.css",
+					"content/fonts/iconfont.woff",
+					"content/mui/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"modules/my/myInfoTeacher.html": {
+				"resources": [
+					"script/common/common.js",
+					"script/common/base.js",
+					"script/mui/mui.js",
+					"content/common/style.css",
+					"script/my/myInfoTeacher.js",
+					"content/mui/mui.picker.min.css",
+					"images/my-bg.png",
+					"content/common/global.css",
+					"script/common/qrcode.js",
+					"script/libs/knockout/knockout-3.3.0.js",
+					"content/fonts/iconfont.css",
+					"content/mui/mui.min.css",
+					"images/my-default.png",
+					"content/fonts/iconfont.woff"
+				],
+				"refer": [
+					"modules/my/qrcode.html"
+				],
+				"priority": 0
+			},
+			"modules/works/worksListAllWorks.html": {
+				"resources": [
+					"script/common/common.js",
+					"script/common/base.js",
+					"script/mui/mui.picker.min.js",
+					"content/common/style.css",
+					"content/mui/mui.picker.min.css",
+					"script/works/workListAll.js",
+					"script/mui/mui.min.js",
+					"content/common/global.css",
+					"script/libs/knockout/knockout-3.3.0.js",
+					"content/fonts/iconfont.css",
+					"content/mui/mui.min.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"modules/works/worksListAllHeader.html": {
+				"resources": [
+					"content/common/style.css",
+					"content/mui/mui.picker.min.css",
+					"script/mui/mui.min.js",
+					"content/common/global.css",
+					"script/libs/knockout/knockout-3.3.0.js",
+					"content/fonts/iconfont.css",
+					"script/common/common.js",
+					"script/common/base.js",
+					"script/mui/mui.picker.min.js",
+					"modules/works/worksListAllWorks.html",
+					"script/works/workListAllHeader.js",
+					"content/mui/mui.min.css",
+					"content/fonts/iconfont.woff"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"modules/teacher/teacherInfo.html": {
+				"resources": [
+					"images/share-qq.png",
+					"content/common/style.css",
+					"script/mui/mui.min.js",
+					"content/common/global.css",
+					"script/mui/mui.zoom.js",
+					"images/share-wx.png",
+					"content/fonts/iconfont.css",
+					"script/common/common.js",
+					"script/common/base.js",
+					"script/mui/mui.previewimage.js",
+					"script/common/share.js",
+					"script/teacher/teacherInfo.js",
+					"content/mui/mui.min.css",
+					"images/share-py.png",
+					"script/libs/knockout/knockout-3.3.0.min.js",
+					"images/my-bg.png",
+					"content/fonts/iconfont.ttf",
+					"images/my-default.png"
+				],
+				"refer": [],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"modules/course/availableTime.html",
+				"images/subject_35.png",
+				"modules/my/forgetPassword.html",
+				"script/libs/cropperjs/cropper.min.js",
+				"images/subject_14.png",
+				"script/works/worksUploading.js",
+				"images/subject_39.png",
+				"images/subject_23.png",
+				"modules/account/serviceProtocol.html",
+				"images/ewm.png",
+				"script/common/my.js",
+				"images/video-default.png",
+				"script/common/device.js",
+				"images/subject_28.png",
+				"modules/my/favUser.html",
+				"script/my/teacherAuth.js",
+				"modules/my/moreInfo.html",
+				"modules/teacher/teacherListHeader.html",
+				"script/my/favUser.js",
+				"script/common/city.data-3.js",
+				"images/subject_15.png",
+				"script/common/upload.js",
+				"images/a240.png",
+				"modules/student/aboutLesson.html",
+				"modules/my/myInfo.html",
+				"script/my/recommendFriends.js",
+				"script/common/videoPicker.js",
+				"modules/comment/commentListHeader.html",
+				"images/logo-pic.png",
+				"modules/comment/commentDetails.html",
+				"images/subject_30.png",
+				"script/common/device.min.js",
+				"script/my/authEdu.js",
+				"images/subject_32.png",
+				"script/student/aboutLessonChosenTimes.js",
+				"script/my/modifyPhone.js",
+				"modules/my/feedBack.html",
+				"images/subject_33.png",
+				"script/my/myAlbum.js",
+				"script/mui/lrz.mobile.min.js",
+				"images/register-pic.png",
+				"images/submitClass-zf.png",
+				"images/subject_29.png",
+				"modules/my/changePassword.html",
+				"script/course/openedCoursesList.js",
+				"images/video-big-default2.png",
+				"images/22.jpg",
+				"content/common/Tf_global.css",
+				"script/works/worksDetails.js",
+				"modules/works/WorksDetails.html",
+				"images/a320.png",
+				"modules/course/addCourse.html",
+				"images/subject_13.png",
+				"images/video-default2.png",
+				"modules/my/authEdu.html",
+				"script/common/picture.js",
+				"favicon.ico",
+				"modules/my/myOrders.html",
+				"script/common/public.js",
+				"modules/student/submitComment.html",
+				"images/a480.png",
+				"images/poster-default.png",
+				"content/cropperjs/cropper.min.css",
+				"modules/account/register.html",
+				"script/teacher/teacherList.js",
+				"modules/my/aboutUs.html",
+				"script/my/myInfo.js",
+				"modules/works/worksList.html",
+				"script/my/myAttended.js",
+				"script/works/addWorks.js",
+				"modules/my/myAlbum.html",
+				"modules/teacher/teacherList.html",
+				"images/watermark.png",
+				"images/subject_9.png",
+				"modules/my/help.html",
+				"images/a720.png",
+				"modules/course/openedCoursesList.html",
+				"images/subject_11.png",
+				"images/subject_40.png",
+				"images/iphone3.png",
+				"modules/my/messageNotification.html",
+				"script/libs/cropperjs/cropper.js",
+				"images/Identity.jpg",
+				"modules/works/worksListMyHeader.html",
+				"images/iphone6Plus.png",
+				"script/common/pay.js",
+				"script/my/myOrders.js",
+				"script/comment/commentDetails.js",
+				"modules/works/worksListMyWorks.html",
+				"modules/my/recommendFriends.html",
+				"modules/student/chooseTime.html",
+				"images/iphone5s.png",
+				"modules/works/worksUploading.html",
+				"script/works/workListMy.js",
+				"content/cropperjs/cropper.css",
+				"modules/my/messageList.html",
+				"images/subject_27.png",
+				"images/subject_41.png",
+				"modules/my/messageListSub.html",
+				"images/subject_42.png",
+				"images/iphone6.png",
+				"modules/works/test.html",
+				"images/meinv.jpg",
+				"modules/my/authProTitle.html",
+				"script/my/myAccount.js",
+				"script/my/moreInfo.js",
+				"images/subject_25.png",
+				"script/works/workListMyHeader.js",
+				"modules/my/modifyPhone.html",
+				"images/subject_4.png",
+				"images/subject_37.png",
+				"Web.config",
+				"images/subject_36.png",
+				"images/subject_38.png",
+				"images/subject_3.png",
+				"script/my/forgetPassword.js",
+				"images/1px.png",
+				"script/libs/video.js/video2.0.min.js",
+				"images/subject_19.png",
+				"script/student/submitComment.js",
+				"content/fonts/iconfont.eot",
+				"script/course/availableTime.js",
+				"images/video-big-default.png",
+				"script/student/aboutLessonMain.js",
+				"images/videoLogo.png",
+				"images/subject_24.png",
+				"images/subject_34.png",
+				"images/myAccount.png",
+				"modules/course/registeredList.html",
+				"script/my/myAttention.js",
+				"modules/my/messageListContent.html",
+				"script/my/shareTest.js",
+				"images/subject_2.png",
+				"script/student/studentInfo.js",
+				"script/student/aboutLessonBaseInfo.js",
+				"images/subject_17.png",
+				"modules/my/teacherAuth.html",
+				"Readme.txt",
+				"modules/my/myAccount.html",
+				"images/subject_16.png",
+				"script/my/authID.js",
+				"modules/my/myAttended.html",
+				"images/submitClass-wx.png",
+				"script/course/addCourse.js",
+				"images/addWorkspPlan.png",
+				"script/home/allSubject.js",
+				"images/subject_20.png",
+				"images/subject_18.png",
+				"images/subject_8.png",
+				"script/my/authProTitle.js",
+				"images/index-1.png",
+				"images/worksList.jpg",
+				"modules/works/addWorks.html",
+				"modules/my/authID.html",
+				"images/subject_7.png",
+				"modules/student/studentInfo.html",
+				"modules/comment/commentList.html",
+				"images/subject_43.png",
+				"images/iphone4s.png",
+				"script/works/workList.js",
+				"script/my/messageList.js",
+				"modules/my/myAttention.html",
+				"content/fonts/iconfont.svg",
+				"script/account/register.js",
+				"script/comment/commentList.js",
+				"images/my-photo.png",
+				"content/my/messageList.css",
+				"images/5.jpg",
+				"script/teacher/findTeacher.js",
+				"images/a1080.png",
+				"images/subject_5.png",
+				"images/subject_22.png",
+				"script/libs/video.js/video2.0.min.css",
+				"images/worksbanner.png",
+				"script/course/registeredList.js",
+				"modules/home/allSubject.html",
+				"modules/my/muiTest.html",
+				"modules/teacher/findTeacher.html"
+			]
+		}
+	}
 }

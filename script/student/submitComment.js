@@ -32,6 +32,29 @@ var viewModel = function() {
 			}
 		});
 	}
+	
+	self.getAmount = function(){
+		var ajaxUrl = common.gServerUrl + 'API/Comment/GetCommentPrice?userId='+self.teacher().UserID;
+		mui.ajax(ajaxUrl,{
+			type: 'GET',
+			success: function(responseText) {
+				self.Amount(responseText);
+			}
+		});
+	}
+	
+	self.confirmContinue = function() {
+		var message = this;
+		var btnArray = ['是', '否'];
+		mui.confirm('作品已找过该老师点评，是否继续？', '点评确认', btnArray, function(e) {
+			if (e.index == 0) {
+				self.getAmount();
+			}
+			else{
+				mui.back();
+			}
+		});
+	}
 
 	mui.plusReady(function() {
 		var web = plus.webview.currentWebview();
@@ -49,11 +72,15 @@ var viewModel = function() {
 				self.teacher(web.teacher);
 			}
 			
-			var ajaxUrl = common.gServerUrl + 'API/Comment/GetCommentPrice?userId='+self.teacher().UserID;
+			//判断是否已存在类似的点评（相同作品和老师）
+			var ajaxUrl = common.gServerUrl + "API/Comment/CheckSimilarComment?workId="+self.works().ID+"&teacherId="+self.teacher().UserID;
 			mui.ajax(ajaxUrl,{
 				type: 'GET',
-				success: function(responseText) {
-					self.Amount(responseText);
+				success: function(responseText){
+					self.confirmContinue();
+				},
+				error: function(responseText){
+					self.getAmount();
 				}
 			});
 		}
@@ -133,10 +160,6 @@ var viewModel = function() {
 							type: 'PUT',
 							success:function(respText){
 								var comment = JSON.parse(respText);
-								//跳转至点评（暂时未打开）
-								/*common.transfer("../../modules/comment/commentListHeader.html", true, {
-									comment: comment
-								});*/
 								var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');	//获取首页Webview对象
 								plus.webview.close(index);	//关闭首页
 								common.transfer('../../index.html', true, {page: 2}, true);

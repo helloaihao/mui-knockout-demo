@@ -27,6 +27,7 @@ var login = function() {
 					setLocalItem("DisplayName", result.DisplayName);
 					setLocalItem("Token", result.Token);
 					setLocalItem("UserType", result.UserType);
+					//mui.back();
 					var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');
 					plus.webview.close(index); //关闭首页webview
 					mui.toast("登录成功，正在返回...");
@@ -34,7 +35,8 @@ var login = function() {
 							id: 'indexID',
 							url: "../../index.html",
 							show: {
-								autoShow: false,
+								//autoShow: false,
+								autoShow: true,
 								aniShow: "slide-in-right",
 								duration: "100ms"
 							},

@@ -85,8 +85,7 @@ var myOrders = function() {
 
 	//提现
 	self.Withdraw = function() {
-		mui.toast("你点击了提现按钮");
-		common.transfer('myOrderMain.html');
+		mui.toast("敬请期待");
 	}
 	var count = 0;
 	self.pullupRefresh = function() {

@@ -22,9 +22,10 @@ mui.plusReady(function() {
 	ws = plus.webview.currentWebview();
 	// 开始扫描
 	ws.addEventListener('show', function() {
-		scan = new plus.barcode.Barcode('bcid');
+		scan = new plus.barcode.Barcode('bcid',[plus.barcode.QR]);//只识别二维码
 		scan.onmarked = onmarked;
 		scan.start();
+		common.showCurrentWebview();
 	});
 	// 显示页面并关闭等待框
 	ws.show("pop-in");

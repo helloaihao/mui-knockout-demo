@@ -54,8 +54,8 @@
 			autoShowWhileShow = true; //跳转至登录页面，强行设置自动打开页面
 		}
 
-		if (typeof autoShowWhileShow == "undefined")
-			autoShowWhileShow = true;
+		//if (typeof autoShowWhileShow == "undefined")
+		autoShowWhileShow = true;
 
 		//console.log(autoShowWhileShow);
 		mui.openWindow({
@@ -78,11 +78,24 @@
 		mui.plusReady(function() {
 			plus.nativeUI.closeWaiting();
 			var ws = plus.webview.currentWebview();
-			if(ws.parent())
+			if (ws.parent())
 				ws.parent().show();
 			else
 				ws.show();
 		});
+	},
+	//根据银行卡号获取所属银行
+	getMateBank: function(bankNum) {
+		var result;
+		bankNum = bankNum.replace(/\s+/g, ""); //去空格
+		var resultNum = Number(bankNum.substr(0, 6)); //截取前6位数字
+		bankList.forEach(function(item) { //匹配银行
+			if (item.value == resultNum) {
+				result = item.text;
+			}
+		});
+		result = result.split("-")[0] + result.split("-")[2]; //截取字段
+		return result;
 	},
 
 	confirmQuit: function() {
@@ -113,7 +126,7 @@
 
 	//根据QueryString参数名称获取值
 	getQueryStringByName: function(name, url) {
-		if(url == 'undefined'){
+		if (url == 'undefined') {
 			url = location.search;
 		}
 		var result = url.match(new RegExp("[\?\&]" + name + "=([^\&]+)", "i"));
@@ -380,7 +393,7 @@
 		var upExtras;
 		if (common.gDictUserType.teacher == getLocalItem("UserType")) {
 			upExtras = {
-				workTypeID: 0,	//老师，无需作品类型传递
+				workTypeID: 0, //老师，无需作品类型传递
 				workTitle: item == 0 ? '我的作品' : '学生作业'
 			}
 		} else {
@@ -421,9 +434,9 @@
 	},
 
 	//Web API地址
-	gServerUrl: "http://172.16.30.90:8090/", //"http://cloud.linkeol.com/", ////"http://172.16.30.90:8090/",
+	gServerUrl: "http://cloud.linkeol.com/", //"http://cloud.linkeol.com/", ////"http://172.16.30.90:8090/",
 	//Video地址
-	gVideoServerUrl: "http://172.16.30.90:8099/", //"http://video.linkeol.com/", ////"http://172.16.30.90:8099/",
+	gVideoServerUrl: "http://video.linkeol.com/", //"http://video.linkeol.com/", ////"http://172.16.30.90:8099/",
 
 	gVarWaitingSeconds: 60, //默认等待验证秒数
 	//用户类型枚举
@@ -494,8 +507,8 @@
 	},
 	//作品来源类型
 	gDictWorkSourceType: {
-		Teacher: 1,	//老师
-		Activity: 2	//活动
+		Teacher: 1, //老师
+		Activity: 2 //活动
 	},
 	//是否类型JSON
 	gJsonYesorNoType: [{
@@ -652,4 +665,4 @@
 
 
 
-}
+};

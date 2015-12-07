@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
@@ -43,6 +42,25 @@
 					top: 18px;
 				}
 			}
+				@media only screen and (min-width: 415px) and (max-width: 1025px) {
+					.index-up-secher-bg ul li{
+						width: 48%;
+					}
+				.index-up-secher-bg ul li em {
+					font-size: 46px;
+					position: absolute;
+					left: 110px;
+					top: 18px;
+				}
+				.index-up-secher-bg ul li span {
+					color: #333;
+					font-size: 16px;
+					position: absolute;
+					right: 130px;
+					top: 18px;
+				}
+			}
+			
 			.mui-bar-nav span {
 				bottom: 1px;
 				right: 1px;
@@ -58,7 +76,7 @@
 			<em class="iconfont" data-bind="click:goMessageList">&#xe628;
 				<!--<span class="mui-badge mui-badge-warning" data-bind="text: UnreadCount, visible: UnreadCount() > 0">	
 				</span>-->
-			<i class="index-red" data-bind="visible: UnreadCount() == 0"></i>					
+			<i class="index-red" data-bind="visible: UnreadCount() != 0 || getLocalItem('UserID') < 0 "></i>					
 			</em>
 		</header>
 		<div class="mui-content">

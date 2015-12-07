@@ -68,11 +68,7 @@ var myAccount = function() {
 		}
 		//提现
 	self.Withdraw = function() {
-		mui.toast("你点击了提现按钮");
-		//common.transfer('MyAccountMain.html');
-		//plus.webview.open('../../my/MyAccountMain.html','MyAccountMain.html');
-		plus.webview.open('MyAccountMain.html')
-
+		mui.toast("敬请期待");
 	}
 	window.addEventListener('refeshBalance', function(event) {
 		if (event.detail.newBalance) {

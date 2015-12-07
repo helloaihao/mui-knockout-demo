@@ -76,6 +76,7 @@ var commentList = function() {
 	//加载点评
 	self.getMyComments = function() {
 		if (!common.hasLogined()) return;
+		//console.log(self.getAjaxUrl());
 		mui.ajax(self.getAjaxUrl(), {
 			type: 'GET',
 			success: function(responseText) {
@@ -116,22 +117,22 @@ var commentList = function() {
 		}, false, false)
 	}
 
-	//下拉加载
+	//下拉刷新
 	function pulldownRefresh() {
 		setTimeout(function() {
 			mui('#pullrefresh').pullRefresh().endPulldownToRefresh(); //refresh completed
+			page = 1;					//重新加载第1页
+			self.getMyComments();
 		}, 1500);
 	}
 
-	//刷新
+	//上拉加载
 	function pullupRefresh() {
 		setTimeout(function() {
 			pageNum++;
-			//console.log(self.getAjaxUrl());
 			mui.ajax(self.getAjaxUrl(), {
 				type: 'GET',
 				success: function(responseText) {
-					//mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
 					var result = eval("(" + responseText + ")");
 					if (result.length <= 0) {
 						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
@@ -171,5 +172,24 @@ var commentList = function() {
 	self.goLogin = function() {
 		common.transfer('../../modules/account/login.html', true);
 	};
+	
+	window.addEventListener("refreshComments", function(event) {
+		if (event.detail.comment) {
+			var retComment = event.detail.comment;
+			var arrTmp = [];
+			self.comments().forEach(function(item) {
+				if (item.ID == retComment.ID) {
+					item.CommentToRules = retComment.CommentToRules;
+					item.IsFinish = retComment.IsFinish;
+					item.TotalComment = retComment.TotalComment;
+				}
+				
+				arrTmp.push(item);
+			});
+			
+			self.comments.removeAll();
+			self.comments(arrTmp);
+		}
+	});
 }
 ko.applyBindings(commentList);

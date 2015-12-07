@@ -35,7 +35,7 @@
 	</head>
 
 	<body style="background:#f1f1f1;">
-		<div class="openedCourses-ys" data-bind="visible:worksList().length<=0 && getLocalItem('teacherID') == 'undefined'">
+		<div class="openedCourses-ys" data-bind="visible:worksList().length<=0 && typeof(getLocalItem('UserID')) == 'undefined'">
 			<i>
 				<img src="../../images/logo-pic.png" />
 			</i>
@@ -67,7 +67,7 @@
 						<li data-bind="text:works.AddTime.split(' ')[0]"></li>
 						<li data-bind="text:works.ReadCount"></li>
 						<li data-bind="text:works.LikeCount"></li>
-						<li data-bind="text:works.WorkStatus"></li>
+						<li data-bind="text:works.WorkStatusText"></li>
 					</ul>
 				</div>
 				<div class="mask" data-bind="visible: IsFinish() == false">

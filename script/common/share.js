@@ -115,7 +115,6 @@ Share.shareMessage = function(s, ex) {
 	msg.title = share_title;
 	msg.thumbs = [share_thumb_img];
 	msg.pictures = [share_img];
-	console.log(JSON.stringify(msg));
 	s.send(msg, function() {
 		console.log("分享到\"" + s.description + "\"成功，返回应用 "); //分享给qq好友，微信好友如果不返回应用，无法监听到分享成功回调
 	}, function(e) {

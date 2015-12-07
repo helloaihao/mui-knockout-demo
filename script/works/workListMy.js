@@ -1,11 +1,11 @@
 var workListMy = function() {
 	var self = this;
-	
+
 	var authorID; //作品拥有者
 	var sortID;
 	var page = 1;
 	var count = 0; //刷新检测值
-	var workTypeID;		//作品类型的取值（学生用户有效，老师用户则无需分类）
+	var workTypeID; //作品类型的取值（学生用户查看个人作品/作业时有效，老师用户则无需分类）
 	var pullupValue = 1;
 	var uploadingWorks;
 	var videoPath;
@@ -16,7 +16,7 @@ var workListMy = function() {
 	self.currentSubject = ko.observable({}); //当前选中的科目
 	self.currentWorkTypes = ko.observable(0);
 	self.currentSort = ko.observable(5);
-	
+
 	mui.init({
 		pullRefresh: {
 			container: '#pullrefreshMy',
@@ -90,8 +90,8 @@ var workListMy = function() {
 		self.LastUploadedSize = ko.observable(0);	//上一次记录时所上传的文件大小
 		self.Speed = ko.observable('0 K/s');	//上传速率*/
 	}
-	
-	self.getAjaxUrl = function(){
+
+	self.getAjaxUrl = function() {
 		var curl = "?userID=" + authorID + "&page=" + page;
 		if (typeof self.currentSubject().id === "number") {
 			curl += "&subject=" + self.currentSubject().id;
@@ -100,20 +100,23 @@ var workListMy = function() {
 		if (typeof(sortID) === "number" && sortID > 0) {
 			curl += "&sortType=" + sortID;
 		}
-		if (typeof(workTypeID) === "number" && workTypeID > 0) {
+
+		if (typeof(workTypeID) === "number" && workTypeID > 0 || typeof(workTypeID) === "string" && workTypeID != "") {
 			curl += "&workType=" + workTypeID;
 		}
-		
+
 		return common.gServerUrl + "API/Work" + curl;
 	}
 
 	//加载作品
 	self.getWorks = function() {
+		console.log(self.getAjaxUrl());
 		mui.ajax(self.getAjaxUrl(), {
 			type: 'GET',
 			success: function(responseText) {
+				console.log(responseText);
 				var result = eval("(" + responseText + ")");
-				
+
 				self.worksList.removeAll(); //先移除所有
 				if (result && result.length > 0) {
 					result.forEach(function(item) {
@@ -122,25 +125,24 @@ var workListMy = function() {
 						//console.log(obj.VideoThumbnail());
 					})
 					upload.initTasks(refreshUploadState);
-					
+
 					common.showCurrentWebview();
-				}
-				else{
+				} else {
 					common.showCurrentWebview();
 				}
 			}
 		});
 	};
-	
+
 	//下拉刷新
 	function pulldownRefresh() {
 		setTimeout(function() {
 			mui('#pullrefreshMy').pullRefresh().endPulldownToRefresh(); //refresh completed
-			page = 1;					//重新加载第1页
+			page = 1; //重新加载第1页
 			self.getWorks();
 		}, 1500);
 	}
-	
+
 	//上拉加载
 	function pullupRefresh(pullrefreshId, worksArray) {
 		setTimeout(function() {
@@ -151,17 +153,20 @@ var workListMy = function() {
 					success: function(responseText) {
 						var result = eval("(" + responseText + ")");
 						if (result && result.length > 0) {
+							mui('#pullrefreshMy').pullRefresh().endPullupToRefresh(false);
 							result.forEach(function(item) {
 								var obj = new worksItem(item);
 								self.worksList.push(obj);
 							})
+						} else {
+							mui('#pullrefreshMy').pullRefresh().endPullupToRefresh(true);
 						}
 						if (self.worksList().length <= 2) {
 							mui('#pullrefreshMy').pullRefresh().disablePullupToRefresh();
 						} else {
 							mui('#pullrefreshMy').pullRefresh().enablePullupToRefresh();
 						}
-						//mui('#pullrefreshMy').pullRefresh().endPullupToRefresh((++count > 2));
+
 					}
 				});
 			}
@@ -174,31 +179,32 @@ var workListMy = function() {
 			}
 		});
 	}
-	
+
 	//跳转到作品详情页面
 	self.goWorksDetails = function(data) {
 		common.transfer("../works/WorksDetails.html", false, {
 			works: data.works
 		}, false, false)
 	}
-	
+
 	mui.plusReady(function() {
 		var web = plus.webview.currentWebview();
+		authorID = getLocalItem("UserID"); //默认获取自己的作品
 		if (typeof(web.teacherID) !== "undefined") {
+			console.log(11);
 			authorID = web.teacherID;
 			self.displayCheck(web.displayCheck);
-		} else {
-			authorID = getLocalItem("UserID"); //获取自己的作品
 		}
-		if (getLocalItem("workTypeID") != "undefined") {
+		if (getLocalItem("workTypeID") != "") {
 			workTypeID = getLocalItem("workTypeID");
 			if (workTypeID == common.gJsonWorkTypeStudent[0].value) {
 				self.workDes("作品");
 			}
 		}
-		if( getLocalItem("teacherID") != "undefined") {
+		if (getLocalItem("teacherID") != "") {
 			authorID = getLocalItem("teacherID");
 		}
+
 		self.getWorks();
 		self.tmplSubjectClasses(common.getAllSubjectClasses());
 		self.tmplSubjects(common.getAllSubjects());
@@ -206,11 +212,11 @@ var workListMy = function() {
 			self.currentSubject(self.tmplSubjects()[0]);
 		}
 	});
-	
+
 	//添加作品
 	self.gotoAddWorks = function() {
 		//console.log(common.gJsonWorkTypeStudent[0].value);
-		common.transfer("addWorks.html",true,common.extrasUp());
+		common.transfer("addWorks.html", true, common.extrasUp());
 	};
 
 	/*mui.init({
@@ -219,7 +225,7 @@ var workListMy = function() {
 			return false;
 		}
 	})*/
-	
+
 	window.addEventListener("refreshMyworks", function(event) {
 		if (event.detail.worksStatus) {
 			self.worksList().forEach(function(item) {

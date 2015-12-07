@@ -14,7 +14,7 @@ var my_student = function() {
 		common.transfer('myInfo.html', true, {}, true, false);
 	}
 	self.goMoreInfo = function() { //更多
-		common.transfer('moreInfo.html', true, {}, true);
+		common.transfer('moreInfo.html', false, {}, true);
 	}
 	self.goMyOrders = function() { //订单
 		common.transfer('myOrders.html', true);
@@ -29,7 +29,7 @@ var my_student = function() {
 		common.transfer('../my/help.html', false);
 	}
 	self.qrcodeEvent = function() {
-		common.transfer("qrcode.html", false);
+		common.transfer("qrcode.html", false,{},false,false);
 	}
 	self.getStudent = function() { //获取资料
 		var ajaxUrl = common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID() + "&usertype=" + self.UserType();

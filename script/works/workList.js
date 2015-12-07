@@ -28,7 +28,7 @@ var workList = function() {
 		if (typeof(sortID) === "number" && sortID > 0) {
 			ajaxUrl += "&sortType=" + sortID;
 		}
-
+		//mui.toast(ajaxUrl);
 		return ajaxUrl;
 	}
 
@@ -37,7 +37,7 @@ var workList = function() {
 		mui.ajax(self.getAjaxUrl(), {
 			type: 'GET',
 			success: function(responseText) {
-				//console.log(responseText);
+//				console.log(responseText);
 				var result = eval("(" + responseText + ")");
 				self.works(result);
 			}
@@ -169,7 +169,6 @@ var workList = function() {
 		common.transfer('addWorks.html')
 	};
 	mui.plusReady(function() {
-		
 		var web = plus.webview.currentWebview();
 		if (typeof(web.displayCheck) !== "undefined") {
 			self.teacherInfo(web.teacher);
@@ -181,7 +180,7 @@ var workList = function() {
 		if(self.tmplSubjects().length > 0){
 			self.currentSubject(self.tmplSubjects()[0]);
 		}
-
+		
 		self.getWorks();
 	});
 }

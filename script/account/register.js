@@ -58,19 +58,23 @@ var register = function() {
 				mui.toast("手机号码不合法")
 			} else {
 				//账号是否存在,此处不存在success
+				self.RemainTime(common.gVarWaitingSeconds);
 				mui.ajax(common.gServerUrl + "API/Account/CheckAccount?userName=" + self.UserName() + "&exists=false", {
 					type: 'GET',
 					success: function(responseText) {
 						mui.ajax(common.gServerUrl + "Common/GetVerifyCode?mobile=" + self.UserName(), {
-							//dataType:'json',
 							type: 'GET',
 							success: function(responseText) {
-								//var result = eval("(" + responseText + ")");
 								mui.toast(responseText);
-								self.RemainTime(common.gVarWaitingSeconds);
 								self.CheckTime();
+							},
+							error: function() {
+								self.RemainTime(0);
 							}
 						})
+					},
+					error: function() {
+						self.RemainTime(0);
 					}
 				})
 			}
@@ -145,7 +149,8 @@ var register = function() {
 						'beginYear': 1980,
 						'endYear': year
 					},
-					self.Birthday(), function(value) {
+					self.Birthday(),
+					function(value) {
 						//self.Birthday(value.format('yyyy-MM-dd'));
 						self.Birthday(value.split(' ')[0]);
 					});
@@ -174,92 +179,92 @@ var register = function() {
 		}
 		//提交注册
 	self.setInfo = function() {
-			if (common.StrIsNull(self.DisplayName()) == "") {
-				mui.toast('姓名不能为空');
-				return;
-			}
-			if (self.UserType() == common.gDictUserType.teacher) {
-				if (self.SubjectID() <= 0) {
-					mui.toast('请选择科目');
-					return;
-				}
-			}
-			if (common.StrIsNull(self.GenderText()) == "") {
-				mui.toast('请选择性别');
-				return;
-			}
-			if (common.StrIsNull(self.Province()) == "") {
-				mui.toast('请选择位置');
-				return;
-			}
-			if (self.UserType() == common.gDictUserType.teacher) {
-				if (common.StrIsNull(self.Introduce()) == "") {
-					mui.toast('自我简介不能为空');
-					return;
-				}
-			}
-			if (self.UserType() == common.gDictUserType.student) {
-				if (common.StrIsNull(self.Birthday()) == "") {
-					mui.toast('生日不能为空');
-					return;
-				}
-			}
-			if (self.UserType() == common.gDictUserType.teacher) {
-				if (common.StrIsNull(self.TeachAge()) == "") {
-					mui.toast('教龄不能为空');
-					return;
-				}
-			}
-			
-			var data = {
-				UserName: self.UserName(),
-				DisplayName: self.DisplayName(),
-				Password: self.Password(),
-				UserType: self.UserType(),
-				VerifyCode: self.CheckNum(),
-				Gender: self.Gender(),
-				Province: decodeURI(self.Province()),
-				City: decodeURI(self.City()),
-				District: decodeURI(self.District()),
-				Birthday: self.Birthday(),
-				SubjectID: self.SubjectID(),
-				TeachAge: self.TeachAge(),
-				Introduce: self.Introduce()
-			};
-			if (self.Base64() != '') {
-				data.PhotoBase64 = self.Base64();
-			}
-			mui.ajax(common.gServerUrl + "API/Account/Register", {
-				type: 'POST',
-				data: data,
-				success: function(responseText) {
-					var result = eval("(" + responseText + ")");
-					setLocalItem("UserID", result.UserID);
-					setLocalItem("UserName", result.UserName);
-					setLocalItem("Token", result.Token);
-					setLocalItem("UserType", result.UserType);
-					setLocalItem('DisplayName', result.DisplayName);
-					//plus.webview.close(index); //关闭首页webview
-					mui.toast("注册成功，正在返回...");
-					var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID'); //获取首页Webview对象
-					plus.webview.close(index); //关闭首页
-					mui.openWindow({
-						id: 'indexID',
-						url: "../../index.html",
-						show: {
-							autoShow: true,
-							aniShow: "slide-in-right",
-							duration: "100ms"
-						},
-						waiting: {
-							autoShow: false
-						},
-						createNew: true
-					})
-				}
-			});
+		if (common.StrIsNull(self.DisplayName()) == "") {
+			mui.toast('姓名不能为空');
+			return;
 		}
-	
+		if (self.UserType() == common.gDictUserType.teacher) {
+			if (self.SubjectID() <= 0) {
+				mui.toast('请选择科目');
+				return;
+			}
+		}
+		if (common.StrIsNull(self.GenderText()) == "") {
+			mui.toast('请选择性别');
+			return;
+		}
+		if (common.StrIsNull(self.Province()) == "") {
+			mui.toast('请选择位置');
+			return;
+		}
+		if (self.UserType() == common.gDictUserType.teacher) {
+			if (common.StrIsNull(self.Introduce()) == "") {
+				mui.toast('自我简介不能为空');
+				return;
+			}
+		}
+		if (self.UserType() == common.gDictUserType.student) {
+			if (common.StrIsNull(self.Birthday()) == "") {
+				mui.toast('生日不能为空');
+				return;
+			}
+		}
+		if (self.UserType() == common.gDictUserType.teacher) {
+			if (common.StrIsNull(self.TeachAge()) == "") {
+				mui.toast('教龄不能为空');
+				return;
+			}
+		}
+
+		var data = {
+			UserName: self.UserName(),
+			DisplayName: self.DisplayName(),
+			Password: self.Password(),
+			UserType: self.UserType(),
+			VerifyCode: self.CheckNum(),
+			Gender: self.Gender(),
+			Province: decodeURI(self.Province()),
+			City: decodeURI(self.City()),
+			District: decodeURI(self.District()),
+			Birthday: self.Birthday(),
+			SubjectID: self.SubjectID(),
+			TeachAge: self.TeachAge(),
+			Introduce: self.Introduce()
+		};
+		if (self.Base64() != '') {
+			data.PhotoBase64 = self.Base64();
+		}
+		mui.ajax(common.gServerUrl + "API/Account/Register", {
+			type: 'POST',
+			data: data,
+			success: function(responseText) {
+				var result = eval("(" + responseText + ")");
+				setLocalItem("UserID", result.UserID);
+				setLocalItem("UserName", result.UserName);
+				setLocalItem("Token", result.Token);
+				setLocalItem("UserType", result.UserType);
+				setLocalItem('DisplayName', result.DisplayName);
+				//plus.webview.close(index); //关闭首页webview
+				mui.toast("注册成功，正在返回...");
+				var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID'); //获取首页Webview对象
+				plus.webview.close(index); //关闭首页
+				mui.openWindow({
+					id: 'indexID',
+					url: "../../index.html",
+					show: {
+						autoShow: true,
+						aniShow: "slide-in-right",
+						duration: "100ms"
+					},
+					waiting: {
+						autoShow: false
+					},
+					createNew: true
+				})
+			}
+		});
+	}
+
 	//预加载数据
 	var userType, genders, places, subjects;
 	mui.ready(function() {

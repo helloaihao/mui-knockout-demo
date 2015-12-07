@@ -50,7 +50,8 @@ var moreInfo = function() {
 				id: 'indexID',
 				url: "../../index.html",
 				show: {
-					autoShow: false,
+					//autoShow: false,
+					autoShow: true,
 					aniShow: "slide-in-right",
 					duration: "100ms"
 				},

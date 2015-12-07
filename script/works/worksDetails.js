@@ -1,6 +1,7 @@
 var worksDetails = function() {
 	var self = this;
-	var workIsDel=false;
+	var workIsDel = false;
+	var payValue=true;//作品付费状态值
 	self.UserID = getLocalItem("UserID"); //当前用户UserID
 	//作品的元素绑定
 	self.Works = ko.observable({}); //作品实例
@@ -53,57 +54,57 @@ var worksDetails = function() {
 	var lis = ull.getElementsByTagName("li");
 	for (var i = 0; i < lis.length; i++) {
 		lis[i].onclick = function() {
-			Share.sendShare(this.id, shareTitle, shareContent, shareUrl, shareImg);
-			mui('#middlePopover').popover('toggle');
+			mui.toast("敬请期待");
+			/*Share.sendShare(this.id, shareTitle, shareContent, shareUrl, shareImg);
+			mui('#middlePopover').popover('toggle');*/
 		}
 	}
-	self.closeShare = function() { //关闭分享窗口
-			mui('#middlePopover').popover('toggle');
-		}
-		//获取视频
-	self.getVideo = function(workId) {
-			//			console.log(workId);
-			mui.ajax(common.gServerUrl + "API/Video/GetVideoUrl/?workId=" + workId, {
-				type: 'GET',
-				success: function(responseText) {
-					var obj = JSON.parse(responseText);
-					//console.log(responseText);
-					var videoPos = document.getElementById('videoPos');
-					//					var vwidth = window.screen.width;
-					//					var vheight = vwidth * 3 / 4;common.gVideoServerUrl + obj.VideoUrl
-					//console.log(common.gVideoServerUrl + obj.VideoUrl);
-					videoPos.innerHTML = '<div class="video-js-box" style="margin:5px auto"><video controls width="' + 320 + 'px" height="' + 240 + 'px" class="video-js" poster: ' + Works().imgUrl + ' data-setup="{}"><source src="' + common.gVideoServerUrl + obj.VideoUrl + '" type="video/mp4" /></video></div>'
-					VideoJS.setupAllWhenReady();
-					shareUrl=common.gVideoServerUrl + obj.VideoUrl;
-					shareImg=Works().imgUrl;
-				}
-			});
-		}
-		/*var req = new XMLHttpRequest();
-    req.onload = function () {
-        var obj = JSON.parse(this.response);
-        self.src({
-       		type: obj.Type,
-       		src: common.gServerUrl + obj.VideoUrl
-       	});
-       	self.play();
-    };
-    req.open('GET', common.gServerUrl + "API/Video/GetVideoUrl/?workId="+workId, true);
-    req.setRequestHeader("Authorization", getAuth());
-    req.send(null);*/
 
+	//关闭分享窗口
+	self.closeShare = function() {
+		mui('#middlePopover').popover('toggle');
+	}
+
+	//获取视频
+	self.getVideo = function(workId) {
+		//console.log(workId);
+		mui.ajax(common.gServerUrl + "API/Video/GetVideoUrl/?workId=" + workId, {
+			type: 'GET',
+			success: function(responseText) {
+				var obj = JSON.parse(responseText);
+				//console.log(responseText);
+				var videoPos = document.getElementById('videoPos');
+				//					var vwidth = window.screen.width;
+				//					var vheight = vwidth * 3 / 4;common.gVideoServerUrl + obj.VideoUrl
+				//console.log(common.gVideoServerUrl + obj.VideoUrl);
+				videoPos.innerHTML = '<div class="video-js-box" style="margin:5px auto"><video controls width="' + 320 + 'px" height="' + 240 + 'px" class="video-js" poster: ' + Works().imgUrl + ' data-setup="{}"><source src="' + common.gVideoServerUrl + obj.VideoUrl + '" type="video/mp4" /></video></div>'
+				VideoJS.setupAllWhenReady();
+				shareUrl = common.gVideoServerUrl + obj.VideoUrl;
+				shareImg = Works().imgUrl;
+			},
+			error:function(XMLHttpRequest){
+				//status为403则作品需要付费但是为付费
+				if(XMLHttpRequest.status==403){
+					payValue=false;
+				}else if(XMLHttpRequest.status==404){
+					
+				}
+				//status为404为作品不存在
+			}
+		});
+	}
 
 	//获取上级页面的数据
 	var workobj, workVaule;
 	mui.plusReady(function() {
-		Share.updateSerivces();//初始化分享
+		Share.updateSerivces(); //初始化分享
 		workVaule = plus.webview.currentWebview();
 		if (workVaule) {
 			workobj = workVaule.works;
 			obj = new self.initWorksValue(workVaule.works);
 			self.Works(obj);
 			self.getVideo(obj.WorkID());
-			shareTitle="我在乐评家上分享了"+self.Works().Title()+"的视频";
+			shareTitle = "我在乐评家上分享了" + self.Works().Title() + "的视频";
 		}
 		common.showCurrentWebview();
 		self.getComment();
@@ -114,7 +115,7 @@ var worksDetails = function() {
 		mui.ajax(common.gServerUrl + "Common/Comment/GetCommentsByWork?WorkID=" + self.Works().WorkID(), {
 			type: 'Get',
 			success: function(responseText) {
-				//console.log(responseText);
+				console.log(responseText);
 				var result = eval("(" + responseText + ")");
 				result.forEach(function(item, i, array) {
 					self.teacherComment.push(Comment(item));
@@ -125,25 +126,40 @@ var worksDetails = function() {
 
 	//删除作品
 	self.worksDelete = function() {
-			var btnArray = ['是', '否'];
-			mui.confirm('确认删除吗', '您点击了删除', btnArray, function(e) {
-				if (e.index == 0) {
-					mui.ajax(common.gServerUrl + "Common/Work/" + self.Works().WorkID(), {
-						type: 'DELETE',
-						success: function(responseText) {
-							workIsDel=true;
-							mui.toast("删除成功");
-							mui.back();
-						}
-					});
-				}
-			});
-		}
-		//修改作品
+		var btnArray = ['是', '否'];
+		mui.confirm('确认删除吗', '您点击了删除', btnArray, function(e) {
+			if (e.index == 0) {
+				mui.ajax(common.gServerUrl + "Common/Work/" + self.Works().WorkID(), {
+					type: 'DELETE',
+					success: function(responseText) {
+						workIsDel = true;
+						mui.toast("删除成功");
+						mui.back();
+					}
+				});
+			}
+		});
+	}
+
+	//修改作品
 	self.worksSet = function() {
 
 	}
-
+	//作品下载
+	self.downWork=function(){
+		if(){
+			
+		}
+	}
+	//作品支付
+	self.payWork=function(){
+		if(self.UserID<0){
+			common.transfer("account/login.html");
+		}else{
+			//弹出支付框
+			
+		}
+	}
 	//点评的模型
 	function Comment(model) {
 		var obj = {};
@@ -168,51 +184,53 @@ var worksDetails = function() {
 
 		return obj;
 	}
+
 	//添加咨询
 	self.addfeedbacks = function() {
-			/*var oldComment = this;
-			var theComment = {};
-			for (var p in oldComment)
-				theComment[p] = oldComment[p];*/
-			var theComment = this;
+		/*var oldComment = this;
+		var theComment = {};
+		for (var p in oldComment)
+			theComment[p] = oldComment[p];*/
+		var theComment = this;
 
-			//e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
-			var btnArray = ['确定', '取消'];
-			mui.prompt('请输入咨询内容：', '', '咨询', btnArray, function(e) {
-				if (e.index == 0) {
-					mui.ajax(common.gServerUrl + "API/Comment/AddCommentFeedback", {
-						type: "POST",
-						data: {
-							CommentID: theComment.ID,
-							Question: e.value
-						},
-						success: function() {
-							var tmp = theComment.CommentFeedbacks;
-							if (!tmp)
-								tmp = [];
-							var newFB = {
-								'Question': e.value,
-								'Answer': ''
-							};
-							tmp.push(newFB);
-							theComment.CommentFeedbacks = tmp; //JSON.stringify(tmp);
-							//self.teacherComment.replace(oldComment, theComment);
+		//e.detail.gesture.preventDefault(); //修复iOS 8.x平台存在的bug，使用plus.nativeUI.prompt会造成输入法闪一下又没了
+		var btnArray = ['确定', '取消'];
+		mui.prompt('请输入咨询内容：', '', '咨询', btnArray, function(e) {
+			if (e.index == 0) {
+				mui.ajax(common.gServerUrl + "API/Comment/AddCommentFeedback", {
+					type: "POST",
+					data: {
+						CommentID: theComment.ID,
+						Question: e.value
+					},
+					success: function() {
+						var tmp = theComment.CommentFeedbacks;
+						if (!tmp)
+							tmp = [];
+						var newFB = {
+							'Question': e.value,
+							'Answer': ''
+						};
+						tmp.push(newFB);
+						theComment.CommentFeedbacks = tmp; //JSON.stringify(tmp);
+						//self.teacherComment.replace(oldComment, theComment);
 
-							mui.toast("添加咨询成功");
-						}
-					})
-				}
-			})
-		}
-		//找老师点评
+						mui.toast("添加咨询成功");
+					}
+				})
+			}
+		})
+	}
+
+	//找老师点评
 	self.getTeacherComment = function() {
-			common.transfer('../../modules/teacher/teacherListHeader.html', true, {
-				works: workobj,
-				displayCheck: true
-			});
+		common.transfer('../../modules/teacher/teacherListHeader.html', true, {
+			works: workobj,
+			displayCheck: true
+		});
+	}
 
-		}
-		//设置作品是否公开
+	//设置作品是否公开
 	self.setPublic = function() {
 		var ispublic = self.Works().IsPublic();
 		mui.ajax(common.gServerUrl + "Common/Work/" + self.Works().WorkID(), {
@@ -258,10 +276,10 @@ var worksDetails = function() {
 					worksId: self.Works().WorkID(),
 				});
 				return true;
-			}else if(workParent.id == 'worksListMyWorks.html'){
-				mui.fire(workParent,'refreshMyworks',{
-					worksId:self.Works().WorkID(),
-					worksStatus:workIsDel
+			} else if (workParent.id == 'worksListMyWorks.html') {
+				mui.fire(workParent, 'refreshMyworks', {
+					worksId: self.Works().WorkID(),
+					worksStatus: workIsDel
 				})
 			}
 

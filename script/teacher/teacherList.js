@@ -10,27 +10,27 @@ var viewModel = function() {
 	var refreshFlag = true;
 	//接收属性
 	var works;
-	
+
 	self.teacherList = ko.observableArray([]); //选项文字
 	self.dbStar = ko.observable("星级");
 	self.dbSort = ko.observable("排序");
 	self.SubjectID = ko.observable(0); //上一个页面传递过来的科目ID
-	
+
 	self.displayCheck = ko.observable(false); //是否显示选择
-	
+
 	self.tmplSubjects = ko.observableArray([]);
 	self.tmplSubjectClasses = ko.observableArray([]);
 	self.currentSubject = ko.observable({}); //当前选中的科目
-	
+
 	self.stars = ko.observableArray([]);
 	self.currentStar = ko.observable(0);
-	
+
 	self.sorts = ko.observableArray([]);
 	self.currentSort = ko.observable(1);
 	//获取老师列表
 	self.getTeacherList = function() {
 		var curl = pageUrl + pageID;
-		
+
 		//console.log(typeof self.currentSubject().id);
 		if (typeof self.currentSubject().id === "number") {
 			curl += subjectUrl + self.currentSubject().id;
@@ -48,7 +48,7 @@ var viewModel = function() {
 			type: 'GET',
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
-				
+
 				self.teacherList(result);
 			}
 		});
@@ -59,12 +59,12 @@ var viewModel = function() {
 			container: '#pullrefresh',
 			down: {
 				callback: pulldownRefresh,
-				
+
 			},
 			up: {
 				contentrefresh: '正在加载...',
 				callback: pullupRefresh,
-				
+
 			}
 		}
 	});
@@ -98,6 +98,7 @@ var viewModel = function() {
 	}
 
 	var count = 0;
+
 	function pullupRefresh() {
 		setTimeout(function() {
 			//mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
@@ -113,15 +114,14 @@ var viewModel = function() {
 			if (typeof(self.currentSort()) === "number") {
 				curl += sortUrl + self.currentSort();
 			}
-			
+
 			mui.ajax(thisUrl + curl, {
 				type: 'GET',
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
-					if(result.length <= 0){
+					if (result.length <= 0) {
 						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
-					}
-					else{
+					} else {
 						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
 						self.teacherList(self.teacherList().concat(result));
 					}
@@ -149,7 +149,7 @@ var viewModel = function() {
 		self.getTeacherList();
 		mui('#popSubjects').popover('toggle');
 	}
-	
+
 	//选择星级
 	self.selectStar = function(ss) {
 		self.currentStar(ss.value);
@@ -157,7 +157,7 @@ var viewModel = function() {
 		self.getTeacherList();
 		mui('#popStar').popover('toggle');
 	}
-	
+
 	//选择排序
 	self.selectSort = function(ss) {
 		self.currentSort(ss.value);
@@ -181,10 +181,15 @@ var viewModel = function() {
 				pos = i;
 			}
 		}
-		common.transfer('../student/submitComment.html', true, {
-			works: self.works,
-			teacher: self.teacherList()[pos]
-		});
+		if (pos >= 0) {
+			common.transfer('../student/submitComment.html', true, {
+				works: self.works,
+				teacher: self.teacherList()[pos]
+			});
+		}else{
+			mui.toast("请选择一位老师");
+		}
+
 	};
 	//mui('#popSort').popover('toggle');
 	mui.plusReady(function() {
@@ -194,18 +199,18 @@ var viewModel = function() {
 			self.displayCheck(web.displayCheck);
 			self.works = web.works;
 		}
-		
+
 		//科目
 		self.tmplSubjectClasses(common.getAllSubjectClasses());
 		self.tmplSubjects(common.getAllSubjects());
 		if (typeof(web.data) !== "undefined") {
 			self.currentSubject(web.data);
-		}else {
+		} else {
 			if (self.tmplSubjects().length > 0) {
 				self.currentSubject(self.tmplSubjects()[0]);
 			}
 		}
-		
+
 		//星级、排序
 		self.stars(common.gJsonTeacherLever);
 		self.sorts(common.gJsonTeacherSort);

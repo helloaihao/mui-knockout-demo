@@ -64,12 +64,7 @@
 							<span data-bind="text: teacher().SubjectName">钢琴</span>
 						</div>
 						<div class="dow">
-							<em>
-								<i class="iconfont">&#xe62f;</i>
-								<i class="iconfont">&#xe62f;</i>
-								<i class="iconfont">&#xe62f;</i>
-								<i class="iconfont">&#xe62f;</i>
-							</em>
+							<em data-bind="css: 'star'+teacher().Star"></em>
 						</div>
 					</div>		
 				</div>		
@@ -86,7 +81,7 @@
         </nav>	
 		
 		
-		<!--弹出分享-->
+		<!--弹出付款对话框-->
 		<div id="middlePopover" class="mui-popover submitComment-top">	
 			<div class="mui-scroll-wrapper">
 				<div class="mui-scroll submitClass-mui-scroll Lesson-mui" >
@@ -105,7 +100,7 @@
 									</li>
 								</label>
 							</div>
-							<div class="mui-input-row mui-radio mui-left Lesson-radio">
+							<!--<div class="mui-input-row mui-radio mui-left Lesson-radio">
 								<label>
 									<li class="wx-pay">
 										<img src="../../images/submitClass-zf.png" />
@@ -113,7 +108,7 @@
 										<input name="payType" value="alipay" type="radio" data-bind="event:{change: checkPayType}">
 									</li>
 								</label>
-							</div>
+							</div>-->
 							<li class="lineHeight">
 								总额：￥
 								<!--ko text: Amount-->

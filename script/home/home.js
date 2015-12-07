@@ -7,13 +7,12 @@ var home = function() {
 
 	self.getTeachers = function() {
 		self.getUnreadCount;
-
 		mui.ajax(common.gServerUrl + "API/Teacher/GetIndexTeachers?count=" + self.count, {
 			dataType: 'json',
 			type: "GET",
 			success: function(responseText) {
 				self.Teachers(responseText);
-				plus.navigator.closeSplashscreen(); //关闭启动界面
+				//plus.navigator.closeSplashscreen(); //关闭启动界面
 				common.showCurrentWebview();
 			}
 		});

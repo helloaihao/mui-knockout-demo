@@ -17,6 +17,7 @@ var modifyPhone = function() {
 			mui.toast("手机号码不合法")
 		} else {
 			//账号是否存在,此处不存在success
+			self.RemainTime(common.gVarWaitingSeconds);
 			mui.ajax(common.gServerUrl + "API/Account/CheckAccount?userName=" + self.NewUserName() + "&exists=false", {
 				type: 'GET',
 				success: function(responseText) {
@@ -26,10 +27,16 @@ var modifyPhone = function() {
 						success: function(responseText) {
 							//var result = eval("(" + responseText + ")");
 							mui.toast(responseText);
-							self.RemainTime(common.gVarWaitingSeconds);
+
 							self.CheckTime();
+						},
+						error: function() {
+							self.RemainTime(0);
 						}
 					})
+				},
+				error: function() {
+					self.RemainTime(0);
 				}
 			})
 		}
@@ -68,10 +75,10 @@ var modifyPhone = function() {
 			},
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
-				
+
 				setLocalItem("UserName", result.UserName);
 				setLocalItem("Token", result.Token);
-				
+
 				mui.toast("修改成功");
 				mui.back();
 			}
@@ -80,7 +87,7 @@ var modifyPhone = function() {
 	mui.init({
 		beforeback: function() {
 			var parent = plus.webview.currentWebview().opener();
-			mui.fire(parent,'refreshUserName');
+			mui.fire(parent, 'refreshUserName');
 			return true;
 		}
 	});

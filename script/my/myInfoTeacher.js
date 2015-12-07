@@ -16,7 +16,7 @@ var my_teacher = function() {
 		common.transfer('myInfo.html', true, {}, true, false);
 	}
 	self.goMoreInfo = function() {
-		common.transfer('moreInfo.html', true, {}, true);
+		common.transfer('moreInfo.html', false, {}, true);
 	}
 	self.goAuth = function() {
 		common.transfer('teacherAuth.html', true, {
@@ -54,7 +54,6 @@ var my_teacher = function() {
 				type: 'GET',
 				success: function(responseText) {
 					//console.log(responseText);
-					
 					self.ID(responseText.ID);
 					self.DisplayName(responseText.DisplayName);
 					if (responseText.Photo)
@@ -88,9 +87,6 @@ var my_teacher = function() {
 			})
 		}();
 	}
-	
-
-
 
 	window.addEventListener('refreshAttend', function(event) {
 		self.FavCount(event.detail.myAttendNum);

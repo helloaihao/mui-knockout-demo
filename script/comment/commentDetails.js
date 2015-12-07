@@ -102,7 +102,11 @@ var viewModel = function() {
 				CommentToRules: JSON.stringify(arr)
 			},
 			success: function(responseText) {
+				self.comment().TotalComment = self.totalComment();
+				self.comment().CommentToRules = JSON.stringify(arr);
+				self.comment().IsFinish = true;
 				mui.toast("保存成功");
+				mui.back();
 			}
 		});
 	};
@@ -178,8 +182,17 @@ var viewModel = function() {
 			if(common.StrIsNull(self.comment().CommentToRules) != ''){
 				self.hasCommented(true);
 			}
-			self.totalComment(comment.TotalComment);
+			self.totalComment(self.comment().TotalComment);
 			self.getCommentData(self.comment().ID);
+		}
+	});
+	
+	mui.init({
+		beforeback: function() {
+			mui.fire(plus.webview.currentWebview().opener(), 'refreshComments', {
+				comment: self.comment()
+			});
+			return true;
 		}
 	});
 };

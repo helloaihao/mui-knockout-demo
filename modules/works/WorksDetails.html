@@ -94,23 +94,31 @@
 					</li>
 					<li data-bind="click:worksDelete, visible: IsAuthor"><i class="iconfont">&#xe61b;</i>删除</li>
 
-					<li data-bind="click:worksSet, visible: IsAuthor"><i class="iconfont">&#xe63e;</i>修改</li>
+					<!--<li data-bind="click:worksSet, visible: IsAuthor"><i class="iconfont">&#xe63e;</i>修改</li>-->
 				</ul>
 				<!--<div class="works-img-div" data-bind="style:{'background-image': 'url('+Works().imgUrl+')', 'background-size': 'cover'}">图片</div>-->
-				<!--<video id="video1" class="video-js vjs-default-skin" height="240px" data-bind="attr:{poster: Works().imgUrl}" controls data-setup="{}">
-				</video>-->
+				<video  id="video1" class="video-js vjs-default-skin" height="240px" data-bind="attr:{poster: Works().imgUrl}" controls data-setup="{}">
+					
+				</video>
+				<div class="video-bg">
+					<span>该视频需要付费~</span>
+					<a href="#bottomPopover">
+					<em>付费</em>
+					</a>
+				</div>
 				<!-- Using the Video for Everybody Embed Code http://camendesign.com/code/video_for_everybody -->
-				<div id="videoPos"></div>
-
+				<!--<div id="videoPos"></div>-->
+			
 				<div class="works-date">
 					<ul>
-						<li class="week" data-bind="text:Works().AddTime">2015-11-12</li>
+						<li class="week" data-bind="text:Works().AddTime"></li>
 						<li><i class="iconfont">&#xe61a;</i>
 							<!--ko text:Works().ReadCount-->
 							<!--/ko-->
 						</li>
-						<li class="week" data-bind="text:Works().SubjectName">钢琴</li>
-						<li data-bind="text:Works().IsPublicText, visible: IsAuthor">公开</li>
+						<li class="week" data-bind="text:Works().SubjectName"></li>
+						<li data-bind="text:Works().IsPublicText, visible: IsAuthor"></li>
+						<li><i class="iconfont">&#xe65a;</i>下载</li>
 					</ul>
 				</div>
 				<p data-bind="text:Works().ContentText"></p>
@@ -197,6 +205,44 @@
 					<span class="mui-tab-label">找老师点评</span>
 				</a>
 			</nav>
+			<div id="bottomPopover" class="mui-popover submitComment-top">	
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll submitClass-mui-scroll Lesson-mui" >
+					<div class="mui-scroll-title">
+						<i class="iconfont" data-bind="click:closePopover">&#xe63f;</i>
+						<span>付款详情</span>
+					</div>
+					<ul>
+						<form class="mui-input-group">
+							<div class="mui-input-row mui-radio mui-left Lesson-radio">
+								<label>
+									<li class="wx-pay">
+										<img src="../../images/submitClass-wx.png" />
+										<span>微信支付</span>
+										<input name="payType" value="wxpay" type="radio" data-bind="event:{change: checkPayType}" checked="checked">
+									</li>
+								</label>
+							</div>
+							<!--<div class="mui-input-row mui-radio mui-left Lesson-radio">
+								<label>
+									<li class="wx-pay">
+										<img src="../../images/submitClass-zf.png" />
+										<span>支付宝</span>
+										<input name="payType" value="alipay" type="radio" data-bind="event:{change: checkPayType}">
+									</li>
+								</label>
+							</div>-->
+							<li class="lineHeight">
+								总额：￥
+								<!--ko text: Amount-->
+								<!--/ko-->
+							</li>
+						</form>
+					</ul>			
+					<button>完成</button>
+				</div>
+			</div>
+		</div>	
 		</div>
 	</body>
 	<script src="../../script/mui/mui.min.js" type="text/javascript" charset="utf-8"></script>
