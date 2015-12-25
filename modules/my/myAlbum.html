@@ -151,10 +151,10 @@
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<i class="iconfont mui-action-back" data-bind="visible: !DeleteMode()">&#xe602;</i>
-			<span class="qx" data-bind="event: {tap: cancelDelete}, visible: DeleteMode() && IsManage()">取消</span>
+			<span style="color: #666;" class="qx" data-bind="event: {tap: cancelDelete}, visible: DeleteMode() && IsManage()">取消</span>
 			<h1 id="title" class="mui-title" data-bind='text: IsManage() ? "我的相册" : "相册列表"'></h1>
-			<span data-bind="event: {tap: setDeleting}, visible: Albums().length > 0 && !DeleteMode() && IsManage()">编辑</span>
-			<span data-bind="event: {tap: confirmDelete}, visible: DeleteMode() && IsManage()">删除</span>
+			<span style="color: #666;" data-bind="event: {tap: setDeleting}, visible: Albums().length > 0 && !DeleteMode() && IsManage()">编辑</span>
+			<span style="color: #666;" data-bind="event: {tap: confirmDelete}, visible: DeleteMode() && IsManage()">删除</span>
 		</header>
 		<div class="mui-content myAlbum-content">
 			<ul class="figure-list" data-bind="visible: Albums().length > 0">

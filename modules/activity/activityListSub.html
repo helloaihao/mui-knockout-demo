@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评家</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div id="pullrefreshMy" class="mui-scroll-wrapper">
+			<div class="mui-scroll">
+		<div data-bind="foreach:{data: activitys}">
+			<div class="activity-photo" data-bind="event:{tap:gotoInfo}, style: {'background-image': 'url(' + common.getPhotoUrl2(Thumbnail) +')'}">
+				<div class="activity-masg-bg">
+				</div>
+				<p class="activity-photo-p" data-bind="text: Title">演出活动演出活动演出活动</p>
+				<!--<em>免费</em>-->
+				<span class="activity-photo-span activity-photo-span-iconfont"><i class="iconfont">&#xe65c;</i><i data-bind="text: Times">活动截止15日结束</i></span>
+			</div>
+		</div>
+		</div>
+		</div>
+		<script src="../../script/mui/mui.min.js"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/activity/activityListSub.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+</html>

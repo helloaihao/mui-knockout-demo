@@ -214,6 +214,9 @@ var viewModel = function() {
 		if(self.course().SubjectID() <= 0){
 			self.course().SubjectID(getLocalItem('addCourse.SubjectID'));
 			self.course().SubjectName(getLocalItem('addCourse.SubjectName'));
+			if(self.course().SubjectName() == ''){
+				self.course().SubjectName('请选择科目');
+			}
 		}
 
 		common.showCurrentWebview();
@@ -345,6 +348,16 @@ var viewModel = function() {
 			mui.toast('请设置至少一种授课方式');
 			return;
 		}
+		//年龄限制
+		var ageMin = common.StrIsNull(self.course().AgeMin());
+		var ageMax = common.StrIsNull(self.course().AgeMax());
+		if(ageMin != '' && ageMax != ''){
+			if(Number(ageMin) > Number(ageMax)){
+				mui.toast("请设置正确的年龄要求");
+				return;
+			}
+		}
+		
 		//判断是否已选择了上课时间
 		if (self.course().CourseType() == common.gDictCourseType.One2More && self.classtimeCount() <= 0) {
 			mui.toast('请选择上课时间');
@@ -356,6 +369,9 @@ var viewModel = function() {
 			type = 'PUT';
 			ajaxUrl = common.gServerUrl + "API/Course?id=" + self.course().ID() + "&locationJson=";
 		}
+		
+		var evt = event;
+		if(!common.setDisabled()) return;
 		
 		mui.ajax(ajaxUrl + encodeURI(json), {
 			type: type,
@@ -381,9 +397,13 @@ var viewModel = function() {
 				}
 				mui.toast("保存成功");
 				mui.back();
+			},
+			error: function(){
+				common.setEnabled(evt);
 			}
 		});
 	};
+	
 	mui.init({
 		beforeback: function() {
 			var myCourses = plus.webview.currentWebview().opener();

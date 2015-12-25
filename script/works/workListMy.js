@@ -1,7 +1,7 @@
 var workListMy = function() {
 	var self = this;
 
-	var authorID; //作品拥有者
+	var authorID =  1038; //作品拥有者
 	var sortID;
 	var page = 1;
 	var count = 0; //刷新检测值
@@ -9,7 +9,9 @@ var workListMy = function() {
 	var pullupValue = 1;
 	var uploadingWorks;
 	var videoPath;
-	self.workDes = ko.observable("作业");
+	var arrUploaderTasks = [];
+
+	self.workDes = ko.observable("作品");
 	self.worksList = ko.observableArray([]);
 	self.tmplSubjects = ko.observableArray([]);
 	self.tmplSubjectClasses = ko.observableArray([]);
@@ -20,12 +22,14 @@ var workListMy = function() {
 	mui.init({
 		pullRefresh: {
 			container: '#pullrefreshMy',
-			up: {
-				contentrefresh: '正在加载...',
-				callback: pullupRefresh
-			},
 			down: {
+				contentrefresh: common.gContentRefreshDown,
 				callback: pulldownRefresh
+			},
+			up: {
+				contentrefresh: common.gContentRefreshUp,
+				contentnomore: common.gContentNomoreUp,
+				callback: pullupRefresh
 			}
 		}
 	});
@@ -43,16 +47,10 @@ var workListMy = function() {
 					item.VideoThumbnail(item.works.VideoThumbnail);
 
 					//从本地缓存中删除
-					var tmp = plus.storage.getItem(common.gVarLocalUploadTask);
-					var tasks = JSON.parse(tmp);
-					for (var j = 0; j < tasks.length; j++) {
-						if (tasks[j].workid == item.works.ID) {
-							tasks.pop(tasks[j]);
-							break;
-						}
-					}
-					plus.storage.setItem(common.gVarLocalUploadTask, JSON.stringify(tasks));
+					upload.deleteTask(item.works.ID);
 					mui.toast('上传完成');
+					page = 1; //重新加载第1页
+					self.getWorks();
 					return;
 				}
 
@@ -71,24 +69,14 @@ var workListMy = function() {
 	 */
 	var worksItem = function(worksObj) {
 		var self = this;
-
 		self.works = worksObj;
 		self.VideoThumbnail = ko.observable(worksObj.VideoThumbnail);
 		self.IsFinish = ko.observable(worksObj.IsFinish); //专门用ko变量记录，便于更新
 		self.UploadedSize = ko.observable(0);
 		self.TotalSize = ko.observable(0);
-		/*self.Ratio = ko.computed(function() {
-			var de = (Math.round(self.TotalSize() * 100 / 1024 / 1024) / 100).toString() + 'M';
-			var nu = (Math.round(self.UploadedSize() * 100 / 1024 / 1024) / 100).toString() + 'M';
-			return nu + '/' + de;
-		});*/
 		self.Percentage = ko.computed(function() {
 			return self.TotalSize() == 0 ? '0%' : Math.round(self.UploadedSize() / self.TotalSize() * 100).toString() + '%';
 		});
-		/*self.LastTime = ko.observable(new Date().getTime());	//时间戳，单位为毫秒
-		self.Counter = ko.observable(0);	//计数器，避免太频繁的刷新
-		self.LastUploadedSize = ko.observable(0);	//上一次记录时所上传的文件大小
-		self.Speed = ko.observable('0 K/s');	//上传速率*/
 	}
 
 	self.getAjaxUrl = function() {
@@ -110,13 +98,11 @@ var workListMy = function() {
 
 	//加载作品
 	self.getWorks = function() {
-		console.log(self.getAjaxUrl());
 		mui.ajax(self.getAjaxUrl(), {
 			type: 'GET',
 			success: function(responseText) {
-				console.log(responseText);
 				var result = eval("(" + responseText + ")");
-
+				//console.log(responseText);
 				self.worksList.removeAll(); //先移除所有
 				if (result && result.length > 0) {
 					result.forEach(function(item) {
@@ -124,12 +110,16 @@ var workListMy = function() {
 						self.worksList.push(obj);
 						//console.log(obj.VideoThumbnail());
 					})
-					upload.initTasks(refreshUploadState);
+					mui('#pullrefreshMy').pullRefresh().refresh(true);	//重置上拉加载
+					
+					arrUploaderTasks = upload.initTasks(refreshUploadState);
 
 					common.showCurrentWebview();
 				} else {
 					common.showCurrentWebview();
 				}
+
+				//console.log(plus.webview.currentWebview().opener().id);
 			}
 		});
 	};
@@ -138,6 +128,7 @@ var workListMy = function() {
 	function pulldownRefresh() {
 		setTimeout(function() {
 			mui('#pullrefreshMy').pullRefresh().endPulldownToRefresh(); //refresh completed
+			mui('#pullrefreshMy').pullRefresh().refresh(true);
 			page = 1; //重新加载第1页
 			self.getWorks();
 		}, 1500);
@@ -153,19 +144,24 @@ var workListMy = function() {
 					success: function(responseText) {
 						var result = eval("(" + responseText + ")");
 						if (result && result.length > 0) {
-							mui('#pullrefreshMy').pullRefresh().endPullupToRefresh(false);
 							result.forEach(function(item) {
 								var obj = new worksItem(item);
 								self.worksList.push(obj);
 							})
+							if (result.length < common.gListPageSize) {
+								mui('#pullrefreshMy').pullRefresh().endPullupToRefresh(true);
+							} else {
+								mui('#pullrefreshMy').pullRefresh().endPullupToRefresh(false); //false代表还有数据
+							}
 						} else {
-							mui('#pullrefreshMy').pullRefresh().endPullupToRefresh(true);
+							mui('#pullrefreshMy').pullRefresh().endPullupToRefresh(true); //true代表没有数据了
 						}
-						if (self.worksList().length <= 2) {
-							mui('#pullrefreshMy').pullRefresh().disablePullupToRefresh();
+
+						/*if (self.worksList().length < common.gListPageSize) {
+							mui('#pullrefreshMy').pullRefresh().disablePullupToRefresh();	//禁用上拉刷新
 						} else {
-							mui('#pullrefreshMy').pullRefresh().enablePullupToRefresh();
-						}
+							mui('#pullrefreshMy').pullRefresh().enablePullupToRefresh();	//启用上拉刷新
+						}*/
 
 					}
 				});
@@ -180,25 +176,100 @@ var workListMy = function() {
 		});
 	}
 
+	//停止任务（h5+有bug，暂时无法实现）
+	self.handleTask = function(data) {
+		if (data.IsFinish() == false) {
+
+			arrUploaderTasks.forEach(function(task) {
+				if (task.url.indexOf('workId=' + data.works.ID) > 0) {
+					task.abort();
+					console.log(task.state);
+					/*switch(task.state){
+						case 0:				//初始状态
+							task.start();	//管用
+							break;
+						case 5:				//暂停状态
+							task.resume();	//plus的bug，无效
+							break;
+						default:
+							task.resume();	//abort和resume均为bug，无效
+							break;
+					}*/
+				}
+			})
+		}
+	}
+
+	//取消任务
+	self.cancelTask = function(data) {
+		if (data.IsFinish() == false) {
+			if (arrUploaderTasks.length > 0) {
+				arrUploaderTasks.forEach(function(task) {
+					if (task.url.indexOf('workId=' + data.works.ID) > 0) {
+						if (task.state == 3) {
+							mui.toast("上传已开始，无法取消");
+							return;
+						} else {
+							var btnArray = ['是', '否'];
+							mui.confirm('确认取消吗', '您点击了取消', btnArray, function(e) {
+								if (e.index == 0) {
+									task.abort();
+									mui.ajax(common.gServerUrl + 'Common/Work/' + data.works.ID, {
+										type: 'DELETE',
+										success: function(responseText) {
+											mui.toast('成功取消了本次上传');
+											upload.deleteTask(data.works.ID);
+
+											self.worksList.remove(data);
+										}
+									});
+								}
+							});
+						}
+					}
+				})
+			} else {
+				var btnArray = ['是', '否'];
+				mui.confirm('确认取消吗', '您点击了取消', btnArray, function(e) {
+					if (e.index == 0) {
+						mui.ajax(common.gServerUrl + 'Common/Work/' + data.works.ID, {
+							type: 'DELETE',
+							success: function(responseText) {
+								mui.toast('成功取消了本次上传');
+								upload.deleteTask(data.works.ID);
+
+								self.worksList.remove(data);
+							}
+						});
+					}
+				});
+			}
+
+		}
+	}
+
 	//跳转到作品详情页面
 	self.goWorksDetails = function(data) {
-		common.transfer("../works/WorksDetails.html", false, {
-			works: data.works
-		}, false, false)
+		if (data.IsFinish()) {
+			common.transfer("../works/WorksDetails.html", false, {
+				works: data.works
+			}, false, false)
+		}
+
 	}
 
 	mui.plusReady(function() {
 		var web = plus.webview.currentWebview();
 		authorID = getLocalItem("UserID"); //默认获取自己的作品
 		if (typeof(web.teacherID) !== "undefined") {
-			console.log(11);
 			authorID = web.teacherID;
 			self.displayCheck(web.displayCheck);
 		}
+
 		if (getLocalItem("workTypeID") != "") {
 			workTypeID = getLocalItem("workTypeID");
-			if (workTypeID == common.gJsonWorkTypeStudent[0].value) {
-				self.workDes("作品");
+			if (workTypeID == common.gJsonWorkTypeStudent[1].value) {
+				self.workDes("作业");
 			}
 		}
 		if (getLocalItem("teacherID") != "") {
@@ -218,14 +289,6 @@ var workListMy = function() {
 		//console.log(common.gJsonWorkTypeStudent[0].value);
 		common.transfer("addWorks.html", true, common.extrasUp());
 	};
-
-	/*mui.init({
-		beforeback: function() {
-			common.transfer('../../index.html');
-			return false;
-		}
-	})*/
-
 	window.addEventListener("refreshMyworks", function(event) {
 		if (event.detail.worksStatus) {
 			self.worksList().forEach(function(item) {

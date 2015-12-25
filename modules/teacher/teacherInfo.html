@@ -50,21 +50,11 @@
 			}
 			.top-btn-right {
 				text-align: right;
-			}
-			.font-p{
-				padding: 15px 15px;
-				text-indent: 2em;
-				width: 90%;
-				line-height: 24px;
-				box-sizing: border-box;
-			}
+			}		
 			.info-pic{
 				height: 44px!important;
 				line-height:22px!important;
 			}
-			/*.info-li:after{
-				height: 0!important;
-			}*/
 			.mui-table-view-cell.mui-collapse.mui-active >.info-pic{
 				color: #666;
 				line-height:24px!important;
@@ -185,6 +175,7 @@
 				left: 0;
 				display: none;
 			}
+			
 			.mui-preview-loading.mui-active {
 				display: block;
 			}
@@ -241,26 +232,29 @@
 			.mui-bar-tab a:active{
 				background: #f1f1f1;
 			}
+			/*.share-height.mui-active{
+				min-height: 11.9rem!important;
+			}*/
 		</style>
 	</head>
 
 	<body>
 		<div class="p-header-div">
-			<a class="iconfont mui-action-back top-btn first">&#xe602;</a>
-			<a href="#sharePopover" class="iconfont top-btn top-btn-right second">&#xe60e;</a>
+			<a class="iconfont mui-action-back top-btn first">&#xe683;</a>
+			<a href="#sharePopover" class="iconfont top-btn top-btn-right second">&#xe670;</a>
 			<div class="photo" data-bind="click: showTeacherImage">
-				<img id="teacherImage" data-bind="attr: {src: Photo}"  data-preview-src="" data-preview-group="1" />
+				<img id="teacherImage" data-bind="attr: {src: Photo}" onerror="this.src='../../images/my-default.png';" />
 			</div>
 			<!--+'('+TeachAge()+'年教龄)'-->
 			<span class="userName" data-bind="text:DisplayName()"></span>
 			<!--科目|教龄-->
-			<span class="message"><!--ko text:SubjectName--><!--/ko--> | <!--ko text:Score--><!--/ko--> |
+			<span class="message"><!--ko text:SubjectName--><!--/ko--> | <!--ko text:Score()--><!--/ko--> |
 				<i data-bind="css: 'star'+Star()"></i>
 			</span>
 			<span class="address">
 				<i class="iconfont">&#xe63c;</i>
 				<!--省市区-->
-				<!--ko text:Province--><!--/ko-->><!--ko text:City--><!--/ko-->><!--ko text:District--><!--/ko-->
+				<!--ko text:Province--><!--/ko--><!--ko text:(common.StrIsNull(City())==''?'':'>'+City())--><!--/ko--><!--ko text:(common.StrIsNull(District())==''?'':'>'+District())--><!--/ko-->
 			</span>
 			<div class="p-footer-btn">
 				<ul>
@@ -269,7 +263,7 @@
 						</button>
 					</li>
 					<li data-bind="click: Fav">
-						<button>收藏
+						<button>关注
 							<!--ko text:FavCount-->
 							<!--/ko-->
 						</button>
@@ -318,7 +312,7 @@
 					<p data-bind="text:Title"></p>
 				</li>
 			</script>
-			<li class="mui-table-view-cell" data-bind="click:openWork(1)">
+			<li class="mui-table-view-cell" data-bind="click:openWork">
 				<a class="my-mui-navigate-right">
 					<span class="mui-badge my-mui-badge iconfont">&#xe618;</span> 分解教程
 				</a>
@@ -330,7 +324,7 @@
 			<div class="teacherList-blank-bgColor"></div>
 
 			<!--完整教程-->
-			<li class="mui-table-view-cell" data-bind="click:openWork(2)">
+			<li class="mui-table-view-cell" data-bind="click:openWork">
 				<a class="my-mui-navigate-right">
 					<span class="mui-badge my-mui-badge iconfont">&#xe618;</span> 完整教程
 				</a>
@@ -342,7 +336,7 @@
 			<div class="teacherList-blank-bgColor"></div>
 
 			<!--演出作品-->
-			<li class="mui-table-view-cell" data-bind="click:openWork(3)">
+			<li class="mui-table-view-cell" data-bind="click:openWork">
 				<a class="my-mui-navigate-right">
 					<span class="mui-badge my-mui-badge iconfont">&#xe618;</span> 演出作品
 				</a>
@@ -378,7 +372,7 @@
 			<p class="font-p" data-bind="text: Introduce">介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍介绍</p>
 			-->
 			<div class="teacherList-blank-bgColor bgColor-footer "></div>
-			<nav class="mui-bar mui-bar-tab ">
+			<nav class="mui-bar mui-bar-tab " data-bind="visible:getLocalItem('UserType')==common.gDictUserType.student">
 				<a class="ah-mui-tab-item teacherList-mui-bar-tab teacherList-mui" data-bind="event:{click: gotoComment}">
 					<i class="iconfont">&#xe62d;</i>
 					<span class="mui-tab-label ">帮我点评</span>

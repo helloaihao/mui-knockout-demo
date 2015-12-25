@@ -52,24 +52,21 @@
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<h1 id="title" class="mui-title">个人信息</h1>
-			<em class="iconfont shao-teacher" data-bind="click:qrcodeEvent">&#xe656;</em>
 		</header>
 		<div class="p-header-div">
 			<div class="photo" data-bind="click: goMyinfo">
 				<img data-bind="attr: {'src': Photo}" />
 			</div>
-			<!--data-bind="text: DisplayName"-->
 			<span>
 				<!--ko text: DisplayName--><!--/ko-->
-				<a href="#qrcodePopover"><i class="iconfont">&#xe658;</i></a>
+				<a href="#qrcodePopover" data-bind="visible: ID() > 0"><i class="iconfont">&#xe658;</i></a>
 			</span>
-			
 			<div class="p-footer-btn">
 				<ul data-bind="visible: typeof(ID())==='Number'||ID() > 0 ">
 					<li>
 						<button>
 							得分
-							<!--ko text:Score-->
+							<!--ko text:Score().toFixed(1)-->
 							<!--/ko-->
 						</button>
 					</li>
@@ -130,13 +127,21 @@
 			</ul>
 			<div class="pin-blank"></div>
 			<ul class="mui-table-view mui-table-view-chevron ">
+				<li class="mui-table-view-cell my-table-view-chevron" data-bind="click:qrcodeEvent">
+					<a class="my-mui-navigate-right saosao">
+						<em class="iconfont">&#xe656;</em>
+						<span class="mui-badge my-mui-badge iconfont">&#xe618;</span> 扫一扫
+					</a>
+				</li>
 				<li class="mui-table-view-cell my-table-view-chevron" data-bind="click:goMoreInfo">
 					<a class="my-mui-navigate-right">
 						<em class="iconfont">&#xe605;</em>
 						<span class="mui-badge my-mui-badge iconfont">&#xe618;</span> 更多
 					</a>
 				</li>
+		
 			</ul>
+			
 			<div class="pin-blank"></div>
 			<ul class="mui-table-view mui-table-view-chevron ">
 				<li class="mui-table-view-cell my-table-chevron" data-bind="click:goHelp">

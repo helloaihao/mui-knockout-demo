@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评家</title>
+		<link href="../../content/mui/mui.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/Tf_global.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<link href="../../script/libs/video.js/video2.0.min.css" rel="stylesheet" />
+		<style>
+			html,.body,.addWork-mui-content{
+				background: #f0f0f0!important;
+			}
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			.mui-input-group .mui-input-row:after{
+				background-color: #b1b1b1!important;
+			}			
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			.mui-input-group label {
+				width: 28%!important;
+			}
+			.mui-input-group:after, .mui-input-group:before{
+				background-color: #b1b1b1!important;
+			}
+			.mui-input-row label ~ input,
+			.mui-input-row label ~ select,
+			.mui-input-row label ~ textarea,.mui-input-row button{
+				width: 71%!important;
+				color: #999;
+			}
+			/*.mui-input-row.addWorks-textarea-div label{
+				line-height: 0.6!important;
+			}*/
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+			#addWorkList {
+				right: 0px;
+				width: 10rem;
+				height: 100%;
+				position: absolute;
+			}
+			.addWorks-mui-bar-nav i:nth-of-type(2){
+				top: 0!important;
+				font-size: 14px!important;
+			}
+			.btn-open{
+				padding: 8px 0;
+				margin-top: 8px;
+				font-size: 16px!important;
+			}
+			input[type='button'], input[type='submit'], input[type='reset'], button, .myCourse-btn-open{
+				border-radius: 0px!important;
+			}
+			input[type='submit'], .mui-btn-primary, .mui-btn-blue{
+				    border: 1px solid #3598db;
+   					background-color: #3598db;
+			}
+			input[type='submit']:enabled:active, input[type='submit'].mui-active:enabled, .mui-btn-primary:enabled:active, .mui-btn-primary.mui-active:enabled,
+			.mui-btn-blue:enabled:active, .mui-btn-blue.mui-active:enabled{
+				    border: 1px solid #2d8ac9;
+    				background-color: #2d8ac9;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav addWorks-mui-bar-nav">
+			<i class="iconfont mui-action-back">&#xe683;</i>
+			<h1 class="mui-title">上传<!--ko text:pageTitle--><!--/ko--></h1>
+			<!--<i class="addWorks-r-font" id="addWorksPlan" data-bind="click: upload">上传</i>-->
+		</header>
+		<div class="mui-content addWork-mui-content">
+			<div class="pin-blank"></div>
+			<form class="mui-input-group reg-mui-input-group addWorks-form">
+				<!--标题-->
+				<div id="titleRow" class="mui-input-row reg-mui-input-row">
+					<label>标题</label>
+					<input id='account' type="text" class="mui-input-clear mui-input reg-mui-input" placeholder="请输入标题" data-bind="value: titleText" onblur="if(this.value != '' && self.contentText() == ''){self.contentText(this.value);}">
+				</div>
+				<!--老师选择-->
+				<div id='subjectPicker' class="mui-input-row reg-mui-input-row th-mui-input-row reg-mui-input" data-bind="visible: (common.gDictUserType.student == getLocalItem('UserType') && workTypeID() == 105)">
+					<label>老师</label>
+					<button class="mui-btn mui-btn-block th-mui-btn-block" type='button' data-bind="text:teacherText,event:{click:setTeacher}"></button>
+				</div>
+				<!--科目选择-->
+				<div id='subjectPicker' class="mui-input-row reg-mui-input-row th-mui-input-row reg-mui-input" data-bind="visible: !(common.gDictUserType.student == getLocalItem('UserType') && workTypeID() == 105)">
+					<label>科目</label>
+					<button class="mui-btn mui-btn-block th-mui-btn-block reg-mui-input" type='button' data-bind="text:subjectText,event:{click:setSubject}"></button>
+				</div>
+				<!--类型选择-->
+				<div id='typePicker' class="mui-input-row reg-mui-input-row th-mui-input-row" data-bind="visible:common.gDictUserType.teacher == getLocalItem('UserType')">
+					<label>类型</label>
+					<button class="mui-btn mui-btn-block th-mui-btn-block" type='button' data-bind="text:workTypeText,event:{click:setWorkType}"></button>
+				</div>
+				<!--权限-->
+				<div id='publicPicker' class="mui-input-row reg-mui-input-row th-mui-input-row">
+					<label>公开</label>
+					<button class="mui-btn mui-btn-block th-mui-btn-block" type='button' data-bind="text:publicText,event:{click:setPublicType}"></button>
+				</div>
+				<!--描述-->
+				<div class="addWorks-textarea-div addWorks-textarea-border">
+					<label>作品描述</label>
+					<textarea placeholder="请输入作品描述" data-bind="value: contentText"></textarea>
+				</div>		
+			</form>
+			<div class="mui-content-padded">
+			  	 <button type="button" class="mui-btn mui-btn-primary mui-btn-block myCourse-btn-open" data-bind="click: upload">上传</button>
+		  	</div>
+			
+		</div>
+
+		<script src="../../script/mui/mui.js"></script>
+		<script src="../../script/mui/mui.picker.min.js"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js"></script>
+		<script src="../../script/common/videoPicker.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/video.js/video2.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/works/addWorks.js"></script>
+	</body>
+
+</html>

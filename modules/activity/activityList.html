@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评家</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav addWorks-mui-bar-nav">
+			<h1 class="mui-title">演出活动</h1>
+		</header>
+		<script src="../../script/mui/mui.min.js"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript">
+			mui.plusReady(function() {
+			var topPx = '48px';
+			if (plus.os.vendor == 'Apple') {
+				topPx = '63px';
+			}
+				mui.init({
+					subpages: [{
+						url: 'activityListSub.html',
+						id: 'activityListID',
+						styles: {
+							top: topPx,
+							bottom: '0px'
+						}
+					}]
+				});
+				})
+		</script>
+	</body>
+
+</html>

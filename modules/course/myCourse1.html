@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评家</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<style>
+			.mui-popover {
+				height: auto!important;
+				padding: 15px 0;
+				/*top: 44px!important;*/
+			}
+			
+			#bottomPopover {
+				top: 44px!important;
+			}
+			
+			.mui-bar-nav i:first-of-type {
+				color: #fff;
+				font-size: 1.6rem!important;
+				float: left;
+				padding-left: 10px;
+			}
+			
+			.mui-bar-nav i:last-of-type {
+				color: #fff;
+				font-size: 1.02rem;
+				float: right;
+				margin-right: 0!important;
+				text-align: right;
+				padding-right: 10px;
+			}
+			/*.fontadjusting{
+				color: greenyellow !important;
+			}*/
+			
+			.btn-open {
+				padding: 8px 0;
+				margin-top: 8px;
+				font-size: 16px!important;
+			}
+			
+			@media screen and (max-height: 489px) {
+				.auto-height {
+					line-height: 21px;
+				}
+			}
+			
+			@media screen and (min-height:490px) and (max-height: 568px) {
+				.auto-height {
+					line-height: 23px;
+				}
+			}
+			
+			@media screen and (min-height:569px) and (max-height: 627px) {
+				.auto-height {
+					line-height: 31px;
+				}
+			}	
+				@media screen and (min-height:628px) and (max-height: 736px){
+				.auto-height {
+					line-height:36px;
+				}
+			}		
+			@media screen and (min-height:737px) and (max-height: 1024px){
+				.auto-height {
+					line-height:56px;
+				}
+			}
+		
+		</style>
+	</head>
+
+	<body>
+		<!--<header class="mui-bar mui-bar-nav">-->
+			<!--<a class="iconfont a-left" data-bind="event:{tap: gotoCoursesList}, visible: IsTeacher">&#xe641;</a>-->
+			<!--<h1 class="mui-title">课程表</h1>
+			<a class="iconfont a-right" href="#bottomPopover" data-bind="visible: IsTeacher, style: {color: FilteredCourseID() > 0 ? 'orange' : ''}">&#xe648;
+			</a>
+		</header>-->
+		<!--右上角弹出开始-->
+		<!--<div id="bottomPopover" class="mui-popover popover-height">
+			<ul class="mui-table-view" data-bind="foreach:{data: Courses}">
+				<li class="mui-table-view-cell navigate-font" data-bind="click: filterCourses">
+					<a href="#" data-bind="text: CourseName"></a>
+				</li>
+			</ul>
+		</div>-->
+
+		<div class="mui-content">
+			<!--<table class="vailableTime-title availableTime-add availableTime-date availableTime-padding" border="0" width="100%" height="100%">
+				<tr>
+					<td rowspan="2" class="month" data-bind='text: TheMonth'>
+					</td>-->
+					<!--ko foreach:{data: DayOfWeek}-->
+					<!--<td data-bind='text: $data'></td>-->
+					<!--/ko-->
+				<!--</tr>
+				<tr data-bind="foreach:{data: DateOfWeek, as: 'date'}">
+					<td data-bind='text: date.getDate(), css: {"date-current": CurrentDay() == date.getDate() && CurrentMonth() == date.getMonth()}'></td>
+				</tr>
+			</table>
+			<table class="availableTime-table auto-height" border="2" cellspacing="0" cellpadding="0" width="100%" height="100%" data-bind="foreach:{data: Hours, as: 'hour'}">
+				<tr>
+					<td data-bind='text: $data + ":00"'></td>-->
+					<!--ko foreach:{data: DateOfWeek}-->
+					<!--<td data-bind='cellValue: initCell($data, hour)'></td>-->
+					<!--/ko-->
+				<!--</tr>
+			</table>-->
+			<!--<div class="mui-input-row mui-pull-right">
+				<span class="normaltime" style="width: 20px;">&nbsp;</span>正常
+				<span class="finishedtime" style="width: 20px;">&nbsp;</span>已完成
+				<span class="overtime" style="width: 20px;">&nbsp;</span>超时
+				|
+				<span class="fontadjusting">调整中</span>
+			</div>-->
+			<!--<div class="availableTime-table  course-z">
+				<em class="normaltime"></em>
+				<span class="normaltime-font">正常</span>
+				<em class="finishedtime"></em>
+				<span class="finishedtime-font">已结束</span>-->
+				<!--<em class="overtime"></em>
+				<span class="overtime-font">超时</span>-->
+				<!--<span class="fontadjusting-font">调整中</span>
+			</div>-->
+			<!--<div class="mui-content-padded">
+			  	 <button type="button" class="mui-btn mui-btn-primary mui-btn-block btn-open" data-bind="event:{tap: gotoCoursesList}, visible: IsTeacher">我要开课</button>
+			  	</div>-->
+			<!--<div class="mui-content-padded" data-bind="visible: IsTeacher">
+				<button class="mui-btn mui-btn-primary mui-btn-outlined" style="width: 46%; padding: 8px 0;" data-bind="event:{tap: gotoCoursesList}">
+					我的课程
+				</button>
+				<button type="button" class="mui-btn mui-btn-primary mui-btn-outlined" style="width: 46%;  padding: 8px 0; float: right;" data-bind="event:{tap: gotoAddCourses}">
+					我要开课
+				</button>
+			</div>
+		</div>-->
+
+		<a href="#middlePopover" >打开</a>
+
+		<div id="middlePopover" class="mui-popover myCourse-middlePopover">
+			<div class="myCourse-Popover-list">
+				<ul>
+					<li>
+						<span class="myCourse-Popover-name">课程名称</span>
+						<span class="myCourse-Popover-con" data-bind="text: ViewLesson().CourseName">钢琴教学</span>
+					</li>
+					<li>
+						<span class="myCourse-Popover-name">上课时间</span>
+						<span class="myCourse-Popover-con" data-bind="text: common.formatTime(ViewLesson().BeginTime, ViewLesson().EndTime)">12月24日 15:00~17:00</span>
+					</li>
+					<li data-bind='click: gotoTeacherInfo'>
+						<span class="myCourse-Popover-name">授课老师</span>
+						<span class="myCourse-Popover-con" data-bind="text: ViewLesson().TeacherName">张张张</span>
+					</li>
+					<li>
+						<span class="myCourse-Popover-name">调整时间</span>
+						<span class="myCourse-Popover-con" data-bind='visible: (RequestButtonVisible() && !Adjusting()), click: AdjustTimeStart'>请选择新的时间</span>
+					</li>
+				</ul>
+				<button class="myCourse-Popover-sure" onclick="mui('#middlePopover').popover('toggle');" data-bind='visible: !Adjusting()'>确定</button>
+				<button class="myCourse-Popover-cancel" onclick="mui('#middlePopover').popover('toggle');" data-bind='visible: !Adjusting()'>取消</button>
+<!--				<button class="myCourse-Popover-cancel myCourse-btn-colse" onclick="mui('#middlePopover').popover('toggle');" data-bind='visible: !Adjusting()'>关闭</button>-->
+				<button class="myCourse-Popover-cancel" data-bind='visible: Adjusting, click: function(){ self.Adjusting(false); }'>取消</button>
+				<button class="myCourse-Popover-sure" data-bind='visible: Adjusting, click: AdjustTimeFinish'>确定</button>
+			</div>
+		</div>
+
+		<script src="../../script/mui/mui.js"></script>
+		<script src="../../script/mui/mui.picker.min.js"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/course/myCourse.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/dtPicker.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			/*mui.init({
+				swipeBack: false //禁用右滑关闭功能
+			});
+			mui('.mui-scroll-wrapper').scroll();
+			window.addEventListener("swipeleft", function() {
+				self.WeekIndex(self.WeekIndex() + 1);
+				self.GetData();
+			});
+			window.addEventListener("swiperight", function() {
+				self.WeekIndex(self.WeekIndex() - 1);
+				self.GetData();
+			});
+			mui('body').on('shown', '.mui-popover', function(e) {
+				//console.log('shown', e.detail.id);//detail为当前popover元素
+			});
+			mui('body').on('hidden', '.mui-popover', function(e) {
+				//console.log('hidden', e.detail.id);//detail为当前popover元素
+			});*/
+		</script>
+	</body>
+
+</html>

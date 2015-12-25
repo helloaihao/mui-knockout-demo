@@ -26,16 +26,18 @@ var workListAll = function() {
 	self.currentWorkTypes = ko.observable(0);
 	self.currentSort = ko.observable(5);
 
-	//刷新界面
+	//初始化界面
 	mui.init({
 		pullRefresh: {
 			container: '#pullrefreshAll',
-			up: {
-				contentrefresh: '正在加载...',
-				callback: pullupRefresh
-			},
 			down: {
+				contentrefresh: common.gContentRefreshDown,
 				callback: pulldownRefresh
+			},
+			up: {
+				contentrefresh: common.gContentRefreshUp,
+				contentnomore: common.gContentNomoreUp,
+				callback: pullupRefresh
 			}
 		}
 	});
@@ -63,7 +65,6 @@ var workListAll = function() {
 
 	//下拉加载
 	function pulldownRefresh() {
-		//console.log('上拉');
 		setTimeout(function() {
 			mui('#pullrefreshAll').pullRefresh().endPulldownToRefresh(); //refresh completed
 			var curl = pageUrl + 1;
@@ -85,6 +86,7 @@ var workListAll = function() {
 						self.works.removeAll(); //先移除所有,防止视频已删除还保留
 						var result = eval("(" + responseText + ")");
 						self.works(result);
+						mui('#pullrefreshAll').pullRefresh().refresh(true); //重置上拉加载
 					}
 				});
 			}
@@ -115,22 +117,18 @@ var workListAll = function() {
 					success: function(responseText) {
 						var result = eval("(" + responseText + ")");
 						if (result.length > 0) {
-							mui('#pullrefreshAll').pullRefresh().endPullupToRefresh(false);
 							self.works(self.works().concat(result));
-							if (self.works().length <= 2) {
-								mui('#pullrefreshAll').pullRefresh().disablePullupToRefresh();
+							if (result.length < common.gListPageSize) {
+								mui('#pullrefreshAll').pullRefresh().endPullupToRefresh(true);
 							} else {
-								mui('#pullrefreshAll').pullRefresh().enablePullupToRefresh();
+								mui('#pullrefreshAll').pullRefresh().endPullupToRefresh(false);
 							}
-						}else{
+						} else {
 							mui('#pullrefreshAll').pullRefresh().endPullupToRefresh(true);
 						}
-
 					}
 				});
-
 			};
-
 		}, 1500);
 	};
 	if (mui.os.plus) {
@@ -219,6 +217,15 @@ var workListAll = function() {
 				self.works.replace(item, tmp);
 			}
 		});
+	});
+	window.addEventListener('refreshAllworks', function(event) {
+		if (event.detail.worksStatus) {
+			self.works().forEach(function(item) {
+				if (item.ID == event.detail.worksId) {
+					self.works.remove(item);
+				}
+			});
+		}
 	});
 }
 ko.applyBindings(workListAll);

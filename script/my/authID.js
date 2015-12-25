@@ -29,7 +29,7 @@ var authID = function() {
 				self.IDNumber(auth.IDNumber);
 				self.AuthIDStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
 				if (auth.Approved == common.gDictAuthStatusType.Rejected) {
-					self.AuthIDStatus(self.AuthStatus() + '：' + auth.RejectReason);
+					self.AuthIDStatus(self.AuthIDStatus() + '：' + auth.RejectReason);
 				}
 				self.Editable(auth.Approved == common.gDictAuthStatusType.NotAuth && common.StrIsNull(auth.PicPath) == '');
 			}
@@ -65,6 +65,11 @@ var authID = function() {
 			})
 		}
 	}
+	
+	self.reAuth = function(){
+		self.Path('');
+		self.Editable(true);
+	}
 
 	self.authIDSub = function() {
 		if (!self.Editable()) return;
@@ -78,6 +83,7 @@ var authID = function() {
 			return;
 		}
 
+		plus.nativeUI.showWaiting();
 		var ajaxUrl = common.gServerUrl + 'API/TeacherAuth/SetIDAuth?userId=' +
 			getLocalItem('UserID') + '&idNumber=' + self.IDNumber();
 		//		var ajaxUrl = common.gServerUrl + 'API/TeacherAuth/SetIDAuth?userId=5&idNumber=' + self.IDNumber();
@@ -98,6 +104,10 @@ var authID = function() {
 
 				mui.toast('保存成功');
 				mui.back();
+				plus.nativeUI.closeWaiting();
+			},
+			error: function(){
+				plus.nativeUI.closeWaiting();
 			}
 		})
 	}

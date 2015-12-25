@@ -6,10 +6,9 @@ var myAccount = function() {
 	self.DetailsFinished = ko.observableArray([]); //已完成明细
 	self.DetailsTrasfered = ko.observableArray([]); //已转账明细
 	self.SumAccount = ko.observable('0'); //未完成小计
-	/*self.SumFinshed=ko.observable('0');			//已完成小计
-	self.SumTrasfered=ko.observable('0');		//已到账小计*/
+	self.Photo = ko.observable('');
 
-	mui.ready(function() {
+	mui.plusReady(function() {
 			var self = this;
 			mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + getLocalItem("UserID") + "&usertype=" + getLocalItem('UserType'), {
 				type: 'GET',
@@ -26,6 +25,10 @@ var myAccount = function() {
 					self.Balance(balance);
 				}
 			})
+			var current = plus.webview.currentWebview();
+			if (common.StrIsNull(current.Photo) != "") {
+				self.Photo(current.Photo);
+			}
 			self.SumNotFinish();
 		})
 		//未完成
@@ -38,6 +41,8 @@ var myAccount = function() {
 					var detailsNotFinish = JSON.parse(responseText);
 					self.DetailsNotFinish(detailsNotFinish);
 					self.SumAccount(common.getArraySum(self.DetailsNotFinish(), 'Amount'));
+					
+					common.showCurrentWebview();
 				}
 			})
 		}
@@ -68,7 +73,8 @@ var myAccount = function() {
 		}
 		//提现
 	self.Withdraw = function() {
-		mui.toast("敬请期待");
+		//mui.toast("敬请期待");
+		common.transfer("myCard.html",false);
 	}
 	window.addEventListener('refeshBalance', function(event) {
 		if (event.detail.newBalance) {

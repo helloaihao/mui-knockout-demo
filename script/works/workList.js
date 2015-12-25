@@ -4,7 +4,7 @@ var workList = function() {
 	var receiverId = 1;
 	var sortID;
 	self.teacherInfo = ko.observable(); //点评老师对象
-	self.works = ko.observableArray([]);
+	self.worksList = ko.observableArray([]);
 	self.displayCheck = ko.observable(false); //控制单选框和确认按钮是否显示
 	self.UnreadCount = ko.observable("0");
 	self.dbSubject = ko.observable("科目");
@@ -18,7 +18,7 @@ var workList = function() {
 
 	//拼接请求Url
 	self.getAjaxUrl = function() {
-		var ajaxUrl = common.gServerUrl + "API/Work?userID=" + getLocalItem("UserID");
+		var ajaxUrl = common.gServerUrl + "API/Work/GetMyFinishedWorks?userID=" + getLocalItem("UserID");
 		ajaxUrl += "&page=" + pageNum;
 
 		if (typeof self.currentSubject().id === "function") {
@@ -37,9 +37,14 @@ var workList = function() {
 		mui.ajax(self.getAjaxUrl(), {
 			type: 'GET',
 			success: function(responseText) {
-//				console.log(responseText);
 				var result = eval("(" + responseText + ")");
-				self.works(result);
+				result.forEach(function(item){
+					var obj = {
+						info: item,
+						selected: ko.observable(false)
+					};
+					self.worksList.push(obj);
+				})
 			}
 		});
 	};
@@ -48,31 +53,41 @@ var workList = function() {
 		pullRefresh: {
 			container: '#pullrefresh',
 			down: {
+				contentrefresh: common.gContentRefreshDown,
 				callback: pulldownRefresh
 			},
 			up: {
-				contentrefresh: '正在加载...',
+				contentrefresh: common.gContentRefreshUp,
+				contentnomore: common.gContentNomoreUp,
 				callback: pullupRefresh
 			}
 		}
 	});
 
-	document.querySelector('#dbSubject').addEventListener('tap', function() {
+	/*document.querySelector('#dbSubject').addEventListener('tap', function() {
 		mui('#popSubjects').popover('toggle');
 	});
 	document.querySelector('#dbSort').addEventListener('tap', function() {
 		mui('#middlePopover2').popover('toggle');
-	});
+	});*/
 
 	function pulldownRefresh() {
 		setTimeout(function() {
-			pageNum++;
+			pageNum = 1;
 			mui.ajax(self.getAjaxUrl(), {
 				type: 'GET',
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
-					self.works(self.works().concat(result));
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+					self.worksList([]);
+					result.forEach(function(item){
+						var obj = {
+							info: item,
+							selected: ko.observable(false)
+						};
+						self.worksList.push(obj);
+					})
+					mui('#pullrefresh').pullRefresh().refresh(true);	//重置上拉加载
 				}
 			});
 		}, 1500)
@@ -83,13 +98,29 @@ var workList = function() {
 
 	function pullupRefresh() {
 		setTimeout(function() {
-			mui('#pullrefresh').pullRefresh().endPullupToRefresh((++count > 2));
 			pageNum++;
 			mui.ajax(self.getAjaxUrl(), {
 				type: 'GET',
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
-					self.works(self.works().concat(result));
+					
+					if (result && result.length > 0) {
+						result.forEach(function(item){
+							var obj = {
+								info: item,
+								selected: ko.observable(false)
+							};
+							self.worksList.push(obj);
+						})
+						if(result.length < common.gListPageSize){
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+						}
+						else{
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);	//false代表还有数据
+						}
+					} else {
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);	//true代表没有数据了
+					}
 				}
 			});
 		}, 1500)
@@ -97,24 +128,16 @@ var workList = function() {
 
 	if (mui.os.plus) {
 		mui.plusReady(function() {
-			setTimeout(function() {
-				mui('#pullrefresh').pullRefresh().pullupLoading();
-			}, 1000);
-
 			if (plus.os.vendor == 'Apple') {
 				mui('.mui-scroll-wrapper').scroll();
 			}
-		});
-	} else {
-		mui.ready(function() {
-			mui('#pullrefresh').pullRefresh().pullupLoading();
 		});
 	}
 
 	//选择科目
 	self.selectSubject = function(data) {
 		self.currentSubject(data);
-		self.works.removeAll(); //先移除所有
+		self.worksList.removeAll(); //先移除所有
 
 		/*此处可能有bug，若之前所选科目已经刷新到无数据了，
 		    再切换为有多页数据的科目，似乎无法翻页了，会一直显示“没有更多数据了”*/
@@ -123,51 +146,46 @@ var workList = function() {
 		mui('#popSubjects').popover('toggle');
 	}
 
-	//	//预加载详情页面
-	//	var worksDetails = mui.preload({
-	//		url: 'WorksDetails.html',
-	//		extras: {
-	//			WorkID: works
-	//		}
-	//	});
-
-	//跳转到作品详情页面
-	self.goWorksDetails = function(data) {
-		common.transfer("WorksDetails.html", false, {
-			works: data
-		})
-	}
+	self.clickOne = function(data) {
+		if(self.displayCheck()){
+			if(data.selected()) return;		//已勾选
+			
+			data.selected(true);
+			self.worksList().forEach(function(item){
+				if(item.info.ID != data.info.ID)
+					item.selected(false);
+			})
+		}
+	};
 
 	self.gotoSubmitClass = function() {
-		var radios = document.getElementsByName('radio');
-		var pos = -1;
-		for (var i = 0; i < radios.length; i++) {
-			if (radios[i].checked) {
-				pos = i;
+		var sel=false;
+		for(var i = 0; i < self.worksList().length; i++){
+			var item = self.worksList()[i];
+			if(item.selected()){
+				var info = self.teacherInfo();
+				if (typeof(info) === "undefined") {
+					common.transfer('../teacher/teacherListHeader.html', true, {
+						works: item.info,
+						displayCheck: true
+					});
+				} else {
+					common.transfer('../student/submitComment.html', true, {
+						works: item.info,
+						teacher: teacherInfo()
+					});
+				}
+				
+				sel = true;
 				break;
 			}
 		}
-		if (pos == -1) {
-			mui.toast("请选择需要点评的作品");
-			return;
-		}
-		var info = self.teacherInfo();
-		if (typeof(info) === "undefined") {
-			common.transfer('../teacher/teacherListHeader.html', true, {
-				works: self.works()[pos],
-				displayCheck: true
-			});
-		} else {
-			common.transfer('../student/submitComment.html', true, {
-				works: self.works()[pos],
-				teacher: teacherInfo()
-			});
+	
+		if(!sel){
+			mui.toast("请选择作品");
 		}
 	}
 
-	self.gotoAddWorks = function() {
-		common.transfer('addWorks.html')
-	};
 	mui.plusReady(function() {
 		var web = plus.webview.currentWebview();
 		if (typeof(web.displayCheck) !== "undefined") {

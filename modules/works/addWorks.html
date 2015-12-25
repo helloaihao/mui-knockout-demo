@@ -65,7 +65,7 @@
 
 	<body>
 		<header class="mui-bar mui-bar-nav addWorks-mui-bar-nav">
-			<i class="iconfont mui-action-back">&#xe602;</i>
+			<i class="iconfont mui-action-back">&#xe683;</i>
 			<h1 class="mui-title">添加<!--ko text:pageTitle--><!--/ko--></h1>
 			<!--<i class="addWorks-r-font" id="addWorksPlan" data-bind="click: upload">上传</i>-->
 		</header>
@@ -111,6 +111,14 @@
 					<!--<div class="video-js-box">
 						<video controls width="168px" height="105px" class="video-js" data-setup="{}"><source src="http://video-js.zencoder.com/oceans-clip.mp4" type="video/mp4" /></video>
 					</div>-->
+				
+				</div>
+				<div class="addWork-div-font" data-bind="visible: filePath() == ''">
+					<p>1、清晰可见表演者演奏姿势与演奏动作；</p>
+					<p>2、光线明亮，录制环境无杂音；</p>
+					<p>3、视频录制流畅；</p>
+					<p>4、尺寸建议为640*480，时长以5分钟内为佳。</p>
+
 				</div>
 			</div>
 			<div class="mui-content-padded">
@@ -127,10 +135,6 @@
 		<script src="../../script/common/videoPicker.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/video.js/video2.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/works/addWorks.js"></script>
-		<script>
-			mui.init();
-		</script>
-
 	</body>
 
 </html>

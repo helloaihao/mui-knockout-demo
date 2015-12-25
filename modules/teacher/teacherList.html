@@ -11,21 +11,33 @@
 		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
 		<link href="../../content/common/Tf_global.css" rel="stylesheet" />
 		<style>
+			body {
+				background-position: center center;
+				background-repeat: no-repeat;
+				background-attachment: fixed;
+				background-size: cover;
+			}
+			
 			.mui-input-group,
 			.mui-content {
-				background: #f1f1f1!important;
+				background: #eee!important;
 			}
+			
 			.ah-select-list ul li {
 				width: 33.3333%;
 				padding: 0 20px;
 			}
+			
 			.ah-select-list a {
 				height: 100%;
 				display: block;
 			}
-			.ah-select-list span,.ah-mui-navigate-right:after {
+			
+			.ah-select-list span,
+			.ah-mui-navigate-right:after {
 				right: 9%;
 			}
+			
 			.mui-bar-tab .ah-mui-tab-item {
 				display: table-cell;
 				overflow: hidden;
@@ -37,63 +49,110 @@
 				text-overflow: ellipsis;
 				color: #929292;
 			}
+			
 			.mui-radio.mui-left input[type='radio'] {
 				left: 10px;
-			}			
+			}
+			
 			.mui-input-group:after,
 			.mui-input-group:before,
 			.mui-input-group {
-				background: #f1f1f1!important;
+				background: #f7f7f7!important;
 			}
+			
 			.mui-content-padded {
 				margin: 10px 0 0 0!important;
 			}
+			
 			.mui-popover {
 				min-height: 255px;
 				position: fixed;
 				top: 0;
+			}
+			
+			.works-center {
+				height: auto;
+				background-color: rgb(255, 255, 255);
+				box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.118);
+				width: 96%;
+				margin-left: 2%;
+				padding: 15px 0;
+				box-sizing: border-box;
+				margin-bottom: 10px;
+				position: relative;
+				overflow: hidden;
+			}
+			
+			
+				@media only screen and (min-width:320px) {
+				.teacher-list-con{
+					float: left;
+					padding: 10px 10px 0px 15px;
+					position: relative;
+					width: 75%;
+					box-sizing: border-box;	
+					position: relative;
+				}
+				.p-teacher-list > a:not(.mui-btn) {
+				background: none;
+				margin: -11px -30px;
+			}
+			}
+			@media only screen and (min-width: 321px) and (max-width: 375px) {
+				.teacher-list-con{
+					float: left;
+					padding: 10px 5px 0px 15px;
+					position: relative;
+					width: 78%;
+					box-sizing: border-box;	
+					position: relative;
+				}
+				}
+			@media only screen and (min-width: 376px) and (max-width: 415px) {
+				.teacher-list-con{
+					float: left;
+					padding: 10px 10px 0px 15px;
+					position: relative;
+					width: 75%;
+					box-sizing: border-box;	
+					position: relative;
+				}
+				.p-teacher-list > a:not(.mui-btn) {
+				background: none;
+				margin: -11px -30px;
+			}
 			}
 		</style>
 	</head>
 
 	<body>
 		<div class="mui-content">
-
 			<div id="pullrefresh" class="mui-scroll-wrapper">
 				<div class="mui-scroll">
 					<!--教师显示页-->
 					<ul class="mui-input-group">
-						<div data-bind="template:{name:'TeacherListTemplate', foreach:teacherList}">
+						<div data-bind="foreach:{data:teacherList, as:'teacher'}">
+							<div data-bind="css: (selected() ? 'teacher-list-check-bgColor ' : '') + 'p-teacher-list mui-table-view-cell'">
+								<a href="javascript:void(0);" data-bind="event:{tap:clickOne}">
+									<span class="teacher-list-sc" data-bind="visible: teacher.info.IsFavorite">已收藏</span>
+									<em class="teacher-list-check" data-bind="visible: displayCheck">
+										<img data-bind="attr:{src: '../../images/radio-check'+(teacher.selected() ? '-active' : '')+'.png'}" />
+									</em>
+									<div class="teacher-head">
+										<img data-bind="attr:{src: common.getPhotoUrl(teacher.info.Photo)}" onerror="this.src='../../images/my-default.png';" />
+									</div>
+									<div class="teacher-list-con">
+										<span class="teacher-list-teacherName" data-bind="text: teacher.info.DisplayName">张三</span>
+										<i data-bind="css: 'star'+(teacher.info.Star)+' teacher-list-star'"></i>
+										<!--<i data-bind="css: 'star'+(5-teacher.info.Star)+' teacher-list-star-c'"></i>-->
+										<span class="teacher-list-subject" data-bind="text: teacher.info.SubjectName">小提琴</span>
+										<p class="teacher-list-p1" data-bind="text: teacher.info.Introduce">著名演奏家，国家一级演奏员，中国民族管弦乐 学会理事，中国音乐家...
+										</p>
+									</div>
+								</a>
+							</div>
 						</div>
 					</ul>
-					<!--教师模板页-->
-					<script type="text/html" id="TeacherListTemplate">
-						<div class="works-center teacherList-content">
-							<span data-bind="text: DisplayName"></span>
-							<i class="mui-input-row mui-checkbox mui-left">
-			                    <div class="mui-input-row mui-radio mui-left" data-bind="visible: displayCheck">
-			                        <input name="radio" type="radio">
-			                    </div>
-            				</i>
-							<div class="works-list-img" data-bind="event:{tap: gotoTeacherInfo}">
-								<div class="works-list-img-div" data-bind="style:{'background-image': 'url('+common.getPhotoUrl(Poster)+')', 'background-size': 'cover'}" onerror="this.backgroundImage=url('../../images/poster-default.png');" ></div>
-								<i data-bind="text: SubjectName"></i>
-							</div>
-							<p data-bind="text: Introduce"></p>
-							<ol>
-								<!--<li>
-									<sapn data-bind="text: TeachAge"></sapn>年教龄</li>-->
-								<li data-bind="text: Score"></li>
-								<li>
-									<em data-bind="css: 'star'+Star"></em>
-									<em class="CommentPrice" data-bind="visible: displayCheck, text: CommentPrice > 0 ? '￥' + CommentPrice : '免费'"></em>
-								</li>
-								<!--<li>
-									
-								</li>-->
-							</ol>
-						</div>
-					</script>
 				</div>
 			</div>
 
@@ -103,7 +162,7 @@
 						<ul class="mui-table-view" data-bind="foreach: {data: tmplSubjectClasses, as: 'class1'}">
 							<li class="mui-table-view-cell mui-collapse ah-scroll">
 								<a class="mui-navigate-right navigate-font" href="#" data-bind="text: subjectClassName"></a>
-								
+
 								<div class="mui-collapse-content" data-bind="foreach: {data: tmplSubjects, as: 'subject'}">
 									<span data-bind="text: subject.subjectName, event: {'tap': selectSubject}, visible: (subject.subjectClass == class1.subjectClass), css:{'table-current': (subject.id == currentSubject().id && subject.subjectClass == currentSubject().subjectClass)}"></span>
 								</div>
@@ -145,6 +204,7 @@
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/teacher/teacherList.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/clamp/clamp.min.js" type="text/javascript" charset="utf-8"></script>
 	</body>
 
 </html>

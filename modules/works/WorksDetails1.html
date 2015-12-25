@@ -1,0 +1,250 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评家</title>
+		<link href="../../content/mui/mui.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../script/libs/video.js/video2.0.min.css" rel="stylesheet" />
+		<style>
+			.mui-card {
+				margin: 0 0 60px 0!important;
+				border: none!important;
+			}			
+			.mui-collapse-content {
+				padding: 0!important;
+			}
+			
+			.mui-navigate-right {
+				border-bottom: 1px solid #C8C7CC;
+			}
+			
+			.mui-table-view-cell p {
+				background: none!important;
+			}
+			
+			.mui-table-view-cell > a:not(.mui-btn) {
+				color: #036FB8;
+			}
+			
+			.mui-table-view-cell.mui-collapse.mui-active > .mui-navigate-right:after,
+			.mui-table-view-cell.mui-collapse.mui-active > .mui-push-right:after {
+				color: #bbb!important;
+				font-size: 20px!important;
+				content: "\e66c"!important;
+			}
+			
+			.mui-table-view-cell.mui-collapse > .mui-navigate-right:after,
+			.mui-table-view-cell.mui-collapse > .mui-push-right:after {
+				content: "\e672"!important;
+				font-size: 20px!important;
+				top: 22px!important;
+				right: 22px;
+			}
+			
+			.mui-bar-tab .ah-mui-tab-item {
+				display: table-cell;
+				overflow: hidden;
+				width: 1%;
+				height: 50px;
+				text-align: center;
+				vertical-align: middle;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				color: #929292;
+			}			
+			.works-inconfont {
+				font-size: 1.2rem!important;
+			}			
+			.mui-bar-nav .shareTeacher-tb {
+				float: right;
+				text-align: right;
+			}
+			
+			input[type='button'],
+			input[type='submit'],
+			input[type='reset'],
+			button,
+			.mui-btn {
+				padding: 0;
+				border: 0;
+			}
+			.mui-table-view-cell > a:not(.mui-btn){
+				background: #f4f4f4!important;
+				margin-top: 20px;
+				border-top:1px solid #d0d0d0;
+			}
+		
+			/*分享css*/
+				@media only screen and (min-width: 376px) and (max-width: 414px) {
+				.shareTeacher-pic ul li img {
+					height: 3rem;
+					width:  3rem;
+				}
+
+			}
+			.share-height{
+				position: fixed!important;
+			}
+			.share-height.mui-active{
+				top: 100%!important;
+				margin-top: -168px!important;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<i class="iconfont mui-action-back">&#xe683;</i>
+			<h1 class="mui-title" data-bind="text:Works().Title">作品详情</h1>
+			<!--<a class="iconfont shareTeacher-tb" href="#middlePopover">&#xe60e;</a>-->
+		</header>
+		<div class="mui-content">
+			<!--
+            	作者：980126968@qq.com
+            	时间：2015-12-14
+            	描述：改
+            -->
+			<div class="worksDetails-photo">
+				<div class="worksDetails-photo-photo">
+					<img src="../../images/Identity.jpg" />
+				</div>
+				<div class="worksDetails-photo-name">张小杰</div>
+			</div>
+			<div class="worksDetails-play">
+				<img src="../../images/22.jpg" />
+				<div class="worksDetails-play-pic">
+					<img src="../../images/play-pic.png" />
+				</div>
+			</div>
+			<div class="worksDetails-date">
+				2015-12-11
+			</div>
+			<div class="worksDetails-three">
+				<ul>
+					<li>
+						<i class="iconfont">&#xe660;</i>
+					</li>
+					<li>
+						<i class="iconfont">&#xe65f;</i>
+					</li>
+					<li>
+						<a href="#middlePopover" class="iconfont">&#xe60e;</a>
+					</li>
+				</ul>
+			</div>
+			<div class="worksDetails-conn">
+				<h2>张下杰的作品2</h2>
+				<p>作品简介吧啦吧啦吧啦吧啦吧啦吧啦吧啦吧啦吧啦吧啦吧
+				啦吧啦吧啦吧啦吧啦吧啦吧啦吧啦</p>
+			</div>
+			<div class="worksDetails-last-left">
+				<ol>
+					<li>
+						<i class="iconfont">&#xe663;</i>125
+					</li>
+					<li>
+						<i class="iconfont">&#xe661;</i>125
+					</li>
+				</ol>
+			</div>
+			<div class="worksDetails-last-right">
+				<i class="iconfont">&#xe61b;</i>删除
+			</div>
+			<div style="margin-bottom: 90px; width: 100%;">
+				<li class="mui-table-view-cell mui-collapse mui-active worksDetails-teacher-name">
+					<a class="mui-navigate-right info-pic" href="#">
+						【李蒂】老师评语
+					</a>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<p class="worksDetails-p">
+						<em>A.</em>
+						<span>问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题</span>
+					</p>
+					<p class="worksDetails-q">
+						<em>Q.</em>
+						<span>问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题问题</span>
+					</p>
+				</ul>
+			</li>
+			
+			
+		</div>
+		<!--
+        	作者：980126968@qq.com
+        	时间：2015-12-18
+        	描述：
+        -->
+				<!--<ul class="mui-table-view" data-bind="template:{name:'commentTemplate',foreach:teacherComment}">
+					<li class="mui-table-view-cell mui-collapse">
+					<a class="mui-navigate-right" href="#">
+						<i class="iconfont">&#xe62d;</i> [-->
+						<!--ko text:CommenterName-->
+						<!--/ko--><!--]老师评语</a>-->
+					<!--<div class="mui-collapse-content">
+						<div class="works-content-dow">
+							<div data-bind="template:{name:'commentToRulseTemplate',foreach:CommentToRules}">总评语总评语总评语总评语</div>
+							<span class="totil">总评语</span>
+							<p data-bind="text:TotalComment">总评语总评语</p>
+						</div>
+						<div class="works-consult-title" data-bind="click:addfeedbacks">
+							<span><i class="iconfont">&#xe609;</i>咨询 </span>
+							<em class="iconfont">&#xe621;</em>
+						</div>
+						<div class="works-answer" data-bind="template:{name:'feedBackTemplate',foreach:CommentFeedbacks}">总评语总评语总评语
+						</div>
+						<div class="works-answer" data-bind="text:CommentFeedbacks">
+							总评语总评语总评语
+							</div>
+					</div>
+				</li>
+				</ul>-->
+
+		<nav class="mui-bar mui-bar-tab" data-bind="visible: IsAuthor">
+				<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab teacherList-mui worksDetails-nav" data-bind="event:{click:setPublic}">
+					<i class="iconfont works-iconfont">&#xe667;</i>
+					<span class="mui-tab-label">设置为不公开</span>
+				</a>
+				<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab worksDetails-nav-left " data-bind="event:{click:getTeacherComment}">
+					<i class="iconfont works-iconfont">&#xe669;</i>
+					<span class="mui-tab-label">找老师点评</span>
+				</a>
+			</nav>
+		<div id="middlePopover" class="mui-popover share-height">
+						<div class="shareTeacher-pic">
+							<ul id="recommendArray">
+								<li id="weichatFriend">
+									<img src="../../images/share-wx.png" />
+									<span>微信好友</span>
+								</li>
+								<li id="weichatMoments">
+									<img src="../../images/share-py.png" />
+									<span>微信朋友圈</span>
+								</li>
+								<li id="qqFriend">
+									<img src="../../images/share-qq.png" />
+									<span>QQ好友</span>
+								</li>
+							</ul>
+						</div>
+						<div class="shareTeacher-qx" data-bind="click:closeShare">取消</div>
+				
+			</div>
+
+		</div>
+	</body>
+	<script src="../../script/mui/mui.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/libs/video.js/video2.0.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/common/share.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/common/pay.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/common/download.js" type="text/javascript" charset="utf-8"></script>
+	<!--<script src="../../script/works/worksDetails.js" type="text/javascript" charset="utf-8"></script>-->
+
+</html>

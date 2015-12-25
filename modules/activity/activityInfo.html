@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评家</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
+		<style>
+			.mui-bar-tab .ah-mui-tab-item {
+				display: table-cell;
+				overflow: hidden;
+				width: 1%;
+				height: 50px;
+				text-align: center;
+				vertical-align: middle;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				color: #929292;
+			}
+			
+			.top-btn {
+				height: 40px;
+				width: 60px;
+				display: inline-block;
+				margin: -15px 0 0 -15px;
+				padding: 0 10px 0 10px;
+				line-height: 40px;
+			}
+			
+			.top-btn-right {
+				text-align: right;
+			}
+			
+			/*分享css*/
+			
+			@media only screen and (min-width: 376px) and (max-width: 414px) {
+				.shareTeacher-pic ul li img {
+					height: 3rem;
+					width: 3rem;
+				}
+			}
+			
+			.share-height {
+				position: fixed!important;
+			}
+			
+			.share-height.mui-active {
+				top: 100%!important;
+				margin-top: -168px!important;
+			}
+			.p-subTitle {
+				padding: 0 15px 5px 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="p-header-div activityInfo-header">
+			<em class="activityInfo-em">
+				<a class="iconfont mui-action-back top-btn activityInfo-iconfont">&#xe683;</a>
+			</em>
+			
+			<img src="../../images/22.jpg" data-bind="attr:{src: common.getPhotoUrl2(Thumbnail())}" />
+			<!--<a href="#sharePopover" class="iconfont top-btn top-btn-right second">&#xe670;</a>-->
+		</div>
+		<div class="mui-content" data-bind="foreach: {data: activity}">
+			<!--<div class="activityInfo-more">
+				<ul>
+					<li data-bind="click: gotoSchedule">
+						<em>节目单</em>
+					</li>
+					<li data-bind="click: gotoNews">
+						<em>活动资讯</em>
+					</li>
+					<li data-bind="click: gotoRehearsal">
+						<em>彩排表</em>
+					</li>
+					<li data-bind="click: gotoCalendar">
+						<em>日程表</em>
+					</li>
+				</ul>
+			</div>-->
+
+			<div class="activityInfo-conn">
+
+				<p class="p-title" data-bind="text: Title">企业小班企业小班企业小班</p>
+				<p class="p-subTitle" data-bind="text: SubTitle">企业小班企业小班企业小班</p>
+				<div class="activityInfo-center">
+					<span class="span-l">
+					<i class="iconfont font-color">&#xe65c;</i>
+					<em>报名截止：</em><span data-bind="text: RegEndTime">5小时22分12秒</span>
+					</span>
+					<!--<span class="span-r">
+					<em>22</em>人已报名
+				</span>-->
+				</div>
+
+				<div class="activityInfo-list">
+					<i class="iconfont">&#xe65d;</i><span data-bind="text: Times">12月10日 19:00~21:00</span>
+				</div>
+				<div class="activityInfo-list">
+					<i class="iconfont">&#xe63c;</i><span data-bind="text: PlaceName">广州市天河区体育中心</span>
+				</div>
+				<!--<div class="activityInfo-list list-last">
+					<i class="iconfont">&#xe65e;</i>5~200人
+				</div>-->
+
+				<p class="p-title title-second">活动详情</p>
+				<p class="p-conn" data-bind="text: ActContent">活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情活动详情</p>
+			</div>
+
+			<!--<nav class="mui-bar mui-bar-tab">
+				<a class="ah-mui-tab-item mui-active works-list-mui-tab-label mui-action-back">
+					<span class="mui-tab-label activity-mui-tab-label">￥200/人</span>
+				</a>
+
+				<a class="ah-mui-tab-item works-list-mui-tab-btn" data-bind="click: gotoSubmitClass">
+					<span class="mui-tab-label works-list-mui-btn">立即报名</span>
+				</a>
+			</nav>-->
+		</div>
+		<div id="sharePopover" class="mui-popover share-height">
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<div class="shareTeacher-pic">
+						<ul>
+							<li id="weichatFriend">
+								<img src="../../images/share-wx.png" />
+								<span>微信好友</span>
+							</li>
+							<li id="weichatMoments">
+								<img src="../../images/share-py.png" />
+								<span>微信朋友圈</span>
+							</li>
+							<li id="qqFriend">
+								<img src="../../images/share-qq.png" />
+								<span>QQ好友</span>
+							</li>
+						</ul>
+					</div>
+					<div class="shareTeacher-qx">取消</div>
+				</div>
+			</div>
+		</div>
+		<script src="../../script/mui/mui.min.js " type="text/javascript " charset="utf-8 "></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/common.js " type="text/javascript " charset="utf-8 "></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js " type="text/javascript " charset="utf-8 "></script>
+		<script src="../../script/activity/activityInfo.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+
+</html>

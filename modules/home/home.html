@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta content="yes" name="apple-mobile-web-app-capable" />
+		<meta content="yes" name="apple-touch-fullscreen" />
+		<meta content="telephone=no,email=no" name="format-detection" />
+		<meta name="App-Config" content="fullscreen=yes,useHistoryState=yes,transition=yes" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>首页</title>
 		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
@@ -9,10 +14,34 @@
 		<link href="../../content/common/global.css" rel="stylesheet" />
 		<link href="../../content/common/style.css" rel="stylesheet" />
 		<style>
-			.index-subject li:active {
-				background: #f1f1f1;
+			body,
+			.index-content-bg {
+				background: #eeeeee!important;
 			}
-			@media only screen and (min-width: 375px) and (max-width: 415px) {
+			@media only screen and (min-width:320px) {
+				.teacher-list-con{
+					float: left;
+					padding: 10px 10px 0px 15px;
+					position: relative;
+					width: 75%;
+					box-sizing: border-box;	
+					position: relative;
+				}
+				
+			}		
+			@media only screen and (min-width: 321px) and (max-width: 375px) {
+					.teacher-list-con{
+					float: left;
+					padding: 10px 5px 0px 15px;
+					position: relative;
+					width: 78%;
+					box-sizing: border-box;	
+					position: relative;
+				}
+				
+			
+			}
+			@media only screen and (min-width: 376px) and (max-width: 414px) {
 				.index-up-secher-bg ul li em {
 					font-size: 46px;
 					position: absolute;
@@ -26,26 +55,21 @@
 					right: 40px;
 					top: 18px;
 				}
-			}
-			@media only screen and (min-width: 321px) and (max-width: 375px) {
-				.index-up-secher-bg ul li em {
-					font-size: 46px;
-					position: absolute;
-					left: 20px;
-					top: 18px;
+				.teacher-list-con{
+					float: left;
+					padding: 10px 10px 0px 15px;
+					position: relative;
+					width: 75%;
+					box-sizing: border-box;	
+					position: relative;
 				}
-				.index-up-secher-bg ul li span {
-					color: #333;
-					font-size: 16px;
-					position: absolute;
-					right: 30px;
-					top: 18px;
+			}			
+			
+			
+			@media only screen and (min-width: 415px) and (max-width: 1025px) {
+				.index-up-secher-bg ul li {
+					width: 48%;
 				}
-			}
-				@media only screen and (min-width: 415px) and (max-width: 1025px) {
-					.index-up-secher-bg ul li{
-						width: 48%;
-					}
 				.index-up-secher-bg ul li em {
 					font-size: 46px;
 					position: absolute;
@@ -67,80 +91,73 @@
 				position: absolute;
 				display: none;
 			}
+			
+			.p-teacher-list > a:not(.mui-btn) {
+				background: none;
+				margin: -11px -30px;
+			}
 		</style>
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<h1 id="title" class="mui-title">乐评家</h1>
-			<em class="iconfont" data-bind="click:goMessageList">&#xe628;
+		<!--	<h1 id="title" class="mui-title">-->
+				<div class="index-title">
+					<img src="../../images/app-logo.png" />
+				</div>
+			<!--</h1>-->
+			<em class="iconfont mui-bar-nav-em" data-bind="click:goMessageList">&#xe685;
 				<!--<span class="mui-badge mui-badge-warning" data-bind="text: UnreadCount, visible: UnreadCount() > 0">	
 				</span>-->
-			<i class="index-red" data-bind="visible: UnreadCount() != 0 || getLocalItem('UserID') < 0 "></i>					
+			<i class="index-red" data-bind="visible: UnreadCount() > 0 && getUserID() > 0 "></i>					
 			</em>
 		</header>
 		<div class="mui-content">
 			<!--banner-->
 			<div class="index-banner">
-				<div id="slider" class="mui-slider" style="height: 100%;">
+				<div class="mui-slider">
 					<div class="mui-slider-group mui-slider-loop">
-						<!-- 额外增加的一个节点(循环轮播：第一个节点是最后一张轮播) -->
 						<div class="mui-slider-item mui-slider-item-duplicate">
-							<a href="#">
-								<img src="../../images/4.jpg">
+							<a>
+								<img data-bind="attr:{src: common.getPhotoUrl2(slideshowEndPic())}">
 							</a>
 						</div>
-						<!-- 第一张 -->
+						<!--ko foreach:{data: slideshow, as: 'ss'}-->
 						<div class="mui-slider-item">
-							<a href="#">
-								<img src="../../images/1.jpg">
+							<a data-bind="click: gotoweb">
+								<img data-bind="attr:{src: common.getPhotoUrl2(ss.PicPath)}">
 							</a>
 						</div>
-						<!-- 第二张 -->
-						<div class="mui-slider-item">
-							<a href="#">
-								<img src="../../images/2.jpg">
-							</a>
-						</div>
-						<!-- 第三张 -->
-						<div class="mui-slider-item">
-							<a href="#">
-								<img src="../../images/3.jpg">
-							</a>
-						</div>
-						<!-- 第四张 -->
-						<div class="mui-slider-item">
-							<a href="#">
-								<img src="../../images/4.jpg">
-							</a>
-						</div>
-						
-						<!-- 额外增加的一个节点(循环轮播：最后一个节点是第一张轮播) -->
+						<!--/ko-->
 						<div class="mui-slider-item mui-slider-item-duplicate">
-							<a href="#">
-								<img src="../../images/1.jpg">
+							<a>
+								<img data-bind="attr:{src: common.getPhotoUrl2(slideshowStarPic())}">
 							</a>
 						</div>
 					</div>
-					<div class="mui-slider-indicator">
-						<div class="mui-indicator mui-active"></div>
+					<div class="mui-slider-indicator" data-bind="foreach: {data: slideshow}">
 						<div class="mui-indicator"></div>
-						<div class="mui-indicator"></div>
-						<div class="mui-indicator"></div>
-						
 					</div>
 				</div>
 			</div>
 			<!--上传查找-->
-			<div class="index-up-secher-bg">
+			<div class="index-two">
 				<ul>
-					<li id="addWorks">
-						<em class="iconfont">&#xe62c;</em>
-						<span>上传作品</span>
+					<li id="findTeacher" onclick="gotoTeachers()"  class="index-two-first">
+						<div class="index-display">
+						<div class="iconfton-c">
+							<img src="../../images/icon_03.png" />
+						</div>
+						<span class="index-two-span">查找老师</span>
+						</div>
 					</li>
-					<li id="findTeacher" onclick="gotoTeachers()">
-						<em class="iconfont">&#xe629;</em>
-						<span>查找老师</span>
+					<li id="addWorks">
+						<div class="index-display">
+						<div class="iconfton-c">
+							<img src="../../images/icon_05.png" />
+						</div>
+						<span class="index-two-span">上传作品</span>
+						</div>
 					</li>
 				</ul>
 			</div>
@@ -161,29 +178,52 @@
 				</ul>
 
 			</div>
-
+			<!--
+            	作者：980126968@qq.com
+            	时间：2015-12-10
+            	描述：活动专区
+            -->
+			<div class="pin-blank"></div>
 			<div class="index-th-div">
-				<!--<img src="../../images/index-1.png" />-->
+				<em></em>
+				<span class="index-teacher">热门活动</span>
+				<span class="index-more" data-bind="click: gotoactivityList">查看更多<i class="iconfont">&#xe618;</i>
+				</span>
+			</div>
+			<div class="index-hot-activity">
+				<ul data-bind="foreach: {data: activitys}">
+					<li data-bind="click: gotoActivityInfo"><img data-bind="attr: {src: common.getPhotoUrl2(Thumbnail)}"/></li>
+				</ul>
+			</div>
+			<div class="pin-blank"></div>
+			<div class="index-th-div">
+				<em></em>
 				<span class="index-teacher">名师介绍</span>
 				<span class="index-more" onclick="gotoTeachers()">查看更多<i class="iconfont">&#xe618;</i>
 				</span>
 			</div>
-
-			<div class="index-content-bg">
-				<div data-bind="template: {name:'teacherTemplate', foreach: Teachers }">
-
+			<div data-bind="template: {name:'teacherTemplate', foreach: Teachers }">
+			</div>
+			
+			<!--teacher模板页-->
+			<script type="text/html" id="teacherTemplate">
+				<div class="p-teacher-list mui-table-view-cell" data-bind="event:{tap:gotoTeacher}">
+					<a href="javascript:void(0);">
+						<div class="teacher-head">
+							<img data-bind="attr:{src: common.getPhotoUrl(Photo)}" onerror="this.src='../../images/my-default.png';" />
+						</div>
+						<div class="teacher-list-con">
+							<span class="teacher-list-teacherName" data-bind="text: DisplayName">张三</span>
+							<i data-bind="css: 'star'+(Star)+' teacher-list-star'"></i>
+							<!--<i data-bind="css: 'star'+(5-Star)+' teacher-list-star-c'"></i>-->
+							<span class="teacher-list-subject" data-bind="text: SubjectName">小提琴</span>
+							<p class="teacher-list-p1" data-bind="text: Introduce">著名演奏家，国家一级演奏员，中国民族管弦乐 学会理事，中国音乐家...
+							</p>
+						</div>
+					</a>
 				</div>
-				<!--teacher模板页-->
-				<script type="text/html" id="teacherTemplate">
-					<div class="index-content-ctn" data-bind="event:{tap:gotoTeacher}">
-						<em data-bind="style:{'background-image': 'url('+common.getPhotoUrl(Poster)+')', 'background-size': 'cover'}" onerror="this.backgroundImage='url(../../images/poster-default.png)';"></em>
-						<span data-bind="text: DisplayName"></span>
-						<!--<i>(教龄<!--ko text:TeachAge--><!--/ko年)</i>-->
-						<b><!--ko text:SubjectName--><!--/ko--></b>
-						<p data-bind="text: Introduce"></p>
-					</div>
-				</script>
-
+			</script>
+			<div class="index-content-bg">
 				<div class="index-tel">
 					官方热线：020-38031250
 				</div>
@@ -195,13 +235,10 @@
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/home/home.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/clamp/clamp.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			mui.init();
-			mui('#slider').slider({
-				interval: 3000
-			});
 			document.getElementById('addWorks').addEventListener('click', function() {
-				common.transfer('../works/addWorks.html', true,common.extrasUp(0),false,false);
+				common.transfer('../works/addWorks.html', true, common.extrasUp(0), false, false);
 			});
 		</script>
 	</body>

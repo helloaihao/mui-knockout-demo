@@ -35,19 +35,17 @@ var viewModel = function() {
 		});
 	}
 
-	self.setEnabled = function($data) {
-		var obj = $data;
-		if (!$data.IsEnabled) {
-			$data.IsEnabled = true;
-			submitEnabled($data);
+	self.setEnabled = function(data) {
+		if (!data.IsEnabled) {
+			data.IsEnabled = true;
+			submitEnabled(data);
 		}
 	};
 
-	self.setDisabled = function($data) {
-		var obj = $data;
-		if ($data.IsEnabled) {
-			$data.IsEnabled = false;
-			submitEnabled($data);
+	self.setDisabled = function(data) {
+		if (data.IsEnabled) {
+			data.IsEnabled = false;
+			submitEnabled(data);
 		}
 	};
 
@@ -110,5 +108,16 @@ var viewModel = function() {
 	self.gotoTime = function() {
 		common.transfer("../../modules/course/availableTime.html", true);
 	};
+	
+	mui.init({
+		beforeback: function() {
+			var myCourse = plus.webview.currentWebview().opener();
+			if (myCourse.id == "modules/course/myCourse.html") {
+				mui.fire(myCourse, 'refreshCourse', {
+				});
+			}
+			return true
+		}
+	})
 };
 ko.applyBindings(viewModel);

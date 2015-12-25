@@ -13,41 +13,45 @@
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<h1 class="mui-title">作品中心</h1>
+			<h1 class="mui-title">作品作业</h1>
 		</header>
 		<div class="mui-content">
-			<div class="mui-slider-item">
-				<img src="../../images/1.jpg" />
+			<div class="worksIndex-banner">
+				<img data-bind="attr:{src:worksBannerImg}" />
 			</div>
-			<div class="workIndex-center">
-				<div class="workIndex-center-left">
-					<ul>
-						<li class="li-1" data-bind="click:goMyworks">
-							我的作品
-							<i class="iconfont">&#xe646;</i>
-						</li>
-						<li class="li-2" data-bind="click:goUpworks">
-							上传作品
-							<i class="iconfont">&#xe650;</i>
-						</li>
-						<li class="li-3" data-bind="click:goMytasks">
+			<div class="worksIndex-activity">
+				<ul class="worksIndex-activity-ul">
+					<li data-bind="click:goMyworks">
+						<img src="../../images/work_03.png" />
+						<span class="worksIndex-span">我的作品</span>
+					</li>
+					<li data-bind="click:goUpworks">
+						<img src="../../images/work_06.png" />
+						<span class="worksIndex-span">上传作品</span>
+					</li>
+					<li data-bind="click:goMytasks">
+						<img src="../../images/work_11.png" />
+						<span class="worksIndex-span" data-bind="text:taskType">
 							<!--ko text:taskType-->
 							<!--/ko-->
-							<i class="iconfont">&#xe652;</i>
+						</span>
+					</li>
+					<li data-bind="click:goUptasks, visible: isTeacher() == false">
+						<img src="../../images/work_13.png" />
+						<span class="worksIndex-span" data-bind="text:myComment">上传作业</span>
+					</li>
+					<li data-bind="click:goComments,visible: isTeacher">
+						<img src="../../images/work_13.png" />
+						<span class="worksIndex-span" data-bind="text:myComment">我的点评</span>
+					</li>
+				</ul>
+				<div class="worksIndex-activity">
+					<ol>
+						<li data-bind="click:goAllworks">
+							<img src="../../images/work_18.png" />
+							<span class="worksIndex-ol-span">所有作品</span>
 						</li>
-						<li class="li-4" data-bind="click:goUptasks, visible: isTeacher() == false">
-							上传作业
-							<i class="iconfont">&#xe64f;</i>
-						</li>
-						<li class="li-5" data-bind="click:goComments, visible: isTeacher">
-							我的点评
-							<i class="iconfont">&#xe654;</i>
-						</li>
-					</ul>
-				</div>
-				<div class="workIndex-center-right" data-bind="click:goAllworks">
-					所有作品
-					<i class="iconfont">&#xe651;</i>
+					</ol>
 				</div>
 			</div>
 		</div>

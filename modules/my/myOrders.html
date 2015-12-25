@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
@@ -9,53 +10,75 @@
 		<link href="../../content/common/global.css" rel="stylesheet" />
 		<link href="../../content/common/style.css" rel="stylesheet" />
 		<style>
-			body, .mui-content {
+			body,
+			.mui-content {
 				background: #f1f1f1 !important;
 			}
+			
 			.mui-control-item {
 				color: #666 !important;
 				border-right: 1px solid #C8C7CC !important;
 			}
+			
 			.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
 				color: #036FB8 !important;
 			}
-			.mui-segmented-control.mui-segmented-control-inverted ~
-			.mui-slider-progress-bar {
+			
+			.mui-segmented-control.mui-segmented-control-inverted ~ .mui-slider-progress-bar {
 				background: none !important;
 			}
-			.mui-slider .mui-segmented-control.mui-segmented-control-inverted ~
-			.mui-slider-group .mui-slider-item {
+			
+			.mui-slider .mui-segmented-control.mui-segmented-control-inverted ~ .mui-slider-group .mui-slider-item {
 				border-bottom: none !important;
 				border-top: none !important;
 			}
+			
 			.mui-segmented-control.mui-segmented-control-inverted {
 				border-bottom: 1px solid #C8C7CC !important;
 			}
+			
 			.mui-control-content {
 				min-height: 350px;
 				overflow: hidden;
 			}
+			
 			.mui-table-view-cell {
 				padding: 12px 15px;
 			}
+			
 			.mui-control-content .mui-loading {
 				margin-top: 50px;
 			}
+			
 			.mui-active {
 				color: #666 !important;
 			}
-			.mui-slider .mui-slider-group .mui-slider-item .mui-table-view:before, .mui-slider .mui-slider-group .mui-slider-item .mui-table-view:after {
+			
+			.mui-slider .mui-slider-group .mui-slider-item .mui-table-view:before,
+			.mui-slider .mui-slider-group .mui-slider-item .mui-table-view:after {
 				height: 1px !important;
+			}
+			.orderSelect {
+				color: #F08000;
+			}
+			.mui-active{
+				background: #F1F1F1!important;
 			}
 		</style>
 	</head>
+
 	<body>
 		<div class="myAccount-header">
 			<img src="../../images/myAccount.png" />
-			<i class="iconfont mui-action-back">&#xe602;</i>
-			<em> <img src="../../images/4.jpg" /> </em>
+			<i class="iconfont mui-action-back top-btn">&#xe602;</i>
+			<!--<span class="iconfont top-btn top-btn-right" data-bind="click:Withdraw">提现</span>-->
+			<em>
+				<img data-bind="attr: {'src': Photo}" onerror="this.src='../../images/my-default.png';" />
+			</em>
 			<span><!--ko text:DisplayName--><!--/ko--></span>
-			<span> <u>余额：￥</u><u data-bind="text: Balance"></u> </span>
+			<span>
+				<u class="span-u">余额：￥</u><u class="span-u" data-bind="text: Balance"></u>
+			</span>
 		</div>
 		<div class="mui-content">
 			<div id="slider" class="mui-slider">
@@ -67,45 +90,49 @@
 				<div class="mui-slider-group">
 					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active">
 						<div id="scroll1" class="mui-scroll-wrapper">
-							<div class="mui-scroll" data-bind="template: {name:'orderTemplate', foreach: OrdersNotPay }"></div>
-							<!--明细模板页-->
-							<script type="text/html" id="orderTemplate">
-								<ul class="mui-table-view" data-bind="click: goDetail($data)">
-								<li class="mui-table-view-cell myAccount-cell">
-								<span data-bind='text: TargetTypeName'></span>
-								<span data-bind='text: TargetName'></span>
-								<span data-bind='text: OrderTime.split(" ")[0]'></span>
-								<span data-bind='text: "￥" + Amount'></span>
-								<span>评分：4.0</span>
-								<div class="mui-content-padded myAccount-sure">
-								<a href="#middlePopover" class="mui-btn mui-btn-warning mui-btn-outlined">
-								确认完成
-								</a>
-								</div>
-								</li>
+							<div class="mui-scroll" data-bind="foreach: {data: OrdersNotPay }">
+								<ul class="mui-table-view" data-bind="click: goDetail">
+									<li class="mui-table-view-cell myAccount-cell">
+										<span data-bind='text: TargetTypeName'></span>
+										<span data-bind='text: TargetName'></span>
+										<span data-bind='text: OrderTime.split(" ")[0]'></span>
+										<span data-bind='text: "￥" + Amount'></span>
+									</li>
 								</ul>
-							</script>
+							</div>
 						</div>
 					</div>
 					<div id="item2mobile" class="mui-slider-item mui-control-content">
 						<div id="scroll2" class="mui-scroll-wrapper">
-							<div class="mui-scroll">
-								<div data-bind="template: {name:'orderTemplate', foreach: OrdersPayed }"></div>
-								<!--<div class="mui-loading">
-								<div class="mui-spinner">
-								</div>
-								</div>-->
+							<div class="mui-scroll" data-bind="foreach: {data: OrdersPayed }">
+								<ul class="mui-table-view" data-bind="click: goDetail">
+									<li class="mui-table-view-cell myAccount-cell">
+										<span data-bind='text: TargetTypeName'></span>
+										<span data-bind='text: TargetName'></span>
+										<span data-bind='text: OrderTime.split(" ")[0]'></span>
+										<span data-bind='text: "￥" + Amount'></span>
+										<span data-bind='text: "评分："+ Score.toFixed(1), visible: Score > 0'></span>
+										<div class="mui-content-padded myAccount-sure" data-bind="visible: Score === 0">
+											<a href="#middlePopover" class="mui-btn mui-btn-warning mui-btn-outlined" data-bind="event:{tap: getOrderID}">
+											确认完成
+											</a>
+										</div>
+									</li>
+								</ul>
 							</div>
 						</div>
 					</div>
 					<div id="item3mobile" class="mui-slider-item mui-control-content">
 						<div id="scroll3" class="mui-scroll-wrapper">
-							<div class="mui-scroll">
-								<div data-bind="template: {name:'orderTemplate', foreach: OrdersRefunded }"></div>
-								<!--<div class="mui-loading">
-								<div class="mui-spinner">
-								</div>
-								</div>-->
+							<div class="mui-scroll" data-bind="foreach: {data: OrdersRefunded }">
+								<ul class="mui-table-view" data-bind="click: goDetail">
+									<li class="mui-table-view-cell myAccount-cell">
+										<span data-bind='text: TargetTypeName'></span>
+										<span data-bind='text: TargetName'></span>
+										<span data-bind='text: OrderTime.split(" ")[0]'></span>
+										<span data-bind='text: "￥" + Amount'></span>
+									</li>
+								</ul>
 							</div>
 						</div>
 					</div>
@@ -117,61 +144,64 @@
 			<div id="middlePopover" class="mui-popover myOrders-pop">
 				<div class="mui-scroll">
 					<ul class="mui-table-view">
-						<li class="mui-table-view-cell myOrders-t">
-							<a href="#">评分：<i class="star5-hui"></i></a>
+						<li id="orderstar" class="myOrders-t">
+							<span>评分：</span><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i><i class="">★</i>
 						</li>
 					</ul>
-					<div class="myOrders-wc">
+					<div id="orderSubmit" class="myOrders-wc">
 						完成
 					</div>
 				</div>
-				<script src="../../script/mui/mui.js"></script>
-				<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
-				<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
-				<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
-				<script src="../../script/my/myOrders.js" type="text/javascript" charset="utf-8"></script>
-				<script>
-				 mui.init({
-						swipeBack : false
-					});
-					(function($) {
-						$('.mui-scroll-wrapper').scroll({
-							indicators : true //是否显示滚动条
-						});
-						var html2 = '<div class="mui-loading"><div class="mui-spinner"></div></div>'
-						var html3 = '<div class="mui-loading"><div class="mui-spinner"></div></div>';
-						//var html2 = '<ul class="mui-table-view"><li class="mui-table-view-cell myAccount-cell"><span>点评</span><span>点评张三的作品点2评张三的作品</span><span>2015-9-29</span><span>￥50.00</span></li><li class="mui-table-view-cell myAccount-cell"><span>点评</span><span>点评张三的作品点评张三的作品</span><span>2015-9-29</span><span>￥50.00</span></li></ul>';
-						//var html3 = '<ul class="mui-table-view"><li class="mui-table-view-cell myAccount-cell"><span>点评</span><span>点评张三的作品点3评张三的作品</span><span>2015-9-29</span><span>￥50.00</span></li><li class="mui-table-view-cell myAccount-cell"><span>点评</span><span>点评张三的作品点评张三的作品</span><span>2015-9-29</span><span>￥50.00</span></li></ul>';
-						var item2 = document.getElementById('item2mobile');
-						var item3 = document.getElementById('item3mobile');
-						document.getElementById('slider').addEventListener('slide', function(e) {
-							if (e.detail.slideNumber === 1) {
-								GetPayed();
-								if (item2.querySelector('.mui-loading')) {
-									setTimeout(function() {
-										item2.querySelector('.mui-scroll').innerHTML = html2;
-									}, 500);
-								}
-							} else if (e.detail.slideNumber === 2) {
-								GetRefunded();
-								if (item3.querySelector('.mui-loading')) {
-									setTimeout(function() {
-										item3.querySelector('.mui-scroll').innerHTML = html3;
-									}, 500);
-								}
-							} else {
-								GetNotPay();
-							}
-						});
-						var sliderSegmentedControl = document.getElementById('sliderSegmentedControl');
-						$('.mui-input-group').on('change', 'input', function() {
-							if (this.checked) {
-								sliderSegmentedControl.className = 'mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-' + this.value;
-								//force repaint
-								sliderProgressBar.setAttribute('style', sliderProgressBar.getAttribute('style'));
-							}
-						});
-					})(mui);
-				</script>
+			</div>
+		</div>
+		<script src="../../script/mui/mui.js"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/my/myOrders.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			mui.init({
+				swipeBack: false
+			});
+			(function($) {
+				$('.mui-scroll-wrapper').scroll({
+					indicators: true //是否显示滚动条
+				});
+				var html2 = '<div class="mui-loading"><div class="mui-spinner"></div></div>'
+				var html3 = '<div class="mui-loading"><div class="mui-spinner"></div></div>';
+				//var html2 = '<ul class="mui-table-view"><li class="mui-table-view-cell myAccount-cell"><span>点评</span><span>点评张三的作品点2评张三的作品</span><span>2015-9-29</span><span>￥50.00</span></li><li class="mui-table-view-cell myAccount-cell"><span>点评</span><span>点评张三的作品点评张三的作品</span><span>2015-9-29</span><span>￥50.00</span></li></ul>';
+				//var html3 = '<ul class="mui-table-view"><li class="mui-table-view-cell myAccount-cell"><span>点评</span><span>点评张三的作品点3评张三的作品</span><span>2015-9-29</span><span>￥50.00</span></li><li class="mui-table-view-cell myAccount-cell"><span>点评</span><span>点评张三的作品点评张三的作品</span><span>2015-9-29</span><span>￥50.00</span></li></ul>';
+				var item2 = document.getElementById('item2mobile');
+				var item3 = document.getElementById('item3mobile');
+				document.getElementById('slider').addEventListener('slide', function(e) {
+					if (e.detail.slideNumber === 1) {
+						GetPayed();
+						if (item2.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item2.querySelector('.mui-scroll').innerHTML = html2;
+							}, 500);
+						}
+					} else if (e.detail.slideNumber === 2) {
+						GetRefunded();
+						if (item3.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item3.querySelector('.mui-scroll').innerHTML = html3;
+							}, 500);
+						}
+					} else {
+						GetNotPay();
+					}
+				});
+				var sliderSegmentedControl = document.getElementById('sliderSegmentedControl');
+				$('.mui-input-group').on('change', 'input', function() {
+					if (this.checked) {
+						sliderSegmentedControl.className = 'mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-' + this.value;
+						//force repaint
+						sliderProgressBar.setAttribute('style', sliderProgressBar.getAttribute('style'));
+					}
+				});
+			})(mui);
+		</script>
 	</body>
+
 </html>

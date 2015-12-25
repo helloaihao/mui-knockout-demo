@@ -41,30 +41,25 @@
 	</head>
 
 	<body>
-		<header class="mui-bar mui-bar-nav">
-			<i class="iconfont mui-action-back ah-back">&#xe602;</i>
+		<header class="mui-bar mui-bar-nav works-list-mui-bar-nav">
+			<i class="iconfont mui-action-back ah-back">&#xe683;</i>
 			<h1 class="mui-title"> 老师列表</h1>
 		</header>
-		<div class="mui-content">
-			<div class="works-list-select ah-select-list">
-				<ul>
-					<li id="subject" class="mui-collapse">
-						<a data-bind="text: dbSubject">科目</a>
-						<span class="mui-navigate-right ah-mui-navigate-right"> </span>
-					</li>
-					<li id="star" class="mui-collapse" data-bind="click: setStar">
-						<a data-bind="text: dbStar">星级</a>
-						<span class="mui-navigate-right ah-mui-navigate-right"> </span>
-					</li>
-					<li id="sort" class="mui-collapse" data-bind="click: setSort">
-						<a data-bind="text: dbSort">排序</a>
-						<span class="mui-navigate-right ah-mui-navigate-right"> </span>
-					</li>
-				</ul>
-			</div>
-		</div>
-		<div class="mui-content">
-
+		<div class="works-list-select ah-select-list">
+			<ul>
+				<li id="subject" class="mui-collapse">
+					<a data-bind="text: dbSubject">科目</a>
+					<span class="mui-navigate-right ah-mui-navigate-right"> </span>
+				</li>
+				<li id="star" class="mui-collapse" data-bind="click: setStar">
+					<a data-bind="text: dbStar">星级</a>
+					<span class="mui-navigate-right ah-mui-navigate-right"> </span>
+				</li>
+				<li id="sort" class="mui-collapse" data-bind="click: setSort">
+					<a data-bind="text: dbSort">排序</a>
+					<span class="mui-navigate-right ah-mui-navigate-right"> </span>
+				</li>
+			</ul>
 		</div>
 		<script src="../../script/mui/mui.js"></script>
 		<script src="../../script/mui/mui.picker.min.js"></script>
@@ -72,7 +67,7 @@
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
 		<script type="text/javascript">
-			mui.plusReady(function(){
+			mui.plusReady(function() {
 				var contentWebview = null;
 				document.querySelector('#subject').addEventListener('tap', function() {
 					if (contentWebview == null) {
@@ -92,7 +87,6 @@
 					}
 					contentWebview.evalJS("mui('#popSort').popover('toggle')");
 				});
-				
 				var web = plus.webview.currentWebview(); //页面间传值
 				var work, display, udata;
 				if (typeof(web.displayCheck) !== "undefined") {
@@ -100,21 +94,25 @@
 					display = web.displayCheck;
 				}
 				udata = web.data;
+				var topPx = '90px';
+				if (plus.os.vendor == 'Apple') {
+					topPx = '105px';
+				}
 				mui.init({
-				subpages: [{
-					url: 'teacherList.html',
-					id: 'teacherListID',
-					styles: {
-						top: '84px',
-						bottom: '0px'
-					},
-					extras:{
-						displayCheck: display,
-						works: work,
-						data: udata
-					}
-				}]
-			});
+					subpages: [{
+						url: 'teacherList.html',
+						id: 'teacherListID',
+						styles: {
+							top: topPx,
+							bottom: '0px'
+						},
+						extras: {
+							displayCheck: display,
+							works: work,
+							data: udata
+						}
+					}]
+				});
 			});
 		</script>
 

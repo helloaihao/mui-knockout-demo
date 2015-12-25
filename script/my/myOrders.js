@@ -6,27 +6,36 @@ var myOrders = function() {
 	self.OrdersPayed = ko.observableArray([]); //已支付订单
 	self.OrdersRefunded = ko.observableArray([]); //已退款订单
 	self.Sum = ko.observable('0'); //小计
-
-	mui.ready(function() {
-			var self = this;
-			mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + getLocalItem("UserID") + "&usertype=" + getLocalItem('UserType'), {
-				type: 'GET',
-				success: function(responseText) {
-					var result = eval("(" + responseText + ")");
-					self.DisplayName(result.DisplayName);
-				}
-			});
-			var ajaxUrl = common.gServerUrl + 'API/Account/GetBalance?userid=' + getLocalItem('UserID') + '&usertype=' + getLocalItem('UserType');
-			mui.ajax(ajaxUrl, {
-					type: 'GET',
-					success: function(responseText) {
-						var balance = JSON.parse(responseText);
-						self.Balance(balance);
-					}
-				})
-				//self.GetNotPay();
+	self.Photo = ko.observable("");
+	
+	var currentID = 0;
+	
+	mui.plusReady(function() {
+		var current = plus.webview.currentWebview();
+		var self = this;
+		mui.ajax(common.gServerUrl + "API/Account/GetInfo?userid=" + getLocalItem("UserID") + "&usertype=" + getLocalItem('UserType'), {
+			type: 'GET',
+			success: function(responseText) {
+				var result = eval("(" + responseText + ")");
+				self.DisplayName(result.DisplayName);
+			}
+		});
+		var ajaxUrl = common.gServerUrl + 'API/Account/GetBalance?userid=' + getLocalItem('UserID') + '&usertype=' + getLocalItem('UserType');
+		mui.ajax(ajaxUrl, {
+			type: 'GET',
+			success: function(responseText) {
+				var balance = JSON.parse(responseText);
+				self.Balance(balance);
+			}
 		})
-		//未支付
+		var current = plus.webview.currentWebview();
+		if (common.StrIsNull(current.Photo) != "") {
+			self.Photo(current.Photo);
+		}
+		self.GetNotPay();
+	})
+
+	//未支付
 	self.GetNotPay = function() {
 		var ajaxUrl = common.gServerUrl + 'API/Order/GetOrdersByType?userId=' + getLocalItem('UserID') + '&orderStatus=';
 		//common.gDictAccountDetailType.NotFinish;
@@ -62,6 +71,30 @@ var myOrders = function() {
 			}
 		})
 	}
+	
+	self.getOrderID = function(data) {
+		currentID = data.ID;
+	}
+	//评分
+	self.putOrderScore = function(score) {
+		var ajaxUrl = common.gServerUrl + 'API/Order/MarkOrder?orderId=' + currentID + '&score=' + score;
+		mui.ajax(ajaxUrl, {
+			type: 'PUT',
+			success: function(responseText) {
+				mui.toast('评分成功');
+				var arr = [];
+				self.OrdersPayed().forEach(function(item){
+					if(item.ID == currentID)
+						item.Score = score;
+					arr.push(item);
+				})
+				self.OrdersPayed([]);
+				self.OrdersPayed(arr);
+				mui('#middlePopover').popover('toggle');
+				//window.location = window.location;
+			}
+		})
+	}
 
 	self.goDetail = function(order) {
 		var url = '';
@@ -73,7 +106,7 @@ var myOrders = function() {
 				url = '../../modules/student/aboutLesson.html';
 				break;
 			case common.gDictOrderTargetType.Download:
-				url = '../../modules/works/worksDownload.html';
+				url = '../../modules/works/worksDetails.html';
 				break;
 			default:
 				return;
@@ -85,11 +118,56 @@ var myOrders = function() {
 
 	//提现
 	self.Withdraw = function() {
-		mui.toast("敬请期待");
+		common.transfer("myCard.html", false);
 	}
 	var count = 0;
 	self.pullupRefresh = function() {
 		this.endPullUpToRefresh((++count > 2));
 	}
+
+//星级评分
+var orderStar = document.getElementById('orderstar').getElementsByTagName('i');
+
+//清除分数
+function clearOrderStar(ele) {
+	for (var i = 0; i < ele.length; i ++) {
+		ele[i].className = ele[i].className.replace(/orderSelect/g, "");
+	}
+}
+
+//选择分数
+function selectOrderStar(ele, idx) {
+	for (var i = 0; i <= idx; i++) {
+		ele[i].className += " orderSelect";
+	}
+}
+
+//批量绑定
+for (var i in orderStar) {
+	(function(j) {
+		orderStar[j].onclick = function() {
+			clearOrderStar(orderStar);
+			selectOrderStar(orderStar, j);
+		};
+	})(i);
+}
+
+//统计分数
+document.getElementById('orderSubmit').onclick = function() {
+	var count = 0;
+	for(var i = 0; i < orderStar.length; i ++) {
+		if( orderStar[i].className.indexOf('orderSelect') > 0 ) {
+			count ++;
+		}
+	}
+	if( count === 0  ) {
+		mui.toast('请选择分数(不能为0分)');
+		return false;
+	}
+	self.putOrderScore(count);
+}
 }
 ko.applyBindings(myOrders);
+
+
+

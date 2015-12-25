@@ -55,11 +55,13 @@
 				<i class="iconfont" data-bind="visible: Base64()!=''">&#xe633;</i>
 				<em data-bind="visible: Editable">点击上传图片</em>
 			</div>
-			<u data-bind="text:AuthEduStatus"></u>
+			<u data-bind="text:AuthEduStatus, visible: !Editable()"></u>
 			<div class="mui-content-padded" data-bind="visible: Editable">
 				<button class="mui-btn mui-btn-block mui-btn-primary feedBack-mui-btn-block" data-bind="click:authEduSub">提交</button>
 			</div>
-
+			<div class="mui-content-padded" data-bind="visible: !Editable()">
+				<button class="mui-btn mui-btn-block mui-btn-primary feedBack-mui-btn-block" data-bind="click:reAuth">重新认证</button>
+			</div>
 		</div>
 	</body>
 	<script src="../../script/mui/mui.min.js" type="text/javascript" charset="utf-8"></script>

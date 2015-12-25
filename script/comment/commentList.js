@@ -6,8 +6,6 @@ var commentList = function() {
 	var pageNum = 1;
 	var sortID;
 	var count = 0; //刷新检测次数
-	var contentfreshDownPrompt = "正在刷新...";
-	var contentfreshUpPrompt = "正在加载";
 	self.comments = ko.observableArray([]);
 	self.tmplSubjects = ko.observableArray([]);
 	self.tmplSubjectClasses = ko.observableArray([]);
@@ -20,11 +18,12 @@ var commentList = function() {
 		pullRefresh: {
 			container: '#pullrefresh',
 			down: {
-				contentrefresh: contentfreshDownPrompt,
+				contentrefresh: common.gContentRefreshDown,
 				callback: pulldownRefresh
 			},
 			up: {
-				contentrefresh: contentfreshUpPrompt,
+				contentrefresh: common.gContentRefreshUp,
+				contentnomore: common.gContentNomoreUp,
 				callback: pullupRefresh
 			}
 		}
@@ -82,6 +81,7 @@ var commentList = function() {
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
 				self.comments(result);
+				mui('#pullrefresh').pullRefresh().refresh(true);	//重置上拉加载
 				common.showCurrentWebview();
 			}
 		})
@@ -93,7 +93,7 @@ var commentList = function() {
 		self.comments.removeAll(); //先移除所有
 		pageNum = 1; //还原为显示第一页
 		count = 0; //还原刷新次数
-		mui('#pullrefreshMy').pullRefresh().refresh(true);
+		mui('#pullrefresh').pullRefresh().refresh(true);
 		self.getMyComments();
 		mui('#popSubjects').popover('toggle');
 	}
@@ -134,11 +134,16 @@ var commentList = function() {
 				type: 'GET',
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
-					if (result.length <= 0) {
-						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
-					} else {
-						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
+					if (result && result.length > 0) {
 						self.comments(self.comments().concat(result));
+						if(result.length < common.gListPageSize){
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+						}
+						else{
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);	//false代表还有数据
+						}
+					} else {
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);	//true代表没有数据了
 					}
 				}
 			});

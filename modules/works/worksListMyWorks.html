@@ -12,10 +12,6 @@
 		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
 		<style type="text/css">
 			/*跨webview需要手动指定位置*/
-			/*header.mui-bar {
-				display: none!important;
-			}*/
-			
 			.mui-input-group:after,
 			.mui-input-group:before,
 			.mui-input-group {
@@ -35,7 +31,7 @@
 	</head>
 
 	<body style="background:#f1f1f1;">
-		<div class="openedCourses-ys" data-bind="visible:worksList().length<=0 && typeof(getLocalItem('UserID')) == 'undefined'">
+		<div class="openedCourses-ys" data-bind="visible:worksList().length<=0 || typeof(getLocalItem('UserID')) == 'undefined'">
 			<i>
 				<img src="../../images/logo-pic.png" />
 			</i>
@@ -44,39 +40,65 @@
 				<button type="button" class="mui-btn mui-btn-primary mui-btn-block p-btn-padding" data-bind="visible:getLocalItem('UserID')>0 && worksList().length<=0,click: gotoAddWorks,text:'上传'+workDes()"></button>
 			</div>
 		</div>
-		<div id="pullrefreshMy" class="mui-content mui-scroll-wrapper" data-bind="visible:worksList().length>0">
+		<div id="pullrefreshMy" class="mui-scroll-wrapper" data-bind="visible:worksList().length>0">
 			<div class="mui-scroll">
 				<!--数据列表-->
-				<ul class="mui-input-group">
-					<div data-bind="template:{name:'worksTemplate', foreach:worksList}">
-					</div>
+				<ul class="mui-input-group" data-bind="foreach:{data:worksList}">
+					<li class="mui-table-view-cell works-list" data-bind="event:{tap: IsFinish() == false ? cancelTask : goWorksDetails}">
+						<a href="javascript:void(0);">
+							<div class="works-list-check-bgColor works-list-loading-bgColor" data-bind="visible: IsFinish() == false"></div>
+							<div class="works-list-works" data-bind="style: {'background-image': 'url(' + (IsFinish() == false ? '../../images/video-big-default.png' : common.getThumbnail(VideoThumbnail())) +')'}">
+								<span class="works-list-date-bg"></span>
+								<span class="works-list-date-font" data-bind="text:works.AddTime.split(' ')[0]">2015-12-17</span>
+							</div>
+							<div class="works-list-right">
+								<div class="works-list-title">
+									<span class="works-list-title-span" data-bind="text:works.Title">张小杰的作品</span>
+								</div>
+								<div class="works-list-subject" data-bind="text:works.SubjectName">钢琴</div>
+							</div>
+							<div class="works-list-f">
+								<ul class="works-list-f-left">
+									<li class="aline-left">
+										<i class="iconfont">&#xe661;</i>
+										<!--ko text:works.ReadCount-->
+										<!--/ko-->
+									</li>
+									<li class="aline-right">
+										<i class="iconfont">&#xe663;</i>
+										<!--ko text:works.LikeCount-->
+										<!--/ko-->
+									</li>
+								</ul>
+								<ol class="works-list-f-right" data-bind="visible: IsFinish() == true && getLocalItem('UserType') == common.gDictUserType.student">
+									<li data-bind="text: works.WorkStatusText">
+										未完成
+									</li>
+								</ol>
+							</div>
+							<div class="works-list-float-right" data-bind="visible: IsFinish() == false">
+								<ol class="right-ol">
+									<li class="aline-left">
+										<!--<b>
+											<i class="iconfont works-list-stop-iconfont">&#xe675;</i>
+											停止
+										</b>-->
+										<b>
+											<i class="iconfont">&#xe61b;</i>
+											取消
+										</b>
+									</li>
+								</ol>
+							</div>
+							<div class="loading-bg" data-bind="visible: IsFinish() == false">
+								<div class="loading-now-bg" style="width:1%;" data-bind="style: {'width': Percentage()}"></div>
+							</div>
+						</a>
+					</li>
 				</ul>
 			</div>
 		</div>
-		<!--作品模板页-->
-		<script type="text/html" id="worksTemplate">
-			<div id="gowork" class="mui-input-group works-list-mui-input-group">
-				<div class="works-center">
-					<span data-bind="text: works.Title"></span>
-					<div class="works-list-img" data-bind="event:{tap: goWorksDetails}">
-						<img data-bind="attr: {src: common.getThumbnail(VideoThumbnail())}" onerror="this.src='../../images/video-big-default.png';" />
-						<span class='subjectSpace'><i data-bind="text:works.SubjectName"></i></span>
-					</div>
-					<p data-bind="text:works.ContentText"></p>
-					<ul>
-						<li data-bind="text:works.AddTime.split(' ')[0]"></li>
-						<li data-bind="text:works.ReadCount"></li>
-						<li data-bind="text:works.LikeCount"></li>
-						<li data-bind="text:works.WorkStatusText"></li>
-					</ul>
-				</div>
-				<div class="mask" data-bind="visible: IsFinish() == false">
-					<div class="addWorksPlan-graph">
-						<strong id="bar" style="width:1%;" data-bind="style: {'width': Percentage()}"></strong>
-					</div>
-				</div>
-			</div>
-		</script>
+
 		<script src="../../script/mui/mui.min.js"></script>
 		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
 		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>

@@ -17,7 +17,10 @@ var my_student = function() {
 		common.transfer('moreInfo.html', false, {}, true);
 	}
 	self.goMyOrders = function() { //订单
-		common.transfer('myOrders.html', true);
+		common.transfer('myOrders.html', true,{Photo:self.Photo()});
+	}
+	self.goMyDownloads = function() { //下载
+		common.transfer('../works/mydownloadHeader.html', true);
 	}
 	self.goMessageList = function() { //消息
 		common.transfer('messageList.html', true);
@@ -29,7 +32,11 @@ var my_student = function() {
 		common.transfer('../my/help.html', false);
 	}
 	self.qrcodeEvent = function() {
-		common.transfer("qrcode.html", false,{},false,false);
+		if(self.UserID()>0){
+			common.transfer("qrcode.html",false,{},false,true);
+		}else{
+			mui.toast("亲~，登录后才能扫一扫")
+		}
 	}
 	self.getStudent = function() { //获取资料
 		var ajaxUrl = common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID() + "&usertype=" + self.UserType();
@@ -47,11 +54,20 @@ var my_student = function() {
 			}
 		})
 	};
+	
+		//跳转到作品详情页面
+	self.goWorksDetails = function(data) {
+			common.transfer("WorksDetails.html", false, {
+				works: data
+			}, false, false)
+		}
+	
 	mui.plusReady(function() {
 		if (self.UserID() > 0) {
 			self.getStudent();
 		}
 	});
+	
 	window.addEventListener('refreshMyinfo', function(event) {
 		if (event.detail.userScore != "") {
 			self.Score(event.detail.userScore);
@@ -63,6 +79,7 @@ var my_student = function() {
 			self.Photo(event.detail.imgPath);
 		}
 	});
+	
 	mui.back = function() {
 		var qrp = document.getElementById("qrcodePopover");
 		if (qrp.className.indexOf("mui-active") > 0) {
@@ -73,10 +90,11 @@ var my_student = function() {
 		
 	}
 }
+
 ko.applyBindings(my_student);
 var qrcode = new QRCode(document.getElementById("qrcode"), {
 	width: 200, //设置宽高
 	height: 200
 });
 
-qrcode.makeCode('http://www.linkeol.com/modules/student/studentInfo.html?id=' + self.UserID());
+qrcode.makeCode(common.gWebsiteUrl+'modules/student/studentInfo.html?id=' + self.UserID());

@@ -31,9 +31,6 @@ var moreInfo = function() {
 		if (getLocalItem('UserID') < 0 || getLocalItem('UserID') == "") {
 			mui.toast("没有登录哦");
 		} else {
-			var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');
-			plus.webview.close(index);
-			//console.log(index);
 			removeLocalItem('UserID');
 			removeLocalItem('UserName');
 			removeLocalItem('Token');
@@ -44,22 +41,11 @@ var moreInfo = function() {
 			plus.storage.removeItem(common.getPageName() + '.WorkTypeName');
 			plus.storage.removeItem(common.getPageName() + '.WorkTypeID');
 			plus.storage.removeItem(common.getPageName() + '.DisplayName');
-
+			
+			var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');
+			plus.webview.close(index);
 			mui.toast("注销成功, 正在返回...");
-			mui.openWindow({
-				id: 'indexID',
-				url: "../../index.html",
-				show: {
-					//autoShow: false,
-					autoShow: true,
-					aniShow: "slide-in-right",
-					duration: "100ms"
-				},
-				waiting: {
-					autoShow: true
-				},
-				createNew: true
-			});
+			common.transfer("../../index.html", false, {}, true, false, "indexID");
 		}
 	}
 
@@ -107,6 +93,10 @@ var moreInfo = function() {
 			mui.toast('请输入一致密码');
 			return;
 		}
+		
+		var evt = event;
+		if(!common.setDisabled()) return;
+		
 		mui.ajax(common.gServerUrl + "Common/Account/SetPassword", {
 			type: 'POST',
 			data: {
@@ -120,6 +110,9 @@ var moreInfo = function() {
 				setLocalItem("Token", result.Token);
 				mui.toast("修改成功");
 				common.transfer('moreInfo.html');
+			},
+			error: function(){
+				common.setEnabled(evt);
 			}
 		});
 	}
@@ -129,6 +122,9 @@ var moreInfo = function() {
 		if (self.feedBackText() == "") {
 			mui.toast("请您先写下对我们的宝贵建议~~");
 		} else {
+			var evt = event;
+			if(!common.setDisabled()) return;
+			
 			mui.ajax(common.gServerUrl + "API/Feedback", {
 				type: 'POST',
 				data: {
@@ -138,6 +134,9 @@ var moreInfo = function() {
 				success: function(responseText) {
 					mui.toast("提交成功，感谢你的宝贵建议，祝您天天开心");
 					mui.back();
+				},
+				error: function(){
+					common.setEnabled(evt);
 				}
 			})
 		}

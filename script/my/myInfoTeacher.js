@@ -1,12 +1,13 @@
 var my_teacher = function() {
 	var self = this;
 	self.ID = ko.observable(0);
-	self.DisplayName = ko.observable('请登录');
-	self.Photo = ko.observable('../../images/my-default.png');
+	self.DisplayName = ko.observable('');
+	self.Photo = ko.observable('');
 	self.FavCount = ko.observable(0);
 	self.UserID = ko.observable(getLocalItem('UserID'));
 	self.UserType = ko.observable(getLocalItem('UserType'));
 	self.Score = ko.observable(0); //老师得分
+	self.PhotoCount=ko.observable(0);
 	self.auths = ko.observableArray([]); //认证数组
 	self.IDAuthApproved = ko.observable(0);
 	self.goMyUserAttented = function() {
@@ -24,7 +25,9 @@ var my_teacher = function() {
 		});
 	}
 	self.goMyAccount = function() {
-		common.transfer('myAccount.html', true);
+		common.transfer('myAccount.html', true, {
+			Photo: self.Photo()
+		}, true);
 	}
 	self.goMessageList = function() {
 		common.transfer('messageList.html', true);
@@ -42,51 +45,60 @@ var my_teacher = function() {
 	self.gototest = function() {
 		common.transfer('test.html?id=' + self.UserID(), false);
 	}
+	
 	self.qrcodeEvent = function() {
-		common.transfer("qrcode.html",false);
+		if (self.UserID() > 0) {
+			common.transfer("qrcode.html", false, {}, false, true);
+		} else {
+			mui.toast("亲~，登录后才能扫一扫")
+		}
 	}
 
-	if (self.UserID() > 0) {
-		self.getStudent = function() {
-			var ajaxUrl = common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID() + "&usertype=" + self.UserType();
-			mui.ajax(ajaxUrl, {
-				dataType: 'json',
-				type: 'GET',
-				success: function(responseText) {
-					//console.log(responseText);
-					self.ID(responseText.ID);
-					self.DisplayName(responseText.DisplayName);
-					if (responseText.Photo)
-						self.Photo(common.getPhotoUrl(responseText.Photo));
-					self.FavCount(responseText.FavCount);
-					if (responseText.Score)
-						self.Score(responseText.Score);
-					//self.UserID(responseText.UserID);
-					if (self.DisplayName() == "请登录") {
-						mui.toast('还没完善信息哦，点击头像完善信息，马上就去~', '信息不完整', self.goMyinfo());
-					}
+	self.getStudent = function() {
+		var ajaxUrl = common.gServerUrl + "API/Account/GetInfo?userid=" + self.UserID() + "&usertype=" + self.UserType();
+		mui.ajax(ajaxUrl, {
+			dataType: 'json',
+			type: 'GET',
+			success: function(responseText) {
+				self.ID(responseText.ID);
+				self.DisplayName(responseText.DisplayName);
+				if (responseText.Photo)
+					self.Photo(common.getPhotoUrl(responseText.Photo));
+				self.FavCount(responseText.FavCount);
+				if (responseText.Score)
+					self.Score(responseText.Score);
+				if (self.DisplayName() == "请登录") {
+					mui.toast('还没完善信息哦，点击头像完善信息，马上就去~', '信息不完整', self.goMyinfo());
 				}
-			})
-		}();
-		self.getMyAuth = function() {
-			mui.ajax(common.gServerUrl + "API/TeacherAuth?userId=" + getLocalItem('UserID'), {
-				dataType: 'json',
-				type: "GET",
-				success: function(responseText) {
-					self.auths(responseText);
-					if(responseText && responseText.length > 0){
-						responseText.forEach(function(item) {
-							switch (item.AuthType) {
-								case common.gDictTeacherAuthType.IDAuth:
-									self.IDAuthApproved(item.Approved);
-									break;
-							}
-						});
-					}
-				}
-			})
-		}();
+			}
+		})
 	}
+
+	self.getMyAuth = function() {
+		mui.ajax(common.gServerUrl + "API/TeacherAuth?userId=" + getLocalItem('UserID'), {
+			dataType: 'json',
+			type: "GET",
+			success: function(responseText) {
+				self.auths(responseText);
+				if (responseText && responseText.length > 0) {
+					responseText.forEach(function(item) {
+						switch (item.AuthType) {
+							case common.gDictTeacherAuthType.IDAuth:
+								self.IDAuthApproved(item.Approved);
+								break;
+						}
+					});
+				}
+			}
+		})
+	}
+
+	mui.plusReady(function() {
+		if (self.UserID() > 0) {
+			self.getStudent();
+			self.getMyAuth();
+		}
+	})
 
 	window.addEventListener('refreshAttend', function(event) {
 		self.FavCount(event.detail.myAttendNum);
@@ -121,7 +133,7 @@ var my_teacher = function() {
 		} else {
 			common.confirmQuit();
 		}
-		
+
 	}
 }
 ko.applyBindings(my_teacher);
@@ -131,4 +143,4 @@ var qrcode = new QRCode(document.getElementById("qrcode"), {
 	height: 200
 });
 
-qrcode.makeCode('http://www.linkeol.com/modules/teacher/teacherInfo.html?id=' + self.UserID());
+qrcode.makeCode(common.gWebsiteUrl + 'modules/teacher/teacherInfo.html?id=' + self.UserID());

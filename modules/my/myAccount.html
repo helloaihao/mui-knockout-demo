@@ -32,7 +32,7 @@
 				border-bottom: 1px solid #C8C7CC!important;
 			}
 			.mui-control-content {
-				min-height: 350px;
+				min-height:320px;
 				overflow: hidden;
 			}
 			.mui-control-content .mui-loading {
@@ -40,6 +40,7 @@
 			}
 			.mui-active {
 				color: #666!important;
+				background: #f1f1f1!important;
 			}
 			.mui-slider .mui-slider-group .mui-slider-item .mui-table-view:before,
 			.mui-slider .mui-slider-group .mui-slider-item .mui-table-view:after {
@@ -47,7 +48,7 @@
 			}
 			.top-btn {
 				height: 40px;
-				width: 60px;
+				width: 90px;
 				display: inline-block;
 				margin: -15px 0 0 -15px;
 				padding: 0 10px 0 10px;
@@ -63,13 +64,13 @@
 		<div class="myAccount-header">
 			<img src="../../images/myAccount.png" />
 			<i class="iconfont mui-action-back top-btn">&#xe602;</i>
-			<span class="iconfont top-btn top-btn-right" data-bind="click:Withdraw">提现</span>
+			<span class="iconfont top-btn top-btn-right" data-bind="click:Withdraw">银行卡</span>
 			<em>
-				<img src="../../images/4.jpg" />
+				<img data-bind="attr: {'src': Photo}" />
 			</em>
 			<span><!--ko text:DisplayName--><!--/ko--></span>
 			<span>
-				<u>余额：￥</u><u data-bind="text: Balance"></u>
+				<u class="span-u">余额：￥</u><u class="span-u" data-bind="text: Balance"></u>
 			</span>
 		</div>
 		<div class="mui-content">

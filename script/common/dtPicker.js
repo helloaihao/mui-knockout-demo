@@ -52,7 +52,7 @@ dtPicker.PopupDtPicker = function(optionsJson, initValue, callback){
 		options.customData.h = []
 	}
 	options.customData.h = hArray;
-
+	
 	if(!isNaN(newDate(initValue))){
 		options.value = initValue;
 	}

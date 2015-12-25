@@ -79,14 +79,15 @@
 					<!--数据列表-->
 					<div data-bind="template: {name:'messageTemplate', foreach: messages }">
 					</div>
+					
 					<!--message模板页-->
 					<script type="text/html" id="messageTemplate">
 						<div class="messageNotification-content">
 							<div class="messageNotification-title openedCoursesList-first mesg-padding">
 								<span><!--ko text:Title--><!--/ko--></span>
-								<i class="iconfont" data-bind="click:removeMessages">&#xe61b;</i>
+								<i class="iconfont" data-bind="event:{tap:removeMessages}">&#xe61b;</i>
 							</div>
-							<div class="card-content">
+							<div class="card-content" data-bind="event:{tap:goMessagesDetail}">
 								<div class="card-content-inner">
 									<span data-bind="text:ContentText"></span>
 								</div>

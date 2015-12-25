@@ -51,16 +51,17 @@ var myInfo = function() {
 	self.getBirthday = function() {
 		var now = new Date();
 		var year = 1900 + now.getYear();
-		if (self.Birthday() == '') {
-			self.Birthday('2005-01-01');
+		var tmpDate = self.Birthday();
+		if (isNaN(newDate(tmpDate))) {
+			tmpDate = (year - 10).toString() + '-01-01';
 		}
 
 		dtPicker.PopupDtPicker({
 				'type': 'date',
-				'beginYear': 1980,
-				'endYear': year
+				'beginYear': 1970,
+				'endYear': year - 1
 			},
-			self.Birthday(),
+			tmpDate,
 			function(value) {
 				//self.Birthday(value.format('yyyy-MM-dd'));
 				self.Birthday(value.split(' ')[0]);
@@ -172,7 +173,10 @@ var myInfo = function() {
 				return;
 			}
 		}
-
+		
+		var evt = event;
+		if(!common.setDisabled()) return;
+		
 		var infoUrl;
 		var data = {
 			DisplayName: self.DisplayName(),
@@ -202,6 +206,9 @@ var myInfo = function() {
 				mui.toast("修改成功");
 				bValue = true;
 				mui.back();
+			},
+			error: function(){
+				common.setEnabled(evt);
 			}
 		})
 	}

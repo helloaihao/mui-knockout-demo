@@ -83,7 +83,7 @@ var handleResult = function(result) {
 			strReturn = tmp;
 		}
 	} else {
-		if(common.StrIsNull(result) != '')
+		if (common.StrIsNull(result) != '')
 			strReturn = result;
 	}
 
@@ -108,29 +108,29 @@ var handleResult = function(result) {
 			fn.success = opt.success;
 		}
 
-		
+
 		//扩展增强处理  
 		var _opt = $.extend(opt, {
 			beforeSend: function(req) {
 				req.setRequestHeader('Authorization', self.getAuth());
-//				console.log('request send:'+JSON.stringify(req));
+				//				console.log('request send:'+JSON.stringify(req));
 			},
 			error: function(XMLHttpRequest, textStatus, errorThrown) {
 				mui.plusReady(function() {
 					if (plus.networkinfo.getCurrentType() == 1) {
 						mui.toast('还没连接网络哦');
-					}else if (plus.networkinfo.getCurrentType() == 0){
+					} else if (plus.networkinfo.getCurrentType() == 0) {
 						mui.toast("未知网络错误")
 					}
 					plus.nativeUI.closeWaiting();
 					plus.navigator.closeSplashscreen(); //关闭启动界面
 				});
+				
 				//console.log('request return error:'+JSON.stringify(XMLHttpRequest));
 				var status;
-				if(XMLHttpRequest.statusCode){
+				if (XMLHttpRequest.statusCode) {
 					status = XMLHttpRequest.statusCode;
-				}
-				else if (XMLHttpRequest.status){
+				} else if (XMLHttpRequest.status) {
 					status = XMLHttpRequest.status;
 				}
 				switch (status) {
@@ -140,13 +140,25 @@ var handleResult = function(result) {
 							removeLocalItem("UserID");
 							removeLocalItem("Token");
 							removeLocalItem("DisplayName");
+							plus.storage.removeItem(common.getPageName() + '.SubjectName');
+							plus.storage.removeItem(common.getPageName() + '.SubjectID');
+							plus.storage.removeItem(common.getPageName() + '.WorkTypeName');
+							plus.storage.removeItem(common.getPageName() + '.WorkTypeID');
+							plus.storage.removeItem(common.getPageName() + '.DisplayName');
 							mui.toast('帐号已在其它设备登录，当前设备将退出。');
 							//var myInfo=viewModelIndex.MyHref;
 							//mui.toast(viewModelIndex().MyHref());
-							var myherf=plus.webview.getWebviewById("modules/my/myInfoStudent.html") || plus.webview.getWebviewById("modules/my/myInfoTeacher.html");  
-							if(myherf!=""){
-								myherf.reload(true);
-							}
+							mui.plusReady(function() {
+								var myherf = plus.webview.getWebviewById(common.gIndexChildren[4].webviewId);
+								var course=plus.webview.getWebviewById(common.gIndexChildren[3].webviewId);
+								if (common.StrIsNull(myherf) != "") {
+									myherf.reload(true);
+								}
+								if(common.StrIsNull(course)!=""){
+									course.reload(true);
+								}
+							});
+
 						}
 						//common.transfer("../../modules/account/login.html");
 						break;
@@ -161,10 +173,10 @@ var handleResult = function(result) {
 				fn.error(XMLHttpRequest, textStatus, errorThrown);
 			},
 			success: function(data, textStatus) {
-//				console.log('request return success:'+JSON.stringify(data));
-//				mui.plusReady(function() {
-//					plus.nativeUI.closeWaiting();
-//				});
+				//				console.log('request return success:'+JSON.stringify(data));
+				//				mui.plusReady(function() {
+				//					plus.nativeUI.closeWaiting();
+				//				});
 				//成功回调方法增强处理  
 				fn.success(data, textStatus);
 			}

@@ -12,11 +12,10 @@
 		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
 		<style>
 			.mui-popover {
-				height: auto!important;
+				min-height: 290px!important;
 				padding: 15px 0;
 				/*top: 44px!important;*/
-			}
-			
+			}	
 			#bottomPopover {
 				top: 44px!important;
 			}
@@ -62,13 +61,17 @@
 				.auto-height {
 					line-height: 31px;
 				}
-			}			
-			@media screen and (min-height:628px) {
+			}	
+				@media screen and (min-height:628px) and (max-height: 736px){
 				.auto-height {
-					line-height: 36px;
+					line-height:36px;
+				}
+			}		
+			@media screen and (min-height:737px) and (max-height: 1024px){
+				.auto-height {
+					line-height:56px;
 				}
 			}
-		
 		</style>
 	</head>
 
@@ -79,6 +82,7 @@
 			<a class="iconfont a-right" href="#bottomPopover" data-bind="visible: IsTeacher, style: {color: FilteredCourseID() > 0 ? 'orange' : ''}">&#xe648;
 			</a>
 		</header>
+		<div class="mui-content">
 		<!--右上角弹出开始-->
 		<div id="bottomPopover" class="mui-popover popover-height">
 			<ul class="mui-table-view" data-bind="foreach:{data: Courses}">
@@ -109,25 +113,15 @@
 					<!--/ko-->
 				</tr>
 			</table>
-			<!--<div class="mui-input-row mui-pull-right">
-				<span class="normaltime" style="width: 20px;">&nbsp;</span>正常
-				<span class="finishedtime" style="width: 20px;">&nbsp;</span>已完成
-				<span class="overtime" style="width: 20px;">&nbsp;</span>超时
-				|
-				<span class="fontadjusting">调整中</span>
-			</div>-->
-			<div class="availableTime-table  course-z">
+			<div class="availableTime-table course-z">
 				<em class="normaltime"></em>
 				<span class="normaltime-font">正常</span>
 				<em class="finishedtime"></em>
 				<span class="finishedtime-font">已结束</span>
 				<!--<em class="overtime"></em>
-				<span class="overtime-font">超时</span>-->
-				<span class="fontadjusting-font">调整中</span>
+				<span class="overtime-font">超时</span>
+				<span class="fontadjusting-font">调整中</span>-->
 			</div>
-			<!--<div class="mui-content-padded">
-			  	 <button type="button" class="mui-btn mui-btn-primary mui-btn-block btn-open" data-bind="event:{tap: gotoCoursesList}, visible: IsTeacher">我要开课</button>
-			  	</div>-->
 			<div class="mui-content-padded" data-bind="visible: IsTeacher">
 				<button class="mui-btn mui-btn-primary mui-btn-outlined" style="width: 46%; padding: 8px 0;" data-bind="event:{tap: gotoCoursesList}">
 					我的课程
@@ -138,51 +132,43 @@
 			</div>
 		</div>
 
-		<div id="middlePopover" class="mui-popover screenCenter">
-			<div class="myCourse-popover">所属课程</div>
-			<div class="myCourse-next">
-				<!--ko text: ViewLesson().CourseName-->
-				<!--/ko-->
-				<i class="iconfont">&#xe618;</i>
-			</div>
-			<div class="myCourse-next myCourse-way myCourse">
-				<button data-bind='text: ViewLesson().LocationName'></button>
-				<i data-bind='text: "￥" + ViewLesson().Amount'></i>
-			</div>
-			<div class="myCourse-popover">上课时间</div>
-			<div class="myCourse-next myCourse-way" data-bind='text: common.formatTime(ViewLesson().BeginTime, ViewLesson().EndTime)'></div>
-			<div class="myCourse-popover">授课老师</div>
-			<div class="myCourse-next myCourse-way" data-bind='click: gotoTeacherInfo'>
-				<!--ko text: ViewLesson().TeacherName-->
-				<!--/ko-->
-				<i class="iconfont">&#xe618;</i>
-			</div>
 
-			<div class="myCourse-popover" data-bind='visible: InfoVisible() || Adjusting()'>调整信息</div>
-			<div class="myCourse-next myCourse-m" data-bind='visible: InfoVisible() && !Adjusting()'>
-				<!--ko text: common.formatTime(ViewLesson().BeginTimeNew)-->
-				<!--/ko-->
-			</div>
-			<div class="myCourse-next myCourse-m" data-bind='visible: Adjusting, click: SelectNewTime'>
-				<!--ko text: common.formatTime(BeginTimeNew())-->
-				<!--/ko-->
-				<i class="iconfont">&#xe618;</i>
-			</div>
-			<div class="myCourse-next myCourse-m" data-bind='visible: InfoVisible() && !Adjusting()'>
-				<span data-bind='text: ViewLesson().Handled ? "[已拒绝]" : ViewLesson().HandlerID == UserID ? "[请确认调整时间后同意或拒绝]" : "[待对方确认]"'></span>
-				<!--ko text: ViewLesson().Answer-->
-				<!--/ko-->
-			</div>
+		<div id="middlePopover" class="mui-popover myCourse-middlePopover">
+			<div class="myCourse-Popover-list">
+				<ul>
+					<li>
+						<span class="myCourse-Popover-name">课程名称</span>
+						<span class="myCourse-Popover-con" data-bind="text: ViewLesson().CourseName">钢琴教学</span>
+					</li>
+					<li>
+						<span class="myCourse-Popover-name">上课时间</span>
+						<span class="myCourse-Popover-con" data-bind="text: common.formatTime(ViewLesson().BeginTime, ViewLesson().EndTime)">12月24日 15:00~17:00</span>
+					</li>
+					<li>
+						<span class="myCourse-Popover-name">授课老师</span>
+						<span class="myCourse-Popover-con" data-bind="text: ViewLesson().TeacherName">张张张</span>
+					</li>
+					<li data-bind="visible: Adjusting() && IsTeacher">
+						<span class="myCourse-Popover-name">调整时间</span>
+						<span class="myCourse-Popover-con" data-bind='click: SelectNewTime, text: common.formatTime(BeginTimeNew())'>请选择新的时间</span>
+					</li>
+					<!--<li data-bind="visible: Adjusting() && !IsTeacher">
+						<span class="myCourse-Popover-name">请假原因</span>
+						<input type="text" placeholder="请输入原因" class="myCourse-Popover-con" style="border: none; height: 46px; line-height: 46px; color: #78787a;"  data-bind='value: Question' />
+					</li>-->
 
-			<div class="myCourse-btn">
-				<button data-bind='click: Agree, visible: HandleButtonsVisible'>同意</button>
-				<button data-bind='click: Reject, visible: HandleButtonsVisible'>拒绝</button>
-				<button data-bind='visible: (RequestButtonVisible() && !Adjusting()), click: AdjustTimeStart'>
-					<i class="iconfont">&#xe63e;</i>时间调整
-				</button>
-				<button class="myCourse-btn-cancel myCourse-btn-colse" onclick="mui('#middlePopover').popover('toggle');" data-bind='visible: !Adjusting()'>关闭</button>
-				<button class="myCourse-btn-sure" data-bind='visible: Adjusting, click: function(){ self.Adjusting(false); }'>取消</button>
-				<button class="myCourse-btn-cancel" data-bind='visible: Adjusting, click: AdjustTimeFinish'>确定</button>
+					<div data-bind="visible: !Adjusting()" class="myCourse-btn-div">
+						<button class="myCourse-Popover-sure" data-bind="click: AdjustTimeStart, visible: IsTeacher">调整时间</button>
+						<!--<button class="myCourse-Popover-sure" data-bind="click: AdjustTimeStart, visible: !IsTeacher">请假</button>-->
+						<button class="myCourse-Popover-sure" data-bind="click: gotoAddHomework, visible: !IsTeacher">交作业</button>
+						<button class="myCourse-Popover-cancel" onclick="mui('#middlePopover').popover('toggle');">关闭</button>
+					</div>
+					
+					<div data-bind="visible: Adjusting" class="myCourse-btn-div">
+						<button class="myCourse-Popover-sure" data-bind='click: AdjustFinish'>确定</button>
+						<button class="myCourse-Popover-cancel" data-bind='click: function(){ self.Adjusting(false); }'>取消</button>
+					</div>
+				</ul>
 			</div>
 		</div>
 

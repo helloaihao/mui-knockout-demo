@@ -24,7 +24,7 @@
 			<h1 class="mui-title">用户信息</h1>
 		</header>
 		<div class="mui-content">
-			<div data-bind="visible: valid">
+			<div data-bind="visible:valid()==false">
 				<div class="card-row favUser-card">
 					<div class="card-right card-width">
 						<img data-bind="attr:{'src':common.getPhotoUrl(userInfo().Photo)}" onerror="this.src='../../images/my-default.png';" />
@@ -32,7 +32,7 @@
 							<span data-bind="text:userInfo().DisplayName"></span><u>(<!--ko text:Gendervalue--><!--/ko-->)</u>
 						</div>
 						<div class="card-row-right card-row-dow">
-							<u> <!--ko text:userInfo().Province--><!--/ko--> > <!--ko text:userInfo().City--><!--/ko--> > <!--ko text:userInfo().District--><!--/ko--></u>
+							<u> <!--ko text:userInfo().Province--><!--/ko--><!--ko text:(common.StrIsNull(userInfo().City)==''?'':'>'+userInfo().City)--><!--/ko--><!--ko text:(common.StrIsNull(userInfo().District)==''?'':'>'+userInfo().District)--><!--/ko--></u>
 						</div>
 					</div>
 				</div>
@@ -40,7 +40,7 @@
 					<button type="button" class="mui-btn mui-btn-success mui-btn-block favUser-btn" data-bind="click:addMyAttention">添加到我的收藏</button>
 				</div>
 			</div>
-			<div data-bind="visible: valid() == false" class="favUser-error">
+			<div class="favUser-error" data-bind="visible:valid()==true">
 				<i class="iconfont">&#xe64d;</i>
 				<span>请求无效，请扫描乐评家的用户二维码</span>
 			</div>

@@ -62,6 +62,11 @@ var authEdu = function() {
 			})
 		}
 	}
+	
+	self.reAuth = function(){
+		self.Path('');
+		self.Editable(true);
+	}
 
 	self.authEduSub = function() {
 		if (!self.Editable()) return;
@@ -70,6 +75,8 @@ var authEdu = function() {
 			mui.toast('请选择证件照片');
 			return;
 		}
+		
+		plus.nativeUI.showWaiting();
 		var ajaxurl = common.gServerUrl + "API/TeacherAuth/SetEduAuth?userId=" + getLocalItem('UserID');
 		mui.ajax(ajaxurl, {
 			type: "POST",
@@ -85,6 +92,10 @@ var authEdu = function() {
 				}
 				mui.toast('保存成功');
 				mui.back();
+				plus.nativeUI.closeWaiting();
+			},
+			error: function(){
+				plus.nativeUI.closeWaiting();
 			}
 		})
 	}

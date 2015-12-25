@@ -3,6 +3,7 @@ var viewModel = function() {
 	self.works = ko.observable({});
 	self.teacher = ko.observable({});
 	self.Amount = ko.observable(50);	//点评费用
+	self.paid = ko.observable(false);	//是否已支付
 	
 	//支付方式，默认为微信支付
 	self.PayType = ko.observable('wxpay');
@@ -16,7 +17,6 @@ var viewModel = function() {
 	 */
 	self.getDataForOrder = function(commentID){
 		self.ViewOrder(true);	//标记由我的订单跳转而来
-		
 		var ajaxUrl = common.gServerUrl + 'API/Comment/GetCommentInfoByID?id='+commentID;
 		mui.ajax(ajaxUrl,{
 			type: 'GET',
@@ -30,6 +30,7 @@ var viewModel = function() {
 					self.teacher(data.teacher);
 				}
 			}
+			
 		});
 	}
 	
@@ -58,11 +59,11 @@ var viewModel = function() {
 
 	mui.plusReady(function() {
 		var web = plus.webview.currentWebview();
-		
 		//从订单跳转过来
 		if (typeof(web.order) != "undefined") {
 			self.Order(web.order);
 			self.Amount(self.Order().Amount);
+			self.paid(self.Order().IsFinish);
 			getDataForOrder(self.Order().TargetID);
 		} else {
 			if (typeof(web.works) !== "undefined") {
@@ -77,10 +78,12 @@ var viewModel = function() {
 			mui.ajax(ajaxUrl,{
 				type: 'GET',
 				success: function(responseText){
-					self.confirmContinue();
-				},
-				error: function(responseText){
-					self.getAmount();
+					if(Number(responseText)>0){
+						self.confirmContinue();
+					}
+					else{
+						self.getAmount();
+					}
 				}
 			});
 		}
@@ -133,6 +136,9 @@ var viewModel = function() {
 			ajaxUrl = common.gServerUrl + 'API/Order/ResubmitOrder?id=' + self.Order().ID + '&payType=' + paytype;
 		}
 
+		var evt = event;
+		if(!common.setDisabled()) return;
+		
 		plus.nativeUI.showWaiting();
 		//新增则保存点评信息；修改则保存新的支付方式。均返回订单信息
 		mui.ajax(ajaxUrl, {
@@ -140,15 +146,22 @@ var viewModel = function() {
 			data: self.ViewOrder() ? self.Order() : comment,
 			success: function(responseText) {	//responseText为微信支付所需的json
 				//console.log(responseText);
+//				var wvs=plus.webview.all();
+//	for(var i=0;i<wvs.length;i++){
+//		console.log("webview"+i+": "+wvs[i].getURL());
+//	}
 				var ret = JSON.parse(responseText);
 				var orderID = ret.orderID;
 				if(ret.requestJson == ''){		//无需网上支付，预约点评成功
 					mui.toast("已成功提交");
 					//跳转至点评（暂时未打开）
-					var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');	//获取首页Webview对象
+					/*var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');	//获取首页Webview对象
 					plus.webview.close(index);	//关闭首页
-					common.transfer('../../index.html', true, {page: 2}, true);
+					common.transfer('../../index.html', true, {page: 2}, true);*/
+					
 					plus.nativeUI.closeWaiting();
+					common.showIndexWebview(3,true);
+					
 				}
 				else{
 					var requestJson = JSON.stringify(ret.requestJson);
@@ -162,14 +175,22 @@ var viewModel = function() {
 								var comment = JSON.parse(respText);
 								var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID');	//获取首页Webview对象
 								plus.webview.close(index);	//关闭首页
-								common.transfer('../../index.html', true, {page: 2}, true);
 								plus.nativeUI.closeWaiting();
+								plus.webview.close(ws,"none");
+								common.transfer('../../index.html', true, {page: 3}, true);
+								
+							},
+							error: function(){
+								common.setEnabled(evt);
 							}
 						})
 					}, function(){
 						plus.nativeUI.closeWaiting();
 					});
 				}
+			},
+			error: function(){
+				common.setEnabled(evt);
 			}
 		})
 	};

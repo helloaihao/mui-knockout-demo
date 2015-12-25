@@ -1,5 +1,7 @@
 var register = function() {
 	var cleanvalue = "";
+	var placeSelected = false;	//位置是否已选择
+	
 	self.UserTypeText = ko.observable("请选择用户类型");
 	self.UserName = ko.observable(""); //用户名，即手机号
 	self.Password = ko.observable(""); //密码
@@ -18,10 +20,10 @@ var register = function() {
 	self.Photo = ko.observable(''); //头像
 	self.Birthday = ko.observable('请选择生日'); //生日
 	self.Gender = ko.observable(0); //性别
-	self.GenderText = ko.observable('请选择性别'); //性别文本
-	self.Province = ko.observable("请选择地址"); //默认广东省
-	self.City = ko.observable(""); //默认广州市
-	self.District = ko.observable(""); //默认天河区
+	self.GenderText = ko.observable('男'); //性别文本
+	self.Province = ko.observable("请选择位置");
+	self.City = ko.observable("");
+	self.District = ko.observable("");
 	self.Place = ko.computed(function() { //位置
 		return self.Province() + ' ' + self.City() + ' ' + self.District();
 	});
@@ -33,151 +35,164 @@ var register = function() {
 	self.Base64 = ko.observable(''); //图片的base64字符串
 	//头像裁剪
 	self.selectPic = function() {
-			picture.SelectPicture(true, false, function(retValue) {
-				self.Base64(retValue[0].Base64);
-				self.Path(self.Base64());
-			}); //需要裁剪
+		picture.SelectPicture(true, false, function(retValue) {
+			self.Base64(retValue[0].Base64);
+			self.Path(self.Base64());
+		}); //需要裁剪
 
-		}
-		//用户类型选择
+	}
+
+	//用户类型选择
 	self.setUserType = function() {
-			userType.show(function(items) {
-				self.UserTypeText(items[0].text);
-				self.UserType(items[0].value);
-			});
-		}
-		//验证码获取
-	self.getVerifyCode = function() {
-			if (self.RemainTime() > 0) {
-				mui.toast("不可频繁操作");
-				return;
-			}
-			if (self.UserName() == "") {
-				mui.toast('手机号不能为空');
-			} else if (!(/^1[3|4|5|7|8][0-9]\d{4,8}$/.test(self.UserName()))) {
-				mui.toast("手机号码不合法")
-			} else {
-				//账号是否存在,此处不存在success
-				self.RemainTime(common.gVarWaitingSeconds);
-				mui.ajax(common.gServerUrl + "API/Account/CheckAccount?userName=" + self.UserName() + "&exists=false", {
-					type: 'GET',
-					success: function(responseText) {
-						mui.ajax(common.gServerUrl + "Common/GetVerifyCode?mobile=" + self.UserName(), {
-							type: 'GET',
-							success: function(responseText) {
-								mui.toast(responseText);
-								self.CheckTime();
-							},
-							error: function() {
-								self.RemainTime(0);
-							}
-						})
-					},
-					error: function() {
-						self.RemainTime(0);
-					}
-				})
-			}
-		}
-		//验证码计时器
-	self.CheckTime = function() {
-			if (self.RemainTime() == 0) {
-				return;
-			} else {
-				self.RemainTime(self.RemainTime() - 1);
-				setTimeout(function() {
-					self.CheckTime()
-				}, 1000);
-			}
-		}
-		//注册按钮实现
-	self.registerUser = function() {
-			if (self.UserType() <= 0) {
-				mui.toast('请选择用户类型');
-				return;
-			}
-			if (self.UserName() == "") {
-				mui.toast('手机号不能为空');
-				return;
-			}
-			if (self.CheckNum() == "") {
-				mui.toast('验证码不能为空');
-				return;
-			}
-			if (self.Password() == "") {
-				mui.toast('密码不能为空');
-				return;
-			}
-			if (self.Password() != self.ConPassword()) {
-				mui.toast('请输入一致密码');
-				return;
-			}
-			if (self.Agreed() == false) {
-				mui.toast('请阅读并同意服务协议');
-				return;
-			}
-			mui.ajax(common.gServerUrl + "API/Account/CheckAccount?userName=" + self.UserName() + "&exists=false", {
-				type: "GET",
-				success: function() {
-					//setLocalItem('Usertype',);
-					document.getElementById('registerInfo').className = "pin-mui-content";
-					document.getElementById('registerFirst').setAttribute("class", "hideDiv");
-					self.registerTitle("完善信息");
-				}
-			})
-		}
-		//性别获取
-	self.setUserGender = function() {
-			mui.ready(function() {
-				self.genders.show(function(items) {
-					self.GenderText(items[0].text);
-					self.Gender(items[0].value);
-				});
-			});
-		}
-		//生日获取
-	self.getBirthday = function() {
-			mui.ready(function() {
-				//console.log(self.Birthday());
-				var now = new Date();
-				var year = 1900 + now.getYear();
-				if (self.Birthday() == '') {
-					self.Birthday('2005-01-01');
-				}
-				dtPicker.PopupDtPicker({
-						'type': 'date',
-						'beginYear': 1980,
-						'endYear': year
-					},
-					self.Birthday(),
-					function(value) {
-						//self.Birthday(value.format('yyyy-MM-dd'));
-						self.Birthday(value.split(' ')[0]);
-					});
-			});
+		userType.show(function(items) {
+			self.UserTypeText(items[0].text);
+			self.UserType(items[0].value);
+		});
+	}
 
+	//验证码获取
+	self.getVerifyCode = function() {
+		if (self.RemainTime() > 0) {
+			mui.toast("不可频繁操作");
+			return;
 		}
-		//地址获取
-	self.address = function() {
-			mui.ready(function() {
-				self.places.show(function(items) {
-					cityValueMon = (items[0] || {}).text + " " + common.StrIsNull((items[1] || {}).text) + " " + common.StrIsNull((items[2] || {}).text);
-					self.Province(cityValueMon.split(" ")[0]);
-					self.City(cityValueMon.split(" ")[1]);
-					self.District(cityValueMon.split(" ")[2]);
-				});
+		if (self.UserName() == "") {
+			mui.toast('手机号不能为空');
+		} else if (!(/^1[3|4|5|7|8][0-9]\d{4,8}$/.test(self.UserName()))) {
+			mui.toast("手机号码不合法")
+		} else {
+			//账号是否存在,此处不存在success
+			self.RemainTime(common.gVarWaitingSeconds);
+			mui.ajax(common.gServerUrl + "API/Account/CheckAccount?userName=" + self.UserName() + "&exists=false", {
+				type: 'GET',
+				success: function(responseText) {
+					mui.ajax(common.gServerUrl + "Common/GetVerifyCode?mobile=" + self.UserName(), {
+						type: 'GET',
+						success: function(responseText) {
+							mui.toast(responseText);
+							self.CheckTime();
+						},
+						error: function() {
+							self.RemainTime(0);
+						}
+					})
+				},
+				error: function() {
+					self.RemainTime(0);
+				}
 			})
 		}
-		//科目获取
-	self.getSubject = function() {
-			mui.ready(function() {
-				self.subjects.show(function(items) {
-					self.SubjectName(items[1].text);
-					self.SubjectID(items[1].value);
-				});
-			});
+	}
+
+	//验证码计时器
+	self.CheckTime = function() {
+		if (self.RemainTime() == 0) {
+			return;
+		} else {
+			self.RemainTime(self.RemainTime() - 1);
+			setTimeout(function() {
+				self.CheckTime()
+			}, 1000);
 		}
-		//提交注册
+	}
+
+	//注册按钮实现
+	self.registerUser = function() {
+		if (self.UserType() <= 0) {
+			mui.toast('请选择用户类型');
+			return;
+		}
+		if (self.UserName() == "") {
+			mui.toast('手机号不能为空');
+			return;
+		}
+		if (self.CheckNum() == "") {
+			mui.toast('验证码不能为空');
+			return;
+		}
+		if (self.Password() == "") {
+			mui.toast('密码不能为空');
+			return;
+		}
+		if (self.Password() != self.ConPassword()) {
+			mui.toast('请输入一致密码');
+			return;
+		}
+		if (self.Agreed() == false) {
+			mui.toast('请阅读并同意服务协议');
+			return;
+		}
+		mui.ajax(common.gServerUrl + "API/Account/CheckAccount?userName=" + self.UserName() + "&exists=false&verifyCode="+self.CheckNum(), {
+			type: "GET",
+			success: function() {
+				//setLocalItem('Usertype',);
+				document.getElementById('registerInfo').className = "pin-mui-content";
+				document.getElementById('registerFirst').setAttribute("class", "hideDiv");
+				self.registerTitle("完善信息");
+			}
+		})
+	}
+
+	//性别获取
+	self.setUserGender = function() {
+		mui.ready(function() {
+			self.genders.show(function(items) {
+				self.GenderText(items[0].text);
+				self.Gender(items[0].value);
+			});
+		});
+	}
+
+	//生日获取
+	self.getBirthday = function() {
+		mui.ready(function() {
+			//console.log(self.Birthday());
+			var now = new Date();
+			var year = 1900 + now.getYear();
+			
+			var tmpDate = self.Birthday();
+			if (isNaN(newDate(tmpDate))) {
+				tmpDate = (year - 10).toString() + '-01-01';
+			}
+			
+			dtPicker.PopupDtPicker({
+					'type': 'date',
+					'beginYear': 1970,
+					'endYear': year - 1
+				},
+				tmpDate,
+				function(value) {
+					//self.Birthday(value.format('yyyy-MM-dd'));
+					self.Birthday(value.split(' ')[0]);
+				});
+		});
+
+	}
+
+	//地址获取
+	self.address = function() {
+		mui.ready(function() {
+			self.places.show(function(items) {
+				cityValueMon = (items[0] || {}).text + " " + common.StrIsNull((items[1] || {}).text) + " " + common.StrIsNull((items[2] || {}).text);
+				self.Province(cityValueMon.split(" ")[0]);
+				self.City(cityValueMon.split(" ")[1]);
+				self.District(cityValueMon.split(" ")[2]);
+				placeSelected = true;
+			});
+		})
+	}
+
+	//科目获取
+	self.getSubject = function() {
+		mui.ready(function() {
+			self.subjects.show(function(items) {
+				self.SubjectName(items[1].text);
+				self.SubjectID(items[1].value);
+			});
+		});
+	}
+
+	//提交注册
 	self.setInfo = function() {
 		if (common.StrIsNull(self.DisplayName()) == "") {
 			mui.toast('姓名不能为空');
@@ -193,7 +208,7 @@ var register = function() {
 			mui.toast('请选择性别');
 			return;
 		}
-		if (common.StrIsNull(self.Province()) == "") {
+		if (!placeSelected) {
 			mui.toast('请选择位置');
 			return;
 		}
@@ -216,6 +231,9 @@ var register = function() {
 			}
 		}
 
+		var evt = event;
+		if(!common.setDisabled()) return;
+		
 		var data = {
 			UserName: self.UserName(),
 			DisplayName: self.DisplayName(),
@@ -234,7 +252,11 @@ var register = function() {
 		if (self.Base64() != '') {
 			data.PhotoBase64 = self.Base64();
 		}
-		mui.ajax(common.gServerUrl + "API/Account/Register", {
+		
+		var info = plus.push.getClientInfo();
+		var ajaxUrl = common.gServerUrl + "API/Account/Register?devicetoken="+info.token+"&clientid="+info.clientid;
+		//var ajaxUrl = common.gServerUrl + "API/Account/Register";
+		mui.ajax(ajaxUrl, {
 			type: 'POST',
 			data: data,
 			success: function(responseText) {
@@ -248,19 +270,10 @@ var register = function() {
 				mui.toast("注册成功，正在返回...");
 				var index = plus.webview.getLaunchWebview() || plus.webview.getWebviewById('indexID'); //获取首页Webview对象
 				plus.webview.close(index); //关闭首页
-				mui.openWindow({
-					id: 'indexID',
-					url: "../../index.html",
-					show: {
-						autoShow: true,
-						aniShow: "slide-in-right",
-						duration: "100ms"
-					},
-					waiting: {
-						autoShow: false
-					},
-					createNew: true
-				})
+				common.transfer("../../index.html", false, {}, true, false, "indexID");
+			},
+			error: function(){
+				common.setEnabled(evt);
 			}
 		});
 	}

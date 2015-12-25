@@ -35,6 +35,8 @@ var teacherAuth = function() {
 				if (self.IDAuthStatus() == '') self.IDAuthStatus('未认证');
 				if (self.EduAuthStatus() == '') self.EduAuthStatus('未认证');
 				if (self.ProTitleAuthStatus() == '') self.ProTitleAuthStatus('未认证');
+				
+				common.showCurrentWebview();
 			}
 		})
 	}

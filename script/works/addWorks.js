@@ -1,7 +1,7 @@
 var viewModel = function() {
 	var self = this;
 	
-	self.pageTitle = ko.observable('作品');
+	self.pageTitle = ko.observable('');
 	self.teacherText = ko.observable("请选择老师");
 	self.subjectText = ko.observable("请选择科目");
 	self.workTypeID = ko.observable(0);
@@ -26,25 +26,31 @@ var viewModel = function() {
 		ppPublic = new mui.PopPicker();
 		ppPublic.setData(common.gJsonYesorNoType);
 		
-		//初始化老师弹窗及选择
+		var workIndex = plus.webview.currentWebview();
+		
+		//初始化老师弹窗及选择（只有作业模块需要）
 		ppTeacher = new mui.PopPicker();
-		var ajaxUrl = common.gServerUrl + 'API/Action?userid=' + getLocalItem('UserID') + '&targetType=' + common.gDictActionTargetType.User + '&userType=' + common.gDictUserType.teacher + '&page=1&pageSize=9999';
-		mui.ajax(ajaxUrl, {
-			type: 'GET',
-			success: function(responseText) {
-				var myTeachers = JSON.parse(responseText);
-				if(myTeachers.length > 0){
-					ppTeacher.setData(common.JsonConvert(myTeachers, 'ID', 'DisplayName'));
-					self.teacherText(myTeachers[0].DisplayName);
-					teacherID = myTeachers[0].ID;
+		if(userType == common.gDictUserType.student){
+			var ajaxUrl = common.gServerUrl + 'API/Action?userid=' + getLocalItem('UserID') + '&targetType=' + common.gDictActionTargetType.User + '&userType=' + common.gDictUserType.teacher + '&page=1&pageSize=9999';
+			mui.ajax(ajaxUrl, {
+				type: 'GET',
+				success: function(responseText) {
+					var myTeachers = JSON.parse(responseText);
+					if(myTeachers.length > 0){
+						ppTeacher.setData(common.JsonConvert(myTeachers, 'ID', 'DisplayName'));
+						if(!(workIndex.teacherID && workIndex.workTypeID == 105)){
+							self.teacherText(myTeachers[0].DisplayName);
+							teacherID = myTeachers[0].ID;
+						}
+					}
 				}
+			});
+			var localTeacherID = getLocalItem("localTeacherID");
+			var localTeacherText = getLocalItem("localTeacherText");
+			if(localTeacherID && localTeacherText){
+				teacherID = localTeacherID;
+				self.teacherText(localTeacherText);
 			}
-		});
-		var localTeacherID = getLocalItem("localTeacherID");
-		var localTeacherText = getLocalItem("localTeacherText");
-		if(localTeacherID && localTeacherText){
-			teacherID = localTeacherID;
-			self.teacherText(localTeacherText);
 		}
 		
 		//初始化科目选择
@@ -55,15 +61,29 @@ var viewModel = function() {
 			self.subjectText(localSubjectText);
 		}
 		
-		var workIndex = plus.webview.currentWebview();
 		if (workIndex.workTypeID && userType == common.gDictUserType.student) {
 			self.workTypeID(workIndex.workTypeID);
 			if (workIndex.workTypeID == 104) {
 				self.titleText(getLocalItem('DisplayName') + "的作品(" + newDate().format('yyyyMMdd') + ')');
 				self.contentText(self.titleText());
+				self.workTypeText("我的作品");
 			} else if (workIndex.workTypeID == 105) {
 				self.titleText(getLocalItem('DisplayName') + "的作业(" + newDate().format('yyyyMMdd') + ')');
-				self.contentText(self.titleText());
+				if(workIndex.contentText){
+					self.contentText(workIndex.contentText);
+				}
+				else{
+					self.contentText(self.titleText());
+				}
+				if(workIndex.teacherID){
+					teacherID = workIndex.teacherID;
+					self.teacherText(workIndex.teacherName);
+					console.log(self.teacherText());
+					setLocalItem("localTeacherText", self.teacherText());
+					setLocalItem("localTeacherID", teacherID);
+				}
+				
+				self.workTypeText("我的作业");
 				self.pageTitle('作业');
 			}
 		}
@@ -91,7 +111,7 @@ var viewModel = function() {
 		ppTeacher.show(function(items) {
 			self.teacherText(items[0].text);
 			teacherID = items[0].value;
-			setLocalItem("localTeacherID", items[0].text);
+			setLocalItem("localTeacherText", items[0].text);
 			setLocalItem("localTeacherID", items[0].value);
 		});
 	};
@@ -138,6 +158,9 @@ var viewModel = function() {
 		});
 	}
 
+
+	
+
 	//上传
 	self.upload = function() {
 		if (self.titleText() == "") {
@@ -145,13 +168,14 @@ var viewModel = function() {
 			return;
 		}
 
-		//上传学生作业时，必须选择课程
-		if ((common.gDictUserType.student && self.workTypeID == 105) && (!teacherID || teacherID <= 0)) {
-			mui.toast('请选择课程');
+		//上传学生作业时，必须选择老师
+		if ((userType == common.gDictUserType.student && self.workTypeID() == 105) && (!teacherID || teacherID <= 0)) {
+			mui.toast('请选择老师');
 			return;
 		}
+		
 		//上传非学生作业时，必须选择科目
-		if ((common.gDictUserType.student && self.workTypeID == 105) && (!subjectID || subjectID <= 0)) {
+		if ((userType == common.gDictUserType.student && self.workTypeID() == 104 || userType == common.gDictUserType.teacher) && (typeof subjectID == "undefined" || !subjectID || subjectID <= 0)) {
 			mui.toast('请选择科目');
 			return;
 		}
@@ -170,6 +194,10 @@ var viewModel = function() {
 
 		var arrTmp = self.filePath().split('.');
 		var ext = arrTmp[arrTmp.length - 1];
+		
+		var evt = event;
+		if(!common.setDisabled()) return;
+		
 		mui.ajax(common.gServerUrl + "Common/Work", {
 			type: "POST",
 			data: {
@@ -197,31 +225,15 @@ var viewModel = function() {
 						videopath: self.filePath()
 					});
 					plus.storage.setItem(common.gVarLocalUploadTask, JSON.stringify(arr));
-					
-					/*var myworks = plus.webview.getWebviewById("worksListMyHeader.html");
-					if (typeof myworks == "undefined") {
-						plus.webview.close(myworks.id);
-					}*/
+					//console.log(self.workTypeText());
 					common.transfer("worksListMyHeader.html", true, {
 						workTypeID: self.workTypeID(),
-						workTitle: userType == common.gDictUserType.teacher ? '我的作品' : self.workTypeText
-					}, false, false)
-
-					/*var myworks = plus.webview.getWebviewById('worksListMyWorks.html');
-					myworks.addEventListener('loaded',function () {
-						myworks.evalJS("upload.uploadVideo("+obj+",'"+videopath+"')");
-					})*/
-
-					/*self.subjectText("请选择科目");
-					self.workTypeText("请选择类别");
-					self.titleText("");
-					self.contentText("");
-					subjectID = 0;
-					workTypeID = 0;
-					publicID = 1;
-					self.filePath('');
-					self.fileName('');*/
+						workTitle: userType == common.gDictUserType.teacher ? '我的作品' : self.workTypeText()
+					}, false, false);
 				}
+			},
+			error: function(){
+				common.setEnabled(evt);
 			}
 		});
 	};

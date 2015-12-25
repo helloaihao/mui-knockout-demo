@@ -59,7 +59,8 @@ var viewModel = function() {
 				mui.ajax(common.gServerUrl + "API/Comment/ModifyCommentFeedback/?id="+theFB.ID, {
 					type: "PUT",
 					data: {
-						Answer: e.value
+						Answer: e.value,
+						CommentID:self.comment().ID
 					},
 					success: function() {
 						var newFB = {
@@ -88,6 +89,10 @@ var viewModel = function() {
 	
 	//保存评语
 	self.setComment = function() {
+		if(common.StrIsNull(self.totalComment()) == ''){
+			mui.toast('总评语不能为空');
+			return;
+		}
 		var arr = [];
 		self.commentToRules().forEach(function(item){
 			arr.push({
@@ -158,7 +163,8 @@ var viewModel = function() {
 							}
 						})
 					}
-				}
+					//console.log(JSON.stringify(self.commentToRules()));
+					}
 				common.showCurrentWebview();
 			}
 		});

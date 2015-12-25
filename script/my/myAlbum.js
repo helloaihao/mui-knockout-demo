@@ -6,7 +6,7 @@ var myAlbum = function() {
 	var userid = 0; //老师UserID
 
 	mui.plusReady(function() {
-	//mui.ready(function() {
+		//mui.ready(function() {
 		var self = this;
 
 		var web = plus.webview.currentWebview();
@@ -129,5 +129,16 @@ var myAlbum = function() {
 			})
 		}
 	}
+	mui.init({
+		beforeback: function() {
+			var myInfo = plus.webview.currentWebview().opener();
+			if (myInfo.id == "modules/my/my.html") {
+				mui.fire(myInfo, 'refreshPhotoCount', {
+					PhotoCount: self.Albums().length
+				});
+			}
+			return true
+		}
+	})
 }
 ko.applyBindings(myAlbum);

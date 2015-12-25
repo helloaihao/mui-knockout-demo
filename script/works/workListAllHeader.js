@@ -1,15 +1,23 @@
 var worksHeader = function() {
 	var self = this;
-	mui.init({
-		subpages: [{
-			url: "worksListAllWorks.html",
-			id: "worksListAllWorks.html",
-			styles: {
-				top: "90px",
-				bottom: '0px',
-			}
-		}]
-	});
+
+	mui.plusReady(function() {
+		var topPx = '90px';
+		if (plus.os.vendor == 'Apple') {
+			topPx = '105px';
+		}
+		mui.init({
+			subpages: [{
+				url: "worksListAllWorks.html",
+				id: "worksListAllWorks.html",
+				styles: {
+					top: topPx,
+					bottom: '0px',
+				}
+			}]
+		});
+	})
+
 	// 所有作品页面选择类
 	var currentWebview = null;
 	document.querySelector("#workListSort").addEventListener('tap', function() {

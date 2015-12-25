@@ -28,27 +28,17 @@
 			
 			<!--银行卡模板-->
 			<script type="text/html" id="bankcardTemplate">
-				<div class="myCard-add">
+				<div class="myCard-add" data-bind="event:{longtap:setDefault}">
 					<i class="iconfont card-logo">&#xe659;</i>
-					<span class="bank-name" data-bind="text:bankcardArray().bankname"></span>
-					<span class="card-class" data-bind="text:bankcardArray().bankcardType"></span>
-					<i class="iconfont ">&#xe657;</i>
-					<span class="card-number" data-bind="text:bankcardArray().bankcardNum"></span>
+					<span class="bank-name" data-bind="text:DepositBank.split(',')[0].split('-')[0]"></span>
+					<span class="card-class" data-bind="text:DepositBank.split(',')[1]"></span>
+					<i class="iconfont defeaut-right" data-bind="visible:IsDefault">&#xe657;</i>
+					<span class="card-number" data-bind="text:common.getbankcardNum(CardNumber)"></span>
 				</div>
 			</script>
-			<!--
-            	作者：980126968@qq.com
-            	时间：2015-12-04
-            	描述：默认
-            -->
-			<div class="defeaut-font">
+			<div class="defeaut-font" data-bind="visible:bankcardArray().length>0">
 				长按设为默认银行卡
 			</div>
-			<!--
-            	作者：980126968@qq.com
-            	时间：2015-12-04
-            	描述：添加银行卡
-            -->
 			<div class="add-card" data-bind="click:addBankcard">
 				<i class="iconfont">&#xe621;</i>
 				<span class="add-font">添加银行卡</span>

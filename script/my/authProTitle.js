@@ -81,7 +81,7 @@ var authProTitle = function() {
 				self.ProTitleTypeText(self.initProTitleText(auth.ProTitleType));
 				self.AuthProStatus(common.getAuthStatusStr(auth.Approved, auth.PicPath));
 				if (auth.Approved == common.gDictAuthStatusType.Rejected) {
-					self.AuthProStatus(self.AuthStatus() + '：' + auth.RejectReason);
+					self.AuthProStatus(self.AuthProStatus() + '：' + auth.RejectReason);
 				}
 				self.Editable(auth.Approved == common.gDictAuthStatusType.NotAuth && common.StrIsNull(auth.PicPath) == '');
 			}
@@ -97,6 +97,12 @@ var authProTitle = function() {
 			}); //不需要裁剪，单选
 		})
 	}
+	
+	self.reAuth = function(){
+		self.Path('');
+		self.Editable(true);
+	}
+
 	self.authProTitleSub = function() {
 		if (self.ProTitleType() == 0) {
 			mui.toast("请选择职称");
@@ -106,7 +112,8 @@ var authProTitle = function() {
 			mui.toast('请选择证件照片');
 			return;
 		}
-
+		
+		plus.nativeUI.showWaiting();
 		var ajaxurl = common.gServerUrl + "API/TeacherAuth/SetProTitleAuth?userId=" +
 			getLocalItem('UserID') + '&proTitleType=' + self.ProTitleType();
 		mui.ajax(ajaxurl, {
@@ -124,6 +131,10 @@ var authProTitle = function() {
 
 				mui.toast('保存成功');
 				mui.back();
+				plus.nativeUI.closeWaiting();
+			},
+			error: function(){
+				plus.nativeUI.closeWaiting();
 			}
 		})
 	}

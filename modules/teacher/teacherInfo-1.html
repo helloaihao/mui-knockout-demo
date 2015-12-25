@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评家</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		
+		<style>
+			/*html,body{
+			overflow-y: hidden;
+			overflow: hidden;
+		}*/
+				/*分享css*/
+			@media only screen and (min-width: 376px) and (max-width: 414px) {
+				.shareTeacher-pic ul li img {
+					height: 3rem;
+					width:  3rem;
+				}
+			}
+			.share-height{
+				position: fixed!important;
+			}
+			.share-height.mui-active{
+				top: 100%!important;
+				margin-top: -168px!important;
+			}	
+				.mui-card .mui-control-content {
+				padding: 10px;
+			}
+			.title {
+				margin: 20px 15px 7px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			.mui-bar-tab .ah-mui-tab-item {
+			    display: table-cell;
+			    overflow: hidden;
+			    width: 1%;
+			    height: 50px;
+			    text-align: center;
+			    vertical-align: middle;
+			    white-space: nowrap;
+			    text-overflow: ellipsis;
+			    color: #929292;
+			    background: #fff;
+}
+			
+			.mui-tab-item,.ah-mui-tab-item{
+				color: #036FB8!important;
+			}
+			.top-btn {
+				height: 40px;
+				width: 60px;
+				display: inline-block;
+				margin: -15px 0 0 -15px;
+				padding: 0 10px 0 10px;
+				line-height: 40px;
+			}
+			.top-btn-right {
+				text-align: right;
+			}
+			.info-li:after{
+				height: 0!important;
+				background: none!important;
+			}	
+			.info-li{
+				border-bottom: 1px solid #e1e1e1;
+				line-height:24px!important;	
+			}
+			.mui-table-view-cell.mui-collapse.mui-active >.info-pic{
+				color: #666;
+				line-height:24px!important;				
+				border-bottom:1px solid #e1e1e1;
+				border-top:1px solid #e1e1e1;
+				
+			}
+			.mui-table-view-cell.mui-collapse.mui-active >.info-pic:after{
+				color: #e1e1e4!important;
+				font-size: 20px!important;
+				right: 10px!important;
+				content: "\e66c"!important;
+				top: 24px;	
+			}
+			.mui-table-view-cell.mui-collapse >.info-pic:after{
+				color: #e1e1e4!important;
+				font-size: 20px!important;
+				right: 10px!important;
+				content: "\e672"!important;
+				top: 24px;				
+			}			
+			.mui-control-content {
+				background-color: white;
+				margin-top: 10px;
+				min-height:300px;
+			}
+			.mui-control-content .mui-loading {
+				margin-top: 50px;
+			}
+			.mui-segmented-control.mui-segmented-control-inverted~.mui-slider-progress-bar{
+				background: #036FB8;
+			}
+			.mui-slider .mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active{
+				color: #036FB8!important;
+				background: none!important;
+			}
+			.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item{
+				border: none!important;
+			}
+			/*.mui-slider .mui-slider-group{
+				white-space: normal!important;
+			}*/
+		</style>
+	</head>
+
+	<body>		
+		<!--
+        	作者：980126968@qq.com
+        	时间：2015-12-15
+        	描述：修改新
+        -->
+		<div class="teacheeInfo-head">
+			<img src="../../images/teacherInfo-header.jpg" />
+			<i class="iconfont">&#xe610;</i>
+			<a href="#middlePopover" class="iconfont techerInfo-share">&#xe670;</a>
+			<div class="teacheeInfo-teacher-photo">
+				<img src="../../images/Identity.jpg" />
+			</div>
+		</div>
+		<div class="techerInfo-teacher-mesg">
+			<span class="techerInfo-teacher-mesg-span">缪晓诊</span>
+			<div class="techerInfo-teacher-mesg-address">
+				<i class="iconfont address-iconfont">&#xe66b;</i>广东  · 广州  · 天河
+			</div>
+			<div class="techerInfo-teacher-num">
+				综合评分：<span class="teacher-num">7.9</span>
+				<div class="teacheeInfo-star">
+				<i class="star5 teacher-list-star" data-bind="css: 'star'+(Star)+' teacher-list-star'"></i>
+				<!--<i data-bind="css: 'star'+(5-Star)+' teacher-list-star-c'"></i>-->
+				</div>
+			</div>
+			<div class="teacheeInfo-sc">收藏 6</div>
+		</div>		
+		
+		<div class="teacheeInfo-album">
+			<div class="mui-slider">
+		        <div class="mui-slider-group mui-slider-loop">
+		        	<div class="mui-slider-item mui-slider-item-duplicate">
+		                <ul class="mui-table-view mui-grid-view">
+		                    <li class="mui-table-view-cell mui-media mui-col-xs-3"><a href="#"><img class="mui-media-object" src="../../images/Identity.jpg">
+		                            </a></li>
+		                    <li class="mui-table-view-cell mui-media mui-col-xs-3"><a href="#"><img class="mui-media-object" src="../../images/Identity.jpg">
+		                            </a></li>
+		                    <li class="mui-table-view-cell mui-media mui-col-xs-3"><a href="#"><img class="mui-media-object" src="../../images/Identity.jpg">
+		                            </a></li>
+		                    <li class="mui-table-view-cell mui-media mui-col-xs-3"><a href="#"><img class="mui-media-object" src="../../images/Identity.jpg">
+		                            </a></li>
+		                </ul>
+		            </div>
+		            <div class="mui-slider-item">
+		                <ul class="mui-table-view mui-grid-view">
+		                    <li class="mui-table-view-cell mui-media mui-col-xs-3"><a href="#"><img class="mui-media-object" src="../../images/Identity.jpg">
+		                            </a></li>
+		                    <li class="mui-table-view-cell mui-media mui-col-xs-3"><a href="#"><img class="mui-media-object" src="../../images/Identity.jpg">
+		                            </a></li>
+		                    <li class="mui-table-view-cell mui-media mui-col-xs-3"><a href="#"><img class="mui-media-object" src="../../images/Identity.jpg">
+		                            </a></li>
+		                    <li class="mui-table-view-cell mui-media mui-col-xs-3"><a href="#"><img class="mui-media-object" src="../../images/Identity.jpg">
+		                            </a></li>
+		                            
+		                </ul>
+		            </div>
+		            <div class="mui-slider-item">
+		                <ul class="mui-table-view mui-grid-view">
+		                    <li class="mui-table-view-cell mui-media mui-col-xs-3"><a href="#"><img class="mui-media-object" src="../../images/Identity.jpg">
+		                            </a></li>
+		                    <li class="mui-table-view-cell mui-media mui-col-xs-3"><a href="#"><img class="mui-media-object" src="../../images/Identity.jpg">
+		                            </a></li>
+		                    <li class="mui-table-view-cell mui-media mui-col-xs-3"><a href="#"><img class="mui-media-object" src="../../images/Identity.jpg">
+		                            </a></li>
+		                    <li class="mui-table-view-cell mui-media mui-col-xs-3"><a href="#"><img class="mui-media-object" src="../../images/Identity.jpg">
+		                           </a></li>
+		                </ul>
+		            </div>
+		            <div class="mui-slider-item mui-slider-item-duplicate">
+		                <ul class="mui-table-view mui-grid-view">
+		                    <li class="mui-table-view-cell mui-media mui-col-xs-3"><a href="#"><img class="mui-media-object" src="../../images/Identity.jpg">
+		                            </a></li>
+		                    <li class="mui-table-view-cell mui-media mui-col-xs-3"><a href="#"><img class="mui-media-object" src="../../images/Identity.jpg">
+		                            </a></li>
+		                    <li class="mui-table-view-cell mui-media mui-col-xs-3"><a href="#"><img class="mui-media-object" src="../../images/Identity.jpg">
+		                            </a></li>
+		                    <li class="mui-table-view-cell mui-media mui-col-xs-3"><a href="#"><img class="mui-media-object" src="../../images/Identity.jpg">
+		                            </a></li>
+		                </ul>
+		            </div>
+		        </div>
+		        <div class="mui-slider-indicator" style="position: static;background-color: #fff;">
+		            <span class="mui-action mui-action-previous mui-icon mui-icon-back"></span>
+		            <div class="mui-number">
+		                <span>1</span> / 2
+		            </div>
+		            <span class="mui-action mui-action-next mui-icon mui-icon-forward"></span>
+		        </div>
+		    </div>
+			<!--<ul>
+				<li><img src="../../images/Identity.jpg"></li>
+				<li><img src="../../images/Identity.jpg"></li>
+				<li><img src="../../images/Identity.jpg"></li>
+				<li><img src="../../images/Identity.jpg"></li>				
+			</ul>-->
+		</div>
+		<div class="mui-content">
+		<li class="mui-table-view-cell mui-collapse info-li">
+				<a class="mui-navigate-right info-pic" href="#">
+					个人简介
+				</a>
+				<ul class="mui-table-view mui-table-view-chevron">
+					<p class="font-p" data-bind="text: Introduce"></p>
+				</ul>
+			</li>
+		
+		<div id="slider" class="mui-slider teacheeInfo-slider">
+				<div id="sliderSegmentedControl" class="mui-slider-indicator mui-segmented-control mui-segmented-control-inverted teacherInfo-table">
+					<a class="mui-control-item teacheeInfo-item mui-active" href="#item1mobile">
+				分解视频
+			</a>
+					<a class="mui-control-item teacheeInfo-item" href="#item2mobile">
+				教程视频
+			</a>
+					<a class="mui-control-item teacheeInfo-item" href="#item3mobile">
+				演出作品
+			</a>
+			
+				</div>
+				<div id="sliderProgressBar" class="mui-slider-progress-bar mui-col-xs-4"></div>
+				<div class="mui-slider-group">
+					<div id="item1mobile" class="mui-slider-item mui-control-content mui-active ">
+						<div id="scroll1" class="mui-scroll-wrapper teacheeInfo-wrapper">
+							<div class="mui-scroll teacheeInfo-hieght">
+								<ul>
+									<li>
+										<i class="i-img">
+											<span class="teacheeInfo-date"></span>
+											<span class="teacheeInfo-date-font">2015-12-15</span>
+											<div class="teacheeInfo-play-pic">
+												<img src="../../images/play-pic.png" />
+											</div>
+										</i>
+										<span class="teacheeInfo-tltle-name">张小姐的作品</span>								
+									</li>
+									<li>
+										<i class="i-img">
+											<span class="teacheeInfo-date"></span>
+											<span class="teacheeInfo-date-font">2015-12-15</span>
+											<div class="teacheeInfo-play-pic">
+												<img src="../../images/play-pic.png" />
+											</div>
+										</i>
+										<span class="teacheeInfo-tltle-name">张小姐的作品</span>								
+									</li>
+									<li>
+										<i class="i-img">
+											<span class="teacheeInfo-date"></span>
+											<span class="teacheeInfo-date-font">2015-12-15</span>
+											<div class="teacheeInfo-play-pic">
+												<img src="../../images/play-pic.png" />
+											</div>
+										</i>
+										<span class="teacheeInfo-tltle-name">张小姐的作品</span>								
+									</li>
+									<li>
+										<i class="i-img">
+											<span class="teacheeInfo-date"></span>
+											<span class="teacheeInfo-date-font">2015-12-15</span>
+											<div class="teacheeInfo-play-pic">
+												<img src="../../images/play-pic.png" />
+											</div>
+										</i>
+										<span class="teacheeInfo-tltle-name">张小姐的作品</span>								
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div id="item2mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll2" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<div id="item3mobile" class="mui-slider-item mui-control-content">
+						<div id="scroll3" class="mui-scroll-wrapper">
+							<div class="mui-scroll">
+								<div class="mui-loading">
+									<div class="mui-spinner">
+									</div>
+								</div>
+							</div>
+						</div>
+				</div>
+				</div>
+			</div>
+		
+		</div>
+		
+
+		
+		<div id="middlePopover" class="mui-popover share-height">
+						<div class="shareTeacher-pic">
+							<ul id="recommendArray">
+								<li id="weichatFriend">
+									<img src="../../images/share-wx.png" />
+									<span>微信好友</span>
+								</li>
+								<li id="weichatMoments">
+									<img src="../../images/share-py.png" />
+									<span>微信朋友圈</span>
+								</li>
+								<li id="qqFriend">
+									<img src="../../images/share-qq.png" />
+									<span>QQ好友</span>
+								</li>
+							</ul>
+						</div>
+						<div class="shareTeacher-qx" data-bind="click:closeShare">取消</div>
+				
+			</div>
+		
+	</body>
+	<script src="../../script/mui/mui.min.js " type="text/javascript " charset="utf-8 "></script>
+	<script src="../../script/mui/mui.zoom.js"></script>
+	<script src="../../script/mui/mui.previewimage.js"></script>
+	<script src="../../script/common/common.js " type="text/javascript " charset="utf-8 "></script>
+	<script src="../../script/common/base.js " type="text/javascript " charset="utf-8 "></script>
+	<script src="../../script/libs/knockout/knockout-3.3.0.min.js " type="text/javascript " charset="utf-8 "></script>
+	<script src="../../script/common/share.js" type="text/javascript" charset="utf-8"></script>
+	<!--<script src="../../script/teacher/teacherInfo.js" type="text/javascript " charset="utf-8 "></script>-->
+		<script>
+			mui.init({
+				swipeBack: false
+			});
+			(function($) {
+				$('.mui-scroll-wrapper').scroll({
+					indicators: false //是否显示滚动条
+				});
+				var html2 = '<ul class="mui-table-view"><li class="mui-table-view-cell">第二个选项卡子项-1</li><li class="mui-table-view-cell">第二个选项卡子项-2</li><li class="mui-table-view-cell">第二个选项卡子项-3</li><li class="mui-table-view-cell">第二个选项卡子项-4</li><li class="mui-table-view-cell">第二个选项卡子项-5</li></ul>';
+				var html3 = '<ul class="mui-table-view"><li class="mui-table-view-cell">第三个选项卡子项-1</li><li class="mui-table-view-cell">第三个选项卡子项-2</li><li class="mui-table-view-cell">第三个选项卡子项-3</li><li class="mui-table-view-cell">第三个选项卡子项-4</li><li class="mui-table-view-cell">第三个选项卡子项-5</li></ul>';
+				var item2 = document.getElementById('item2mobile');
+				var item3 = document.getElementById('item3mobile');
+				document.getElementById('slider').addEventListener('slide', function(e) {
+					if (e.detail.slideNumber === 1) {
+						if (item2.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item2.querySelector('.mui-scroll').innerHTML = html2;
+							}, 500);
+						}
+					} else if (e.detail.slideNumber === 2) {
+						if (item3.querySelector('.mui-loading')) {
+							setTimeout(function() {
+								item3.querySelector('.mui-scroll').innerHTML = html3;
+							}, 500);
+						}
+					}
+				});
+				var sliderSegmentedControl = document.getElementById('sliderSegmentedControl');
+				$('.mui-input-group').on('change', 'input', function() {
+					if (this.checked) {
+						sliderSegmentedControl.className = 'mui-slider-indicator mui-segmented-control mui-segmented-control-inverted mui-segmented-control-' + this.value;
+						//force repaint
+						sliderProgressBar.setAttribute('style', sliderProgressBar.getAttribute('style'));
+					}
+				});
+			})(mui);
+		</script>
+</html>

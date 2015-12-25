@@ -17,12 +17,27 @@ var share_title = ''; //分享标题
 
 Share.sendShare = function(shareTypeID, shareTitle, shareContent, shareURL, shareImg) {
 	Share.updateSerivces();
-	console.log("初始化服务成功");
 	share_title = shareTitle;
 	share_content = shareContent;
+	
 	if (shareImg == '') {
 		share_img = ["_www/images/logo.png"];
 		share_thumb_img = ["_www/images/logo.png"];
+	} else if (shareImg.indexOf("http") >= 0) {
+		plus.downloader.createDownload(shareImg, {
+			filename: "_images/share/"
+		}, function(d, status) {
+			if (status == 200) {
+				shareLocalImg = plus.io.convertLocalFileSystemURL(d.filename);
+				share_img = [shareLocalImg];
+				share_thumb_img = [shareLocalImg];
+			} else {
+				//console.log("下载失败！");
+				share_img = ["_www/favicon.ico"];
+				share_thumb_img = ["_www/favicon.ico"];
+
+			}
+		}).start();
 	} else {
 		share_img = shareImg;
 		share_thumb_img = shareImg;
@@ -81,7 +96,6 @@ Share.shareShow = function(shareTypeID) {
 	/**
 	 * 分享操作
 	 * @param {Object} id
-	 * @param {Object} ex
 	 */
 Share.shareAction = function(id, ex) {
 		var s = null;
@@ -101,8 +115,8 @@ Share.shareAction = function(id, ex) {
 	}
 	/**
 	 * 发送分享消息
-	 * @param {Object} s
-	 * @param {Object} ex
+	 * @param {plus.share.ShareService} s
+	 * 
 	 */
 Share.shareMessage = function(s, ex) {
 	var msg = {
@@ -113,8 +127,9 @@ Share.shareMessage = function(s, ex) {
 	msg.href = share_href;
 	msg.content = share_content;
 	msg.title = share_title;
-	msg.thumbs = [share_thumb_img];
-	msg.pictures = [share_img];
+	msg.thumbs = share_thumb_img;
+	msg.pictures = share_img;
+
 	s.send(msg, function() {
 		console.log("分享到\"" + s.description + "\"成功，返回应用 "); //分享给qq好友，微信好友如果不返回应用，无法监听到分享成功回调
 	}, function(e) {

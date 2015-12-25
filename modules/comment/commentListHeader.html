@@ -26,7 +26,7 @@
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<i class="iconfont mui-action-back">&#xe602;</i>
+			<i class="iconfont mui-action-back">&#xe683;</i>
 			<h1 id="title" class="mui-title" data-bind="text: pageTitle">我的点评</h1>
 			<!--<em class="iconfont" data-bind="click: goWorksList" >&#xe621;</em>-->
 		</header>
@@ -75,7 +75,9 @@
 					}
 					//获取未读消息数量
 				self.getUnreadCount = function() {
-					common.getUnreadCount(self.UnreadCount());
+					common.getUnreadCount(function(count) {
+						self.UnreadCount(count);
+					});
 				}
 				self.goWorksList = function() {
 					common.transfer('../works/worksList.html', true, {
@@ -84,11 +86,15 @@
 				}
 				mui.plusReady(function() {
 					var workIndex = plus.webview.currentWebview();
+					var topPx = '84px';
+					if (plus.os.vendor == 'Apple') {
+						topPx = '99px';
+					}
 					var pageComment = mui.preload({
 						url: 'commentList.html',
 						id: 'commentListID',
 						styles: {
-							top: '84px',
+							top: topPx,
 							bottom: '0px'
 						}
 					});

@@ -222,10 +222,13 @@
 					<input type="text" placeholder="请输入证件号码" data-bind="value:IDNumber, enable: Editable" />
 				</div>
 			</form>
-			<u data-bind="text: AuthIDStatus"></u>
+			<u data-bind="text: AuthIDStatus, visible: !Editable()"></u>
 
 			<div class="mui-content-padded" data-bind="visible: Editable">
 				<button class="mui-btn mui-btn-block mui-btn-primary feedBack-mui-btn-block" data-bind="click:authIDSub">提交</button>
+			</div>
+			<div class="mui-content-padded" data-bind="visible: !Editable()">
+				<button class="mui-btn mui-btn-block mui-btn-primary feedBack-mui-btn-block" data-bind="click:reAuth">重新认证</button>
 			</div>
 			<!--<div style="position: fixed;top:0;left:0;right:0;bottom:50px;z-index: 20; background-color: lightgray;" class="authID-btn">
 				<div style="position: absolute; left: 0; top: 0;" class="cropper-container">

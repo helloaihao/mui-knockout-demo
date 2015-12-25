@@ -15,30 +15,38 @@
 				margin: 0 0 60px 0!important;
 				border: none!important;
 			}
+			
 			.mui-collapse-content {
 				padding: 0!important;
 			}
+			
 			.mui-navigate-right {
 				border-bottom: 1px solid #C8C7CC;
 			}
+			
 			.mui-table-view-cell p {
 				background: none!important;
 			}
+			
 			.mui-table-view-cell > a:not(.mui-btn) {
 				color: #036FB8;
 			}
+			
 			.mui-table-view-cell.mui-collapse.mui-active > .mui-navigate-right:after,
 			.mui-table-view-cell.mui-collapse.mui-active > .mui-push-right:after {
 				color: #bbb!important;
 				font-size: 20px!important;
+				content: "\e66c"!important;
 			}
+			
 			.mui-table-view-cell.mui-collapse > .mui-navigate-right:after,
 			.mui-table-view-cell.mui-collapse > .mui-push-right:after {
-				content: "\e61c"!important;
+				content: "\e672"!important;
 				font-size: 20px!important;
-				top: 25px!important;
+				top: 22px!important;
 				right: 22px;
 			}
+			
 			.mui-bar-tab .ah-mui-tab-item {
 				display: table-cell;
 				overflow: hidden;
@@ -50,20 +58,16 @@
 				text-overflow: ellipsis;
 				color: #929292;
 			}
+			
 			.works-inconfont {
 				font-size: 1.2rem!important;
 			}
-			/*.mui-popover.mui-active {
-				top: 50%!important;
-				margin-top: -5.5rem!important;
-				left: 0!important;				
-				min-height: 11rem!important;
-			}*/
 			
 			.mui-bar-nav .shareTeacher-tb {
 				float: right;
 				text-align: right;
 			}
+			
 			input[type='button'],
 			input[type='submit'],
 			input[type='reset'],
@@ -72,90 +76,98 @@
 				padding: 0;
 				border: 0;
 			}
+			
+			.mui-table-view-cell > a:not(.mui-btn) {
+				background: #f4f4f4!important;
+				margin-top: 20px;
+				border-top: 1px solid #d0d0d0;
+			}
+			
+			.works-iconfont {
+				font-size: 22px;
+			}
+			/*分享css*/
+			
+			@media only screen and (min-width: 376px) and (max-width: 414px) {
+				.shareTeacher-pic ul li img {
+					height: 3rem;
+					width: 3rem;
+				}
+			}
+			
+			.share-height {
+				position: fixed!important;
+			}
+			
+			.share-height.mui-active {
+				top: 100%!important;
+				margin-top: -168px!important;
+			}
 		</style>
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<i class="iconfont mui-action-back">&#xe602;</i>
-			<h1 class="mui-title" data-bind="text:Works().Title">我的作品</h1>
-			<a class="iconfont shareTeacher-tb" href="#middlePopover">&#xe60e;</a>
+			<i class="iconfont mui-action-back">&#xe683;</i>
+			<h1 class="mui-title" data-bind="text:Works().Title">作品详情</h1>
+			<!--<a class="iconfont shareTeacher-tb" href="#middlePopover">&#xe60e;</a>-->
 		</header>
 		<div class="mui-content">
-			<div class="works-content-up">
+			<!--
+            	作者：980126968@qq.com
+            	时间：2015-12-14
+            	描述：改
+            -->
+			<div class="worksDetails-photo" data-bind="click: gotoAuthor">
+				<div class="worksDetails-photo-photo">
+					<img data-bind="attr:{src: Works().AuthorPhoto}" onerror="this.src='../../images/my-default.png';" />
+				</div>
+				<div class="worksDetails-photo-name" data-bind="text: Works().AuthorName">张小杰</div>
+			</div>
+			<div class="worksDetails-play" id="videoPos">
+			</div>
+			<div class="worksDetails-date" data-bind="text:Works().AddTime">
+				2015-12-11
+			</div>
+			<div class="worksDetails-three">
 				<ul>
-					<li data-bind='click: Like'><i class="iconfont works-icon">&#xe61e;</i>
+					<li data-bind='click: Fav,visible:IsAuthor()==false'>
+						<i class="iconfont">&#xe660;</i>
+					</li>
+					<li data-bind="click:downWork">
+						<i class="iconfont">&#xe671;</i>
+					</li>
+					<li>
+						<a href="#middlePopover" class="iconfont">&#xe670;</a>
+					</li>
+				</ul>
+			</div>
+			<div class="worksDetails-conn">
+				<h2 class="worksDetails-conn-h2" data-bind="text:Works().Title">张小杰的作品</h2>
+				<p class="worksDetails-conn-p" data-bind="text:Works().ContentText">作品简介吧</p>
+			</div>
+			<div class="worksDetails-last-left">
+				<ol>
+					<li data-bind='click: Like'>
+						<i class="iconfont">&#xe663;</i>
 						<!--ko text:Works().LikeCount-->
 						<!--/ko-->
 					</li>
-					<li data-bind='click: Fav'><i class="iconfont works-icon">&#xe60d;</i>
-						<!--ko text:Works().FavCount-->
+					<li>
+						<i class="iconfont">&#xe661;</i>
+						<!--ko text:Works().ReadCount-->
 						<!--/ko-->
 					</li>
-					<li data-bind="click:worksDelete, visible: IsAuthor"><i class="iconfont">&#xe61b;</i>删除</li>
-
-					<!--<li data-bind="click:worksSet, visible: IsAuthor"><i class="iconfont">&#xe63e;</i>修改</li>-->
-				</ul>
-				<!--<div class="works-img-div" data-bind="style:{'background-image': 'url('+Works().imgUrl+')', 'background-size': 'cover'}">图片</div>-->
-				<video  id="video1" class="video-js vjs-default-skin" height="240px" data-bind="attr:{poster: Works().imgUrl}" controls data-setup="{}">
-					
-				</video>
-				<div class="video-bg">
-					<span>该视频需要付费~</span>
-					<a href="#bottomPopover">
-					<em>付费</em>
-					</a>
-				</div>
-				<!-- Using the Video for Everybody Embed Code http://camendesign.com/code/video_for_everybody -->
-				<!--<div id="videoPos"></div>-->
-			
-				<div class="works-date">
-					<ul>
-						<li class="week" data-bind="text:Works().AddTime"></li>
-						<li><i class="iconfont">&#xe61a;</i>
-							<!--ko text:Works().ReadCount-->
-							<!--/ko-->
-						</li>
-						<li class="week" data-bind="text:Works().SubjectName"></li>
-						<li data-bind="text:Works().IsPublicText, visible: IsAuthor"></li>
-						<li><i class="iconfont">&#xe65a;</i>下载</li>
-					</ul>
-				</div>
-				<p data-bind="text:Works().ContentText"></p>
+				</ol>
 			</div>
-			<!--分享弹出框-->
-			<div id="middlePopover" class="mui-popover share-height">
-				<div class="mui-scroll-wrapper">
-					<div class="mui-scroll">
-						<div class="shareTeacher-pic">
-							<ul id="recommendArray">
-								<li id="weichatFriend">
-									<img src="../../images/share-wx.png" />
-									<span>微信好友</span>
-								</li>
-								<li id="weichatMoments">
-									<img src="../../images/share-py.png" />
-									<span>微信朋友圈</span>
-								</li>
-								<li id="qqFriend">
-									<img src="../../images/share-qq.png" />
-									<span>QQ好友</span>
-								</li>
-							</ul>
-						</div>
-						<div class="shareTeacher-qx" data-bind="click:closeShare">取消</div>
-					</div>
-
-				</div>
+			<div class="worksDetails-last-right" data-bind="click:worksDelete, visible: IsAuthor">
+					<i class="iconfont">&#xe61b;</i>删除
 			</div>
-
-			<div class="pin-blank" data-bind="visible: teacherComment().length > 0 && IsAuthor"></div>
-			<div class="mui-card" data-bind="visible: teacherComment().length > 0 && IsAuthor">
-				<ul class="mui-table-view" data-bind="template:{name:'commentTemplate',foreach:teacherComment}">
-				</ul>
+			<div data-bind="visible: teacherComment().length > 0 && IsAuthor,template:{name:'commentTemplate',foreach:teacherComment}">
 			</div>
 			<!--老师点评模板-->
 			<script type="text/html" id="commentTemplate">
+				<div class="worksDetails-bottom">
 				<li class="mui-table-view-cell mui-collapse">
 					<a class="mui-navigate-right" href="#">
 						<i class="iconfont">&#xe62d;</i> [
@@ -168,7 +180,7 @@
 							<p data-bind="text:TotalComment"></p>
 						</div>
 						<div class="works-consult-title" data-bind="click:addfeedbacks">
-							<span><i class="iconfont">&#xe609;</i>咨询 </span>
+							<span class="works-consult-title-zx"><i class="iconfont">&#xe609;</i>咨询 </span>
 							<em class="iconfont">&#xe621;</em>
 						</div>
 						<div class="works-answer" data-bind="template:{name:'feedBackTemplate',foreach:CommentFeedbacks}">
@@ -177,6 +189,7 @@
 							</div>-->
 					</div>
 				</li>
+			</div>
 			</script>
 			<!--老师评语模板-->
 			<script type="text/html" id="commentToRulseTemplate">
@@ -195,19 +208,22 @@
 					<span data-bind="text:Answer"></span>
 				</p>
 			</script>
-			<nav class="mui-bar mui-bar-tab" data-bind="visible: IsAuthor">
-				<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab teacherList-mui" data-bind="event:{click:setPublic}">
-					<i class="iconfont works-iconfont">&#xe644;</i>
-					<span class="mui-tab-label" data-bind="text: Works().IsPublicOppositeText"></span>
-				</a>
-				<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab " data-bind="event:{click:getTeacherComment}">
-					<i class="iconfont works-iconfont">&#xe643;</i>
-					<span class="mui-tab-label">找老师点评</span>
-				</a>
-			</nav>
-			<div id="bottomPopover" class="mui-popover submitComment-top">	
+		</div>
+
+		<nav class="mui-bar mui-bar-tab" data-bind="visible: IsAuthor">
+			<a class="ah-mui-tab-item teacherList-mui-bar-tab teacherList-mui worksDetails-nav" data-bind="event:{click:setPublic}">
+				<i class="iconfont works-iconfont">&#xe667;</i>
+				<span class="mui-tab-label" data-bind="text: Works().IsPublicOppositeText">设置为不公开</span>
+			</a>
+			<a class="ah-mui-tab-item teacherList-mui-bar-tab worksDetails-nav-left " data-bind="visible:getLocalItem('UserType')==common.gDictUserType.student,event:{click:getTeacherComment}">
+				<i class="iconfont works-iconfont">&#xe669;</i>
+				<span class="mui-tab-label">找老师点评</span>
+			</a>
+		</nav>
+
+		<div id="bottomPopover" class="mui-popover submitComment-top">
 			<div class="mui-scroll-wrapper">
-				<div class="mui-scroll submitClass-mui-scroll Lesson-mui" >
+				<div class="mui-scroll submitClass-mui-scroll Lesson-mui">
 					<div class="mui-scroll-title">
 						<i class="iconfont" data-bind="click:closePopover">&#xe63f;</i>
 						<span>付款详情</span>
@@ -234,15 +250,36 @@
 							</div>-->
 							<li class="lineHeight">
 								总额：￥
-								<!--ko text: Amount-->
+								<!--ko text: DownloadAmount-->
 								<!--/ko-->
 							</li>
 						</form>
-					</ul>			
-					<button>完成</button>
+					</ul>
+					<button data-bind="click: gotoPay">去付款</button>
 				</div>
 			</div>
-		</div>	
+		</div>
+		
+		<div id="middlePopover" class="mui-popover share-height">
+			<div class="shareTeacher-pic">
+				<ul id="recommendArray">
+					<li id="weichatFriend">
+						<img src="../../images/share-wx.png" />
+						<span>微信好友</span>
+					</li>
+					<li id="weichatMoments">
+						<img src="../../images/share-py.png" />
+						<span>微信朋友圈</span>
+					</li>
+					<li id="qqFriend">
+						<img src="../../images/share-qq.png" />
+						<span>QQ好友</span>
+					</li>
+				</ul>
+			</div>
+			<div class="shareTeacher-qx" data-bind="click:closeShare">取消</div>
+		</div>
+
 		</div>
 	</body>
 	<script src="../../script/mui/mui.min.js" type="text/javascript" charset="utf-8"></script>
@@ -251,6 +288,8 @@
 	<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../script/libs/video.js/video2.0.min.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../script/common/share.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/common/pay.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../script/common/download.js" type="text/javascript" charset="utf-8"></script>
 	<script src="../../script/works/worksDetails.js" type="text/javascript" charset="utf-8"></script>
 
 </html>

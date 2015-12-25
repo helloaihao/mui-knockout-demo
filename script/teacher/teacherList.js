@@ -11,7 +11,7 @@ var viewModel = function() {
 	//接收属性
 	var works;
 
-	self.teacherList = ko.observableArray([]); //选项文字
+	self.teacherList = ko.observableArray([]);
 	self.dbStar = ko.observable("星级");
 	self.dbSort = ko.observable("排序");
 	self.SubjectID = ko.observable(0); //上一个页面传递过来的科目ID
@@ -23,15 +23,22 @@ var viewModel = function() {
 	self.currentSubject = ko.observable({}); //当前选中的科目
 
 	self.stars = ko.observableArray([]);
-	self.currentStar = ko.observable(0);
+	self.currentStar = ko.observable(-1);	//所有星级
 
 	self.sorts = ko.observableArray([]);
 	self.currentSort = ko.observable(1);
+	
+	self.clampText = function(){
+		var intros = document.getElementsByClassName('teacher-list-p1');
+		for(var i = 0; i < intros.length; i++){
+			$clamp(intros[i], {clamp: 2});
+		}
+	}
+	
 	//获取老师列表
 	self.getTeacherList = function() {
 		var curl = pageUrl + pageID;
 
-		//console.log(typeof self.currentSubject().id);
 		if (typeof self.currentSubject().id === "number") {
 			curl += subjectUrl + self.currentSubject().id;
 			curl += subjectClassUrl + self.currentSubject().subjectClass;
@@ -43,13 +50,19 @@ var viewModel = function() {
 			curl += sortUrl + self.currentSort();
 		}
 
-		//console.log(thisUrl + curl);
 		mui.ajax(thisUrl + curl, {
 			type: 'GET',
 			success: function(responseText) {
 				var result = eval("(" + responseText + ")");
-
-				self.teacherList(result);
+				result.forEach(function(item){
+					var obj = {
+						info: item,
+						selected: ko.observable(false)
+					};
+					self.teacherList.push(obj);
+				})
+				self.clampText();
+				//self.teacherList(result);
 			}
 		});
 	};
@@ -58,29 +71,30 @@ var viewModel = function() {
 		pullRefresh: {
 			container: '#pullrefresh',
 			down: {
-				callback: pulldownRefresh,
-
+				contentrefresh: common.gContentRefreshDown,
+				callback: pulldownRefresh
 			},
 			up: {
-				contentrefresh: '正在加载...',
-				callback: pullupRefresh,
-
+				contentrefresh: common.gContentRefreshUp,
+				contentnomore: common.gContentNomoreUp,
+				callback: pullupRefresh
 			}
 		}
 	});
 	//下拉刷新
 	function pulldownRefresh() {
 		setTimeout(function() {
-			pageID++;
+			//pageID++;
+			pageID = 1;
 			var curl = pageUrl + pageID;
 			if (typeof self.currentSubject().id === "number") {
 				curl += subjectUrl + self.currentSubject().id;
 				curl += subjectClassUrl + self.currentSubject().subjectClass;
 			}
-			if (typeof(self.currentStar()) === "number") {
+			if (typeof(self.currentStar()) === "number" && self.currentStar() > 0) {
 				curl += starUrl + self.currentStar();
 			}
-			if (typeof(self.currentSort()) === "number") {
+			if (typeof(self.currentSort()) === "number" && self.currentSort() > 0) {
 				curl += sortUrl + self.currentSort();
 			}
 			mui.ajax(thisUrl + curl, {
@@ -90,8 +104,22 @@ var viewModel = function() {
 						refreshFlag = false;
 					}
 					var result = eval("(" + responseText + ")");
-					self.teacherList(self.teacherList().concat(result));
+					self.teacherList([]);
+					result.forEach(function(item){
+						var obj = {
+							info: item,
+							selected: ko.observable(false)
+						};
+						self.teacherList.push(obj);
+					})
+					self.clampText();
 					mui('#pullrefresh').pullRefresh().endPulldownToRefresh();
+					
+					if (result && result.length > 0) {
+						if(result.length >= common.gListPageSize){
+							mui('#pullrefresh').pullRefresh().refresh(true);	//重置上拉加载
+						}
+					}
 				}
 			});
 		}, 1500);
@@ -108,10 +136,10 @@ var viewModel = function() {
 				curl += subjectUrl + self.currentSubject().id;
 				curl += subjectClassUrl + self.currentSubject().subjectClass;
 			}
-			if (typeof(self.currentStar()) === "number") {
+			if (typeof(self.currentStar()) === "number" && self.currentStar() > 0) {
 				curl += starUrl + self.currentStar();
 			}
-			if (typeof(self.currentSort()) === "number") {
+			if (typeof(self.currentSort()) === "number" && self.currentSort() > 0) {
 				curl += sortUrl + self.currentSort();
 			}
 
@@ -119,11 +147,24 @@ var viewModel = function() {
 				type: 'GET',
 				success: function(responseText) {
 					var result = eval("(" + responseText + ")");
-					if (result.length <= 0) {
-						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+					
+					if (result && result.length > 0) {
+						result.forEach(function(item){
+							var obj = {
+								info: item,
+								selected: ko.observable(false)
+							};
+							self.teacherList.push(obj);
+						})
+						self.clampText();
+						if(result.length < common.gListPageSize){
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);
+						}
+						else{
+							mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);	//false代表还有数据
+						}
 					} else {
-						mui('#pullrefresh').pullRefresh().endPullupToRefresh(false);
-						self.teacherList(self.teacherList().concat(result));
+						mui('#pullrefresh').pullRefresh().endPullupToRefresh(true);	//true代表没有数据了
 					}
 				}
 			});
@@ -153,6 +194,7 @@ var viewModel = function() {
 	//选择星级
 	self.selectStar = function(ss) {
 		self.currentStar(ss.value);
+		self.teacherList.removeAll(); //先移除所有
 		pageID = 1; //还原为显示第一页
 		self.getTeacherList();
 		mui('#popStar').popover('toggle');
@@ -161,36 +203,49 @@ var viewModel = function() {
 	//选择排序
 	self.selectSort = function(ss) {
 		self.currentSort(ss.value);
+		self.teacherList.removeAll(); //先移除所有
 		pageID = 1; //还原为显示第一页
 		self.getTeacherList();
 		mui('#popSort').popover('toggle');
 	}
 
-	self.gotoTeacherInfo = function() {
-		var tmpID = this.UserID;
-		common.transfer('../../modules/teacher/teacherInfo.html', false, {
-			teacherID: tmpID
-		});
+	self.clickOne = function(data) {
+		if(self.displayCheck()){
+			if(data.selected()) return;		//已勾选
+			
+			data.selected(true);
+			self.teacherList().forEach(function(item){
+				if(item.info.ID != data.info.ID)
+					item.selected(false);
+			})
+		}
+		else{
+			var tmpID = data.info.UserID;
+			common.transfer('../../modules/teacher/teacherInfo.html', false, {
+				teacherID: tmpID
+			});
+		}
 	};
 
 	self.gotoSubmitClass = function() {
-		var radios = document.getElementsByName('radio');
-		var pos = -1;
-		for (var i = 0; i < radios.length; i++) {
-			if (radios[i].checked) {
-				pos = i;
+		var sel = false;
+		for(var i = 0; i < self.teacherList().length; i++){
+			var item = self.teacherList()[i];
+			if(item.selected()){
+				common.transfer('../student/submitComment.html', true, {
+					works: self.works,
+					teacher: item.info
+				});
+				sel = true;
+				break;
 			}
 		}
-		if (pos >= 0) {
-			common.transfer('../student/submitComment.html', true, {
-				works: self.works,
-				teacher: self.teacherList()[pos]
-			});
-		}else{
+	
+		if(!sel){
 			mui.toast("请选择一位老师");
 		}
-
 	};
+
 	//mui('#popSort').popover('toggle');
 	mui.plusReady(function() {
 		var web = plus.webview.currentWebview(); //页面间传值

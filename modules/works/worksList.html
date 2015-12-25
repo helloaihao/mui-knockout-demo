@@ -72,14 +72,14 @@
 
 	<body style="background:#f1f1f1;">
 		<header class="mui-bar mui-bar-nav works-list-mui-bar-nav">
-			<i class="iconfont mui-action-back">&#xe602;</i>
+			<i class="iconfont mui-action-back">&#xe683;</i>
 			<!--<em class="iconfont" data-bind="click:goMessageList">&#xe628;<span class="mui-badge mui-badge-warning" data-bind="text: UnreadCount, visible: UnreadCount() > 0"></span></em>-->
 			<!--<em class="iconfont" data-bind="event:{tap: gotoAddWorks}">&#xe633;</em>-->
 			<h1 id="title" class="mui-title">选择作品</h1>
 		</header>
 		
 		<div class="mui-content">
-			<div id="popSubjects" class="mui-popover">
+			<!--<div id="popSubjects" class="mui-popover">
 				<div id="subject-scroll" class="mui-scroll-wrapper wrapper-margin">
 					<div class="mui-scroll">
 						<ul class="mui-table-view" data-bind="foreach: {data: tmplSubjectClasses, as: 'class1'}">
@@ -114,39 +114,50 @@
 					</li>
 				</ul>
 			</div>
-			
-			<div id="item1" class=" mui-control-content mui-active" style="position:static">
-				<div id="pullrefresh" class="mui-scroll-wrapper" style="top:86px">
+			-->
+			<div id="item1" class=" mui-control-content mui-active" style="position:static;margin-bottom: 60px  !important;">
+				<div id="pullrefresh" class="mui-scroll-wrapper" style="top: 86px; bottom: 50px;">
 					<div class="mui-scroll">
 						<!--作品显示页-->
-						<ul class="mui-input-group">
-							<div data-bind="template:{name:'worksTemplate', foreach:works}">
-							</div>
-						</ul>
-						<!--作品模板页-->
-						<script type="text/html" id="worksTemplate">
-							<div id="gowork" class="mui-input-group works-list-mui-input-group">
-								<div class="works-center">
-									<span data-bind="text:Title"></span>
-									<i class="mui-input-row mui-checkbox mui-left">
-                    					<div class="mui-input-row mui-radio mui-left">
-                        					<input name="radio" type="radio" data-bind="visible:displayCheck">
-                    					</div>
-                					</i>
-									<div class="works-list-img" data-bind="event:{tap: goWorksDetails}">
-										<img data-bind="attr: {src: common.getThumbnail(VideoThumbnail)}" onerror="this.src='../../images/video-big-default.png';" />
-										<i data-bind="text:SubjectName"></i>
+						<ul class="mui-input-group" data-bind="foreach:{data:worksList}">
+							<li class="mui-table-view-cell works-list" data-bind="event:{tap:clickOne}">
+								<a href="javascript:void(0);">
+									<div class="works-list-check-bgColor" data-bind="visible: selected"></div>
+									<div class="works-list-works" data-bind="style: {'background-image': 'url(' + (common.StrIsNull(info.VideoThumbnail) == '' ? '../../images/video-big-default.png' : common.getThumbnail(info.VideoThumbnail)) +')'}">
+										<span class="works-list-date-bg"></span>
+										<span class="works-list-date-font" data-bind="text:info.AddTime.split(' ')[0]">2015-12-17</span>
 									</div>
-									<p data-bind="text:ContentText"></p>
-									<ul>
-										<li data-bind="text:AddTime.split(' ')[0]"></li>
-										<li data-bind="text:ReadCount"></li>
-										<li data-bind="text:LikeCount"></li>
-										<li data-bind="text:WorkStatus"></li>
-									</ul>
-								</div>
-							</div>
-						</script>
+									<div class="works-list-right">
+										<div class="works-list-title">
+											<span class="works-list-title-span" data-bind="text:info.Title">张小杰的作品</span>
+										</div>
+										<div class="works-list-subject" data-bind="text:info.SubjectName">钢琴</div>						
+									</div>
+									<div class="works-list-f">
+										<ul class="works-list-f-left">
+											<li class="aline-left">
+												<i class="iconfont">&#xe661;</i>
+												<!--ko text:info.ReadCount-->
+												<!--/ko-->
+											</li>
+											<li class="aline-right">
+												<i class="iconfont">&#xe663;</i>
+												<!--ko text:info.LikeCount-->
+												<!--/ko-->
+											</li>
+										</ul>
+										<ol class="works-list-f-right">
+											<li data-bind="text: info.AuthorName">
+												张小杰
+											</li>
+										</ol>
+									</div>
+									<em class="teacher-list-check worksListAllWorks-list-check">
+										<img data-bind="attr:{src: '../../images/radio-check'+(selected() ? '-active' : '')+'.png'}" />
+									</em>
+								</a>
+							</li>
+						</ul>
 					</div>
 				</div>
 			</div>

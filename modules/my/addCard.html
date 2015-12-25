@@ -11,11 +11,13 @@
 		<link href="../../content/common/style.css" rel="stylesheet" />
 		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" />
 		<style>
-			html,.mui-content{
+			html,
+			.mui-content {
 				background: #F1F1F1!important;
 			}
 		</style>
 	</head>
+
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<i class="iconfont mui-action-back">&#xe602;</i>
@@ -25,38 +27,32 @@
 			<div class="add-card-form">
 				<div class="add-card-input">
 					<label>卡　号</label>
-					<input type="text" placeholder="请输入卡号" />
+					<input type="text" placeholder="请输入卡号" onfocus="this.type='number'" onblur="this.type='text'" data-bind="value:CardNumnber,event:{blur:checkBanknunmber}" />
 				</div>
-				<div class="get-bankName">
+				<div class="get-bankName" data-bind="visible:common.StrIsNull(self.bankDes())!='' ">
 					<i class="iconfont">&#xe659;</i>
-					<span class="add-card-name">中国招商银行-储蓄卡</span>
+					<span class="add-card-name" data-bind="text:bankDes"></span>
 				</div>
-				<div class="add-card-input">
+				<div class="add-card-input" data-bind="css: 'add-card-input' + (common.StrIsNull(self.bankDes())!='' ? '' : ' add-card-last')">
 					<label>开户行</label>
-					<input type="text" placeholder="请输入开户支行" />
+					<input type="text" placeholder="请输入开户支行" data-bind="value:DepositBank"/>
 				</div>
 				<div class="add-card-input add-card-last">
 					<label>姓　名</label>
-					<input type="text" placeholder="持卡人姓名" />
+					<input type="text" placeholder="持卡人姓名" data-bind="value:OwnerName"/>
 				</div>
 			</div>
-			
-			
-			<div class="add-card-btn">
-				完成				
+
+			<div class="add-card-btn" data-bind="click:addBank">
+				完成
 			</div>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			</div>
+		</div>
+		<script src="../../script/mui/mui.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/common.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/base.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/common/bankList.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../script/my/addCard.js" type="text/javascript" charset="utf-8"></script>
 	</body>
+
 </html>

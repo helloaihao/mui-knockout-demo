@@ -22,8 +22,8 @@
 
 	//分享的参数
 	var shareTitle = "";
-	var shareContent = "这个老师相当优秀";
-	var shareUrl = "www.linkeol.com";
+	var shareContent = "总能找到好老师";
+	var shareUrl = common.gWebsiteUrl+"modules/teacher/teacherInfo.html?id=";
 	var shareImg = "";
 
 	var TUserID; //老师UserId，由上级页面传此参数
@@ -50,7 +50,7 @@
 				self.Province(result.Province);
 				self.City(result.City);
 				self.District(result.District);
-				self.Score(result.Score);
+				self.Score(result.Score.toFixed(1));
 				self.FavCount(result.FavCount);
 				self.Star(result.Star);
 				self.Introduce(result.Introduce);
@@ -63,10 +63,10 @@
 	};
 	self.openWork = function(type) {
 		common.transfer('../works/worksListMyHeader.html', false, {
-			workTypeID: type,
+			workTypeID: 0, //type,
 			ID: TUserID,
 			workTitle: self.DisplayName() + '的所有作品'
-		},false,false);
+		}, false, false);
 	}
 
 	//查看作品详情
@@ -122,7 +122,6 @@
 
 		})
 	}
-
 	//帮我点评
 	self.gotoComment = function() {
 		common.transfer('../works/worksList.html', true, {
@@ -147,7 +146,7 @@
 		if (ret) {
 			self.FavCount(self.FavCount() + 1);
 
-			mui.toast('收藏成功');
+			mui.toast('关注成功');
 		}
 	}
 
@@ -163,14 +162,14 @@
 			var ti = document.getElementById('teacherImage');
 			pv.open(ti);
 		}
+	
 		//分享老师
 	var ul = document.getElementById("sharePopover");
 	var lis = ul.getElementsByTagName("li");
 	for (var i = 0; i < lis.length; i++) {
 		lis[i].onclick = function() {
-			mui.toast("敬请期待");
-			/*Share.sendShare(this.id, shareTitle, shareContent, shareUrl, shareImg);
-			mui('#sharePopover').popover('toggle');*/
+				Share.sendShare(this.id, shareTitle, shareContent, shareUrl + TUserID, shareImg);
+				mui('#sharePopover').popover('toggle');
 		};
 	}
 	self.closeShare = function() { //关闭分享窗口

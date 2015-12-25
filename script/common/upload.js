@@ -36,15 +36,37 @@ upload.uploadVideo = function(path, workid, callback) {
 /**
  * 初始化上传任务
  * @param {Function} callback 状态改变时的回调函数
+ * @return {Array} 上传任务数组
  */
 upload.initTasks = function(callback){
 	var tmp = plus.storage.getItem(common.gVarLocalUploadTask);
+	var arrRet = [];
 	//console.log(tmp);
 	var tasks = JSON.parse(tmp);
 	if(tasks && tasks.length > 0){
 		tasks.forEach(function(item){
-			upload.uploadVideo(item.videopath, item.workid, callback);
+			var ret = upload.uploadVideo(item.videopath, item.workid, callback);
+			arrRet.push(ret);
 		})
 	}
+	
+	return arrRet;
+}
+
+/**
+ * 根据作品ID删除上传任务
+ * @param {Int} workId 作品ID
+ */
+upload.deleteTask = function(workId){
+	//从本地缓存中删除
+	var tmp = plus.storage.getItem(common.gVarLocalUploadTask);
+	var tasks = JSON.parse(tmp);
+	for (var j = 0; j < tasks.length; j++) {
+		if (tasks[j].workid == workId) {
+			tasks.pop(tasks[j]);
+			break;
+		}
+	}
+	plus.storage.setItem(common.gVarLocalUploadTask, JSON.stringify(tasks));
 }
 

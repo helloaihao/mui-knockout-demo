@@ -1,11 +1,14 @@
 var myCourse = function() {
 	var self = this;
+	
+	var hasGotData = false;	//是否获取过数据
 	var beginHour = 8; //开始时间
 	var endHour = 21; //结束时间
 	self.UserID = getLocalItem('UserID');
 	self.IsTeacher = getLocalItem('UserType') == common.gDictUserType.teacher.toString();
 	self.Adjusting = ko.observable(false); //是否正在调整时间
 	self.FilteredCourseID = ko.observable(0);	//选择过滤的课程ID
+	self.Question = ko.observable('');		//请假原因
 
 	self.WeekIndex = ko.observable(0); //0：当前周；-1：上一周；1：下一周……
 	self.Hours = ko.observableArray([]); //小时数组
@@ -47,17 +50,17 @@ var myCourse = function() {
 
 	self.BeginTimeNew = ko.observable(''); //调整后的时间
 
+	/*==========因功能简化而暂时注释==========
 	//调整信息区域是否可见
 	self.InfoVisible = ko.computed(function() {
 		var self = this;
 		var ret = false;
-
 		if (self.ViewLesson()) {
 			if (self.ViewLesson().FeedbackStatus != common.gDictLessonFeedbackStatus.Normal) {
 				ret = true;
 			}
 		}
-
+		
 		return ret;
 	})
 
@@ -73,7 +76,6 @@ var myCourse = function() {
 				}
 			}
 		}
-
 		return ret;
 	})
 
@@ -89,7 +91,7 @@ var myCourse = function() {
 		}
 
 		return ret;
-	})
+	})*/
 	
 	//获取老师所有开设的课程
 	self.GetCourses = function(){
@@ -120,12 +122,25 @@ var myCourse = function() {
 			paraCourseid = self.FilteredCourseID();
 		var ajaxUrl = common.gServerUrl + 'API/Lesson/GetLessons?userid=' + getLocalItem('UserID')
 			+ '&weekindex=' + self.WeekIndex() + '&courseid='+paraCourseid;
+			
 		plus.nativeUI.showWaiting();
 		mui.ajax(ajaxUrl, {
 			type: 'GET',
 			success: function(responseText) {
 				var lessons = JSON.parse(responseText);
 				self.Lessons(lessons);
+				if(hasGotData){
+					var tips = '';
+					if(self.WeekIndex() == 0){
+						tips = '此为本周课程';
+					}
+					else{
+						tips = '此为'+(self.WeekIndex() > 0 ? '下' : '上')+Math.abs(self.WeekIndex())+'周课程';
+					}
+					mui.toast(tips);
+				}
+				
+				hasGotData = true;
 				plus.nativeUI.closeWaiting();
 			},
 			error: function(responseText){
@@ -210,7 +225,8 @@ var myCourse = function() {
 			});
 	}
 
-	//完成调整时间
+	/*==========因功能简化而暂时注释=============
+	//完成调整时间（暂不用）
 	self.AdjustTimeFinish = function() {
 		var self = this;
 
@@ -262,7 +278,32 @@ var myCourse = function() {
 			})
 			//});
 	}
+	*/
 	
+	//完成调整
+	self.AdjustFinish = function() {
+		var self = this;
+
+		plus.nativeUI.showWaiting();
+		mui('#middlePopover').popover('toggle');
+		var ajaxUrl = common.gServerUrl + "API/Lesson/AdjustLesson?lessonID=" +
+			self.ViewLesson().ID + '&beginTimeNew=' + self.BeginTimeNew() + '&question=' + encodeURI(self.Question());
+		mui.ajax(ajaxUrl, {
+			type: "POST",
+			success: function() {
+				var tips = self.IsTeacher ? '已成功调整时间' : '请假成功';
+				mui.toast(tips);
+				//应该跳转
+				self.Adjusting(false);
+				self.GetData();
+				plus.nativeUI.closeWaiting();
+			},
+			error: function(){
+				plus.nativeUI.closeWaiting();
+			}
+		})
+	}
+
 	//点击课程列表
 	self.gotoCoursesList = function() {
 		common.transfer('openedCoursesList.html', true);
@@ -272,6 +313,16 @@ var myCourse = function() {
 	self.gotoAddCourses = function() {
 		common.transfer('addCourse.html', true);
 	};
+	
+	//跳转至交作业
+	self.gotoAddHomework = function(data){
+		common.transfer("../works/addWorks.html", true, {
+			workTypeID: common.gJsonWorkTypeStudent[1].value,	//作业
+			contentText: '课程['+self.ViewLesson().CourseName +']'+self.ViewLesson().BeginTime.split(' ')[0]+'的作业',
+			teacherID: self.ViewLesson().TeacherID,
+			teacherName: self.ViewLesson().TeacherName
+		}, false, false);
+	}
 	
 	//点击课程过滤
 	self.filterCourses = function(data) {
@@ -297,7 +348,6 @@ var myCourse = function() {
 				return;
 			}
 		})
-
 		return ret;
 	}
 
@@ -322,19 +372,27 @@ var myCourse = function() {
 					}
 				}
 				if(value.FeedbackStatus == common.gDictLessonFeedbackStatus.Handling){
-					element.className += ' fontadjusting';
+					element.className += ' fontadjusting-font';
 				}
 				element.innerText = value.SubjectName;
-				element.onclick = function() {
+				element.addEventListener("tap", function() {
 					self.ViewLesson(value);
 					mui('#middlePopover').popover('toggle');
-				}
+				});
+				/*element.onclick = function() {
+					self.ViewLesson(value);
+					mui('#middlePopover').popover('toggle');
+				}*/
 			} else {
 				element.className = '';
 				element.innerHTML = '&nbsp;';
 			}
 		}
 	};
+	window.addEventListener("refreshCourse",function(event){
+		self.GetData();
+		self.GetCourses();
+	})
 	
 }
 ko.applyBindings(myCourse);

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>乐评家</title>
+		<link href="../../content/mui/mui.min.css" rel="stylesheet" />
+		<link href="../../content/fonts/iconfont.css" rel="stylesheet" />
+		<link href="../../content/common/global.css" rel="stylesheet" />
+		<link href="../../content/common/style.css" rel="stylesheet" />
+		<link href="../../content/mui/mui.picker.min.css" rel="stylesheet" /><br />
+		<style>
+			.activityInfo-header .first,.activityInfo-header .second{
+				color: #000!important;
+			}				
+			.mui-bar-tab .ah-mui-tab-item {
+				display: table-cell;
+				overflow: hidden;
+				width: 1%;
+				height: 50px;
+				text-align: center;
+				vertical-align: middle;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				color: #929292;
+			}	
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav addWorks-mui-bar-nav">
+			<i class="iconfont mui-action-back">&#xe683;</i>
+			<h1 class="mui-title">演出活动</h1>
+		</header>
+		<div class="mui-content">
+			<div class="activityInfo-conn">
+				<p class="p-title">企业小班企业小班企业小班</p>
+				<p class="enroll-p">
+					<em>￥200</em>/人</p>
+				<div class="activityInfo-list">
+			<i class="iconfont">&#xe65d;</i>12月10日 19:00~21:00
+		</div>
+		<div class="activityInfo-list">
+			<i class="iconfont">&#xe63c;</i>广州市天河区体育中心
+		</div>
+		<div class="activityInfo-list list-last">
+			<i class="iconfont">&#xe65e;</i>5~200人
+		</div>
+		<div class="pin-blank"></div>
+		<div class="activityInfo-list enroll-num">
+			<span>数量</span>
+			<div class="mui-content-padded enroll-num-padded">
+				<div class="mui-numbox enroll-numbox">
+					<button class="mui-btn mui-numbox-btn-minus" type="button">-</button>
+					<input class="mui-numbox-input" type="number"/>
+					<button class="mui-btn mui-numbox-btn-plus" type="button">+</button>
+				</div>
+				</div>
+		</div>
+		<div class="activityInfo-list list-last enroll-last">
+			合计
+			<em>￥200</em>
+		</div>
+			</div>
+			<nav class="mui-bar mui-bar-tab">
+				<a class="ah-mui-tab-item mui-active works-list-mui-tab-label mui-action-back">
+					<span class="mui-tab-label activity-mui-tab-label">￥200/人</span>
+				</a>
+
+				<a class="ah-mui-tab-item works-list-mui-tab-btn" data-bind="click: gotoSubmitClass">
+					<span class="mui-tab-label works-list-mui-btn">确认</span>
+				</a>
+			</nav>
+		</div>
+		<script src="../../script/mui/mui.min.js " type="text/javascript " charset="utf-8 "></script>
+		<script>
+			(function($, doc) {
+				$.init();
+				$.plusReady(function() {
+					var btnGetValue = doc.querySelector('#getValue');
+					var boxTest = doc.querySelector('#testBox');
+					btnGetValue.addEventListener('click', function(event) {
+						plus.nativeUI.alert('当前值: ' + boxTest.value, null, "提示");
+					});
+				});
+			}(mui, document));
+		</script>
+	</body>
+</html>

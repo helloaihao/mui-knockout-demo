@@ -61,7 +61,7 @@
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<i class="iconfont mui-action-back">&#xe602;</i>
+			<i class="iconfont mui-action-back">&#xe683;</i>
 			<h1 class="mui-title">课程列表</h1>
 		</header>
 
@@ -75,43 +75,46 @@
             -->				
 			<!--作品模板页-->
 			
-			
-			
 			<script type="text/html" id="courseTemplate">
 				<div class="messageNotification-content openedCoursesList">
 					<div class="messageNotification-title openedCoursesList-first">
 						<span data-bind="text: CourseName">钢琴少儿班</span>
 						<i class="iconfont" data-bind='click: removeCourse'>&#xe61b;</i>
 					</div>
-					<span class="openedCoursesList-span" data-bind="text: SubjectName">钢琴</span>
-					<span class="openedCoursesList-span openedCoursesList-right" data-bind="text: common.getTextByValue(common.gJsonCourseType, CourseType)">一对一</span>
-					<p data-bind="text: Introduce">2015年8月26日上午10:00广州市少年宫的钢琴课调到2015年8月26日下午14:00。</p>
-					<b>￥<span data-bind="text: Price">130</span>起</b>
-					<u data-bind="visible: CourseType == common.gDictCourseType.One2More">限<span data-bind="text: MaxStudent">1</span>人</u>
-					<div class="openedCoursesList-ban" data-bind="text: common.StrIsNull(BeginTime) == '' ? '' : BeginTime.split(' ')[0]+'开课', visible: CourseType == common.gDictCourseType.One2More">2015-11-12 开课</div>
-					<div class="openedCoursesList-total" data-bind="text: '共'+LessonCount+'课时', visible: CourseType == common.gDictCourseType.One2More">共20课时</div>
+					<span class="openedCoursesList-span" data-bind="text: SubjectName">钢琴是最好表现情感的乐器</span>
+					<div class="openedCoursesList-class">
+						<span class="class-time"><!--ko text: common.StrIsNull(BeginTime) == '' ? '' : BeginTime.split(' ')[0]+'开课'--><!--/ko-->(<!--ko text:'共'+LessonCount+'课时'--><!--/ko-->)</span>
+						<span class="class-num">限<!--ko text: MaxStudent--><!--/ko-->人</span>
+					</div>
+					
 					<!--ko foreach: {data: ko.observable(JSON.parse(ClasstimeJson)), as: 'classtime'}-->
 						<!--ko foreach: {data: ko.observable(Time), as: 'thetime'}-->
-						<div class="openedCoursesList-start" data-bind="text: '星期' + common.gArrayDayOfWeek[classtime.DayOfWeek] + ' ' + thetime + ':00~' + (thetime + 1) + ':00'"></div>
+						<div class="openedCoursesList-date" data-bind="text: '星期' + common.gArrayDayOfWeek[classtime.DayOfWeek] + ' ' + thetime + ':00~' + (thetime + 1) + ':00'"></div>
 						<!--/ko-->
 					<!--/ko-->
-					
-					<!--<div class="openedCoursesList-start">星期五 18:00~19:00</div>-->
-
-					<div class="openedCoursesList-start opened-gl">
-						<i class="iconfont" data-bind="click: gotoEditCourse">&#xe63e;修改</i>
-						<!--<i class="iconfont" data-bind="click: gotoRegistered">&#xe63e;管理报名</i>-->
-						<em class="gl-em" id="btn-enabled" data-bind="css: {'m-active': IsEnabled}, click: setDisabled " data-bind="click: gotoRegistered, visible: CourseType == common.gDictCourseType.One2More">停用</em>
-						<em class="q-em" id="btn-enabled" data-bind="css: {'m-active': !IsEnabled}, click: setEnabled ">启用</em>
-						<em class="t-em" data-bind="click: gotoRegistered, visible: CourseType == common.gDictCourseType.One2More">管理报名</em>
+					<span class="openedCoursesList-date openedCoursesList-mesg" data-bind="click: gotoEditCourse">
+						<i class="iconfont openedCoursesList-mesg-iconfont">&#xe63e;</i>修改信息
+					</span>
+					<div class="openedCoursesList-btn">
+						<ul>
+							<li>
+								<button class="btn-normal btn-red" data-bind="click: gotoRegistered">管理报名</button>
+							</li>
+							<li>
+								<button class="btn-normal btn-center-margin" data-bind="css: IsEnabled?'btn-hs':'btn-orage', click: setEnabled ">启用课程</button>
+							</li>
+							<li>
+								<button class="btn-normal btn-margin-left" data-bind="css:IsEnabled?'btn-orage':'btn-hs', click: setDisabled">停用课程</button>
+							</li>
+						</ul>
 					</div>
 				</div>
-			</script>
+				</script>
 
-			<nav class="mui-bar mui-bar-tab ">
+			<nav class="mui-bar mui-bar-tab" data-bind="click: gotoAddCourse">
 				<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab teacherList-mui " href="#">
 					<i class="iconfont ">&#xe621;</i>
-					<span class="mui-tab-label" data-bind="click: gotoAddCourse">添加课程</span>
+					<span class="mui-tab-label" >添加课程</span>
 				</a>
 				<!--<a class="ah-mui-tab-item mui-active teacherList-mui-bar-tab " href="#">
 					<i class="iconfont ">&#xe622;</i>

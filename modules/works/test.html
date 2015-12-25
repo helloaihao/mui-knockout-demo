@@ -1,90 +1,57 @@
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 
 	<head>
-		<meta charset="utf-8">
-		<title></title>
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+		<title>Document</title>
+		<script src="../../script/libs/knockout/knockout-3.3.0.js" type="text/javascript" charset="utf-8"></script>
 	</head>
 
 	<body>
-		<div data-bind='foreach:datas'>
-			<p>
-				<span data-bind='text:no'></span> :
-				<span data-bind='text:value'></span>
-				<button data-bind='click:$parent.click'>换</button>
-			</p>
-		</div>
-	</body>
-	<script src="../../script/libs/knockout/knockout-3.3.0.min.js" type="text/javascript" charset="utf-8"></script>
-	<script>
-		/*function ViewModel() {
-			var self = this;
-			this.datas = ko.observableArray([{
-				no: '数字',
-				value: 1
-			}, {
-				no: '数字',
-				value: 2
-			}, {
-				no: '数字',
-				value: 3
-			}]);
-			self.click = function() {
-				//拷贝当前点击对象到tmp，更改tmp需要更新的值，将this替换为tmp
-				//var tmp = this.clone();
-				var tmp = clone(this);
-				tmp.value = tmp.value+1;
-				self.datas.replace(this, tmp);
-			}
-		};
-
-		function clone(obj) {
-			var o;
-			if (typeof obj == "object") {
-				if (obj === null) {
-					o = null;
-				} else {
-					if (obj instanceof Array) {
-						o = [];
-						for (var i = 0, len = obj.length; i < len; i++) {
-							o.push(clone(obj[i]));
-						}
-					} else {
-						o = {};
-						for (var k in obj) {
-							o[k] = clone(obj[k]);
-						}
+		<script>
+			var test = function() {
+				var self = this;
+				var elem = document.getElementById("bankCard");
+				self.str = ko.observable('');
+				console.log(elem);
+				
+				if (str.length > num) {
+					var c = str.replace(/\s/g, "");
+					if (str != "" && c.length > 4 && c.length % 4 == 1) {
+						$('#bankCard').val(str.substring(0, str.length - 1) + " " + str.substring(str.length - 1, str.length));
 					}
 				}
-			} else {
-				o = obj;
 			}
-			return o;
-		}
-		ko.applyBindings(new ViewModel());*/
-		//克隆对象
-		/*Object.prototype.clone = function() {
-			var obj = {};
-			for (var p in this)
-				obj[p] = this[p];
-			return obj;
-		};*/
-		//Object.prototype.clone = function(obj) {
-			var ids = [{
-					id: "sinaweibo"
-				}, {
-					id: "weixin",
-					ex: "WXSceneSession"
-				}, {
-					id: "weixin",
-					ex: "WXSceneTimeline"
-				}, {
-					id: "qq"
-				}]
-			for(var item in ids){
-				document.write(ids[item].id+"</br>");
-				document.write(ids[item].ex+"</br>");
+			
+			ko.observable(test);
+			var num = 0;
+
+			function inputAccount() {
+				var elem = document.getElementById("bankCard");
+				var str = elem.value;
+				console.log(elem);
+				if (str.length > num) {
+					var c = str.replace(/\s/g, "");
+					if (str != "" && c.length > 4 && c.length % 4 == 1) {
+						$('#bankCard').val(str.substring(0, str.length - 1) + " " + str.substring(str.length - 1, str.length));
+					}
+				}
+				if (elem.setSelectionRange) { //W3C  
+					setTimeout(function() {
+						elem.setSelectionRange(elem.value.length, elem.value.length);
+						elem.focus();
+					}, 0);
+				} else if (elem.createTextRange) { //IE  
+					var textRange = elem.createTextRange();
+					textRange.moveStart("character", elem.value.length);
+					textRange.moveEnd("character", 0);
+					textRange.select();
+				}
+				num = str.length;
 			}
-	</script>
+		</script>
+
+		<input type="text" name="" oninput="inputAccount()" id="bankCard" />
+	</body>
 
 </html>
